@@ -20,6 +20,7 @@ import { ModificarUsuarioComponent } from './components/modificar-usuario/modifi
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
 import { ModalEliminarUsuarioComponent } from './components/modal-eliminar-usuario/modal-eliminar-usuario.component';
 import { EmpresasComponent } from './components/empresas/empresas.component';
+import { CrearEmpresaComponent } from './components/crear-empresa/crear-empresa.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { EmpresasComponent } from './components/empresas/empresas.component';
     ModificarUsuarioComponent,
     VistaUsuarioComponent,
     ModalEliminarUsuarioComponent,
-    EmpresasComponent
+    EmpresasComponent,
+    CrearEmpresaComponent
   ],
   imports: [
     CommonModule,
