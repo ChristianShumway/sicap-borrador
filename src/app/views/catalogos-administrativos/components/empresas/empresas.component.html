@@ -1,0 +1,64 @@
+<div class="wrap-buttons">
+    <a mat-raised-button color="primary" [routerLink]="'/catalogos-administrativos/crear-usuario'">Crear Usuario</a>
+  </div>
+  
+  <mat-form-field class="margin-333" style="width: 98%">
+    <input 
+    matInput 
+    placeholder="Filtrar Empresas" 
+    value=""
+    (keyup)='updateFilter($event)'>
+  </mat-form-field>
+  
+  
+  <div fxLayout="row wrap" *ngIf = "obs$ | async as empresas; else loading">
+    <ng-container *ngIf = "empresas.length; else noEmpresas">
+      <div
+       *ngFor="let empresa of empresas" 
+       fxFlex="100"
+       fxFlex.gt-sm="33"
+       fxFlex.sm="50">
+   
+        <mat-card class="user-card p-0">
+          <mat-card-title>
+            <div class="card-title-text">
+              <!-- <a class="toolbar-avatar md mr-1"><img [src]="user.imagen" alt=""></a> -->
+              <span>{{empresa.nombre}}</span>
+              <span fxFlex></span>
+              <button mat-icon-button [matMenuTriggerFor]="empresaMenu" class="">
+                <mat-icon class="">more_vert</mat-icon>
+              </button>
+              <mat-menu #empresaMenu="matMenu">
+                <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
+                <!-- <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-usuario', user.id]">Editar</button> -->
+                <!-- <button mat-menu-item (click)="openDialoAlertDelete(user.id)">Eliminar</button> -->
+              </mat-menu>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-card-title>
+    
+          <mat-card-content>
+            <div class="user-details">
+              <p><mat-icon class="text-muted">phone</mat-icon>{{empresa.telefono}}</p>
+              <p><mat-icon class="text-muted">location_on</mat-icon>{{empresa.direccion}}</p>
+              <p><mat-icon class="text-muted">date_range</mat-icon>{{empresa.rfc}}</p>
+            </div>
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>  
+  
+    <ng-template #noEmpresas>
+      <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+        <mat-card class="user-card p-0">
+          <mat-card-content>
+            <img src="assets/images/icons/no-close.png" alt="no found">
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-template>
+  </div>
+  
+  <ng-template #loading>loading animation...</ng-template>
+  
+  <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

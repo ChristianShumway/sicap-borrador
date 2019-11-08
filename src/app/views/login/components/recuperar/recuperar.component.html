@@ -1,0 +1,41 @@
+<div class="page-wrap height-100 dif-blue">
+  <div class="session-form-hold">
+    <mat-progress-bar mode="determinate" class="session-progress"></mat-progress-bar>
+    <mat-card>
+      <mat-card-content>
+        <div class="text-center pt-8 pb-16">
+          <img src="assets/images/logo-cima.png" alt="" class="mb-05 logo-web">
+          <p class="text-muted m-0">La nueva contraseña será enviada a tu correo electrónico</p>
+        </div>
+        <form #fpForm="ngForm" (ngSubmit)="submitEmail()">
+
+          <div class="">
+            <mat-form-field class="full-width">
+              <input
+                matInput
+                name="email"
+                required
+                [(ngModel)]="userEmail"
+                #email="ngModel"
+                placeholder="Correo Electrónico"
+                value="">
+            </mat-form-field>
+            <div class="wrap-error-msg">
+              <small 
+                *ngIf="email.errors && (email.dirty || email.touched) && (email?.errors?.required)" 
+                class="form-error-msg"> Correo electrónico es requerido 
+              </small>
+            </div>
+          </div>
+
+          <button mat-raised-button class="mat-primary full-width mb-1" [disabled]="fpForm.invalid">Enviar</button>
+          <div class="text-center">
+            <a [routerLink]="'/login'" class="mat-primary text-center full-width redirect">Iniciar Sesión</a>
+            <span fxFlex></span>
+            <!-- <a [routerLink]="'/sessions/signup'" class="mat-primary text-center full-width">Create a new account</a> -->
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

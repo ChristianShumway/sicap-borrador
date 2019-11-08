@@ -1,0 +1,35 @@
+<div mat-dialog-title class="mat-title">
+  <img src="assets/images/logo-cima.png" alt="cima"class="logo-cima" />
+  <div class="wrap-img-perfil">
+    <img [src]="data.imagen" alt="usuario" class="back" />
+    <img [src]="data.imagen" alt="usuario" class="perfil" />
+  </div>
+</div>
+<div mat-dialog-content class="mat-content">
+  <div class="data-principal">
+    <p>{{data.departamento}}</p>
+    <h2>{{data.nombre}} {{data.apellido}}</h2>
+  </div>
+  <div class="buttons">
+    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'mensaje', 'id':data.telefono}]" cdkFocusInitial>
+      <mat-icon>mode_comment</mat-icon>
+    </button>
+    <button mat-mini-fab [color]="'edit'"  [mat-dialog-close]="[{'opcion':'editar', 'id':data.id}]" cdkFocusInitial>
+      <mat-icon>edit</mat-icon>
+    </button>
+    <button mat-mini-fab [color]="'delete'"  [mat-dialog-close]="[{'opcion':'eliminar', 'id':data.id}]" cdkFocusInitial>
+      <mat-icon>delete</mat-icon>
+    </button>
+  </div>
+  <hr>
+  <div class="data-general">
+    <p><mat-icon class="text-muted">business</mat-icon>{{data.departamento}}</p>
+    <p><mat-icon class="text-muted">email</mat-icon>{{data.email}}</p>
+    <p><mat-icon class="text-muted">phone</mat-icon>{{data.telefono}}</p>
+    <p><mat-icon class="text-muted">location_on</mat-icon>{{data.direccion}}</p>
+    <p><mat-icon class="text-muted">date_range</mat-icon> {{data.fechaNacimiento | date}}</p>
+  </div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cerrar</button>
+</div>

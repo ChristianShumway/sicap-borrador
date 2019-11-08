@@ -1,0 +1,116 @@
+.mat-title{
+  width: 100%;
+}
+
+.mat-title .logo-cima{
+  max-width: 120px;
+  margin-left: 15px;
+}
+
+.wrap-img-perfil{
+  position: relative;
+  width: 100%;
+}
+.wrap-img-perfil .back{
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+}
+
+.wrap-img-perfil .perfil{
+  position: absolute;
+  left: calc(50% - 60px);
+  border-radius: 50%;
+  border: 5px solid white;
+  bottom: -40px;
+  max-width: 110px;
+}
+
+.mat-content{
+  margin: 40px 0 20px 0;
+}
+
+.data-principal{
+  text-align: center;
+}
+
+.data-principal p{
+  color: #ffb300;
+  text-transform: uppercase;
+  margin: 5px 0;
+}
+
+.data-principal h2{
+  font-weight: bold;
+}
+
+.data-general{
+  margin-top: 20px;
+}
+.data-general p{
+  display: flex;
+  align-items: center;
+  margin: 0 0 10px 0;
+}
+
+.data-general p mat-icon{
+  margin-right: 15px;
+  color: gray !important;
+}
+
+.buttons{
+  display: grid;
+  grid-template-columns: repeat(3, .2fr);
+  grid-column-gap: 8px;
+  margin: 15px 0;
+  justify-items: center;
+  justify-content: center;
+}
+
+.mat-edit{
+  background: #9e9e9e;
+  color:white;
+}
+
+.mat-delete{
+  background: #ffb300;
+  color: white;
+}
+
+.mat-dialog-actions {
+  justify-content: flex-end;
+  padding: 8px;
+}
+
+@media (max-width:480px){
+  .mat-title .logo-cima {
+    max-width: 100px;
+    margin-left: 10px;
+  }
+
+  .wrap-img-perfil .back {
+    height: 120px;
+  }
+
+  .wrap-img-perfil .perfil{
+    left: calc(50% - 49px);
+    max-width: 90px;  
+  }
+
+  .mat-content{
+    margin: 32px 0 10px 0;
+  }
+
+  .buttons {
+    grid-template-columns: repeat(3, 0.25fr);
+    margin: 10px 0; 
+  }
+
+  .data-general {
+    margin-top: 15px;
+  }
+
+  .data-general p {
+    font-size: 13px;
+  }
+}
