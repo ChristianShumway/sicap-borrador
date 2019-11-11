@@ -65,6 +65,7 @@ export class NavigationService {
           sub:[
             { name: "Usuarios", state: "catalogos-administrativos/usuarios" },
             { name: "Empresas", state: "catalogos-administrativos/empresas" },
+            { name: "Perfiles", state: "catalogos-administrativos/perfiles" },
           ]         
         }
       ]
