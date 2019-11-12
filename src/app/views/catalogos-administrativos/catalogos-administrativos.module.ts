@@ -25,6 +25,8 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { ModificarEmpresaComponent } from './components/modificar-empresa/modificar-empresa.component';
 import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-empresa/modificar-imagen-empresa.component';
+import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.component';
+import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,9 @@ import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-e
     CrearEmpresaComponent,
     PerfilesComponent,
     ModificarEmpresaComponent,
-    ModificarImagenEmpresaComponent
+    ModificarImagenEmpresaComponent,
+    CrearPerfilComponent,
+    ModificarPerfilComponent
   ],
   imports: [
   CommonModule,

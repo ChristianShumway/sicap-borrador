@@ -8,6 +8,8 @@ import { CrearEmpresaComponent } from './components/crear-empresa/crear-empresa.
 import { ModificarEmpresaComponent } from './components/modificar-empresa/modificar-empresa.component';
 import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-empresa/modificar-imagen-empresa.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
+import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.component';
+import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
 
 
 const routes: Routes = [
@@ -50,6 +52,16 @@ const routes: Routes = [
     path: 'perfiles', 
     component: PerfilesComponent,
     data: { title: 'Lista de Perfiles', breadcrumb: 'Perfiles'} 
+  },
+  { 
+    path: 'crear-perfil', 
+    component: CrearPerfilComponent,
+    data: { title: 'Crear Perfil', breadcrumb: 'Crear Perfil'} 
+  },
+  { 
+    path: 'modificar-perfil/:id', 
+    component: ModificarPerfilComponent,
+    data: { title: 'Modificar Perfil', breadcrumb: 'Modificar Perfil'} 
   },
 ];
 
