@@ -20,7 +20,9 @@ import {
   MatNativeDateModule,
   MatStepperModule,
   MatDialogModule,
-  MatPaginatorModule
+  MatPaginatorModule,
+  MatSelectModule,
+  MatOptionModule,
    } from '@angular/material';
 
 @NgModule({
@@ -46,7 +48,9 @@ import {
     MatNativeDateModule,
     MatStepperModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule,
+    MatOptionModule
   ], 
   exports: [
     MatIconModule,
@@ -68,7 +72,9 @@ import {
     MatNativeDateModule,
     MatStepperModule,
     MatDialogModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSelectModule,
+    MatOptionModule  
   ]
 })
 export class MaterialModule { }

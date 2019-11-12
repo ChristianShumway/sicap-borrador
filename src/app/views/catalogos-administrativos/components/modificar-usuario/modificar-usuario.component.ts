@@ -3,6 +3,10 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { EmpresasService } from './../../../../shared/services/empresas.service';
+import { Empresa } from './../../../../shared/models/empresa';
+import { PerfilesService } from '../../../../shared/services/perfiles.service';
+import { Perfil } from './../../../../shared/models/perfil';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -14,16 +18,21 @@ export class ModificarUsuarioComponent implements OnInit {
   console = console;
   updateUserForm: FormGroup; 
   user;
+  empresas: Empresa[];
+  perfiles: Perfil[];
   
   constructor(
     private router: Router,
     private usuarioService: UsuariosService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private empresasService: EmpresasService,
+    private perfilesService: PerfilesService
   ) { }
 
   ngOnInit() {
     this.getValidations();
     this.getUser();
+    this.getCatalogos();
   }
 
   getUser() {
@@ -56,7 +65,10 @@ export class ModificarUsuarioComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
-      departamento: new FormControl('', [
+      empresa: new FormControl('', [
+        Validators.required
+      ]),
+      perfil: new FormControl('', [
         Validators.required
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
@@ -83,9 +95,16 @@ export class ModificarUsuarioComponent implements OnInit {
       //   ...this.updateUserForm.value,
       //   imagen: 'assets/images/faces/user-temp.png'
       // };
-      // console.log(usuario);
-      this.router.navigate(['/catalogos-administrativos/usuarios']);
+      const usuario = this.updateUserForm.value;
+      console.log(usuario);
+      // this.router.navigate(['/catalogos-administrativos/usuarios']);
     }
   }
+
+  getCatalogos() {
+    this.empresas = this.empresasService.getAllEmpresas();
+    this.perfiles = this.perfilesService.getAllPerfiles();
+  }
+
 
 }

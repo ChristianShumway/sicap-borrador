@@ -11,7 +11,7 @@
         <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1 wrap-form-1">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="email" name="email" formControlName="email" placeholder="Correo Electrónico" [value]="user.email">
+              <input matInput type="email" name="email" formControlName="email" placeholder="Correo Electrónico" [(ngModel)]="user.email">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['email'].hasError('required') && updateUserForm.controls['email'].touched" class="form-error-msg">
@@ -25,7 +25,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre(s)" [value]="user.nombre">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre(s)" [(ngModel)]="user.nombre">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['nombre'].hasError('required') && updateUserForm.controls['nombre'].touched" class="form-error-msg">
@@ -36,7 +36,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="apellido" formControlName="apellido" placeholder="Apellidos" [value]="user.apellido">
+              <input matInput name="apellido" formControlName="apellido" placeholder="Apellidos" [(ngModel)]="user.apellido">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['apellido'].hasError('required') && updateUserForm.controls['apellido'].touched" class="form-error-msg">
@@ -47,7 +47,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="usuario" formControlName="usuario" placeholder="Usuario (Min: 4 caracteres, Max Length: 20 caracteres)" [value]="user.usuario">
+              <input matInput name="usuario" formControlName="usuario" placeholder="Usuario (Min: 4 caracteres, Max: 20 caracteres)" [(ngModel)]="user.usuario">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['usuario'].hasError('minlength') && updateUserForm.controls['usuario'].touched" class="form-error-msg">
@@ -61,12 +61,32 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="departamento" formControlName="departamento" placeholder="Departamento" [value]="user.departamento">
+              <mat-label>Perfil</mat-label>
+              <mat-select formControlName="perfil" required [(ngModel)]="user.perfil">
+                <mat-option *ngFor="let perfil of perfiles" [value]="perfil.id">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateUserForm.controls['departamento'].hasError('required') && updateUserForm.controls['departamento'].touched"
-                class="form-error-msg">
-                Departamento es un campo requerido
+              <small *ngIf="updateUserForm.controls['perfil'].hasError('required') && updateUserForm.controls['perfil'].touched" class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="empresa" required [(ngModel)]="user.empresa">
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateUserForm.controls['empresa'].hasError('required') && updateUserForm.controls['empresa'].touched" class="form-error-msg">
+                Empresa es un campo requerido
               </small>
             </div>
           </div>
@@ -75,7 +95,7 @@
         <div fxFlex="100" fxFlex.gt-xs="50" class=" wrap-form-2">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono" [value]="user.telefono">
+              <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono" [(ngModel)]="user.telefono">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['telefono'].hasError('required') && updateUserForm.controls['telefono'].touched" class="form-error-msg">
@@ -86,7 +106,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="direccion" formControlName="direccion" placeholder="Dirección" [value]="user.direccion">
+              <input matInput name="direccion" formControlName="direccion" placeholder="Dirección" [(ngModel)]="user.direccion">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['direccion'].hasError('direccion') && updateUserForm.controls['direccion'].touched"
@@ -98,7 +118,8 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="date" formControlName="fechaNacimiento" placeholder="Fecha Nacimiento" [matDatepicker]="appDatepicker" [value]="user.fechaNacimiento">
+              <input matInput name="date" formControlName="fechaNacimiento" placeholder="Fecha Nacimiento" [matDatepicker]="appDatepicker"
+                [(ngModel)]="user.fechaNacimiento">
               <mat-datepicker-toggle matSuffix [for]="appDatepicker"></mat-datepicker-toggle>
             </mat-form-field>
             <mat-datepicker #appDatepicker></mat-datepicker>
@@ -107,7 +128,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input type="password" name="password" matInput formControlName="password" placeholder="Contraseña" value="">
+              <input type="password" name="password" matInput formControlName="password" placeholder="Contraseña" [(ngModel)]="user.password">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['password'].hasError('required') && updateUserForm.controls['password'].touched" class="form-error-msg">
@@ -119,7 +140,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input type="password" name="confirmPassword" matInput appEqualValidator="password" formControlName="confirmPassword" placeholder="Confirmar Contraseña"
-                value="">
+                [(ngModel)]="user.password">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['confirmPassword'].hasError('equalTo')" class="form-error-msg"> La contraseña no coincide </small>

@@ -47,7 +47,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="usuario" formControlName="usuario" placeholder="Usuario (Min Length: 4, Max Length: 9)" value="">
+              <input matInput name="usuario" formControlName="usuario" placeholder="Usuario (Min: 4 caracteres, Max: 20 caracteres)" value="">
             </mat-form-field>
             <div class="validaciones"> 
               <small *ngIf="createUserForm.controls['usuario'].hasError('minlength') && createUserForm.controls['usuario'].touched" class="form-error-msg">
@@ -61,11 +61,34 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="departamento" formControlName="departamento" placeholder="Departamento" value="">
+              <mat-label>Perfil</mat-label>
+              <mat-select formControlName="perfil" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let perfil of perfiles" [value]="perfil.id">
+                  {{perfil.nombre}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['departamento'].hasError('required') && createUserForm.controls['departamento'].touched" class="form-error-msg">
-                Departamento es un campo requerido 
+              <small *ngIf="createUserForm.controls['perfil'].hasError('required') && createUserForm.controls['perfil'].touched" class="form-error-msg">
+                Empresa es un campo requerido 
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="empresa" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.id">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createUserForm.controls['empresa'].hasError('required') && createUserForm.controls['empresa'].touched" class="form-error-msg">
+                Empresa es un campo requerido 
               </small>
             </div>
           </div>

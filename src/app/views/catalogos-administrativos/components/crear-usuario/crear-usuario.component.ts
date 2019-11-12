@@ -2,6 +2,10 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { Router } from '@angular/router';
+import { EmpresasService } from './../../../../shared/services/empresas.service';
+import { Empresa } from './../../../../shared/models/empresa';
+import { PerfilesService } from '../../../../shared/services/perfiles.service';
+import { Perfil } from './../../../../shared/models/perfil';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -9,17 +13,22 @@ import { Router } from '@angular/router';
   styleUrls: ['./crear-usuario.component.scss']
 })
 export class CrearUsuarioComponent implements OnInit {
-
+  
   formData = {}
   console = console;
   createUserForm: FormGroup;
-
+  empresas: Empresa[];
+  perfiles: Perfil[];
+  
   constructor(
-    private router: Router
+    private router: Router,
+    private empresasService: EmpresasService,
+    private perfilesService: PerfilesService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.getCatalogos();
   }
 
   getValidations() {
@@ -41,7 +50,10 @@ export class CrearUsuarioComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
-      departamento: new FormControl('', [
+      empresa: new FormControl('', [
+        Validators.required
+      ]),
+      perfil: new FormControl('', [
         Validators.required
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
@@ -71,6 +83,11 @@ export class CrearUsuarioComponent implements OnInit {
       console.log(usuario);
       this.router.navigate(['/catalogos-administrativos/usuarios']);
     }
+  }
+
+  getCatalogos() {
+    this.empresas = this.empresasService.getAllEmpresas();
+    this.perfiles = this.perfilesService.getAllPerfiles();
   }
 
 }

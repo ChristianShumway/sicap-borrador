@@ -9,7 +9,7 @@ export class EmpresasService {
   empresas: Empresa[] = [
     {
       'id': '1',
-      'nombre': 'aesa',
+      'nombre': 'Aesa',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
       'rfc': 'AESAAESAAESA',
@@ -17,7 +17,7 @@ export class EmpresasService {
     },
     {
       'id': '2',
-      'nombre': 'oecsa',
+      'nombre': 'Oecsa',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
       'rfc': 'OECSAOECSA',
@@ -33,7 +33,7 @@ export class EmpresasService {
     },
     {
       'id': '4',
-      'nombre': 'treca',
+      'nombre': 'Treca',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
       'rfc': 'TRECATRECA',

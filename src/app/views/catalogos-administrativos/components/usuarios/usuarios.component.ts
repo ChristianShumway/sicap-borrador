@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 
 import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component';
 import { ModalEliminarUsuarioComponent } from '../modal-eliminar-usuario/modal-eliminar-usuario.component';
+import { Usuario } from './../../../../shared/models/usuario';
 
 @Component({
   selector: 'app-usuarios',
@@ -15,13 +16,13 @@ import { ModalEliminarUsuarioComponent } from '../modal-eliminar-usuario/modal-e
 })
 export class UsuariosComponent implements OnInit, OnDestroy {
 
-  users = [];
-  usersTemp = [];
+  users: Usuario[] = [];
+  usersTemp: Usuario[] = [];
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
   // dataSource: MatTableDataSource<Card> = new MatTableDataSource<Card>(DATA);
-  dataSource: MatTableDataSource<any> = new MatTableDataSource<any>();
+  dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>();
 
 
 

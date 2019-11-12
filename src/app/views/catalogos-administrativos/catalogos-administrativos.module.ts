@@ -22,6 +22,7 @@ import { ModalEliminarUsuarioComponent } from './components/modal-eliminar-usuar
 import { EmpresasComponent } from './components/empresas/empresas.component';
 import { CrearEmpresaComponent } from './components/crear-empresa/crear-empresa.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
+import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 
 @NgModule({
   declarations: [
@@ -35,7 +36,7 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
     PerfilesComponent
   ],
   imports: [
-    CommonModule,
+  CommonModule,
     CatalogosAdministrativosRoutingModule,
     MaterialModule,
     RouterModule,
@@ -46,7 +47,8 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
     ChartsModule,
     FileUploadModule,
     SharedModule,
-    QuillModule
+    QuillModule,
+    SharedPipesModule
   ],
   entryComponents:[
     VistaUsuarioComponent,

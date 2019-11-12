@@ -39,7 +39,7 @@
   
         <mat-card-content>
           <div class="user-details">
-            <p><mat-icon class="text-muted">business</mat-icon>{{user.departamento}}</p>
+            <p><mat-icon class="text-muted">business</mat-icon>{{user.empresa | getEmpresa}}</p>
             <p><mat-icon class="text-muted">email</mat-icon>{{user.email}}</p>
             <p><mat-icon class="text-muted">phone</mat-icon>{{user.telefono}}</p>
             <p><mat-icon class="text-muted">location_on</mat-icon>{{user.direccion}}</p>
@@ -63,4 +63,4 @@
 
 <ng-template #loading>loading animation...</ng-template>
 
-<mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>
