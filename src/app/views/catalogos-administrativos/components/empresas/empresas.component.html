@@ -22,7 +22,7 @@
         <mat-card class="user-card p-0">
           <mat-card-title>
             <div class="card-title-text">
-              <!-- <a class="toolbar-avatar md mr-1"><img [src]="user.imagen" alt=""></a> -->
+              <a class="toolbar-avatar md mr-1"><img [src]="empresa.imagen" alt=""></a>
               <span>{{empresa.nombre}}</span>
               <span fxFlex></span>
               <button mat-icon-button [matMenuTriggerFor]="empresaMenu" class="">
@@ -30,8 +30,9 @@
               </button>
               <mat-menu #empresaMenu="matMenu">
                 <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
-                <!-- <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-usuario', user.id]">Editar</button> -->
-                <!-- <button mat-menu-item (click)="openDialoAlertDelete(user.id)">Eliminar</button> -->
+                <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-empresa', empresa.id]">Editar</button>
+                <button mat-menu-item [routerLink]="['/catalogos-administrativos/actualizar-perfil', empresa.id]">Actualizar Logo</button>
+                <button mat-menu-item (click)="openDialoAlertDelete(empresa.id)">Eliminar</button>
               </mat-menu>
             </div>
             <mat-divider></mat-divider>
@@ -41,7 +42,7 @@
             <div class="user-details">
               <p><mat-icon class="text-muted">phone</mat-icon>{{empresa.telefono}}</p>
               <p><mat-icon class="text-muted">location_on</mat-icon>{{empresa.direccion}}</p>
-              <p><mat-icon class="text-muted">date_range</mat-icon>{{empresa.rfc}}</p>
+              <p><mat-icon class="text-muted">description</mat-icon>{{empresa.rfc}}</p>
             </div>
           </mat-card-content>
         </mat-card>

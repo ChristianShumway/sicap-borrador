@@ -18,11 +18,13 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 import { CrearUsuarioComponent } from './components/crear-usuario/crear-usuario.component';
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { VistaUsuarioComponent } from './components/vista-usuario/vista-usuario.component';
-import { ModalEliminarUsuarioComponent } from './components/modal-eliminar-usuario/modal-eliminar-usuario.component';
+import { ModalEliminarComponent } from './components/modal-eliminar/modal-eliminar.component';
 import { EmpresasComponent } from './components/empresas/empresas.component';
 import { CrearEmpresaComponent } from './components/crear-empresa/crear-empresa.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
+import { ModificarEmpresaComponent } from './components/modificar-empresa/modificar-empresa.component';
+import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-empresa/modificar-imagen-empresa.component';
 
 @NgModule({
   declarations: [
@@ -30,10 +32,12 @@ import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
     CrearUsuarioComponent,
     ModificarUsuarioComponent,
     VistaUsuarioComponent,
-    ModalEliminarUsuarioComponent,
+    ModalEliminarComponent,
     EmpresasComponent,
     CrearEmpresaComponent,
-    PerfilesComponent
+    PerfilesComponent,
+    ModificarEmpresaComponent,
+    ModificarImagenEmpresaComponent
   ],
   imports: [
   CommonModule,
@@ -52,7 +56,7 @@ import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
   ],
   entryComponents:[
     VistaUsuarioComponent,
-    ModalEliminarUsuarioComponent
+    ModalEliminarComponent
   ]
 })
 export class CatalogosAdministrativosModule { }

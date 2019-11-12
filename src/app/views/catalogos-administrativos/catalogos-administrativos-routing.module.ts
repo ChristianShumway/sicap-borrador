@@ -5,7 +5,10 @@ import { CrearUsuarioComponent } from './components/crear-usuario/crear-usuario.
 import { ModificarUsuarioComponent } from './components/modificar-usuario/modificar-usuario.component';
 import { EmpresasComponent } from './components/empresas/empresas.component';
 import { CrearEmpresaComponent } from './components/crear-empresa/crear-empresa.component';
+import { ModificarEmpresaComponent } from './components/modificar-empresa/modificar-empresa.component';
+import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-empresa/modificar-imagen-empresa.component';
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
+
 
 const routes: Routes = [
   { 
@@ -32,6 +35,16 @@ const routes: Routes = [
     path: 'crear-empresa', 
     component: CrearEmpresaComponent,
     data: { title: 'Crear Empresa', breadcrumb: 'Crear Empresa'} 
+  },
+  { 
+    path: 'modificar-empresa/:id', 
+    component: ModificarEmpresaComponent,
+    data: { title: 'Modificar Empresa', breadcrumb: 'Modificar Empresa'} 
+  },
+  { 
+    path: 'actualizar-perfil/:id', 
+    component: ModificarImagenEmpresaComponent,
+    data: { title: 'Actualizar Logo Empresa', breadcrumb: 'Actualizar Logo Empresa'} 
   },
   { 
     path: 'perfiles', 

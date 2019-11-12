@@ -14,11 +14,26 @@
               <input matInput name="nombre" formControlName="nombre" placeholder="Nombre" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createCompanyForm.controls['nombre'].hasError('required') && createCompanyForm.controls['nombre'].touched" class="form-error-msg">
+              <small *ngIf="createCompanyForm.controls['nombre'].hasError('required') && createCompanyForm.controls['nombre'].touched"
+                class="form-error-msg">
                 Nombre de la empresa es un campo requerido
               </small>
             </div>
           </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="rfc" formControlName="rfc" placeholder="RFC" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createCompanyForm.controls['rfc'].hasError('required') && createCompanyForm.controls['rfc'].touched" class="form-error-msg">
+                RFC es un campo requerido
+              </small>
+            </div>
+          </div>
+        </div>
+
+        <div fxFlex="100" fxFlex.gt-xs="50" class=" wrap-form-2">
 
           <div class="pb-1">
             <mat-form-field class="full-width">
@@ -33,41 +48,29 @@
           </div>
 
           <div class="pb-1">
-              <mat-form-field class="full-width">
+            <mat-form-field class="full-width">
               <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createCompanyForm.controls['telefono'].hasError('required') && createCompanyForm.controls['telefono'].touched" class="form-error-msg">
+              <small *ngIf="createCompanyForm.controls['telefono'].hasError('required') && createCompanyForm.controls['telefono'].touched"
+                class="form-error-msg">
                 Número de teléfono invalido
               </small>
             </div>
           </div>
         </div>
-
-        <div fxFlex="100" fxFlex.gt-xs="50" class=" wrap-form-2">
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <input matInput name="rfc" formControlName="rfc" placeholder="RFC" value="">
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="createCompanyForm.controls['rfc'].hasError('required') && createCompanyForm.controls['rfc'].touched"
-                class="form-error-msg">
-                RFC es un campo requerido
-              </small>
-            </div>
-          </div>
-
+        <div fxFlex="100" fxFlex.gt-xs="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" value="">
             </mat-form-field>
-          </div>   
+          </div>
         </div>
-
       </div>
 
+
       <div class="cont-aceptar">
-        <mat-checkbox name="agreed" formControlName="agreed" class="pb-1">¿La información del¿ la empresa es la correcta?</mat-checkbox>
+        <mat-checkbox name="agreed" formControlName="agreed" class="pb-1">¿La información de la empresa es la correcta?</mat-checkbox>
         <small *ngIf="createCompanyForm.controls['agreed'].hasError('agreed') && createCompanyForm.controls['agreed'].touched" class="form-error-msg">
           Debes validar la información
         </small>

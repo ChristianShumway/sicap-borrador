@@ -6,6 +6,8 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router'
 
+import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+
 @Component({
   selector: 'app-empresas',
   templateUrl: './empresas.component.html',
@@ -66,6 +68,20 @@ export class EmpresasComponent implements OnInit {
 
     this.dataSource.data = rows;
     console.log(this.dataSource.data);
+  }
+
+  openDialoAlertDelete(id) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      data: id
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(result);
+        console.log(id);
+      }
+    });
   }
 
 }

@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 
 import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component';
-import { ModalEliminarUsuarioComponent } from '../modal-eliminar-usuario/modal-eliminar-usuario.component';
+import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { Usuario } from './../../../../shared/models/usuario';
 
 @Component({
@@ -103,7 +103,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
 
   openDialoAlertDelete(id) {
-    const dialogRef = this.dialog.open(ModalEliminarUsuarioComponent, {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       data: id
     });

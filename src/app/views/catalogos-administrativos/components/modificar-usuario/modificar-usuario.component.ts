@@ -7,6 +7,7 @@ import { EmpresasService } from './../../../../shared/services/empresas.service'
 import { Empresa } from './../../../../shared/models/empresa';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
+import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -17,7 +18,7 @@ export class ModificarUsuarioComponent implements OnInit {
   formData = {}
   console = console;
   updateUserForm: FormGroup; 
-  user;
+  user: Usuario;
   empresas: Empresa[];
   perfiles: Perfil[];
   

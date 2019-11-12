@@ -14,6 +14,7 @@ export class EmpresasService {
       'telefono': '4491111111',
       'rfc': 'AESAAESAAESA',
       'descripcion': 'Empresa dedicada a la rama eléctrica',
+      'imagen': 'assets/images/logos/cima.png'
     },
     {
       'id': '2',
@@ -22,6 +23,7 @@ export class EmpresasService {
       'telefono': '4491111111',
       'rfc': 'OECSAOECSA',
       'descripcion': 'Empresa dedicada a la rama eléctrica',
+      'imagen': 'assets/images/logos/cima.png'
     },
     {
       'id': '3',
@@ -30,6 +32,7 @@ export class EmpresasService {
       'telefono': '4491111111',
       'rfc': 'ELECTROREDES',
       'descripcion': 'Empresa dedicada a la rama eléctrica',
+      'imagen': 'assets/images/logos/cima.png'
     },
     {
       'id': '4',
@@ -38,6 +41,7 @@ export class EmpresasService {
       'telefono': '4491111111',
       'rfc': 'TRECATRECA',
       'descripcion': 'Empresa dedicada a automoviles',
+      'imagen': 'assets/images/logos/cima.png'
     },
     
   ];
