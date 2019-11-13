@@ -1,0 +1,70 @@
+<mat-card>
+  <mat-tab-group>
+    <mat-tab label="Menú">
+      <!--acordion-->
+      <mat-accordion>
+
+        <mat-expansion-panel class="panel-uno" (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngFor="let opcion of menu">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="opcion-principal">
+              {{opcion.name}}
+            </mat-panel-title>
+            <mat-panel-description>
+              <!-- Type your name and age {{panelOpenState ? 'open' : 'closed'}} -->
+            </mat-panel-description>
+          </mat-expansion-panel-header>
+
+          <!-- DATA FIRST SUBMENU HERE -->
+          <div *ngIf = "!opcion.type || opcion.type === 'link'">
+            <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion)"> Permisos</button>
+          </div>
+          <div *ngIf= "opcion.type === 'dropDown'">
+            <button class="btn-permisos"  mat-raised-button color="primary" (click)="openModalPerfiles(opcion)"> Permisos</button>
+            <mat-accordion>
+              <mat-expansion-panel (opened)="firstSubPanelOpenState = true" (closed)="firstSubPanelOpenState = false" *ngFor="let primerSubOpcion of opcion.sub">
+                <mat-expansion-panel-header>
+                  <mat-panel-title class="titulo-subopcion">
+                   <p>{{primerSubOpcion.name}}</p>
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    <!-- Type your name and age {{firstSubPanelOpenState ? 'open' : 'closed'}} -->
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <!-- DATA SECOND SUBMENU HERE -->
+                <div *ngIf = "!primerSubOpcion.type || primerSubOpcion.type === 'link'">
+                  <button mat-raised-button color="primary" (click)="openModalPerfiles(primerSubOpcion)">Permisos</button>
+                </div>
+                <div *ngIf= "primerSubOpcion.type === 'dropDown'">
+                  <mat-accordion>
+                    <button class="btn-permisos" mat-raised-button color="primary" (click)="openModalPerfiles(primerSubOpcion)">Permisos</button>
+                    <mat-expansion-panel (opened)="secondSubPanelOpenState = true" (closed)="secondSubPanelOpenState = false" *ngFor="let segundoSubOpcion of primerSubOpcion.sub">
+                      <mat-expansion-panel-header>
+                        <mat-panel-title class="titulo-subopcion">
+                          <p> {{segundoSubOpcion.name}} </p>
+                        </mat-panel-title>
+                        <mat-panel-description>
+                          <!-- Type your name and age {{secondSubPanelOpenState ? 'open' : 'closed'}} -->
+                        </mat-panel-description>
+                      </mat-expansion-panel-header>
+                      <div *ngIf = "!segundoSubOpcion.type || segundoSubOpcion.type === 'link'">
+                        <button mat-raised-button color="primary" (click)="openModalPerfiles(segundoSubOpcion)">Permisos</button>
+                      </div>
+
+                    </mat-expansion-panel>
+                  </mat-accordion>
+                </div>
+
+              </mat-expansion-panel>
+            </mat-accordion>
+          </div>
+
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+      <!-- /acordion -->
+    </mat-tab>
+    <mat-tab label="Second"> Content 2 </mat-tab>
+    <mat-tab label="Third"> Content 3 </mat-tab>
+  </mat-tab-group>
+</mat-card>

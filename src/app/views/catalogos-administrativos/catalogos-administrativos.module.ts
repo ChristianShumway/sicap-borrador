@@ -27,6 +27,8 @@ import { ModificarEmpresaComponent } from './components/modificar-empresa/modifi
 import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-empresa/modificar-imagen-empresa.component';
 import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.component';
 import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
+import { PermisosComponent } from './components/permisos/permisos.component';
+import { ModalPerfilesComponent } from './components/modal-perfiles/modal-perfiles.component';
 
 @NgModule({
   declarations: [
@@ -41,7 +43,9 @@ import { ModificarPerfilComponent } from './components/modificar-perfil/modifica
     ModificarEmpresaComponent,
     ModificarImagenEmpresaComponent,
     CrearPerfilComponent,
-    ModificarPerfilComponent
+    ModificarPerfilComponent,
+    PermisosComponent,
+    ModalPerfilesComponent
   ],
   imports: [
   CommonModule,
@@ -60,7 +64,8 @@ import { ModificarPerfilComponent } from './components/modificar-perfil/modifica
   ],
   entryComponents:[
     VistaUsuarioComponent,
-    ModalEliminarComponent
+    ModalEliminarComponent,
+    ModalPerfilesComponent
   ]
 })
 export class CatalogosAdministrativosModule { }

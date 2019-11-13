@@ -1,0 +1,40 @@
+<div mat-dialog-title class="mat-title">
+  <img src="assets/images/logo-cima.png" alt="cima" class="logo-cima" />
+  <h3>Perfiles</h3>
+</div>
+<div mat-dialog-content class="mat-content">
+  <div class="data-principal">
+    <!-- <p>{{data | json }}</p> -->
+  </div>
+  <mat-list>
+    <form [formGroup]="reactiveForm">
+      <mat-list-item>
+        <mat-checkbox class="example-margin" [(ngModel)]="groupProfiles" formControlName="checked">
+          <label>Seleccionar todos los perfiles </label>
+        </mat-checkbox>
+      </mat-list-item>
+
+      <hr>
+
+      <mat-list-item *ngFor="let perfil of data">
+        <mat-checkbox 
+          [checked]="groupProfiles" 
+          class="example-margin" 
+          color="primary"
+        >
+          <label>{{perfil.nombre}} </label>
+        </mat-checkbox>
+      </mat-list-item>
+    </form>
+
+  </mat-list>
+
+</div>
+  
+<div mat-dialog-actions>
+  <div class="wrap-buttons">
+    <button mat-button (click)="onNoClick()">Cerrar</button>
+    <!-- <button  color="primary"  (click)="getCheckboxesValue()">Get checkboxes value</button> -->
+    <button mat-raised-button color="primary" [mat-dialog-close]="data" cdkFocusInitial>Ok</button>
+  </div>
+</div>

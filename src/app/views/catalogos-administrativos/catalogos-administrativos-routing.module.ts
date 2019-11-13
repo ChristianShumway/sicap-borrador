@@ -10,6 +10,7 @@ import { ModificarImagenEmpresaComponent } from './components/modificar-imagen-e
 import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.component';
 import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
+import { PermisosComponent } from './components/permisos/permisos.component';
 
 
 const routes: Routes = [
@@ -62,6 +63,11 @@ const routes: Routes = [
     path: 'modificar-perfil/:id', 
     component: ModificarPerfilComponent,
     data: { title: 'Modificar Perfil', breadcrumb: 'Modificar Perfil'} 
+  },
+  { 
+    path: 'permisos', 
+    component: PermisosComponent,
+    data: { title: 'Permisos', breadcrumb: 'Asignación de Permisos'} 
   },
 ];
 
