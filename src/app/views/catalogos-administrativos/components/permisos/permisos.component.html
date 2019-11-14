@@ -15,11 +15,11 @@
           </mat-expansion-panel-header>
 
           <!-- DATA FIRST SUBMENU HERE -->
-          <div *ngIf = "!opcion.type || opcion.type === 'link'">
-            <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion)"> Permisos</button>
+          <div *ngIf = "!opcion.type || opcion.type !== 'dropDown'">
+            <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id, opcion.id)"> Permisos</button>
           </div>
           <div *ngIf= "opcion.type === 'dropDown'">
-            <button class="btn-permisos"  mat-raised-button color="primary" (click)="openModalPerfiles(opcion)"> Permisos</button>
+            <button class="btn-permisos"  mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id, opcion.id)"> Permisos</button>
             <mat-accordion>
               <mat-expansion-panel (opened)="firstSubPanelOpenState = true" (closed)="firstSubPanelOpenState = false" *ngFor="let primerSubOpcion of opcion.sub">
                 <mat-expansion-panel-header>
@@ -31,12 +31,12 @@
                   </mat-panel-description>
                 </mat-expansion-panel-header>
                 <!-- DATA SECOND SUBMENU HERE -->
-                <div *ngIf = "!primerSubOpcion.type || primerSubOpcion.type === 'link'">
-                  <button mat-raised-button color="primary" (click)="openModalPerfiles(primerSubOpcion)">Permisos</button>
+                <div *ngIf = "!primerSubOpcion.type || primerSubOpcion.type !== 'dropDown'">
+                  <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id, primerSubOpcion.id)">Permisos</button>
                 </div>
                 <div *ngIf= "primerSubOpcion.type === 'dropDown'">
                   <mat-accordion>
-                    <button class="btn-permisos" mat-raised-button color="primary" (click)="openModalPerfiles(primerSubOpcion)">Permisos</button>
+                    <button class="btn-permisos" mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id, primerSubOpcion.id)">Permisos</button>
                     <mat-expansion-panel (opened)="secondSubPanelOpenState = true" (closed)="secondSubPanelOpenState = false" *ngFor="let segundoSubOpcion of primerSubOpcion.sub">
                       <mat-expansion-panel-header>
                         <mat-panel-title class="titulo-subopcion">
@@ -46,8 +46,8 @@
                           <!-- Type your name and age {{secondSubPanelOpenState ? 'open' : 'closed'}} -->
                         </mat-panel-description>
                       </mat-expansion-panel-header>
-                      <div *ngIf = "!segundoSubOpcion.type || segundoSubOpcion.type === 'link'">
-                        <button mat-raised-button color="primary" (click)="openModalPerfiles(segundoSubOpcion)">Permisos</button>
+                      <div *ngIf = "!segundoSubOpcion.type || segundoSubOpcion.type !== 'dropDown'">
+                        <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id, segundoSubOpcion.id)">Permisos</button>
                       </div>
 
                     </mat-expansion-panel>

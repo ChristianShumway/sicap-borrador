@@ -2,6 +2,7 @@ import { Injectable } from "@angular/core";
 import { BehaviorSubject } from "rxjs";
 
 interface IMenuItem {
+  id: string;
   type: string; // Possible values: link/dropDown/icon/separator/extLink
   name?: string; // Used as display text for item and title for separator type
   state?: string; // Router state
@@ -12,6 +13,7 @@ interface IMenuItem {
   badges?: IBadge[];
 }
 interface IChildItem {
+  id: string;
   type?: string;
   name: string; // Display text
   state?: string; // Router state
@@ -24,11 +26,20 @@ interface IBadge {
   value: string; // Display text
 }
 
+interface Permisos {
+  id: string;
+  idPerfil: string;
+  nombrePerfil: string;
+  idModulo: string;
+  autorizado: boolean;
+}
+
 @Injectable()
 export class NavigationService {
   constructor() {}
   iconMenu: IMenuItem[] = [
     {
+      id: "1",
       name: "HOME",
       type: "icon",
       tooltip: "Home",
@@ -36,6 +47,7 @@ export class NavigationService {
       state: "dashboard"
     },
     {
+      id: "2",
       name: "PROFILE",
       type: "icon",
       tooltip: "Perfil",
@@ -43,6 +55,7 @@ export class NavigationService {
       state: "profile/overview"
     },
     {
+      id: "3",
       name: "TOUR",
       type: "icon",
       tooltip: "Tour",
@@ -50,26 +63,30 @@ export class NavigationService {
       state: "tour"
     },
     {
+      id: "4",
       type: "separator",
       name: "Menú"
     },
     {
+      id: "5",
       name: 'CATÁLOGOS',
       type: 'dropDown',
       tooltip: 'Catálogos',
       icon: "chrome_reader_mode",
       sub:[
         {
+          id: "30",
           name: 'ADMINISTRATIVOS',
           type: 'dropDown',
           sub:[
-            { name: "Usuarios", state: "catalogos-administrativos/usuarios" },
-            { name: "Empresas", state: "catalogos-administrativos/empresas" },
-            { name: "Perfiles", state: "catalogos-administrativos/perfiles" },
-            { name: "Permisos", state: "catalogos-administrativos/permisos" },
+            { id: "91", name: "Usuarios", state: "catalogos-administrativos/usuarios" },
+            { id: "92", name: "Empresas", state: "catalogos-administrativos/empresas" },
+            { id: "93", name: "Perfiles", state: "catalogos-administrativos/perfiles" },
+            { id: "94", name: "Permisos", state: "catalogos-administrativos/permisos" },
           ]         
         },
         {
+          id: "31",
           name: 'OBRA',
           type: 'dropDown',
           sub:[
@@ -78,19 +95,21 @@ export class NavigationService {
       ]
     },
     {
+      id: "6",
       name: "DASHBOARD",
       type: "dropDown",
       tooltip: "Dashboard",
       icon: "dashboard",
       state: "dashboard",
       sub: [
-        { name: "Default", state: "default" },
-        { name: "Analytics", state: "analytics" },
-        { name: "Cryptocurrency", state: "crypto" },
-        { name: "Dark Cards", state: "dark" }
+        { id: "32", name: "Default", state: "default" },
+        { id: "33", name: "Analytics", state: "analytics" },
+        { id: "34", name: "Cryptocurrency", state: "crypto" },
+        { id: "35", name: "Dark Cards", state: "dark" }
       ]
     },
     {
+      id: "7",
       name: "CRUD Table",
       type: "link",
       tooltip: "CRUD Table",
@@ -98,19 +117,21 @@ export class NavigationService {
       state: "cruds/ngx-table"
     },
     {
+      id: "8",
       name: "ECOMMERCE",
       type: "dropDown",
       tooltip: "Shop",
       icon: "shopping_cart",
       state: "shop",
       sub: [
-        { name: "PRODUCTS", state: "" },
-        { name: "PRODUCT DETAILS", state: "products/5a9ae2106f155194e5c95d67" },
-        { name: "CART", state: "cart" },
-        { name: "CHECKOUT", state: "checkout" }
+        { id: "36", name: "PRODUCTS", state: "" },
+        { id: "37", name: "PRODUCT DETAILS", state: "products/5a9ae2106f155194e5c95d67" },
+        { id: "38", name: "CART", state: "cart" },
+        { id: "39", name: "CHECKOUT", state: "checkout" }
       ]
     },
     {
+      id: "9",
       name: "INBOX",
       type: "link",
       tooltip: "Inbox",
@@ -119,12 +140,14 @@ export class NavigationService {
       badges: [{ color: "primary", value: "4" }]
     },
     {
+      id: "10",
       name: "Invoice",
       type: "link",
       icon: "receipt",
       state: "invoice/list"
     },
     {
+      id: "11",
       name: "CHAT",
       type: "link",
       tooltip: "Chat",
@@ -133,6 +156,7 @@ export class NavigationService {
       badges: [{ color: "warn", value: "1" }]
     },
     {
+      id: "12",
       name: "CALENDAR",
       type: "link",
       tooltip: "Calendar",
@@ -140,6 +164,7 @@ export class NavigationService {
       state: "calendar"
     },
     {
+      id: "13",
       name: "Todo",
       type: "link",
       tooltip: "Todo",
@@ -147,17 +172,19 @@ export class NavigationService {
       state: "todo/list"
     },
     {
+      id: "14",
       name: "DIALOGS",
       type: "dropDown",
       tooltip: "Dialogs",
       icon: "filter_none",
       state: "dialogs",
       sub: [
-        { name: "CONFIRM", state: "confirm" },
-        { name: "LOADER", state: "loader" }
+        { id: "40", name: "CONFIRM", state: "confirm" },
+        { id: "41", name: "LOADER", state: "loader" }
       ]
     },
     {
+      id: "15",
       name: "Material Kits",
       type: "dropDown",
       tooltip: "Material",
@@ -166,106 +193,115 @@ export class NavigationService {
       badges: [{ color: "primary", value: "60+" }],
       sub: [
         {
+          id: "42",
           name: "Form controls",
           type: "dropDown",
           sub: [
-            { name: "Autocomplete", state: "autocomplete" },
-            { name: "Checkbox", state: "checkbox" },
-            { name: "Datepicker", state: "datepicker" },
-            { name: "Form Field", state: "form-field" },
-            { name: "Input Field", state: "input-field" },
-            { name: "Radio Button", state: "radio-button" },
-            { name: "Select", state: "select" },
-            { name: "Slider", state: "slider" },
-            { name: "Slider Toggle", state: "slider-toggle" }
+            { id: "95", name: "Autocomplete", state: "autocomplete" },
+            { id: "96", name: "Checkbox", state: "checkbox" },
+            { id: "97", name: "Datepicker", state: "datepicker" },
+            { id: "98", name: "Form Field", state: "form-field" },
+            { id: "99", name: "Input Field", state: "input-field" },
+            { id: "100", name: "Radio Button", state: "radio-button" },
+            { id: "101", name: "Select", state: "select" },
+            { id: "102", name: "Slider", state: "slider" },
+            { id: "103", name: "Slider Toggle", state: "slider-toggle" }
           ]
         },
         {
+          id: "43",
           name: "Navigation",
           type: "dropDown",
           sub: [
-            { name: "Menu", state: "menu" },
-            { name: "Sidenav", state: "sidenav" },
-            { name: "Toolbar", state: "toolbar" }
+            {  id: "104", name: "Menu", state: "menu" },
+            {  id: "105", name: "Sidenav", state: "sidenav" },
+            {  id: "106", name: "Toolbar", state: "toolbar" }
           ]
         },
         {
+          id: "44",
           name: "Layout",
           type: "dropDown",
           sub: [
-            { name: "Card", state: "card" },
-            { name: "Divider", state: "divider" },
-            { name: "Expansion Panel", state: "expansion-panel" },
-            { name: "Grid", state: "grid" },
-            { name: "List", state: "list" },
-            { name: "Stepper", state: "stepper" },
-            { name: "Tab", state: "tab-group" },
-            { name: "Tree", state: "tree" }
+            {  id: "107", name: "Card", state: "card" },
+            {  id: "108", name: "Divider", state: "divider" },
+            {  id: "109", name: "Expansion Panel", state: "expansion-panel" },
+            {  id: "110", name: "Grid", state: "grid" },
+            {  id: "111", name: "List", state: "list" },
+            {  id: "112", name: "Stepper", state: "stepper" },
+            {  id: "113", name: "Tab", state: "tab-group" },
+            {  id: "114", name: "Tree", state: "tree" }
           ]
         },
         {
+          id: "45",
           name: "Buttons & Indicators",
           type: "dropDown",
           sub: [
-            { name: "BUTTONS", state: "buttons" },
-            { name: "Button Toggle", state: "button-toggle" },
-            { name: "Badge", state: "badge" },
-            { name: "Chips", state: "chips" },
-            { name: "Icons", state: "icons" },
-            { name: "Progress Spinner", state: "progress-spinner" },
-            { name: "Progress Bar", state: "progress-bar" },
-            { name: "Ripples", state: "ripples" }
+            {  id: "115", name: "BUTTONS", state: "buttons" },
+            {  id: "116", name: "Button Toggle", state: "button-toggle" },
+            {  id: "117", name: "Badge", state: "badge" },
+            {  id: "118", name: "Chips", state: "chips" },
+            {  id: "119", name: "Icons", state: "icons" },
+            {  id: "120", name: "Progress Spinner", state: "progress-spinner" },
+            {  id: "121", name: "Progress Bar", state: "progress-bar" },
+            {  id: "122", name: "Ripples", state: "ripples" }
           ]
         },
         {
+          id: "46",
           name: "Popups & Modals",
           type: "dropDown",
           sub: [
-            { name: "Tooltip", state: "tooltip" },
-            { name: "Bottom Sheet", state: "bottom-sheet" },
-            { name: "Dialog", state: "dialog" },
-            { name: "Snackbar", state: "snackbar" }
+            {  id: "123", name: "Tooltip", state: "tooltip" },
+            {  id: "124", name: "Bottom Sheet", state: "bottom-sheet" },
+            {  id: "125", name: "Dialog", state: "dialog" },
+            {  id: "126", name: "Snackbar", state: "snackbar" }
           ]
         },
         {
+          id: "47",
           name: "Data Table",
           type: "dropDown",
           sub: [
-            { name: "paginator", state: "paginator" },
-            { name: "Sort Header", state: "sort-header" },
-            { name: "Table", state: "table" }
+            { id: "127", name: "paginator", state: "paginator" },
+            { id: "128", name: "Sort Header", state: "sort-header" },
+            { id: "129", name: "Table", state: "table" }
           ]
         },
-        { name: "Buttons Loading", state: "loading-buttons" }
+        { id: "48", name: "Buttons Loading", state: "loading-buttons" }
       ]
     },
     {
+      id: "16",
       name: "FORMS",
       type: "dropDown",
       tooltip: "Forms",
       icon: "description",
       state: "forms",
       sub: [
-        { name: "BASIC", state: "basic" },
-        { name: "EDITOR", state: "editor" },
-        { name: "UPLOAD", state: "upload" },
-        { name: "WIZARD", state: "wizard" }
+        { id: "49", name: "BASIC", state: "basic" },
+        { id: "50", name: "EDITOR", state: "editor" },
+        { id: "51", name: "UPLOAD", state: "upload" },
+        { id: "52", name: "WIZARD", state: "wizard" }
       ]
     },
     {
+      id: "17",
       name: "TABLES",
       type: "dropDown",
       tooltip: "Tables",
       icon: "format_line_spacing",
       state: "tables",
       sub: [
-        { name: "FULLSCREEN", state: "fullscreen" },
-        { name: "PAGING", state: "paging" },
-        { name: "FILTER", state: "filter" },
-        { name: "Material Table", state: "mat-table" }
+        { id: "53", name: "FULLSCREEN", state: "fullscreen" },
+        { id: "54", name: "PAGING", state: "paging" },
+        { id: "55", name: "FILTER", state: "filter" },
+        { id: "56", name: "Material Table", state: "mat-table" }
       ]
     },
     {
+      id: "18",
       name: "PROFILE",
       type: "dropDown",
       tooltip: "Profile",
@@ -273,12 +309,13 @@ export class NavigationService {
       state: "profile",
       badges: [{ color: "primary", value: "2" }],
       sub: [
-        { name: "OVERVIEW", state: "overview" },
-        { name: "SETTINGS", state: "settings" },
-        { name: "BLANK", state: "blank" }
+        { id: "57",name: "OVERVIEW", state: "overview" },
+        { id: "58",name: "SETTINGS", state: "settings" },
+        { id: "59",name: "BLANK", state: "blank" }
       ]
     },
     {
+      id: "19",
       name: "TOUR",
       type: "link",
       tooltip: "Tour",
@@ -286,6 +323,7 @@ export class NavigationService {
       state: "tour"
     },
     {
+      id: "20",
       name: "MAP",
       type: "link",
       tooltip: "Map",
@@ -293,23 +331,25 @@ export class NavigationService {
       state: "map"
     },
     {
+      id: "21",
       name: "CHARTS",
       type: "dropDown",
       tooltip: "Charts",
       icon: "show_chart",
       sub: [
         {
+          id: "60",
           name: "eChart",
           type: "dropDown",
           state: "chart",
           sub: [
-            { name: "Pie", state: "pie" },
-            { name: "Bar", state: "bar" },
-            { name: "Radar", state: "radar" },
-            { name: "Heatmap", state: "heatmap" },
+            {  id: "130", name: "Pie", state: "pie" },
+            {  id: "131", name: "Bar", state: "bar" },
+            {  id: "132", name: "Radar", state: "radar" },
+            {  id: "133", name: "Heatmap", state: "heatmap" },
           ]
         },
-        { name: "Chart js", state: "charts" }
+        { id: "61", name: "Chart js", state: "charts" }
       ]
     },
     // {
@@ -320,6 +360,7 @@ export class NavigationService {
     //   state: "charts"
     // },
     {
+      id: "22",
       name: "DND",
       type: "link",
       tooltip: "Drag and Drop",
@@ -327,67 +368,71 @@ export class NavigationService {
       state: "dragndrop"
     },
     {
+      id: "23",
       name: "Page Layouts",
       type: "dropDown",
       icon: "view_carousel",
       state: "page-layouts",
       sub: [
-        { name: "Left sidebar card", state: "left-sidebar-card" },
-        { name: "Right sidebar card", state: "right-sidebar-card" },
-        { name: "Full width card", state: "full-width-card" },
-        { name: "Full width card tab", state: "full-width-card-tab" },
-
-        { name: "Full width plain", state: "full-width-plain" },
-        { name: "Left sidebar plain", state: "left-sidebar-plain" }
+        { id: "62", name: "Left sidebar card", state: "left-sidebar-card" },
+        { id: "63", name: "Right sidebar card", state: "right-sidebar-card" },
+        { id: "64", name: "Full width card", state: "full-width-card" },
+        { id: "65", name: "Full width card tab", state: "full-width-card-tab" },
+        { id: "66", name: "Full width plain", state: "full-width-plain" },
+        { id: "67", name: "Left sidebar plain", state: "left-sidebar-plain" }
       ]
     },
     {
+      id: "24",
       name: "SESSIONS",
       type: "dropDown",
       tooltip: "Pages",
       icon: "view_carousel",
       state: "sessions",
       sub: [
-        { name: "SIGNUP", state: "signup" },
-        { name: "Signup 2", state: "signup2" },
-        { name: "Signup 3", state: "signup3" },
-        { name: "Signup 4", state: "signup4" },
-        { name: "SIGNIN", state: "signin" },
-        { name: "Signin 2", state: "signin2" },
-        { name: "Signin 3", state: "signin3" },
-        { name: "Signin 4", state: "signin4" },
-        { name: "FORGOT", state: "forgot-password" },
-        { name: "LOCKSCREEN", state: "lockscreen" },
-        { name: "NOTFOUND", state: "404" },
-        { name: "ERROR", state: "error" }
+        { id: "68", name: "SIGNUP", state: "signup" },
+        { id: "69", name: "Signup 2", state: "signup2" },
+        { id: "70", name: "Signup 3", state: "signup3" },
+        { id: "71", name: "Signup 4", state: "signup4" },
+        { id: "72", name: "SIGNIN", state: "signin" },
+        { id: "73", name: "Signin 2", state: "signin2" },
+        { id: "74", name: "Signin 3", state: "signin3" },
+        { id: "75", name: "Signin 4", state: "signin4" },
+        { id: "76", name: "FORGOT", state: "forgot-password" },
+        { id: "77", name: "LOCKSCREEN", state: "lockscreen" },
+        { id: "78", name: "NOTFOUND", state: "404" },
+        { id: "79", name: "ERROR", state: "error" }
       ]
     },
     {
+      id: "25",
       name: "Utilities",
       type: "dropDown",
       icon: "format_list_bulleted",
       state: "utilities",
       sub: [
-        { name: "Border", state: "border" },
-        { name: "Color", state: "color" },
-        { name: "Spacing", state: "spacing" },
-        { name: "Typography", state: "typography" }
+        { id: "80", name: "Border", state: "border" },
+        { id: "81", name: "Color", state: "color" },
+        { id: "82", name: "Spacing", state: "spacing" },
+        { id: "83", name: "Typography", state: "typography" }
       ]
     },
     {
+      id: "26",
       name: "OTHERS",
       type: "dropDown",
       tooltip: "Others",
       icon: "blur_on",
       state: "others",
       sub: [
-        { name: "GALLERY", state: "gallery" },
-        { name: "PRICINGS", state: "pricing" },
-        { name: "USERS", state: "users" },
-        { name: "BLANK", state: "blank" }
+        { id: "84", name: "GALLERY", state: "gallery" },
+        { id: "85", name: "PRICINGS", state: "pricing" },
+        { id: "86", name: "USERS", state: "users" },
+        { id: "87", name: "BLANK", state: "blank" }
       ]
     },
     {
+      id: "27",
       name: "MATICONS",
       type: "link",
       tooltip: "Material Icons",
@@ -395,6 +440,7 @@ export class NavigationService {
       state: "icons"
     },
     {
+      id: "28",
       name: "Multi Level",
       type: "dropDown",
       tooltip: "Multi Level",
@@ -402,19 +448,21 @@ export class NavigationService {
       state: "",
       sub: [
         {
+          id: "88",
           name: "Level Two",
           type: "dropDown",
           state: "fake-1",
           sub: [
-            { name: "Level Three", state: "fake-2" },
-            { name: "Level Three", state: "fake-3" }
+            {  id: "134", name: "Level Three", state: "fake-2" },
+            {  id: "135" ,name: "Level Three", state: "fake-3" }
           ]
         },
-        { name: "Level Two", state: "fake-4" },
-        { name: "Level Two", state: "fake-5" }
+        { id: "89", name: "Level Two", state: "fake-4" },
+        { id: "90", name: "Level Two", state: "fake-5" }
       ]
     },
     {
+      id: "29",
       name: "DOC",
       type: "extLink",
       tooltip: "Documentation",
@@ -423,374 +471,423 @@ export class NavigationService {
     }
   ];
 
-  separatorMenu: IMenuItem[] = [
-    {
-      type: "separator",
-      name: "Custom components"
-    },
-    {
-      name: "DASHBOARD",
-      type: "link",
-      tooltip: "Dashboard",
-      icon: "dashboard",
-      state: "dashboard"
-    },
-    {
-      name: "INBOX",
-      type: "link",
-      tooltip: "Inbox",
-      icon: "inbox",
-      state: "inbox"
-    },
-    {
-      name: "CHAT",
-      type: "link",
-      tooltip: "Chat",
-      icon: "chat",
-      state: "chat"
-    },
-    {
-      name: "CRUD Table",
-      type: "link",
-      tooltip: "CRUD Table",
-      icon: "format_list_bulleted",
-      state: "cruds/ngx-table"
-    },
-    {
-      name: "DIALOGS",
-      type: "dropDown",
-      tooltip: "Dialogs",
-      icon: "filter_none",
-      state: "dialogs",
-      sub: [
-        { name: "CONFIRM", state: "confirm" },
-        { name: "LOADER", state: "loader" }
-      ]
-    },
-    {
-      name: "PROFILE",
-      type: "dropDown",
-      tooltip: "Profile",
-      icon: "person",
-      state: "profile",
-      sub: [
-        { name: "OVERVIEW", state: "overview" },
-        { name: "SETTINGS", state: "settings" },
-        { name: "BLANK", state: "blank" }
-      ]
-    },
-    {
-      name: "TOUR",
-      type: "link",
-      tooltip: "Tour",
-      icon: "flight_takeoff",
-      state: "tour"
-    },
-    {
-      type: "separator",
-      name: "Integrated components"
-    },
-    {
-      name: "CALENDAR",
-      type: "link",
-      tooltip: "Calendar",
-      icon: "date_range",
-      state: "calendar"
-    },
-    {
-      name: "MATERIAL",
-      type: "dropDown",
-      tooltip: "Material",
-      icon: "favorite",
-      state: "material",
-      sub: [
-        { name: "BUTTONS", state: "buttons" },
-        { name: "Button Toggle", state: "button-toggle" },
-        { name: "Buttons Loading", state: "loading-buttons" },
-        { name: "CARDS", state: "cards" },
-        { name: "GRIDS", state: "grids" },
-        { name: "LISTS", state: "lists" },
-        { name: "MENU", state: "menu" },
-        { name: "TABS", state: "tabs" },
-        { name: "SELECT", state: "select" },
-        { name: "RADIO", state: "radio" },
-        { name: "AUTOCOMPLETE", state: "autocomplete" },
-        { name: "SLIDER", state: "slider" },
-        { name: "PROGRESS", state: "progress" },
-        { name: "SNACKBAR", state: "snackbar" }
-      ]
-    },
-    {
-      name: "FORMS",
-      type: "dropDown",
-      tooltip: "Forms",
-      icon: "description",
-      state: "forms",
-      sub: [
-        { name: "BASIC", state: "basic" },
-        { name: "EDITOR", state: "editor" },
-        { name: "UPLOAD", state: "upload" },
-        { name: "WIZARD", state: "wizard" }
-      ]
-    },
-    {
-      name: "TABLES",
-      type: "dropDown",
-      tooltip: "Tables",
-      icon: "format_line_spacing",
-      state: "tables",
-      sub: [
-        { name: "FULLSCREEN", state: "fullscreen" },
-        { name: "PAGING", state: "paging" },
-        { name: "FILTER", state: "filter" }
-      ]
-    },
-    {
-      name: "MAP",
-      type: "link",
-      tooltip: "Map",
-      icon: "add_location",
-      state: "map"
-    },
-    {
-      name: "CHARTS",
-      type: "link",
-      tooltip: "Charts",
-      icon: "show_chart",
-      state: "charts"
-    },
-    {
-      name: "DND",
-      type: "link",
-      tooltip: "Drag and Drop",
-      icon: "adjust",
-      state: "dragndrop"
-    },
-    {
-      type: "separator",
-      name: "Other components"
-    },
-    {
-      name: "SESSIONS",
-      type: "dropDown",
-      tooltip: "Pages",
-      icon: "view_carousel",
-      state: "sessions",
-      sub: [
-        { name: "SIGNUP", state: "signup" },
-        { name: "SIGNIN", state: "signin" },
-        { name: "FORGOT", state: "forgot-password" },
-        { name: "LOCKSCREEN", state: "lockscreen" },
-        { name: "NOTFOUND", state: "404" },
-        { name: "ERROR", state: "error" }
-      ]
-    },
-    {
-      name: "OTHERS",
-      type: "dropDown",
-      tooltip: "Others",
-      icon: "blur_on",
-      state: "others",
-      sub: [
-        { name: "GALLERY", state: "gallery" },
-        { name: "PRICINGS", state: "pricing" },
-        { name: "USERS", state: "users" },
-        { name: "BLANK", state: "blank" }
-      ]
-    },
-    {
-      name: "MATICONS",
-      type: "link",
-      tooltip: "Material Icons",
-      icon: "store",
-      state: "icons"
-    },
-    {
-      name: "DOC",
-      type: "extLink",
-      tooltip: "Documentation",
-      icon: "library_books",
-      state: "http://demos.ui-lib.com/egret-doc/"
-    }
+  permisosMenu: Permisos[] = [
+    { id: '1', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '5', autorizado: true },
+    { id: '2', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '30', autorizado: true },
+    { id: '3', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '31', autorizado: true },
+    { id: '4', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '91', autorizado: true },
+    { id: '5', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '92', autorizado: true },
+    { id: '6', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '93', autorizado: true },
+    { id: '7', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '94', autorizado: true },
   ];
 
-  plainMenu: IMenuItem[] = [
-    {
-      name: "DASHBOARD",
-      type: "link",
-      tooltip: "Dashboard",
-      icon: "dashboard",
-      state: "dashboard"
-    },
-    {
-      name: "INBOX",
-      type: "link",
-      tooltip: "Inbox",
-      icon: "inbox",
-      state: "inbox"
-    },
-    {
-      name: "CHAT",
-      type: "link",
-      tooltip: "Chat",
-      icon: "chat",
-      state: "chat"
-    },
-    {
-      name: "CRUD Table",
-      type: "link",
-      tooltip: "CRUD Table",
-      icon: "format_list_bulleted",
-      state: "cruds/ngx-table"
-    },
-    {
-      name: "CALENDAR",
-      type: "link",
-      tooltip: "Calendar",
-      icon: "date_range",
-      state: "calendar"
-    },
-    {
-      name: "DIALOGS",
-      type: "dropDown",
-      tooltip: "Dialogs",
-      icon: "filter_none",
-      state: "dialogs",
-      sub: [
-        { name: "CONFIRM", state: "confirm" },
-        { name: "LOADER", state: "loader" }
-      ]
-    },
-    {
-      name: "MATERIAL",
-      type: "dropDown",
-      icon: "favorite",
-      state: "component",
-      sub: [
-        { name: "BUTTONS", state: "buttons" },
-        { name: "Button Toggle", state: "button-toggle" },
-        { name: "Buttons Loading", state: "loading-buttons" },
-        { name: "CARDS", state: "cards" },
-        { name: "GRIDS", state: "grids" },
-        { name: "LISTS", state: "lists" },
-        { name: "MENU", state: "menu" },
-        { name: "TABS", state: "tabs" },
-        { name: "SELECT", state: "select" },
-        { name: "RADIO", state: "radio" },
-        { name: "AUTOCOMPLETE", state: "autocomplete" },
-        { name: "SLIDER", state: "slider" },
-        { name: "PROGRESS", state: "progress" },
-        { name: "SNACKBAR", state: "snackbar" }
-      ]
-    },
-    {
-      name: "FORMS",
-      type: "dropDown",
-      tooltip: "Forms",
-      icon: "description",
-      state: "forms",
-      sub: [
-        { name: "BASIC", state: "basic" },
-        { name: "EDITOR", state: "editor" },
-        { name: "UPLOAD", state: "upload" },
-        { name: "WIZARD", state: "wizard" }
-      ]
-    },
-    {
-      name: "TABLES",
-      type: "dropDown",
-      tooltip: "Tables",
-      icon: "format_line_spacing",
-      state: "tables",
-      sub: [
-        { name: "FULLSCREEN", state: "fullscreen" },
-        { name: "PAGING", state: "paging" },
-        { name: "FILTER", state: "filter" }
-      ]
-    },
-    {
-      name: "PROFILE",
-      type: "dropDown",
-      tooltip: "Profile",
-      icon: "person",
-      state: "profile",
-      sub: [
-        { name: "OVERVIEW", state: "overview" },
-        { name: "SETTINGS", state: "settings" },
-        { name: "BLANK", state: "blank" }
-      ]
-    },
-    {
-      name: "TOUR",
-      type: "link",
-      tooltip: "Tour",
-      icon: "flight_takeoff",
-      state: "tour"
-    },
-    {
-      name: "MAP",
-      type: "link",
-      tooltip: "Map",
-      icon: "add_location",
-      state: "map"
-    },
-    {
-      name: "CHARTS",
-      type: "link",
-      tooltip: "Charts",
-      icon: "show_chart",
-      state: "charts"
-    },
-    {
-      name: "DND",
-      type: "link",
-      tooltip: "Drag and Drop",
-      icon: "adjust",
-      state: "dragndrop"
-    },
-    {
-      name: "SESSIONS",
-      type: "dropDown",
-      tooltip: "Pages",
-      icon: "view_carousel",
-      state: "sessions",
-      sub: [
-        { name: "SIGNUP", state: "signup" },
-        { name: "SIGNIN", state: "signin" },
-        { name: "FORGOT", state: "forgot-password" },
-        { name: "LOCKSCREEN", state: "lockscreen" },
-        { name: "NOTFOUND", state: "404" },
-        { name: "ERROR", state: "error" }
-      ]
-    },
-    {
-      name: "OTHERS",
-      type: "dropDown",
-      tooltip: "Others",
-      icon: "blur_on",
-      state: "others",
-      sub: [
-        { name: "GALLERY", state: "gallery" },
-        { name: "PRICINGS", state: "pricing" },
-        { name: "USERS", state: "users" },
-        { name: "BLANK", state: "blank" }
-      ]
-    },
-    {
-      name: "MATICONS",
-      type: "link",
-      tooltip: "Material Icons",
-      icon: "store",
-      state: "icons"
-    },
-    {
-      name: "DOC",
-      type: "extLink",
-      tooltip: "Documentation",
-      icon: "library_books",
-      state: "http://demos.ui-lib.com/egret-doc/"
-    }
-  ];
+  // separatorMenu: IMenuItem[] = [
+  //   {
+  //     id: "1",
+  //     type: "separator",
+  //     name: "Custom components"
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "DASHBOARD",
+  //     type: "link",
+  //     tooltip: "Dashboard",
+  //     icon: "dashboard",
+  //     state: "dashboard"
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "INBOX",
+  //     type: "link",
+  //     tooltip: "Inbox",
+  //     icon: "inbox",
+  //     state: "inbox"
+  //   },
+  //   {
+  //     id: "4",
+  //     name: "CHAT",
+  //     type: "link",
+  //     tooltip: "Chat",
+  //     icon: "chat",
+  //     state: "chat"
+  //   },
+  //   {
+  //     id: "5",
+  //     name: "CRUD Table",
+  //     type: "link",
+  //     tooltip: "CRUD Table",
+  //     icon: "format_list_bulleted",
+  //     state: "cruds/ngx-table"
+  //   },
+  //   {
+  //     id: "6",
+  //     name: "DIALOGS",
+  //     type: "dropDown",
+  //     tooltip: "Dialogs",
+  //     icon: "filter_none",
+  //     state: "dialogs",
+  //     sub: [
+  //       { name: "CONFIRM", state: "confirm" },
+  //       { name: "LOADER", state: "loader" }
+  //     ]
+  //   },
+  //   {
+  //     id: "7",
+  //     name: "PROFILE",
+  //     type: "dropDown",
+  //     tooltip: "Profile",
+  //     icon: "person",
+  //     state: "profile",
+  //     sub: [
+  //       { name: "OVERVIEW", state: "overview" },
+  //       { name: "SETTINGS", state: "settings" },
+  //       { name: "BLANK", state: "blank" }
+  //     ]
+  //   },
+  //   {
+  //     id: "8",
+  //     name: "TOUR",
+  //     type: "link",
+  //     tooltip: "Tour",
+  //     icon: "flight_takeoff",
+  //     state: "tour"
+  //   },
+  //   {
+  //     id: "9",
+  //     type: "separator",
+  //     name: "Integrated components"
+  //   },
+  //   {
+  //     id: "10",
+  //     name: "CALENDAR",
+  //     type: "link",
+  //     tooltip: "Calendar",
+  //     icon: "date_range",
+  //     state: "calendar"
+  //   },
+  //   {
+  //     id: "11",
+  //     name: "MATERIAL",
+  //     type: "dropDown",
+  //     tooltip: "Material",
+  //     icon: "favorite",
+  //     state: "material",
+  //     sub: [
+  //       { name: "BUTTONS", state: "buttons" },
+  //       { name: "Button Toggle", state: "button-toggle" },
+  //       { name: "Buttons Loading", state: "loading-buttons" },
+  //       { name: "CARDS", state: "cards" },
+  //       { name: "GRIDS", state: "grids" },
+  //       { name: "LISTS", state: "lists" },
+  //       { name: "MENU", state: "menu" },
+  //       { name: "TABS", state: "tabs" },
+  //       { name: "SELECT", state: "select" },
+  //       { name: "RADIO", state: "radio" },
+  //       { name: "AUTOCOMPLETE", state: "autocomplete" },
+  //       { name: "SLIDER", state: "slider" },
+  //       { name: "PROGRESS", state: "progress" },
+  //       { name: "SNACKBAR", state: "snackbar" }
+  //     ]
+  //   },
+  //   {
+  //     id: "12",
+  //     name: "FORMS",
+  //     type: "dropDown",
+  //     tooltip: "Forms",
+  //     icon: "description",
+  //     state: "forms",
+  //     sub: [
+  //       { name: "BASIC", state: "basic" },
+  //       { name: "EDITOR", state: "editor" },
+  //       { name: "UPLOAD", state: "upload" },
+  //       { name: "WIZARD", state: "wizard" }
+  //     ]
+  //   },
+  //   {
+  //     id: "13",
+  //     name: "TABLES",
+  //     type: "dropDown",
+  //     tooltip: "Tables",
+  //     icon: "format_line_spacing",
+  //     state: "tables",
+  //     sub: [
+  //       { name: "FULLSCREEN", state: "fullscreen" },
+  //       { name: "PAGING", state: "paging" },
+  //       { name: "FILTER", state: "filter" }
+  //     ]
+  //   },
+  //   {
+  //     id: "14",
+  //     name: "MAP",
+  //     type: "link",
+  //     tooltip: "Map",
+  //     icon: "add_location",
+  //     state: "map"
+  //   },
+  //   {
+  //     id: "15",
+  //     name: "CHARTS",
+  //     type: "link",
+  //     tooltip: "Charts",
+  //     icon: "show_chart",
+  //     state: "charts"
+  //   },
+  //   {
+  //     id: "16",
+  //     name: "DND",
+  //     type: "link",
+  //     tooltip: "Drag and Drop",
+  //     icon: "adjust",
+  //     state: "dragndrop"
+  //   },
+  //   {
+  //     id: "17",
+  //     type: "separator",
+  //     name: "Other components"
+  //   },
+  //   {
+  //     id: "18",
+  //     name: "SESSIONS",
+  //     type: "dropDown",
+  //     tooltip: "Pages",
+  //     icon: "view_carousel",
+  //     state: "sessions",
+  //     sub: [
+  //       { name: "SIGNUP", state: "signup" },
+  //       { name: "SIGNIN", state: "signin" },
+  //       { name: "FORGOT", state: "forgot-password" },
+  //       { name: "LOCKSCREEN", state: "lockscreen" },
+  //       { name: "NOTFOUND", state: "404" },
+  //       { name: "ERROR", state: "error" }
+  //     ]
+  //   },
+  //   {
+  //     id: "19",
+  //     name: "OTHERS",
+  //     type: "dropDown",
+  //     tooltip: "Others",
+  //     icon: "blur_on",
+  //     state: "others",
+  //     sub: [
+  //       { name: "GALLERY", state: "gallery" },
+  //       { name: "PRICINGS", state: "pricing" },
+  //       { name: "USERS", state: "users" },
+  //       { name: "BLANK", state: "blank" }
+  //     ]
+  //   },
+  //   {
+  //     id: "20",
+  //     name: "MATICONS",
+  //     type: "link",
+  //     tooltip: "Material Icons",
+  //     icon: "store",
+  //     state: "icons"
+  //   },
+  //   {
+  //     id: "21",
+  //     name: "DOC",
+  //     type: "extLink",
+  //     tooltip: "Documentation",
+  //     icon: "library_books",
+  //     state: "http://demos.ui-lib.com/egret-doc/"
+  //   }
+  // ];
+
+  // plainMenu: IMenuItem[] = [
+  //   {
+  //     id: "1",
+  //     name: "DASHBOARD",
+  //     type: "link",
+  //     tooltip: "Dashboard",
+  //     icon: "dashboard",
+  //     state: "dashboard"
+  //   },
+  //   {
+  //     id: "2",
+  //     name: "INBOX",
+  //     type: "link",
+  //     tooltip: "Inbox",
+  //     icon: "inbox",
+  //     state: "inbox"
+  //   },
+  //   {
+  //     id: "3",
+  //     name: "CHAT",
+  //     type: "link",
+  //     tooltip: "Chat",
+  //     icon: "chat",
+  //     state: "chat"
+  //   },
+  //   {
+  //     id: "4",
+  //     name: "CRUD Table",
+  //     type: "link",
+  //     tooltip: "CRUD Table",
+  //     icon: "format_list_bulleted",
+  //     state: "cruds/ngx-table"
+  //   },
+  //   {
+  //     id: "5",
+  //     name: "CALENDAR",
+  //     type: "link",
+  //     tooltip: "Calendar",
+  //     icon: "date_range",
+  //     state: "calendar"
+  //   },
+  //   {
+  //     id: "6",
+  //     name: "DIALOGS",
+  //     type: "dropDown",
+  //     tooltip: "Dialogs",
+  //     icon: "filter_none",
+  //     state: "dialogs",
+  //     sub: [
+  //       { name: "CONFIRM", state: "confirm" },
+  //       { name: "LOADER", state: "loader" }
+  //     ]
+  //   },
+  //   {
+  //     id: "7",
+  //     name: "MATERIAL",
+  //     type: "dropDown",
+  //     icon: "favorite",
+  //     state: "component",
+  //     sub: [
+  //       { name: "BUTTONS", state: "buttons" },
+  //       { name: "Button Toggle", state: "button-toggle" },
+  //       { name: "Buttons Loading", state: "loading-buttons" },
+  //       { name: "CARDS", state: "cards" },
+  //       { name: "GRIDS", state: "grids" },
+  //       { name: "LISTS", state: "lists" },
+  //       { name: "MENU", state: "menu" },
+  //       { name: "TABS", state: "tabs" },
+  //       { name: "SELECT", state: "select" },
+  //       { name: "RADIO", state: "radio" },
+  //       { name: "AUTOCOMPLETE", state: "autocomplete" },
+  //       { name: "SLIDER", state: "slider" },
+  //       { name: "PROGRESS", state: "progress" },
+  //       { name: "SNACKBAR", state: "snackbar" }
+  //     ]
+  //   },
+  //   {
+  //     id: "8",
+  //     name: "FORMS",
+  //     type: "dropDown",
+  //     tooltip: "Forms",
+  //     icon: "description",
+  //     state: "forms",
+  //     sub: [
+  //       { name: "BASIC", state: "basic" },
+  //       { name: "EDITOR", state: "editor" },
+  //       { name: "UPLOAD", state: "upload" },
+  //       { name: "WIZARD", state: "wizard" }
+  //     ]
+  //   },
+  //   {
+  //     id: "9",
+  //     name: "TABLES",
+  //     type: "dropDown",
+  //     tooltip: "Tables",
+  //     icon: "format_line_spacing",
+  //     state: "tables",
+  //     sub: [
+  //       { name: "FULLSCREEN", state: "fullscreen" },
+  //       { name: "PAGING", state: "paging" },
+  //       { name: "FILTER", state: "filter" }
+  //     ]
+  //   },
+  //   {
+  //     id: "10",
+  //     name: "PROFILE",
+  //     type: "dropDown",
+  //     tooltip: "Profile",
+  //     icon: "person",
+  //     state: "profile",
+  //     sub: [
+  //       { name: "OVERVIEW", state: "overview" },
+  //       { name: "SETTINGS", state: "settings" },
+  //       { name: "BLANK", state: "blank" }
+  //     ]
+  //   },
+  //   {
+  //     id: "11",
+  //     name: "TOUR",
+  //     type: "link",
+  //     tooltip: "Tour",
+  //     icon: "flight_takeoff",
+  //     state: "tour"
+  //   },
+  //   {
+  //     id: "12",
+  //     name: "MAP",
+  //     type: "link",
+  //     tooltip: "Map",
+  //     icon: "add_location",
+  //     state: "map"
+  //   },
+  //   {
+  //     id: "13",
+  //     name: "CHARTS",
+  //     type: "link",
+  //     tooltip: "Charts",
+  //     icon: "show_chart",
+  //     state: "charts"
+  //   },
+  //   {
+  //     id: "14",
+  //     name: "DND",
+  //     type: "link",
+  //     tooltip: "Drag and Drop",
+  //     icon: "adjust",
+  //     state: "dragndrop"
+  //   },
+  //   {
+  //     id: "15",
+  //     name: "SESSIONS",
+  //     type: "dropDown",
+  //     tooltip: "Pages",
+  //     icon: "view_carousel",
+  //     state: "sessions",
+  //     sub: [
+  //       { name: "SIGNUP", state: "signup" },
+  //       { name: "SIGNIN", state: "signin" },
+  //       { name: "FORGOT", state: "forgot-password" },
+  //       { name: "LOCKSCREEN", state: "lockscreen" },
+  //       { name: "NOTFOUND", state: "404" },
+  //       { name: "ERROR", state: "error" }
+  //     ]
+  //   },
+  //   {
+  //     id: "16",
+  //     name: "OTHERS",
+  //     type: "dropDown",
+  //     tooltip: "Others",
+  //     icon: "blur_on",
+  //     state: "others",
+  //     sub: [
+  //       { name: "GALLERY", state: "gallery" },
+  //       { name: "PRICINGS", state: "pricing" },
+  //       { name: "USERS", state: "users" },
+  //       { name: "BLANK", state: "blank" }
+  //     ]
+  //   },
+  //   {
+  //     id: "17",
+  //     name: "MATICONS",
+  //     type: "link",
+  //     tooltip: "Material Icons",
+  //     icon: "store",
+  //     state: "icons"
+  //   },
+  //   {
+  //     id: "18",
+  //     name: "DOC",
+  //     type: "extLink",
+  //     tooltip: "Documentation",
+  //     icon: "library_books",
+  //     state: "http://demos.ui-lib.com/egret-doc/"
+  //   }
+  // ];
 
   // Icon menu TITLE at the very top of navigation.
   // This title will appear if any icon type item is present in menu.
@@ -807,13 +904,13 @@ export class NavigationService {
   publishNavigationChange(menuType: string) {
     switch (menuType) {
       case "separator-menu":
-        this.menuItems.next(this.separatorMenu);
+        // this.menuItems.next(this.separatorMenu);
         break;
       case "icon-menu":
         this.menuItems.next(this.iconMenu);
         break;
       default:
-        this.menuItems.next(this.plainMenu);
+        // this.menuItems.next(this.plainMenu);
     }
   }
 }

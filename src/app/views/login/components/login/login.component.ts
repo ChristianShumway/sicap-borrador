@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatProgressBar, MatButton } from '@angular/material';
 import { Validators, FormGroup, FormControl } from '@angular/forms';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-login',
@@ -16,7 +17,8 @@ export class LoginComponent implements OnInit {
   signinForm: FormGroup;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -29,9 +31,13 @@ export class LoginComponent implements OnInit {
 
   signin() {
     const signinData = this.signinForm.value
+    const action = 'Correcto';
     console.log(signinData);
     if(signinData){
       this.router.navigate(['dashboard']);
+      this.snackBar.open('Acceso Correcto', action, {
+        duration: 2000,
+      });
     }
     this.submitButton.disabled = true;
     this.progressBar.mode = 'indeterminate';

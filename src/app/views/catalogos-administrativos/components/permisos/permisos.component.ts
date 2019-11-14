@@ -11,6 +11,9 @@ import { PerfilesService } from '../../../../shared/services/perfiles.service';
 })
 export class PermisosComponent implements OnInit {
   menu = [];
+  permisos = [];
+  perfiles = [];
+  arbol = [];
   panelOpenState = false;
   firstSubPanelOpenState = false;
   secondSubPanelOpenState = false;
@@ -26,24 +29,46 @@ export class PermisosComponent implements OnInit {
   }
 
   navigation() {
-    let menu = this.navigationService.iconMenu;
-    this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link');
+    // this.menu = this.navigationService.iconMenu;
+    const menu = this.navigationService.iconMenu;
+    const permisos = this.navigationService.permisosMenu;
+    const perfiles = this.perfilesService.getAllPerfiles();
+    this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
+    this.permisos = permisos;
+    this.perfiles = perfiles;
     console.log(this.menu);
+    console.log(this.permisos);
   }
 
-  openModalPerfiles(data) {
-    const perfiles = this.perfilesService.getAllPerfiles();
-    const dialogRef = this.dialog.open(ModalPerfilesComponent, {
-      width: '300px',
-      data: perfiles
-    });
+  openModalPerfiles(idPadre, idHijo) {
+    const moduloSeleccionado = this.menu.filter( modulo => modulo.id === idPadre);
+    moduloSeleccionado.map( modulo => {
+      this.arbol.push(modulo.id);
+      this.generaArbolModulo(modulo);
+    })
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        console.log(result);
-        console.log(data);
-      }
-    });
+    console.log(this.arbol);
+   
+    // const dialogRef = this.dialog.open(ModalPerfilesComponent, {
+    //   width: '300px',
+    //   data: this.perfiles
+    // });
+
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result){
+    //     console.log(result);
+    //     console.log(data);
+    //   }
+    // });
+  }
+
+  generaArbolModulo(obj){
+    if(obj.sub) {
+      obj.sub.find( modulo => {
+        this.arbol.push(modulo.id);
+        return this.generaArbolModulo(modulo);
+      })
+    }
   }
 
 }
