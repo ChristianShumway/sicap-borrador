@@ -45,6 +45,10 @@
                   *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched" 
                   class="form-error-msg"> Contraseña es requerida 
                 </span>
+                <span 
+                  *ngIf="signinForm.controls['password'].hasError('minlength') && signinForm.controls['password'].touched" 
+                  class="form-error-msg"> Contraseña debe ser mayor a 8 caracteres
+                </span>
               </mat-hint>
             </mat-form-field>
           </div>
