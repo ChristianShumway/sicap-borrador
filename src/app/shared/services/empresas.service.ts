@@ -8,7 +8,7 @@ export class EmpresasService {
 
   empresas: Empresa[] = [
     {
-      'id': '1',
+      'idEmpresa': 1,
       'nombre': 'Aesa',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
@@ -17,7 +17,7 @@ export class EmpresasService {
       'imagen': 'assets/images/logos/cima.png'
     },
     {
-      'id': '2',
+      'idEmpresa': 2,
       'nombre': 'Oecsa',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
@@ -26,7 +26,7 @@ export class EmpresasService {
       'imagen': 'assets/images/logos/cima.png'
     },
     {
-      'id': '3',
+      'idEmpresa': 3,
       'nombre': 'Electroredes',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
@@ -35,7 +35,7 @@ export class EmpresasService {
       'imagen': 'assets/images/logos/cima.png'
     },
     {
-      'id': '4',
+      'idEmpresa': 4,
       'nombre': 'Treca',
       'direccion': 'República de Uruguay',
       'telefono': '4491111111',
@@ -52,7 +52,7 @@ export class EmpresasService {
     return this.empresas
   };
 
-  getEmpresa(id: string){
-    return this.empresas.find( empresa => empresa.id === id);
+  getEmpresa(idEmpresa: number){
+    return this.empresas.find( empresa => empresa.idEmpresa == idEmpresa);
   }
 }

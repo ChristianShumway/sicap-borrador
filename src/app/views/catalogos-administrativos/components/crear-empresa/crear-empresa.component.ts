@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { Router } from '@angular/router';
+import { Empresa } from './../../../../shared/models/empresa';
 
 
 @Component({
@@ -36,21 +37,15 @@ export class CrearEmpresaComponent implements OnInit {
         Validators.required,
       ]),
       descripcion: new FormControl(),
-      agreed: new FormControl('', (control: FormControl) => {
-        const agreed = control.value;
-        if(!agreed) {
-          return { agreed: true }
-        }
-        return null;
-      })
     })
   }
 
   createCompany(){
     if(this.createCompanyForm.valid){
-      const empresa = {
+      const empresa: Empresa = {
+        idEmpresa: 6,
         ...this.createCompanyForm.value,
-        //imagen: 'assets/images/faces/user-temp.png'
+        imagen: 'assets/images/logos/cima.png'
       };
       console.log(empresa);
       this.router.navigate(['/catalogos-administrativos/empresas']);

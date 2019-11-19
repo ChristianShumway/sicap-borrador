@@ -30,9 +30,9 @@
               </button>
               <mat-menu #empresaMenu="matMenu">
                 <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
-                <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-empresa', empresa.id]">Editar</button>
-                <button mat-menu-item [routerLink]="['/catalogos-administrativos/actualizar-perfil', empresa.id]">Actualizar Logo</button>
-                <button mat-menu-item (click)="openDialoAlertDelete(empresa.id)">Eliminar</button>
+                <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-empresa', empresa.idEmpresa]">Editar</button>
+                <button mat-menu-item [routerLink]="['/catalogos-administrativos/actualizar-perfil', empresa.idEmpresa]">Actualizar Logo</button>
+                <button mat-menu-item (click)="openDialoAlertDelete(empresa.idEmpresa)">Eliminar</button>
               </mat-menu>
             </div>
             <mat-divider></mat-divider>

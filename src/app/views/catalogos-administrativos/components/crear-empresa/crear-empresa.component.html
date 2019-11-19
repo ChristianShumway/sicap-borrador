@@ -8,7 +8,7 @@
     <form [formGroup]="createCompanyForm" (submit)="createCompany()">
       <div fxLayout="row wrap">
 
-        <div fxFlex="100" fxFlex.gt-xs="50" class="pr-1 wrap-form-1">
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput name="nombre" formControlName="nombre" placeholder="Nombre" value="">
@@ -33,7 +33,7 @@
           </div>
         </div>
 
-        <div fxFlex="100" fxFlex.gt-xs="50" class=" wrap-form-2">
+        <div fxFlex="100" fxFlex.gt-xs="100" class=" wrap-form-2">
 
           <div class="pb-1">
             <mat-form-field class="full-width">
@@ -66,14 +66,6 @@
             </mat-form-field>
           </div>
         </div>
-      </div>
-
-
-      <div class="cont-aceptar">
-        <mat-checkbox name="agreed" formControlName="agreed" class="pb-1">¿La información de la empresa es la correcta?</mat-checkbox>
-        <small *ngIf="createCompanyForm.controls['agreed'].hasError('agreed') && createCompanyForm.controls['agreed'].touched" class="form-error-msg">
-          Debes validar la información
-        </small>
       </div>
 
       <div class="cont-btns">

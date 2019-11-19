@@ -1,5 +1,5 @@
 export interface Empresa {
-  id: string,
+  idEmpresa: number,
   nombre: string,
   direccion: string,
   telefono: string,

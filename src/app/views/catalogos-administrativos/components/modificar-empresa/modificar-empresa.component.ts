@@ -42,6 +42,7 @@ export class ModificarEmpresaComponent implements OnInit {
       if (empresaId) {
         this.empresa = this.empresasService.getEmpresa(empresaId);
       }
+      console.log(this.empresa);
     })
   }
 
@@ -58,13 +59,6 @@ export class ModificarEmpresaComponent implements OnInit {
         Validators.required,
       ]),
       descripcion: new FormControl(),
-      agreed: new FormControl('', (control: FormControl) => {
-        const agreed = control.value;
-        if (!agreed) {
-          return { agreed: true }
-        }
-        return null;
-      })
     })
   }
 
