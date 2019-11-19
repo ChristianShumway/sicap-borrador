@@ -27,13 +27,6 @@ export class CrearPerfilComponent implements OnInit {
         Validators.required,
       ]),
       descripcion: new FormControl(),
-      agreed: new FormControl('', (control: FormControl) => {
-        const agreed = control.value;
-        if(!agreed) {
-          return { agreed: true }
-        }
-        return null;
-      })
     })
   }
 

@@ -25,12 +25,6 @@
               <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" value="">
             </mat-form-field>
           </div>
-          <div class="pb-1 cont-aceptar">
-            <mat-checkbox name="agreed" formControlName="agreed" class="pb-1">¿La información del perfil es la correcta?</mat-checkbox>
-            <small *ngIf="createProfileForm.controls['agreed'].hasError('agreed') && createProfileForm.controls['agreed'].touched" class="form-error-msg">
-              Debes validar la información
-            </small>
-          </div>
         </div>
 
       </div>
