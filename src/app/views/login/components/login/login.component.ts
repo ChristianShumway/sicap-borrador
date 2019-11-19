@@ -35,8 +35,11 @@ export class LoginComponent implements OnInit {
     console.log(signinData);
     if(signinData){
       this.router.navigate(['dashboard']);
-      this.snackBar.open('Acceso Correcto', action, {
+      this.snackBar.open('Acceso de Usuario', action, {
         duration: 2000,
+        verticalPosition: 'bottom',
+        horizontalPosition: 'right',
+        panelClass: ['success-dialog']
       });
     }
     this.submitButton.disabled = true;
