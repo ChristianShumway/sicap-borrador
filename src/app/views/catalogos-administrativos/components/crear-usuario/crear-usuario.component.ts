@@ -64,13 +64,6 @@ export class CrearUsuarioComponent implements OnInit {
       password: password,
       confirmPassword: confirmPassword,
       // imagen: new FormControl(),
-      agreed: new FormControl('', (control: FormControl) => {
-        const agreed = control.value;
-        if(!agreed) {
-          return { agreed: true }
-        }
-        return null;
-      })
     })
   }
 

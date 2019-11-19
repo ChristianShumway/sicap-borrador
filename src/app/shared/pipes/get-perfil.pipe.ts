@@ -10,7 +10,7 @@ export class GetPerfilPipe implements PipeTransform {
     private perfilesService: PerfilesService
   ){}
 
-  transform(idPerfil: string, args?: any): any {
+  transform(idPerfil: number, args?: any): any {
     const perfil = this.perfilesService.getPerfil(idPerfil);
     return perfil.nombre;
   }

@@ -8,7 +8,7 @@ export class GetEmpresaPipe implements PipeTransform {
   constructor(
     private empresasService: EmpresasService
   ){}
-  transform(idEmpresa: string): any {
+  transform(idEmpresa: number): any {
     const empresa = this.empresasService.getEmpresa(idEmpresa);
     return empresa.nombre;
   }

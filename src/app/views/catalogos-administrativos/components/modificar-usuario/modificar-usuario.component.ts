@@ -80,13 +80,6 @@ export class ModificarUsuarioComponent implements OnInit {
       password: password,
       confirmPassword: confirmPassword,
       // imagen: new FormControl(),
-      agreed: new FormControl('', (control: FormControl) => {
-        const agreed = control.value;
-        if(!agreed) {
-          return { agreed: true }
-        }
-        return null;
-      })
     })
   }
 
@@ -98,7 +91,7 @@ export class ModificarUsuarioComponent implements OnInit {
       // };
       const usuario = this.updateUserForm.value;
       console.log(usuario);
-      // this.router.navigate(['/catalogos-administrativos/usuarios']);
+      this.router.navigate(['/catalogos-administrativos/usuarios']);
     }
   }
 

@@ -1,11 +1,16 @@
+import { Empresa } from "./empresa";
+import { Perfil } from "./perfil";
+
 export interface Usuario {
-  id: string,
+  idUsuario: number,
   email: string,
   nombre: string,
   apellido: string,
   usuario: string,
-  perfil: string,
-  empresa: string,
+  idPerfil: number,
+  perfil?: Perfil,
+  idEmpresa: number,
+  empresa?: Empresa,
   telefono: string,
   direccion: string,
   fechaNacimiento: string,

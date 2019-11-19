@@ -21,7 +21,6 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
-  // dataSource: MatTableDataSource<Card> = new MatTableDataSource<Card>(DATA);
   dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>();
 
 
