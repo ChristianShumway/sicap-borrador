@@ -43,7 +43,6 @@ export class CrearEmpresaComponent implements OnInit {
   createCompany(){
     if(this.createCompanyForm.valid){
       const empresa: Empresa = {
-        idEmpresa: 6,
         ...this.createCompanyForm.value,
         imagen: 'assets/images/logos/cima.png'
       };
