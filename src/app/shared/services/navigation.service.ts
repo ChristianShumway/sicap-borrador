@@ -479,6 +479,22 @@ export class NavigationService {
     { id: '5', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '92', autorizado: true },
     { id: '6', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '93', autorizado: true },
     { id: '7', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '94', autorizado: true },
+    { id: '8', idPerfil: '2', nombrePerfil: 'Planeación y Presupuestos', idModulo: '91', autorizado: true },
+    { id: '9', idPerfil: '2', nombrePerfil: 'Planeación y Presupuestos', idModulo: '92', autorizado: true },
+    { id: '10', idPerfil: '2', nombrePerfil: 'Planeación y Presupuestos', idModulo: '93', autorizado: true },
+    { id: '11', idPerfil: '2', nombrePerfil: 'Planeación y Presupuestos', idModulo: '94', autorizado: true },
+    { id: '12', idPerfil: '3', nombrePerfil: 'Control de Obra', idModulo: '91', autorizado: true },
+    { id: '13', idPerfil: '3', nombrePerfil: 'Control de Obra', idModulo: '92', autorizado: true },
+    { id: '14', idPerfil: '3', nombrePerfil: 'Control de Obra', idModulo: '93', autorizado: true },
+    { id: '15', idPerfil: '3', nombrePerfil: 'Control de Obra', idModulo: '94', autorizado: true },
+    { id: '16', idPerfil: '4', nombrePerfil: 'Compras y Materiales', idModulo: '91', autorizado: true },
+    { id: '17', idPerfil: '4', nombrePerfil: 'Compras y Materiales', idModulo: '92', autorizado: true },
+    { id: '18', idPerfil: '4', nombrePerfil: 'Compras y Materiales', idModulo: '93', autorizado: true },
+    { id: '19', idPerfil: '4', nombrePerfil: 'Compras y Materiales', idModulo: '94', autorizado: true },
+    { id: '20', idPerfil: '5', nombrePerfil: 'Supervisión', idModulo: '91', autorizado: false },
+    { id: '21', idPerfil: '5', nombrePerfil: 'Supervisión', idModulo: '92', autorizado: true },
+    { id: '22', idPerfil: '5', nombrePerfil: 'Supervisión', idModulo: '93', autorizado: true },
+    { id: '23', idPerfil: '5', nombrePerfil: 'Supervisión', idModulo: '94', autorizado: true },
   ];
 
   // separatorMenu: IMenuItem[] = [

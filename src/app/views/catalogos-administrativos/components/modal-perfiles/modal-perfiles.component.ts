@@ -25,22 +25,22 @@ export class ModalPerfilesComponent implements OnInit {
   }
 
   ngOnInit(){
-    // console.log(this.data);
-    this.getValidations(this.data);
-    console.log(this.flds);
+    console.log(this.data);
+    // this.getValidations(this.data);
+    // console.log(this.flds);
   }
 
 
-  getValidations(data){
-    data.map( fld => {
-      let check = {
-        id: fld.id,
-        nombre: fld.nombre,
-        selected: false
-      };
-      this.flds.push(check);
-    });   
-  }
+  // getValidations(data){
+  //   data.map( fld => {
+  //     let check = {
+  //       id: fld.id,
+  //       nombre: fld.nombre,
+  //       selected: false
+  //     };
+  //     this.flds.push(check);
+  //   });   
+  // }
 
   onChange($event: MatCheckboxChange) {
     alert($event.checked);

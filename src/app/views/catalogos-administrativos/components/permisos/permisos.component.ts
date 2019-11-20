@@ -34,32 +34,35 @@ export class PermisosComponent implements OnInit {
     const permisos = this.navigationService.permisosMenu;
     const perfiles = this.perfilesService.getAllPerfiles();
     this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
+    // this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link');
     this.permisos = permisos;
     this.perfiles = perfiles;
     console.log(this.menu);
     console.log(this.permisos);
+    console.log(this.perfiles);
   }
 
-  openModalPerfiles(idPadre, idHijo) {
-    const moduloSeleccionado = this.menu.filter( modulo => modulo.id === idPadre);
-    moduloSeleccionado.map( modulo => {
-      this.arbol.push(modulo.id);
-      this.generaArbolModulo(modulo);
-    })
+  openModalPerfiles(idModulo) {
+    // const moduloSeleccionado = this.menu.filter( modulo => modulo.id === idPadre);
+    // moduloSeleccionado.map( modulo => {
+    //   this.arbol.push(modulo.id);
+    //   this.generaArbolModulo(modulo);
+    // })
+    const permisosOpcionMenu = this.permisos.filter(permiso => permiso.idModulo === idModulo)
 
-    console.log(this.arbol);
+    //console.log(permisosOpcionMenu);
    
-    // const dialogRef = this.dialog.open(ModalPerfilesComponent, {
-    //   width: '300px',
-    //   data: this.perfiles
-    // });
+    const dialogRef = this.dialog.open(ModalPerfilesComponent, {
+      width: '300px',
+      data: permisosOpcionMenu
+    });
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result){
-    //     console.log(result);
-    //     console.log(data);
-    //   }
-    // });
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(result);
+        // console.log(data);
+      }
+    });
   }
 
   generaArbolModulo(obj){
