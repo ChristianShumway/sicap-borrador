@@ -4,6 +4,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
@@ -29,7 +30,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     private usuariosService: UsuariosService,
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -111,7 +113,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       if(result){
         console.log(result);
         console.log(id);
+        this.useAlerts('Eliminación de Usuario', 'Correcto', 'success-dialog');
       }
+    });
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
     });
   }
 

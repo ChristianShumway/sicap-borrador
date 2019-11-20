@@ -6,6 +6,7 @@ import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router'
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-perfiles',
@@ -25,7 +26,8 @@ export class PerfilesComponent implements OnInit {
     private perfilesService: PerfilesService,
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -79,7 +81,17 @@ export class PerfilesComponent implements OnInit {
       if(result){
         console.log(result);
         console.log(id);
+        this.useAlerts('Eliminación de Perfil', 'Correcto', 'success-dialog');
       }
+    });
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
     });
   }
 

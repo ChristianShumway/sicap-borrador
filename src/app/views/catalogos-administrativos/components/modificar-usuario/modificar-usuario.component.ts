@@ -8,6 +8,7 @@ import { Empresa } from './../../../../shared/models/empresa';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import { Usuario } from '../../../../shared/models/usuario';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -27,7 +28,8 @@ export class ModificarUsuarioComponent implements OnInit {
     private usuarioService: UsuariosService,
     private activatedRoute: ActivatedRoute,
     private empresasService: EmpresasService,
-    private perfilesService: PerfilesService
+    private perfilesService: PerfilesService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -92,12 +94,22 @@ export class ModificarUsuarioComponent implements OnInit {
       const usuario = this.updateUserForm.value;
       console.log(usuario);
       this.router.navigate(['/catalogos-administrativos/usuarios']);
+      this.useAlerts('Modificación de Usuario', 'Correcto', 'success-dialog');
     }
   }
 
   getCatalogos() {
     this.empresas = this.empresasService.getAllEmpresas();
     this.perfiles = this.perfilesService.getAllPerfiles();
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 

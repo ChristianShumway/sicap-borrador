@@ -5,6 +5,7 @@ import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router'
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 
@@ -26,7 +27,8 @@ export class EmpresasComponent implements OnInit {
     private empresasService: EmpresasService,
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -80,7 +82,17 @@ export class EmpresasComponent implements OnInit {
       if(result){
         console.log(result);
         console.log(id);
+        this.useAlerts('Eliminación de Empresa', 'Correcto', 'success-dialog');
       }
+    });
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
     });
   }
 

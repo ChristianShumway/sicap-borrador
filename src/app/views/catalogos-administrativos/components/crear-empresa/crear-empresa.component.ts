@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { Router } from '@angular/router';
 import { Empresa } from './../../../../shared/models/empresa';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -17,7 +18,8 @@ export class CrearEmpresaComponent implements OnInit {
   createCompanyForm: FormGroup;
 
   constructor(
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -48,7 +50,17 @@ export class CrearEmpresaComponent implements OnInit {
       };
       console.log(empresa);
       this.router.navigate(['/catalogos-administrativos/empresas']);
+      this.useAlerts('Creación de Empresa', 'Correcto', 'success-dialog');
     }
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 }

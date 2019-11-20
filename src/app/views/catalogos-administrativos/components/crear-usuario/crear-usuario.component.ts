@@ -6,6 +6,7 @@ import { EmpresasService } from './../../../../shared/services/empresas.service'
 import { Empresa } from './../../../../shared/models/empresa';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -23,7 +24,8 @@ export class CrearUsuarioComponent implements OnInit {
   constructor(
     private router: Router,
     private empresasService: EmpresasService,
-    private perfilesService: PerfilesService
+    private perfilesService: PerfilesService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -75,12 +77,22 @@ export class CrearUsuarioComponent implements OnInit {
       };
       console.log(usuario);
       this.router.navigate(['/catalogos-administrativos/usuarios']);
+      this.useAlerts('Creación de Usuario', 'Correcto', 'success-dialog');
     }
   }
 
   getCatalogos() {
     this.empresas = this.empresasService.getAllEmpresas();
     this.perfiles = this.perfilesService.getAllPerfiles();
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 }

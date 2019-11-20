@@ -4,6 +4,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { EmpresasService } from './../../../../shared/services/empresas.service';
 import { Empresa } from './../../../../shared/models/empresa';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modificar-empresa',
@@ -20,7 +21,8 @@ export class ModificarEmpresaComponent implements OnInit {
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
-    private empresasService: EmpresasService
+    private empresasService: EmpresasService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -32,6 +34,7 @@ export class ModificarEmpresaComponent implements OnInit {
     if(this.updateCompanyForm.valid){
       const company = this.updateCompanyForm.value;
       this.router.navigate(['catalogos-administrativos/empresas']);
+      this.useAlerts('Modificación de Empresa', 'Correcto', 'success-dialog');
       console.log(company);
     }
   }
@@ -60,6 +63,15 @@ export class ModificarEmpresaComponent implements OnInit {
       ]),
       descripcion: new FormControl(),
     })
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 2000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 }
