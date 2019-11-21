@@ -9,8 +9,16 @@ export class GetEmpresaPipe implements PipeTransform {
     private empresasService: EmpresasService
   ){}
   transform(idEmpresa: number): any {
-    const empresa = this.empresasService.getEmpresa(idEmpresa);
-    return empresa.nombre;
+    // const empresa = this.empresasService.getEmpresa(idEmpresa);
+    // return empresa.nombre;
+
+    this.empresasService.getEmpresa(idEmpresa).subscribe(
+      ( (empresa) => {
+        console.log(empresa.nombre);
+        return empresa.nombre;
+      }),
+      (error => console.log(error))
+    );
   }
 
 }

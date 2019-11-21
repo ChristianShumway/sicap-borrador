@@ -17,6 +17,7 @@ export class ModificarEmpresaComponent implements OnInit {
   formData = {}
   console = console;
   updateCompanyForm: FormGroup;
+  empresaId;
 
   constructor(
     private router: Router,
@@ -30,23 +31,38 @@ export class ModificarEmpresaComponent implements OnInit {
     this.getValidations();
   }
 
-  updateCompany(){
-    if(this.updateCompanyForm.valid){
-      const company = this.updateCompanyForm.value;
-      this.router.navigate(['catalogos-administrativos/empresas']);
-      this.useAlerts('Modificación de Empresa', 'Correcto', 'success-dialog');
-      console.log(company);
-    }
-  }
-
   getEmpresa() {
     this.activatedRoute.params.subscribe((data: Params) => {
-      const empresaId = data.id;
-      if (empresaId) {
-        this.empresa = this.empresasService.getEmpresa(empresaId);
+       this.empresaId = data.id;
+      if (this.empresaId) {
+        // this.empresa = this.empresasService.getEmpresa(empresaId);
+        this.empresasService.getEmpresa(this.empresaId).subscribe(
+          ( (empresa: Empresa) => {
+            console.log(empresa);
+            this.updateCompanyForm.patchValue(empresa);
+          }),
+          (error => console.log(error))
+        );
       }
-      console.log(this.empresa);
     })
+  }
+
+  updateCompany(){
+    if(this.updateCompanyForm.valid){
+      const company = {
+        idEmpresa: parseInt(this.empresaId),
+        ...this.updateCompanyForm.value
+      };
+      console.log(company);
+      this.empresasService.updateEmpresa(company).subscribe(
+        ( success => {
+          console.log(success);
+          this.router.navigate(['catalogos-administrativos/empresas']);
+          this.useAlerts('Modificación de Empresa', 'Correcto', 'success-dialog');
+        }),
+        (error => console.log(error))
+      );
+    }
   }
 
   getValidations() {
@@ -67,7 +83,7 @@ export class ModificarEmpresaComponent implements OnInit {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

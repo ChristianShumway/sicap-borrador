@@ -32,11 +32,16 @@ export class PermisosComponent implements OnInit {
     // this.menu = this.navigationService.iconMenu;
     const menu = this.navigationService.iconMenu;
     const permisos = this.navigationService.permisosMenu;
-    const perfiles = this.perfilesService.getAllPerfiles();
+    // const perfiles = this.perfilesService.getAllPerfiles();
+    this.perfilesService.getAllPerfiles().subscribe(
+      (perfiles => {
+        this.perfiles = perfiles;
+      }),
+      (error => console.log(error))
+    );
     this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
     // this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link');
     this.permisos = permisos;
-    this.perfiles = perfiles;
     console.log(this.menu);
     console.log(this.permisos);
     console.log(this.perfiles);

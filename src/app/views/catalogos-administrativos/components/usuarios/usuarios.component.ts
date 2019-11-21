@@ -9,6 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { Usuario } from './../../../../shared/models/usuario';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-usuarios',
@@ -19,6 +20,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   users: Usuario[] = [];
   usersTemp: Usuario[] = [];
+  rutaImg: string;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -36,11 +38,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.getUsers();
-    this.usersTemp = this.users;
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
+    this.rutaImg = environment.imgRUL;
   }
   
   ngOnDestroy(){
@@ -54,6 +56,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       ( users => {
         this.users = users;
         console.log(this.users);
+        this.usersTemp = this.users;
+    console.log(this.usersTemp);
         this.dataSource.data = this.users;
       }),
       (error => console.log(error.message))
@@ -126,7 +130,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

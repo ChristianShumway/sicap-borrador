@@ -16,6 +16,7 @@ export class ModificarPerfilComponent implements OnInit {
   formData = {}
   console = console;
   updateProfileForm: FormGroup;
+  idPerfil;
   
   constructor(
     private router: Router,
@@ -31,20 +32,23 @@ export class ModificarPerfilComponent implements OnInit {
 
   updateProfile(){
     if(this.updateProfileForm.valid){
-      const perfil = this.updateProfileForm.value;
+      const perfil = {
+        idPerfil: parseInt(this.idPerfil),
+        ...this.updateProfileForm.value
+      };
       console.log(perfil);
-      this.router.navigate(['catalogos-administrativos/perfiles']);
-      this.useAlerts('Modificación de Perfil', 'Correcto', 'success-dialog');
+      this.perfilesService.updatePerfil(perfil).subscribe(
+        (success => {
+          console.log(success);
+          this.router.navigate(['catalogos-administrativos/perfiles']);
+          this.useAlerts('Modificación de Perfil', 'Correcto', 'success-dialog');
+        }),
+        ( error => {
+          console.log(error);
+          this.useAlerts('Modificación de Perfil', 'Incorrecto', 'error-dialog');
+        })
+      );
     }
-  }
-
-  getProfile() {
-    this.activatedRoute.params.subscribe( (data: Params) => {
-      const idPerfil = data.id;
-      if (idPerfil) {
-        this.perfil = this.perfilesService.getPerfil(idPerfil);
-      }
-    })
   }
 
   getValidations() {
@@ -53,6 +57,22 @@ export class ModificarPerfilComponent implements OnInit {
         Validators.required,
       ]),
       descripcion: new FormControl(),
+    })
+  }
+
+  getProfile() {
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idPerfil = data.id;
+      if (this.idPerfil) {
+        this.perfilesService.getPerfil(this.idPerfil).subscribe(
+          ((perfil: Perfil) =>{
+            console.log(perfil);
+            this.updateProfileForm.patchValue(perfil);
+            // this.perfil = perfil;
+          }),
+          (error => console.log(error))
+        );
+      }
     })
   }
 

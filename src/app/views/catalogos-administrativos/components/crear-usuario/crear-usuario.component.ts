@@ -8,6 +8,7 @@ import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
+import {MatDatepickerInputEvent} from '@angular/material/datepicker';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -21,6 +22,12 @@ export class CrearUsuarioComponent implements OnInit {
   createUserForm: FormGroup;
   empresas: Empresa[];
   perfiles: Perfil[];
+  fecha;
+
+  public onFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
+    this.fecha = event.value;
+    // this.fecha.setDate(this.fecha.getDate()+1);
+  }
   
   constructor(
     private router: Router,
@@ -67,7 +74,7 @@ export class CrearUsuarioComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      // fechaNacimiento: new FormControl(),
+      fechaNacimiento: new FormControl(this.fecha),
       contrasena: contrasena,
       confirmarContrasena: confirmarContrasena,
       // imagen: new FormControl(),
@@ -96,8 +103,20 @@ export class CrearUsuarioComponent implements OnInit {
   }
 
   getCatalogos() {
-    this.empresas = this.empresasService.getAllEmpresas();
-    this.perfiles = this.perfilesService.getAllPerfiles();
+    // this.empresas = this.empresasService.getAllEmpresas();
+    // this.perfiles = this.perfilesService.getAllPerfiles();
+    this.empresasService.getAllEmpresas().subscribe(
+      ( (empresas: Empresa[]) => {
+        this.empresas = empresas;
+      }),
+      (error => console.log(error))
+    );
+    this.perfilesService.getAllPerfiles().subscribe(
+      ( (perfiles: Perfil[]) => {
+        this.perfiles = perfiles;
+      }),
+      (error => console.log(error))
+    );
   }
 
   useAlerts(message, action, className){

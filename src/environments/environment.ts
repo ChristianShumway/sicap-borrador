@@ -5,5 +5,6 @@
 
 export const environment = {
   production: false,
-  apiURL: ''
+  apiURL: '',
+  imgRUL: 'assets/images/faces'
 };

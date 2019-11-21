@@ -11,8 +11,15 @@ export class GetPerfilPipe implements PipeTransform {
   ){}
 
   transform(idPerfil: number, args?: any): any {
-    const perfil = this.perfilesService.getPerfil(idPerfil);
-    return perfil.nombre;
+    // const perfil = this.perfilesService.getPerfil(idPerfil);
+    // return perfil.nombre;
+    this.perfilesService.getPerfil(idPerfil).subscribe(
+      (perfil => {
+        console.log(perfil);
+        return perfil.nombre;
+      }),
+      (error => console.log(error))
+    );
   }
 
 }

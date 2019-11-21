@@ -8,6 +8,7 @@ import { Router } from '@angular/router'
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import { environment } from './../../../../../environments/environment.prod';
 
 @Component({
   selector: 'app-empresas',
@@ -18,6 +19,7 @@ export class EmpresasComponent implements OnInit {
 
   empresas: Empresa[] = [];
   empresasTemp: Empresa[] = [];
+  rutaImg: string;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -33,11 +35,11 @@ export class EmpresasComponent implements OnInit {
 
   ngOnInit() {
     this.getEmpresas();
-    this.empresasTemp = this.empresas;
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
+    this.rutaImg = environment.imgRUL;
   }
 
   ngOnDestroy(){
@@ -47,8 +49,16 @@ export class EmpresasComponent implements OnInit {
   }
 
   getEmpresas(){
-    this.empresas = this.empresasService.getAllEmpresas();
-    this.dataSource.data = this.empresas;
+    // this.empresas = this.empresasService.getAllEmpresas();
+    this.empresasService.getAllEmpresas().subscribe(
+      ( (empresas: Empresa[]) => {
+        console.log(empresas)
+        this.empresas = empresas;
+        this.empresasTemp = this.empresas;
+        this.dataSource.data = this.empresas;
+      }),
+      (error => console.log(error))
+    );
   }
 
   updateFilter(event) {
@@ -89,7 +99,7 @@ export class EmpresasComponent implements OnInit {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]
