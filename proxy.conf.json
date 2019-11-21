@@ -1,0 +1,40 @@
+{
+  "/user/*" :
+  {
+    "target" : "http://108.175.5.160:8080/Sicap",
+    "secure" : false,
+    "logLevel":"debug"
+  },
+    "/dashboard/*" :
+    {
+      "target" : "http://localhost:8080",
+      "secure" : false,
+      "logLevel":"debug"
+    },
+    "/poliza/*" :
+    {
+      "target" : "http://localhost:8080",
+      "secure" : false,
+      "logLevel":"debug"
+    },
+    "/oferta/*" :
+    {
+      "target" : "http://localhost:8080",
+      "secure" : false,
+      "logLevel":"debug"
+    },
+    "/usuario/*" :
+    {
+      "target" : "http://localhost:8080",
+      "secure" : false,
+      "logLevel":"debug"
+    },
+    "/file/*" :
+    {
+      "target" : "http:/4485949.online-server.cloud:8080",
+      "secure" : false,
+      "logLevel":"debug"
+    }
+    
+  }
+  

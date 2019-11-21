@@ -7,6 +7,7 @@ import { Empresa } from './../../../../shared/models/empresa';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { UsuariosService } from 'app/shared/services/usuarios.service';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -25,7 +26,8 @@ export class CrearUsuarioComponent implements OnInit {
     private router: Router,
     private empresasService: EmpresasService,
     private perfilesService: PerfilesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -34,8 +36,8 @@ export class CrearUsuarioComponent implements OnInit {
   }
 
   getValidations() {
-    let password = new FormControl('', Validators.required);
-    let confirmPassword = new FormControl('', CustomValidators.equalTo(password));
+    let contrasena = new FormControl('', Validators.required);
+    let confirmarContrasena = new FormControl('', CustomValidators.equalTo(contrasena));
 
     this.createUserForm = new FormGroup({
       email: new FormControl('', [
@@ -45,26 +47,29 @@ export class CrearUsuarioComponent implements OnInit {
       nombre: new FormControl('', [
         Validators.required,
       ]),
-      apellido: new FormControl('', [
+      apellidoPaterno: new FormControl('', [
+        Validators.required,
+      ]),
+      apellidoMaterno: new FormControl('', [
         Validators.required,
       ]),
       usuario: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
-      empresa: new FormControl('', [
+      idEmpresa: new FormControl('', [
         Validators.required
       ]),
-      perfil: new FormControl('', [
+      idPerfil: new FormControl('', [
         Validators.required
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      fechaNacimiento: new FormControl(),
-      password: password,
-      confirmPassword: confirmPassword,
+      // fechaNacimiento: new FormControl(),
+      contrasena: contrasena,
+      // confirmarContrasena: confirmarContrasena,
       // imagen: new FormControl(),
     })
   }
@@ -73,11 +78,20 @@ export class CrearUsuarioComponent implements OnInit {
     if(this.createUserForm.valid){
       const usuario = {
         ...this.createUserForm.value,
-        imagen: 'assets/images/faces/user-temp.png'
+        imagen: 'user-temp.png',
+        fechaNacimiento: "2019-11-18",
+        cambiarContrasena: 0
       };
       console.log(usuario);
-      this.router.navigate(['/catalogos-administrativos/usuarios']);
-      this.useAlerts('Creación de Usuario', 'Correcto', 'success-dialog');
+
+      this.usuariosService.createUsuario(usuario).subscribe(
+        (data => {
+          console.log(data);
+          this.router.navigate(['/catalogos-administrativos/usuarios']);
+          this.useAlerts('Creación de Usuario', 'Correcto', 'success-dialog');
+        }),
+        (error => console.log(error))
+      );
     }
   }
 

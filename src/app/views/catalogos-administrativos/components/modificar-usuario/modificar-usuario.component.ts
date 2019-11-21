@@ -43,7 +43,7 @@ export class ModificarUsuarioComponent implements OnInit {
       const idUser = data.id;
       if(idUser) {
         const user = this.usuarioService.getUsuario(idUser);
-        this.user = user;
+        //this.user = user;
         console.log(user);
       }
     });

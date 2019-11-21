@@ -50,8 +50,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   }
   
   getUsers(){
-    this.users = this.usuariosService.getUsuarios();
-    this.dataSource.data = this.users;
+    this.usuariosService.getUsuarios().subscribe(
+      ( users => {
+        this.users = users;
+        console.log(this.users);
+        this.dataSource.data = this.users;
+      }),
+      (error => console.log(error.message))
+    );
   }
 
   updateFilter(event) {

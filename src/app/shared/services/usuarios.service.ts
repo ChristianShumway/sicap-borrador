@@ -1,189 +1,30 @@
 import { Injectable } from '@angular/core';
 import { Usuario } from './../models/usuario';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../../environments/environment.prod'; 
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
 
-  users: Usuario[] = [
-    {
-      'idUsuario': 1,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Snow Benton',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 1,
-      'idEmpresa': 1,
-      'telefono': '+1 (956) 486-2327',
-      'direccion': '329 Dictum Court, Minnesota',
-      'fechaNacimiento': '2016-07-09',
-      'imagen': 'assets/images/face-1.jpg',
-      'password': '12345'
-    },
-    {
-      'idUsuario': 2,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Kay Sellers',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 2,
-      'idEmpresa': 2,
-      'telefono': '+1 (929) 406-3172',
-      'direccion': '893 Garden Place, American Samoa',
-      'fechaNacimiento': '2017-02-16',
-      'imagen': 'assets/images/face-2.jpg',
-      'password': '12345'
-    },
-    {
-      'idUsuario': 3,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Robert Middleton',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 3,
-      'idEmpresa': 3,
-      'telefono': '+1 (995) 451-2205',
-      'direccion': '301 Hazel Court, West Virginia',
-      'fechaNacimiento': '2017-01-22',
-      'imagen': 'assets/images/face-3.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 4,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Delaney Randall',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 4,
-      'idEmpresa': 4,
-      'telefono': '+1 (922) 599-2410',
-      'direccion': '128 Kensington Walk, Ohio',
-      'fechaNacimiento': '2016-12-08',
-      'imagen': 'assets/images/face-4.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 5,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Melendez Lawrence',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 1,
-      'idEmpresa': 1,
-      'telefono': '+1 (824) 589-2029',
-      'direccion': '370 Lincoln Avenue, Florida',
-      'fechaNacimiento': '2015-03-29',
-      'imagen': 'assets/images/face-5.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 6,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Galloway Fitzpatrick',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 2,
-      'idEmpresa': 3,
-      'telefono': '+1 (907) 477-2375',
-      'direccion': '296 Stuyvesant Avenue, Iowa',
-      'fechaNacimiento': '2015-12-12',
-      'imagen': 'assets/images/face-6.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 7,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Watson Joyce',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 3,
-      'idEmpresa': 4,
-      'telefono': '+1 (982) 500-3137',
-      'direccion': '224 Visitation Place, Illinois',
-      'fechaNacimiento': '2015-08-19',
-      'imagen': 'assets/images/face-7.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 8,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Ada Kidd',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 2,
-      'idEmpresa': 3,
-      'telefono': '+1 (832) 531-2385',
-      'direccion': '230 Oxford Street, South Dakota',
-      'fechaNacimiento': '2016-08-11',
-      'imagen': 'assets/images/face-1.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 9,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Raquel Mcintyre',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 1,
-      'idEmpresa': 2,
-      'telefono': '+1 (996) 443-2102',
-      'direccion': '393 Sullivan Street, Palau',
-      'fechaNacimiento': '2014-09-03',
-      'imagen': 'assets/images/face-2.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 10,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Juliette Hunter',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 4,
-      'idEmpresa': 1,
-      'telefono': '+1 (876) 568-2964',
-      'direccion': '191 Stryker Court, New Jersey',
-      'fechaNacimiento': '2017-01-18',
-      'imagen': 'assets/images/face-3.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 11,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Workman Floyd',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 1,
-      'idEmpresa': 1,
-      'telefono': '+1 (996) 481-2712',
-      'direccion': '350 Imlay Street, Utah',
-      'fechaNacimiento': '2017-05-01',
-      'imagen': 'assets/images/face-4.jpg',
-      'password': '12345',
-    },
-    {
-      'idUsuario': 12,
-      'email': 'christiantorres084@gmail.com',
-      'nombre': 'Amanda Bean',
-      'apellido': 'Prueba',
-      'usuario': 'Usuario Prueba',
-      'idPerfil': 3,
-      'idEmpresa': 3,
-      'telefono': '+1 (894) 512-3907',
-      'direccion': '254 Stockton Street, Vermont',
-      'fechaNacimiento': '2014-08-30',
-      'imagen': 'assets/images/face-5.jpg',
-      'password': '12345',
-    }
-  ];
+  constructor(
+    private http: HttpClient,
+  ) { }
 
-  constructor() { }
+  getUsuarios(): Observable<Usuario[]>  {
+    //return this.users;
+    return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuarios`); 
+  }
 
-  getUsuarios() {
-    return this.users;
+  createUsuario(newUser): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/user/createUser`, JSON.stringify(newUser), { headers: headerss});
   }
 
   getUsuario(id: number){
-    return this.users.find( user => user.idUsuario == id);
+    // return this.users.find( user => user.idUsuario == id);
   }
 }

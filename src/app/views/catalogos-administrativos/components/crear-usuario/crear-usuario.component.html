@@ -36,11 +36,22 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="apellido" formControlName="apellido" placeholder="Apellidos" value="">
+              <input matInput name="apellidoPaterno" formControlName="apellidoPaterno" placeholder="Apellido Paterno" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['apellido'].hasError('required') && createUserForm.controls['apellido'].touched" class="form-error-msg">
-                Apellidos es un campo requerido 
+              <small *ngIf="createUserForm.controls['apellidoPaterno'].hasError('required') && createUserForm.controls['apellidoPaterno'].touched" class="form-error-msg">
+                Apellido Paterno es un campo requerido 
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="apellidoMaterno" formControlName="apellidoMaterno" placeholder="Apellido Materno" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createUserForm.controls['apellidoMaterno'].hasError('required') && createUserForm.controls['apellidoMaterno'].touched" class="form-error-msg">
+                Apellido Materno es un campo requerido 
               </small>
             </div>
           </div>
@@ -62,7 +73,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Perfil</mat-label>
-              <mat-select formControlName="perfil" required>
+              <mat-select formControlName="idPerfil" required>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idPerfil">
                   {{perfil.nombre}}
@@ -70,7 +81,7 @@
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['perfil'].hasError('required') && createUserForm.controls['perfil'].touched" class="form-error-msg">
+              <small *ngIf="createUserForm.controls['idPerfil'].hasError('required') && createUserForm.controls['idPerfil'].touched" class="form-error-msg">
                 Empresa es un campo requerido 
               </small>
             </div>
@@ -79,7 +90,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Empresa</mat-label>
-              <mat-select formControlName="empresa" required>
+              <mat-select formControlName="idEmpresa" required>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
                   {{empresa.nombre}}
@@ -87,7 +98,7 @@
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['empresa'].hasError('required') && createUserForm.controls['empresa'].touched" class="form-error-msg">
+              <small *ngIf="createUserForm.controls['idEmpresa'].hasError('required') && createUserForm.controls['idEmpresa'].touched" class="form-error-msg">
                 Empresa es un campo requerido 
               </small>
             </div>
@@ -117,34 +128,34 @@
             </div>
           </div>
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput name="date" formControlName="fechaNacimiento" placeholder="Fecha Nacimiento" [matDatepicker]="appDatepicker">
               <mat-datepicker-toggle matSuffix [for]="appDatepicker"></mat-datepicker-toggle>
             </mat-form-field>
             <mat-datepicker #appDatepicker></mat-datepicker>
             <div class="validaciones"></div>
-          </div>
+          </div> -->
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input type="password" name="password" matInput formControlName="password" placeholder="Contraseña" value="">
+              <input type="password" name="contrasena" matInput formControlName="contrasena" placeholder="Contraseña" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['password'].hasError('required') && createUserForm.controls['password'].touched" class="form-error-msg">
+              <small *ngIf="createUserForm.controls['contrasena'].hasError('required') && createUserForm.controls['contrasena'].touched" class="form-error-msg">
                 Contraseña es un campo requerido 
               </small>
             </div>
           </div>
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
-              <input type="password" name="confirmPassword" matInput appEqualValidator="password" formControlName="confirmPassword" placeholder="Confirmar Contraseña" value="">
+              <input type="password" name="confirmarContrasena" matInput appEqualValidator="password" formControlName="confirmarContrasena" placeholder="Confirmar Contraseña" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createUserForm.controls['confirmPassword'].hasError('equalTo')" class="form-error-msg"> La contraseña no coincide </small>
+              <small *ngIf="createUserForm.controls['confirmarContrasena'].hasError('equalTo')" class="form-error-msg"> La contraseña no coincide </small>
             </div>
-          </div>
+          </div> -->
         </div>
 
       </div>
