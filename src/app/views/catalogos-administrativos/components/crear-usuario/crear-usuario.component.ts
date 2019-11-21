@@ -69,7 +69,7 @@ export class CrearUsuarioComponent implements OnInit {
       ]),
       // fechaNacimiento: new FormControl(),
       contrasena: contrasena,
-      // confirmarContrasena: confirmarContrasena,
+      confirmarContrasena: confirmarContrasena,
       // imagen: new FormControl(),
     })
   }
