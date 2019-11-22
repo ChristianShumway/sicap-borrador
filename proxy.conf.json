@@ -8,5 +8,10 @@
     "target": "http://108.175.5.160:8080/Sicap",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/dashboard/*": {
+    "target": "http://108.175.5.160:8080/Sicap",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

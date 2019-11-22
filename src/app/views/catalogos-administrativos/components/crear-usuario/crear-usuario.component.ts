@@ -121,7 +121,7 @@ export class CrearUsuarioComponent implements OnInit {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

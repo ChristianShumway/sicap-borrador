@@ -7,6 +7,7 @@ import { ThemeService } from './shared/services/theme.service';
 
 import { filter } from 'rxjs/operators';
 import { LayoutService } from './shared/services/layout.service';
+import { AutenticacionService } from './shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-root',
@@ -16,6 +17,7 @@ import { LayoutService } from './shared/services/layout.service';
 export class AppComponent implements OnInit, AfterViewInit {
   appTitle = 'Egret';
   pageTitle = '';
+  currentUser;
 
   constructor(
     public title: Title, 
@@ -24,8 +26,11 @@ export class AppComponent implements OnInit, AfterViewInit {
     private routePartsService: RoutePartsService,
     private themeService: ThemeService,
     private layout: LayoutService,
-    private renderer: Renderer2
-  ) { }
+    private renderer: Renderer2,
+    private autenticacionService: AutenticacionService
+  ) { 
+    this.autenticacionService.currentUser.subscribe(x => this.currentUser = x);
+  }
 
   ngOnInit() {
     this.changePageTitle();

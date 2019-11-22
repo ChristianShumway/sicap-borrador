@@ -18,4 +18,5 @@ export interface Usuario {
   imagen?: string;
   contrasena?: string;
   cambiarContrasena: number;
+  token?: string;
 }

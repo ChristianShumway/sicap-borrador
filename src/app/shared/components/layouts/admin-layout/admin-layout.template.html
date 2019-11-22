@@ -16,6 +16,7 @@
   *ngIf="layoutConf.navigationPos === 'side'" 
   (mouseenter)="sidebarMouseenter($event)"
   (mouseleave)="sidebarMouseleave($event)"
+  [usuarioLogeado] = "usuarioLogeado"
   ></app-sidebar-side>
   
   <!-- Top navigation layout (navigation for mobile screen) -->
@@ -28,7 +29,8 @@
       <!-- ONLY REQUIRED FOR **SIDE** NAVIGATION LAYOUT -->
       <app-header-side 
         *ngIf="layoutConf.navigationPos === 'side'"
-        [notificPanel]="notificationPanel">
+        [notificPanel]="notificationPanel"
+      >
       </app-header-side>
 
       <div class="rightside-content-hold" id="rightside-content-hold" [perfectScrollbar]="scrollConfig" [disabled]="!layoutConf.topbarFixed || !layoutConf.perfectScrollbar">
