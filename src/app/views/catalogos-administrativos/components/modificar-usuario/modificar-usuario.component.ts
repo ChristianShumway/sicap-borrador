@@ -102,7 +102,7 @@ export class ModificarUsuarioComponent implements OnInit {
           this.useAlerts('Modificación de Usuario', 'Correcto', 'success-dialog');
         }),
         (error => {
-          this.useAlerts(error.message, 'Incorrecto', 'error-dialog');
+          this.useAlerts('Modificación de Usuario', 'Incorrecto', 'error-dialog');
           console.log(error);
         })
       );

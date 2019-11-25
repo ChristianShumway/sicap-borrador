@@ -38,6 +38,8 @@ export class CrearEmpresaComponent implements OnInit {
       telefono: new FormControl('', CustomValidators.phone('BD')),
       rfc: new FormControl('', [
         Validators.required,
+        Validators.minLength(13),
+        Validators.maxLength(13),
       ]),
       descripcion: new FormControl(),
     })

@@ -113,17 +113,31 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     });
   }
 
-  openDialoAlertDelete(id) {
+  openDialoAlertDelete(user) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
-      data: id
+      data: user
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         console.log(result);
-        console.log(id);
-        this.useAlerts('Eliminación de Usuario', 'Correcto', 'success-dialog');
+        console.log(user);
+        const usuarioBaja = {
+          ...user,
+          idPerfil: 4
+        };
+        console.log(usuarioBaja);
+        this.usuariosService.updateUsuario(usuarioBaja).subscribe(
+          success => {
+            this.useAlerts('Eliminación de Usuario', 'Correcto', 'success-dialog');
+            console.log(success);
+          },
+            error => {
+            this.useAlerts('Eliminación de Usuario', 'Incorrecto', 'error-dialog');
+            console.log(error);
+          }
+        );
       }
     });
   }

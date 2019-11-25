@@ -29,6 +29,12 @@
               <small *ngIf="createCompanyForm.controls['rfc'].hasError('required') && createCompanyForm.controls['rfc'].touched" class="form-error-msg">
                 RFC es un campo requerido
               </small>
+              <small *ngIf="createCompanyForm.controls['rfc'].hasError('minlength') && createCompanyForm.controls['rfc'].touched" class="form-error-msg">
+                El rfc debe ser de 13 caracteres 
+              </small>
+              <small *ngIf="createCompanyForm.controls['rfc'].hasError('maxlength') && createCompanyForm.controls['rfc'].touched" class="form-error-msg">
+                El rfc no debe ser de 13 caracteres
+              </small>
             </div>
           </div>
         </div>

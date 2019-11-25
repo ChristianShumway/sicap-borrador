@@ -97,7 +97,10 @@ export class CrearUsuarioComponent implements OnInit {
           this.router.navigate(['/catalogos-administrativos/usuarios']);
           this.useAlerts('Creación de Usuario', 'Correcto', 'success-dialog');
         }),
-        (error => console.log(error))
+        (error => {
+          console.log(error);
+          this.useAlerts('Creación de Usuario', 'Incorrecto', 'success-dialog');
+        })
       );
     }
   }

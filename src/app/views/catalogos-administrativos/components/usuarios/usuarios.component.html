@@ -19,7 +19,7 @@
      fxFlex.gt-sm="33"
      fxFlex.sm="50">
  
-      <mat-card class="user-card p-0">
+      <mat-card class="user-card p-0" *ngIf="user.idPerfil !== 4">
         <mat-card-title>
           <div class="card-title-text">
             <a class="toolbar-avatar md mr-1"><img src="{{rutaImg}}/{{user.imagen}}" alt=""></a>
@@ -31,7 +31,7 @@
             <mat-menu #userMenu="matMenu">
               <button mat-menu-item (click)="openDialogUser(user)">Ver</button>
               <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-usuario', user.idUsuario]">Editar</button>
-              <button mat-menu-item (click)="openDialoAlertDelete(user.idUsuario)">Eliminar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(user)">Eliminar</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>
@@ -39,7 +39,7 @@
   
         <mat-card-content>
           <div class="user-details">
-            <p><mat-icon class="text-muted">business</mat-icon>{{user.idEmpresa | getEmpresa}}</p>
+            <p><mat-icon class="text-muted">business</mat-icon>{{user.idEmpresa}}</p>
             <p><mat-icon class="text-muted">email</mat-icon>{{user.email}}</p>
             <p><mat-icon class="text-muted">phone</mat-icon>{{user.telefono}}</p>
             <p><mat-icon class="text-muted">location_on</mat-icon>{{user.direccion}}</p>
