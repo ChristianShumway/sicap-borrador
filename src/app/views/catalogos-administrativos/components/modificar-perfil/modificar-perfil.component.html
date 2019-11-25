@@ -11,7 +11,7 @@
         <div fxFlex="100" fxFlex.gt-xs="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre" [(ngModel)]="perfil.nombre">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateProfileForm.controls['nombre'].hasError('required') && updateProfileForm.controls['nombre'].touched"
@@ -22,7 +22,7 @@
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" [(ngModel)]="perfil.descripcion">
+              <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción">
             </mat-form-field>
           </div>
         </div>

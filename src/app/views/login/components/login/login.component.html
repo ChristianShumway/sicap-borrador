@@ -13,17 +13,17 @@
               <mat-label>Correo Electrónico</mat-label>
               <input
                 matInput
-                name="username"
-                [formControl]="signinForm.controls['username']"
+                name="email"
+                [formControl]="signinForm.controls['email']"
                 placeholder="Correo Electrónico"
                 value="">
               <mat-hint class="wrap-error-msg">
                 <span 
-                  *ngIf="signinForm.controls['username'].hasError('required') && signinForm.controls['username'].touched" 
+                  *ngIf="signinForm.controls['email'].hasError('required') && signinForm.controls['email'].touched" 
                   class="form-error-msg"> Correo electrónico es requerido 
                 </span>
                 <span 
-                  *ngIf="signinForm.controls['username'].hasError('email') && signinForm.controls['username'].touched" 
+                  *ngIf="signinForm.controls['email'].hasError('email') && signinForm.controls['email'].touched" 
                   class="form-error-msg"> Correo electrónico incorrecto
                 </span>
               </mat-hint>
@@ -35,30 +35,30 @@
               <mat-label>Contraseña</mat-label>
               <input 
                 type="password"
-                name="password"
+                name="contrasena"
                 matInput
-                [formControl]="signinForm.controls['password']"
+                [formControl]="signinForm.controls['contrasena']"
                 placeholder="Contraseña" 
                 value="">
               <mat-hint class="wrap-error-msg">
                 <span 
-                  *ngIf="signinForm.controls['password'].hasError('required') && signinForm.controls['password'].touched" 
+                  *ngIf="signinForm.controls['contrasena'].hasError('required') && signinForm.controls['contrasena'].touched" 
                   class="form-error-msg"> Contraseña es requerida 
                 </span>
                 <span 
-                  *ngIf="signinForm.controls['password'].hasError('minlength') && signinForm.controls['password'].touched" 
+                  *ngIf="signinForm.controls['contrasena'].hasError('minlength') && signinForm.controls['contrasena'].touched" 
                   class="form-error-msg"> Contraseña debe ser mayor a 8 caracteres
                 </span>
               </mat-hint>
             </mat-form-field>
           </div>
           
-          <div class="pb-1 wrap-check">
+          <!-- <div class="pb-1 wrap-check">
             <mat-checkbox
               name="rememberMe"
               [formControl]="signinForm.controls['rememberMe']"
               class="pb-1">Recordarme en este equipo</mat-checkbox>
-          </div>
+          </div> -->
           
           <button mat-raised-button class="mat-primary full-width mb-1" [disabled]="signinForm.invalid">Iniciar Sesión</button>
           <div class="text-center">

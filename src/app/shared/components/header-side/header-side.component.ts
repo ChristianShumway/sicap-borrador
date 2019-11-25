@@ -2,6 +2,10 @@ import { Component, OnInit, EventEmitter, Input, Output, Renderer2 } from '@angu
 import { ThemeService } from '../../services/theme.service';
 import { LayoutService } from '../../services/layout.service';
 import { TranslateService } from '@ngx-translate/core';
+import { AutenticacionService } from "../../services/autenticacion.service";
+import { Router } from '@angular/router';
+import { Usuario } from './../../models/usuario';
+import { environment } from './../../../../environments/environment';
 
 @Component({
   selector: 'app-header-side',
@@ -20,18 +24,24 @@ export class HeaderSideComponent implements OnInit {
   }]
   currentLang = this.availableLangs[0];
 
+  @Input() usuarioLogeado: Usuario;
+  public rutaImg: string;
+
   public egretThemes;
   public layoutConf:any;
   constructor(
     private themeService: ThemeService,
     private layout: LayoutService,
     public translate: TranslateService,
-    private renderer: Renderer2
+    private renderer: Renderer2,
+    private autenticacionService: AutenticacionService,
+    private router: Router
   ) {}
   ngOnInit() {
     this.egretThemes = this.themeService.egretThemes;
     this.layoutConf = this.layout.layoutConf;
     this.translate.use(this.currentLang.code);
+    this.rutaImg = environment.imgRUL;
   }
   setLang(lng) {
     this.currentLang = lng;
@@ -73,5 +83,10 @@ export class HeaderSideComponent implements OnInit {
 
   onSearch(e) {
     //   console.log(e)
+  }
+
+  logOut(){
+    this.autenticacionService.logout();
+    this.router.navigate(['/login']);
   }
 }

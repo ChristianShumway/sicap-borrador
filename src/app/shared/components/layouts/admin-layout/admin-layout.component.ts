@@ -11,7 +11,11 @@ import { Subscription } from "rxjs";
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../../services/theme.service';
 import { LayoutService } from '../../../services/layout.service';
-import { filter } from 'rxjs/operators';
+
+import { filter, first } from 'rxjs/operators';
+import { Usuario } from './../../../models/usuario';
+import { AutenticacionService } from '../../../services/autenticacion.service';
+import { UsuariosService } from 'app/shared/services/usuarios.service';
 
 @Component({
   selector: 'app-admin-layout',
@@ -27,13 +31,19 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   public  scrollConfig = {}
   public layoutConf: any = {};
   public adminContainerClasses: any = {};
-  
+
+  currentUser;
+  usuarioLogeado: Usuario;
+
   constructor(
     private router: Router,
     public translate: TranslateService,
     public themeService: ThemeService,
     private layout: LayoutService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private autenticacionService: AutenticacionService,
+    private UsuariosService: UsuariosService,
+
   ) {
     // Close sidenav after route change in mobile
     this.routerEventSub = router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -45,15 +55,20 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     // Translator init
     const browserLang: string = translate.getBrowserLang();
     translate.use(browserLang.match(/en|fr/) ? browserLang : 'en');
+    //variable que contiene el local storage del usuario logeado
+    this.currentUser = this.autenticacionService.currentUserValue;
   }
+
   ngOnInit() {
+    this.getUsuario();
+    this.usuarioLogeado = {...this.usuarioLogeado};
     // this.layoutConf = this.layout.layoutConf;
     this.layoutConfSub = this.layout.layoutConf$.subscribe((layoutConf) => {
-        this.layoutConf = layoutConf;
-        this.adminContainerClasses = this.updateAdminContainerClasses(this.layoutConf);
-        this.cdr.markForCheck();
+      this.layoutConf = layoutConf;
+      this.adminContainerClasses = this.updateAdminContainerClasses(this.layoutConf);
+      this.cdr.markForCheck();
     });
-
+    
     // FOR MODULE LOADER FLAG
     this.moduleLoaderSub = this.router.events.subscribe(event => {
       if(event instanceof RouteConfigLoadStart || event instanceof ResolveStart) {
@@ -132,5 +147,17 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       'fixed-topbar': layoutConf.topbarFixed && layoutConf.navigationPos === 'side'
     }
   }
+
+  getUsuario(){
+    this.UsuariosService.getUsuario(this.currentUser).subscribe(
+      (user: Usuario) => {
+        this.usuarioLogeado = user;
+      },
+      error => {
+        console.log(error);
+      }    
+    );
+  }
+
   
 }

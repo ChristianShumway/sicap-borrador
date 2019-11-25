@@ -4,7 +4,7 @@ export interface Empresa {
   direccion: string,
   telefono: string,
   rfc: string,
-  descripcion: string,
-  imagen: string
+  descripcion?: string,
+  imagen?: string
 }
 

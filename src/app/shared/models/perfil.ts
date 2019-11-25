@@ -1,5 +1,5 @@
 export interface Perfil {
-  idPerfil: number,
+  idPerfil?: number,
   nombre: string,
   descripcion?: string,
 }

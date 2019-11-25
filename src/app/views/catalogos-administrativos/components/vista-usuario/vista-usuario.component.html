@@ -1,14 +1,14 @@
 <div mat-dialog-title class="mat-title">
   <img src="assets/images/logo-cima.png" alt="cima"class="logo-cima" />
   <div class="wrap-img-perfil">
-    <img [src]="data.imagen" alt="usuario" class="back" />
-    <img [src]="data.imagen" alt="usuario" class="perfil" />
+    <img src="{{rutaImg}}/{{data.imagen}}" alt="usuario" class="back" />
+    <img src="{{rutaImg}}/{{data.imagen}}" alt="usuario" class="perfil" />
   </div>
 </div>
 <div mat-dialog-content class="mat-content">
   <div class="data-principal">
     <p>{{data.idPerfil | getPerfil}}</p>
-    <h2>{{data.nombre}} {{data.apellido}}</h2>
+    <h2>{{data.nombre}} {{data.apellidoPaterno}} {{data.apellidoMaterno}}</h2>
   </div>
   <div class="buttons">
     <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'mensaje', 'id':data.telefono}]" cdkFocusInitial>

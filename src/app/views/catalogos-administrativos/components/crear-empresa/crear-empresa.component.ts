@@ -4,7 +4,7 @@ import { CustomValidators } from 'ng2-validation';
 import { Router } from '@angular/router';
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
-
+import { EmpresasService } from '../../../../shared/services/empresas.service';
 
 @Component({
   selector: 'app-crear-empresa',
@@ -19,7 +19,8 @@ export class CrearEmpresaComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private empresasService: EmpresasService
   ) { }
 
   ngOnInit() {
@@ -46,11 +47,17 @@ export class CrearEmpresaComponent implements OnInit {
     if(this.createCompanyForm.valid){
       const empresa: Empresa = {
         ...this.createCompanyForm.value,
-        imagen: 'assets/images/logos/cima.png'
+        imagen: 'cima.png'
       };
       console.log(empresa);
-      this.router.navigate(['/catalogos-administrativos/empresas']);
-      this.useAlerts('Creación de Empresa', 'Correcto', 'success-dialog');
+      this.empresasService.createEmpresa(empresa).subscribe(
+        ( success => {
+          console.log(success);
+          this.router.navigate(['/catalogos-administrativos/empresas']);
+          this.useAlerts('Creación de Empresa', 'Correcto', 'success-dialog');
+        }),
+        (error => console.log(error))
+      );
     }
   }
 

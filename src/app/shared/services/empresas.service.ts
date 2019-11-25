@@ -1,58 +1,33 @@
 import { Injectable } from '@angular/core';
 import { Empresa } from './../models/empresa';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from './../../../environments/environment'; 
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmpresasService {
 
-  empresas: Empresa[] = [
-    {
-      'idEmpresa': 1,
-      'nombre': 'Aesa',
-      'direccion': 'República de Uruguay',
-      'telefono': '4491111111',
-      'rfc': 'AESAAESAAESA',
-      'descripcion': 'Empresa dedicada a la rama eléctrica',
-      'imagen': 'assets/images/logos/cima.png'
-    },
-    {
-      'idEmpresa': 2,
-      'nombre': 'Oecsa',
-      'direccion': 'República de Uruguay',
-      'telefono': '4491111111',
-      'rfc': 'OECSAOECSA',
-      'descripcion': 'Empresa dedicada a la rama eléctrica',
-      'imagen': 'assets/images/logos/cima.png'
-    },
-    {
-      'idEmpresa': 3,
-      'nombre': 'Electroredes',
-      'direccion': 'República de Uruguay',
-      'telefono': '4491111111',
-      'rfc': 'ELECTROREDES',
-      'descripcion': 'Empresa dedicada a la rama eléctrica',
-      'imagen': 'assets/images/logos/cima.png'
-    },
-    {
-      'idEmpresa': 4,
-      'nombre': 'Treca',
-      'direccion': 'República de Uruguay',
-      'telefono': '4491111111',
-      'rfc': 'TRECATRECA',
-      'descripcion': 'Empresa dedicada a automoviles',
-      'imagen': 'assets/images/logos/cima.png'
-    },
-    
-  ];
-
-  constructor() { }
+  constructor(
+    private http: HttpClient
+  ) { }
 
   getAllEmpresas() {
-    return this.empresas
+    return this.http.get<Empresa[]>(`${environment.apiURL}/catalog/getAllCompanies`);
   };
 
   getEmpresa(idEmpresa: number){
-    return this.empresas.find( empresa => empresa.idEmpresa == idEmpresa);
+    return this.http.get<Empresa>(`${environment.apiURL}/catalog/getCompanyByID/${idEmpresa}`);
+  }
+
+  createEmpresa(newCompany): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/catalog/createCompany`, JSON.stringify(newCompany), { headers: headerss});
+  }
+
+  updateEmpresa(company: Partial<Empresa>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/catalog/updateCompany`, JSON.stringify(company), { headers: headerss});
   }
 }

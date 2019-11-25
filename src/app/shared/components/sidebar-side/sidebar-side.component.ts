@@ -1,8 +1,12 @@
-import { Component, OnInit, OnDestroy, AfterViewInit } from "@angular/core";
+import { Component, OnInit, OnDestroy, AfterViewInit, Input } from "@angular/core";
 import { NavigationService } from "../../../shared/services/navigation.service";
 import { ThemeService } from "../../services/theme.service";
 import { Subscription } from "rxjs";
 import { ILayoutConf, LayoutService } from "app/shared/services/layout.service";
+import { Usuario } from './../../models/usuario';
+import { environment } from './../../../../environments/environment';
+import { AutenticacionService } from "../../services/autenticacion.service";
+import { Router } from '@angular/router';
 
 @Component({
   selector: "app-sidebar-side",
@@ -14,12 +18,19 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
   public iconTypeMenuTitle: string;
   private menuItemsSub: Subscription;
   public layoutConf: ILayoutConf;
+  public rutaImg: string;
+  public currentUser: Usuario;
+
+  @Input() usuarioLogeado: Usuario;
 
   constructor(
     private navService: NavigationService,
     public themeService: ThemeService,
-    private layout: LayoutService
-  ) {}
+    private layout: LayoutService,
+    private autenticacionService: AutenticacionService,
+    private router: Router
+  ) {
+  }
 
   ngOnInit() {
     this.iconTypeMenuTitle = this.navService.iconTypeMenuTitle;
@@ -30,14 +41,18 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
         item => item.type === "icon"
       ).length;
     });
+    this.rutaImg = environment.imgRUL;
     this.layoutConf = this.layout.layoutConf;
   }
+
   ngAfterViewInit() {}
+
   ngOnDestroy() {
     if (this.menuItemsSub) {
       this.menuItemsSub.unsubscribe();
     }
   }
+
   toggleCollapse() {
     if (
       this.layoutConf.sidebarCompactToggle
@@ -51,5 +66,10 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
             sidebarCompactToggle: true
           });
     }
+  }
+
+  logOut(){
+    this.autenticacionService.logout();
+    this.router.navigate(['/login']);
   }
 }

@@ -19,9 +19,9 @@ export class ModificarUsuarioComponent implements OnInit {
   formData = {}
   console = console;
   updateUserForm: FormGroup; 
-  user: Usuario;
   empresas: Empresa[];
   perfiles: Perfil[];
+  idUser;
   
   constructor(
     private router: Router,
@@ -40,19 +40,20 @@ export class ModificarUsuarioComponent implements OnInit {
 
   getUser() {
     this.activatedRoute.params.subscribe( (data: Params) => {
-      const idUser = data.id;
-      if(idUser) {
-        const user = this.usuarioService.getUsuario(idUser);
-        //this.user = user;
-        console.log(user);
+      this.idUser = data.id;
+      if(this.idUser) {
+        this.usuarioService.getUsuario(this.idUser).subscribe(
+          ( (user: Usuario) => {
+            console.log(user);
+            this.updateUserForm.patchValue(user);
+          }),
+          (error => console.log(error))
+        );
       }
     });
   }
 
   getValidations() {
-    let password = new FormControl('', Validators.required);
-    let confirmPassword = new FormControl('', CustomValidators.equalTo(password));
-
     this.updateUserForm = new FormGroup({
       email: new FormControl('', [
         Validators.required,
@@ -61,17 +62,20 @@ export class ModificarUsuarioComponent implements OnInit {
       nombre: new FormControl('', [
         Validators.required,
       ]),
-      apellido: new FormControl('', [
+      apellidoPaterno: new FormControl('', [
+        Validators.required,
+      ]),
+      apellidoMaterno: new FormControl('', [
         Validators.required,
       ]),
       usuario: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
-      empresa: new FormControl('', [
+      idEmpresa: new FormControl('', [
         Validators.required
       ]),
-      perfil: new FormControl('', [
+      idPerfil: new FormControl('', [
         Validators.required
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
@@ -79,38 +83,54 @@ export class ModificarUsuarioComponent implements OnInit {
         Validators.required,
       ]),
       fechaNacimiento: new FormControl(),
-      password: password,
-      confirmPassword: confirmPassword,
-      // imagen: new FormControl(),
     })
   }
 
   updateUser(){
     if(this.updateUserForm.valid){
-      // const usuario = {
-      //   ...this.updateUserForm.value,
-      //   imagen: 'assets/images/faces/user-temp.png'
-      // };
-      const usuario = this.updateUserForm.value;
+      const usuario = {
+        idUsuario: parseInt(this.idUser),
+        ...this.updateUserForm.value,
+        fechaNacimiento: "2019-11-18",
+      };
       console.log(usuario);
-      this.router.navigate(['/catalogos-administrativos/usuarios']);
-      this.useAlerts('Modificación de Usuario', 'Correcto', 'success-dialog');
+
+      this.usuarioService.updateUsuario(usuario).subscribe(
+        ( success => {
+          console.log(success);
+          this.router.navigate(['/catalogos-administrativos/usuarios']);
+          this.useAlerts('Modificación de Usuario', 'Correcto', 'success-dialog');
+        }),
+        (error => {
+          this.useAlerts(error.message, 'Incorrecto', 'error-dialog');
+          console.log(error);
+        })
+      );
     }
   }
 
   getCatalogos() {
-    this.empresas = this.empresasService.getAllEmpresas();
-    this.perfiles = this.perfilesService.getAllPerfiles();
+    this.empresasService.getAllEmpresas().subscribe(
+      ( (empresas: Empresa[]) => {
+        this.empresas = empresas;
+      }),
+      (error => console.log(error))
+    );
+    this.perfilesService.getAllPerfiles().subscribe(
+      ( (perfiles: Perfil[]) => {
+        this.perfiles = perfiles;
+      }),
+      (error => console.log(error))
+    );
   }
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]
     });
   }
-
 
 }
