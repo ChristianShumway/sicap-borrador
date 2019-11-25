@@ -67,7 +67,7 @@ export class CrearUsuarioComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      // fechaNacimiento: new FormControl(),
+      fechaNacimiento: new FormControl(),
       contrasena: contrasena,
       confirmarContrasena: confirmarContrasena,
       // imagen: new FormControl(),
