@@ -56,14 +56,17 @@ export class CrearEmpresaComponent implements OnInit {
           this.router.navigate(['/catalogos-administrativos/empresas']);
           this.useAlerts('Creación de Empresa', 'Correcto', 'success-dialog');
         }),
-        (error => console.log(error))
+        (error => {
+          console.log(error);
+          this.useAlerts('Creación de Empresa', 'Incorrecto', 'error-dialog');
+        })
       );
     }
   }
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 2000,
+      duration: 4000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

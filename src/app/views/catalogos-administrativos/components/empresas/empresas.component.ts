@@ -49,10 +49,9 @@ export class EmpresasComponent implements OnInit {
   }
 
   getEmpresas(){
-    // this.empresas = this.empresasService.getAllEmpresas();
     this.empresasService.getAllEmpresas().subscribe(
       ( (empresas: Empresa[]) => {
-        console.log(empresas)
+        console.log(empresas);
         this.empresas = empresas;
         this.empresasTemp = this.empresas;
         this.dataSource.data = this.empresas;
@@ -79,7 +78,7 @@ export class EmpresasComponent implements OnInit {
     })
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   openDialoAlertDelete(id) {

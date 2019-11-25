@@ -45,11 +45,10 @@ export class PerfilesComponent implements OnInit {
   }
 
   getPerfiles(){
-    // this.perfiles = this.perfilesService.getAllPerfiles();
     this.perfilesService.getAllPerfiles().subscribe(
       ( (perfiles: Perfil[]) => {
         this.perfiles = perfiles;
-        console.log(this.perfiles);
+        // console.log(this.perfiles);
         this.perfilesTemp = this.perfiles;
         this.dataSource.data = this.perfiles;
       }),
@@ -75,7 +74,7 @@ export class PerfilesComponent implements OnInit {
     })
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   openDialoAlertDelete(id) {

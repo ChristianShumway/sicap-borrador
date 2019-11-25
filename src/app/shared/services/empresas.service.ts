@@ -21,13 +21,13 @@ export class EmpresasService {
     return this.http.get<Empresa>(`${environment.apiURL}/catalog/getCompanyByID/${idEmpresa}`);
   }
 
-  createEmpresa(newCompany): Observable<any>{
+  createEmpresa(newCompany): Observable<Empresa>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/catalog/createCompany`, JSON.stringify(newCompany), { headers: headerss});
+    return this.http.post<Empresa>(`${environment.apiURL}/catalog/createCompany`, JSON.stringify(newCompany), { headers: headerss});
   }
 
-  updateEmpresa(company: Partial<Empresa>): Observable<any>{
+  updateEmpresa(company: Partial<Empresa>): Observable<Empresa>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/catalog/updateCompany`, JSON.stringify(company), { headers: headerss});
+    return this.http.post<Empresa>(`${environment.apiURL}/catalog/updateCompany`, JSON.stringify(company), { headers: headerss});
   }
 }

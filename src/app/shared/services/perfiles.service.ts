@@ -49,21 +49,14 @@ export class PerfilesService {
     return this.http.get<Perfil>(`${environment.apiURL}/catalog/getPerfilByID/${idPerfil}`);
   }
 
-  createPerfil(newProfile): Observable<any>{
+  createPerfil(newProfile): Observable<Perfil>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/catalog/createPerfil`, JSON.stringify(newProfile), { headers: headerss});
+    return this.http.post<Perfil>(`${environment.apiURL}/catalog/createPerfil`, JSON.stringify(newProfile), { headers: headerss});
   }
 
-  updatePerfil(profile: Partial<Perfil>): Observable<any>{
+  updatePerfil(profile: Partial<Perfil>): Observable<Perfil>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/catalog/updatePerfil`, JSON.stringify(profile), { headers: headerss});
+    return this.http.post<Perfil>(`${environment.apiURL}/catalog/updatePerfil`, JSON.stringify(profile), { headers: headerss});
   }
 
-  // getAllPerfiles(){
-  //   // return this.perfiles;
-  // }
-
-  // getPerfil(id: number) {
-  //   // return this.perfiles.find( perfil => perfil.idPerfil == id);
-  // }
 }

@@ -11,7 +11,7 @@
         <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre" value="">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createCompanyForm.controls['nombre'].hasError('required') && createCompanyForm.controls['nombre'].touched"
@@ -23,7 +23,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="rfc" formControlName="rfc" placeholder="RFC" value="">
+              <input matInput name="rfc" formControlName="rfc" placeholder="RFC">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createCompanyForm.controls['rfc'].hasError('required') && createCompanyForm.controls['rfc'].touched" class="form-error-msg">
@@ -62,7 +62,7 @@
         <div fxFlex="100" fxFlex.gt-xs="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" value="">
+              <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción">
             </mat-form-field>
           </div>
         </div>

@@ -35,10 +35,9 @@ export class ModificarEmpresaComponent implements OnInit {
     this.activatedRoute.params.subscribe((data: Params) => {
        this.empresaId = data.id;
       if (this.empresaId) {
-        // this.empresa = this.empresasService.getEmpresa(empresaId);
         this.empresasService.getEmpresa(this.empresaId).subscribe(
           ( (empresa: Empresa) => {
-            console.log(empresa);
+            // console.log(empresa);
             this.updateCompanyForm.patchValue(empresa);
           }),
           (error => console.log(error))
@@ -60,7 +59,10 @@ export class ModificarEmpresaComponent implements OnInit {
           this.router.navigate(['catalogos-administrativos/empresas']);
           this.useAlerts('Modificación de Empresa', 'Correcto', 'success-dialog');
         }),
-        (error => console.log(error))
+        ( error => {
+          console.log(error);
+          this.useAlerts('Modificación de Empresa', 'Inorrecto', 'error-dialog');
+        })
       );
     }
   }
