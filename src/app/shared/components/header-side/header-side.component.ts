@@ -6,6 +6,7 @@ import { AutenticacionService } from "../../services/autenticacion.service";
 import { Router } from '@angular/router';
 import { Usuario } from './../../models/usuario';
 import { environment } from './../../../../environments/environment';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-header-side',
@@ -35,7 +36,8 @@ export class HeaderSideComponent implements OnInit {
     public translate: TranslateService,
     private renderer: Renderer2,
     private autenticacionService: AutenticacionService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar,
   ) {}
   ngOnInit() {
     this.egretThemes = this.themeService.egretThemes;
@@ -86,7 +88,17 @@ export class HeaderSideComponent implements OnInit {
   }
 
   logOut(){
+    this.useAlerts('Sesión Finalizada', 'Correcto', 'success-dialog');
     this.autenticacionService.logout();
     this.router.navigate(['/login']);
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 }

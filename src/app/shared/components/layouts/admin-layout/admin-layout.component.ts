@@ -16,6 +16,7 @@ import { filter, first } from 'rxjs/operators';
 import { Usuario } from './../../../models/usuario';
 import { AutenticacionService } from '../../../services/autenticacion.service';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-admin-layout',
@@ -43,7 +44,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     private cdr: ChangeDetectorRef,
     private autenticacionService: AutenticacionService,
     private UsuariosService: UsuariosService,
-
+    private snackBar: MatSnackBar,
   ) {
     // Close sidenav after route change in mobile
     this.routerEventSub = router.events.pipe(filter(event => event instanceof NavigationEnd))
@@ -155,8 +156,18 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
       },
       error => {
         console.log(error);
+        this.useAlerts('Usuario no ha iniciado sesión', 'Error', 'error-dialog');
       }    
     );
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
   

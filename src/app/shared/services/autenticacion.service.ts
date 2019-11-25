@@ -43,10 +43,4 @@ export class AutenticacionService {
     this.currentUserSubject.next(null);
   }
 
-  // loginUser(user): Observable<any>{
-  //   const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-  //   return this.http.post<any>(`${environment.apiURL}/dashboard/autenticacion`, JSON.stringify(user), { headers: headerss});
-  // }
-
-
 }

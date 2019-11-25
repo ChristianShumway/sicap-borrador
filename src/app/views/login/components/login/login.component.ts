@@ -29,7 +29,7 @@ export class LoginComponent implements OnInit {
   ) { 
     // redirect to home if already logged in
     if (this.autenticacionService.currentUserValue) {
-      // this.router.navigate(['/']);
+      this.router.navigate(['/dashboard']);
     }
   }
 
@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.signinForm = new FormGroup({
       email: new FormControl('',[ Validators.required, Validators.email]),
       contrasena: new FormControl('', [Validators.required, Validators.minLength(8)]),
-      // rememberMe: new FormControl(false)
+      rememberMe: new FormControl(false)
     });
 
     // get return url from route parameters or default to '/'
