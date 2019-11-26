@@ -54,10 +54,10 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   getUsers(){
     this.usuariosService.getUsuarios().subscribe(
       ( users => {
-        this.users = users;
+        this.users = users.filter( user => user.idPerfil !== 4);
         console.log(this.users);
         this.usersTemp = this.users;
-    console.log(this.usersTemp);
+        console.log(this.usersTemp);
         this.dataSource.data = this.users;
       }),
       (error => console.log(error.message))
@@ -121,16 +121,17 @@ export class UsuariosComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        console.log(result);
-        console.log(user);
+        // console.log(result);
+        // console.log(user);
         const usuarioBaja = {
           ...user,
           idPerfil: 4
         };
-        console.log(usuarioBaja);
+        // console.log(usuarioBaja);
         this.usuariosService.updateUsuario(usuarioBaja).subscribe(
           success => {
             this.useAlerts('Eliminación de Usuario', 'Correcto', 'success-dialog');
+            this.getUsers();
             console.log(success);
           },
             error => {
