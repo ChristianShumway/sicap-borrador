@@ -17,6 +17,7 @@ import { Usuario } from './../../../models/usuario';
 import { AutenticacionService } from '../../../services/autenticacion.service';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-admin-layout',
@@ -62,7 +63,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getUsuario();
-    this.usuarioLogeado = {...this.usuarioLogeado};
+    this.usuarioLogeado = {
+      ...this.usuarioLogeado,
+      imagen: 'user-temp.png',
+      idPerfil: 0,
+    };
     // this.layoutConf = this.layout.layoutConf;
     this.layoutConfSub = this.layout.layoutConf$.subscribe((layoutConf) => {
       this.layoutConf = layoutConf;

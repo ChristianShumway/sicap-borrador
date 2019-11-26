@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, AfterViewInit, Input } from "@angular/core";
+import { Component, OnInit, OnDestroy, OnChanges, AfterViewInit, Input } from "@angular/core";
 import { NavigationService } from "../../../shared/services/navigation.service";
 import { ThemeService } from "../../services/theme.service";
 import { Subscription } from "rxjs";
@@ -7,13 +7,14 @@ import { Usuario } from './../../models/usuario';
 import { environment } from './../../../../environments/environment';
 import { AutenticacionService } from "../../services/autenticacion.service";
 import { Router } from '@angular/router';
+import { IMenuItem } from './../../models/i-menu-item';
 
 @Component({
   selector: "app-sidebar-side",
   templateUrl: "./sidebar-side.component.html"
 })
-export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
-  public menuItems: any[];
+export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
+  public menuItems: IMenuItem[];
   public hasIconTypeMenuItem: boolean;
   public iconTypeMenuTitle: string;
   private menuItemsSub: Subscription;
@@ -41,8 +42,25 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit {
         item => item.type === "icon"
       ).length;
     });
+   
     this.rutaImg = environment.imgRUL;
     this.layoutConf = this.layout.layoutConf;
+  }
+  
+  ngOnChanges(){
+    this.getMenu();
+  }
+
+  getMenu() {
+    this.navService.getMenu(this.usuarioLogeado.idPerfil).subscribe(
+      (menuItem: IMenuItem[]) => {
+        this.menuItems = menuItem;
+        this.hasIconTypeMenuItem = !!this.menuItems.filter(
+          item => item.type === "icon"
+        ).length;
+      },
+      error => console.log(error)
+    );
   }
 
   ngAfterViewInit() {}

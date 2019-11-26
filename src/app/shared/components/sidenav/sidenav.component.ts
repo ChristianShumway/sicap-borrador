@@ -1,29 +1,30 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { IMenuItem } from './../../models/i-menu-item';
 
 @Component({
   selector: 'app-sidenav',
   templateUrl: './sidenav.template.html'
 })
 export class SidenavComponent {
-  @Input('items') public menuItems: any[] = [];
+  @Input('items') public menuItems: IMenuItem[] = [];
   @Input('hasIconMenu') public hasIconTypeMenuItem: boolean;
   @Input('iconMenuTitle') public iconTypeMenuTitle: string;
+  
+  constructor(
+  ) {}
 
-  constructor() {}
   ngOnInit() {}
 
   // Only for demo purpose
   addMenuItem() {
     this.menuItems.push({
-      name: 'ITEM',
-      type: 'dropDown',
-      tooltip: 'Item',
-      icon: 'done',
-      state: 'material',
-      sub: [
-        {name: 'SUBITEM', state: 'cards'},
-        {name: 'SUBITEM', state: 'buttons'}
-      ]
+      id: 1,
+      name: "HOME",
+      type: "icon",
+      tooltip: "Home",
+      icon: "home",
+      state: "dashboard"
     });
   }
+
 }

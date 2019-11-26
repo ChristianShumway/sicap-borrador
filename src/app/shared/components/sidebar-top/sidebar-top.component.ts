@@ -20,6 +20,7 @@ export class SidebarTopComponent implements OnInit, OnDestroy, AfterViewInit {
       this.menuItems = menuItem.filter(item => item.type !== 'icon' && item.type !== 'separator');
     });
   }
+
   ngAfterViewInit() {
     // setTimeout(() => {
     //   this.sidebarPS = new PerfectScrollbar('#sidebar-top-scroll-area', {
@@ -27,6 +28,7 @@ export class SidebarTopComponent implements OnInit, OnDestroy, AfterViewInit {
     //   })
     // })
   }
+
   ngOnDestroy() {
     // if(this.sidebarPS) {
     //   this.sidebarPS.destroy();
