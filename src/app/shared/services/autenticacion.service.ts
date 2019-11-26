@@ -43,4 +43,8 @@ export class AutenticacionService {
     this.currentUserSubject.next(null);
   }
 
+  userAuthenticated(){
+    this.http.get(`${environment.apiURL}/config/isAuthenticated/1/1`);
+  }
+
 }

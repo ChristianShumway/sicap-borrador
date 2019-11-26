@@ -43,9 +43,10 @@
           </div>
         </div>
         <!-- Breadcrumb -->
-        <app-breadcrumb></app-breadcrumb>
+        <app-breadcrumb [usuarioLogeado] = "usuarioLogeado"></app-breadcrumb>
         <!-- View outlet -->
         <div class="container-dashboard">
+          {{usuarioLogeado.nombre}}
           <router-outlet></router-outlet>
         </div>
       </div>

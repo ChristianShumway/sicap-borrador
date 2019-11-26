@@ -1,29 +1,40 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { RoutePartsService } from '../../../shared/services/route-parts.service';
 import { LayoutService } from '../../../shared/services/layout.service';
 import { Subscription } from "rxjs";
 import { filter } from 'rxjs/operators';
+import { Usuario } from './../../models/usuario';
+import { NavigationService } from './../../services/navigation.service';
+import { AutenticacionService } from '../../services/autenticacion.service';
 
 @Component({
   selector: 'app-breadcrumb',
   templateUrl: './breadcrumb.component.html',
   styleUrls: ['./breadcrumb.component.scss']
 })
-export class BreadcrumbComponent implements OnInit, OnDestroy {
+export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
+  @Input() usuarioLogeado: Usuario;
   routeParts:any[];
   routerEventSub: Subscription;
+  href: String;
+  idPerfilLogeado: number;
   // public isEnabled: boolean = true;
+
   constructor(
     private router: Router,
     private routePartsService: RoutePartsService, 
     private activeRoute: ActivatedRoute,
-    public layout: LayoutService
+    public layout: LayoutService,
+    private autenticationService: AutenticacionService,
+    private navigationService: NavigationService
   ) {
     this.routerEventSub = this.router.events
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((routeChange) => {
         this.routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);
+        //console.log(this.routeParts);
+        this.validarSesion();
         // generate url from parts
         this.routeParts.reverse().map((item, i) => {
           item.breadcrumb = this.parseText(item);
@@ -42,7 +53,32 @@ export class BreadcrumbComponent implements OnInit, OnDestroy {
       });
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
+  
+  ngOnChanges(){
+    this.idPerfilLogeado = this.usuarioLogeado.idPerfil;
+    // console.log(this.idPerfilLogeado);
+    this.validarSesion();
+  }
+  
+  validarSesion(){
+    console.log(this.idPerfilLogeado);
+    this.href = this.router.url.substr(1);
+    console.log(this.href);
+    this.navigationService.getOptionsMenu().subscribe(
+      (options: any[]) => {
+        console.log(options);
+        const modulo = options.filter( option => option.pagina === this.href);
+        if(modulo.length === 1){
+          console.log(modulo[0].idConfiguracion);
+        }
+      },
+      error => console.log(error)
+    );
+  }
+  
+  
   ngOnDestroy() {
     if(this.routerEventSub) {
       this.routerEventSub.unsubscribe()
