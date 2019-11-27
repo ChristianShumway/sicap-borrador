@@ -34,7 +34,9 @@ export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
       .subscribe((routeChange) => {
         this.routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);
         //console.log(this.routeParts);
-        this.validarSesion();
+        if(this.idPerfilLogeado || this.idPerfilLogeado == 0){
+          this.validarSesion();
+        }
         // generate url from parts
         this.routeParts.reverse().map((item, i) => {
           item.breadcrumb = this.parseText(item);
@@ -71,7 +73,6 @@ export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
           const idModulo = modulo[0].idConfiguracion;
           this.autenticationService.userAuthenticated(this.idPerfilLogeado, idModulo).subscribe(
             (result: any) =>{
-              console.log(result);
               if(result.noEstatus === 0){
                 this.router.navigate(['/dashboard']);
               }
