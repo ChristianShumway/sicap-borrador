@@ -106,14 +106,16 @@ export class ModificarUsuarioComponent implements OnInit {
       console.log(usuario);
 
       this.usuarioService.updateUsuario(usuario).subscribe(
-        ( success => {
-          console.log(success);
-          this.router.navigate(['/catalogos-administrativos/usuarios']);
-          this.useAlerts('Modificación de Usuario', 'Correcto', 'success-dialog');
+        (success => {
+          // console.log(success);
+          if(success.estatus === '05'){
+            this.router.navigate(['/catalogos-administrativos/usuarios']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          }
         }),
         (error => {
-          this.useAlerts('Modificación de Usuario', 'Incorrecto', 'error-dialog');
           console.log(error);
+          this.useAlerts(error.mensaje, ' ', 'success-dialog');
         })
       );
     }

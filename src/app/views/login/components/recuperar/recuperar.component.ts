@@ -23,7 +23,7 @@ export class RecuperarComponent implements OnInit {
   submitEmail() {
     this.submitButton.disabled = true;
     this.progressBar.mode = 'indeterminate';
-    this.useAlerts('Correo electrónico enviado', 'Correcto', 'success-dialog');
+    this.useAlerts('Correo electrónico enviado', ' ', 'success-dialog');
   }
 
   useAlerts(message, action, className){

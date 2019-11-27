@@ -130,12 +130,14 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         // console.log(usuarioBaja);
         this.usuariosService.updateUsuario(usuarioBaja).subscribe(
           success => {
-            this.useAlerts('Eliminación de Usuario', 'Correcto', 'success-dialog');
-            this.getUsers();
             console.log(success);
+            if(success.estatus === '05'){
+              this.useAlerts(success.mensaje, ' ', 'success-dialog');
+              this.getUsers();
+            }
           },
             error => {
-            this.useAlerts('Eliminación de Usuario', 'Incorrecto', 'error-dialog');
+            this.useAlerts(error.mensaje, ' ', 'error-dialog');
             console.log(error);
           }
         );

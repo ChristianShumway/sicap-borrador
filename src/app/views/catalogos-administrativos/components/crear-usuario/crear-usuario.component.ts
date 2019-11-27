@@ -85,23 +85,24 @@ export class CrearUsuarioComponent implements OnInit {
     if(this.createUserForm.valid){
       const format = 'yyyy/MM/dd';
       const myFormatedDate = this.pipe.transform(this.fechaNacimientoFinal, format);
-      console.log(myFormatedDate);
       const usuario = {
         ...this.createUserForm.value,
         imagen: 'user-temp.png',
         fechaNacimiento: myFormatedDate,
         cambiarContrasena: 0
       };
-      console.log(usuario);
+      // console.log(usuario);
       this.usuariosService.createUsuario(usuario).subscribe(
-        (data => {
-          console.log(data);
-          this.router.navigate(['/catalogos-administrativos/usuarios']);
-          this.useAlerts('Creación de Usuario', 'Correcto', 'success-dialog');
+        (success => {
+          // console.log(success);
+          if(success.estatus === '05'){
+            this.router.navigate(['/catalogos-administrativos/usuarios']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          }
         }),
         (error => {
           console.log(error);
-          this.useAlerts('Creación de Usuario', 'Incorrecto', 'success-dialog');
+          this.useAlerts(error.mensaje, ' ', 'success-dialog');
         })
       );
     }

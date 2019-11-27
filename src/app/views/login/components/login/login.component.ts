@@ -46,7 +46,6 @@ export class LoginComponent implements OnInit {
 
   signin() {
     const signinData = this.signinForm.value
-    console.log(signinData);
     if(signinData){
       this.autenticacionService.loginUser(signinData)
       .pipe(first()) 
@@ -54,17 +53,17 @@ export class LoginComponent implements OnInit {
         user => {
           console.log(user);
           if(user.email){
-            this.useAlerts('Acceso de Usuario', 'Correcto', 'success-dialog');
+            this.useAlerts('Acceso de usuario correcto', ' ', 'success-dialog');
             this.router.navigate(['dashboard']);
           } else {
-            this.useAlerts('Usuario no encontrado', 'Incorrecto', 'error-dialog');
+            this.useAlerts('Usuario no encontrado', ' ', 'error-dialog');
             this.submitButton.disabled = false;
             this.progressBar.mode = 'determinate';
           }
         },
         error => {
           console.log(error);
-          this.useAlerts('Acceso de Usuario', 'Incorrecto', 'error-dialog');
+          this.useAlerts('Acceso de usuario incorrecto', ' ', 'error-dialog');
           this.submitButton.disabled = false;
           this.progressBar.mode = 'determinate';
         }
