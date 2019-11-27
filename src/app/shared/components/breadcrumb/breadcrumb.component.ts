@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input, OnChanges } from '@angular/core';
 import { Router, NavigationEnd, ActivatedRoute, ActivatedRouteSnapshot } from '@angular/router';
 import { RoutePartsService } from '../../../shared/services/route-parts.service';
 import { LayoutService } from '../../../shared/services/layout.service';
-import { Subscription } from "rxjs";
+import { Subscription, ObjectUnsubscribedError } from "rxjs";
 import { filter } from 'rxjs/operators';
 import { Usuario } from './../../models/usuario';
 import { NavigationService } from './../../services/navigation.service';
@@ -58,20 +58,26 @@ export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
   
   ngOnChanges(){
     this.idPerfilLogeado = this.usuarioLogeado.idPerfil;
-    // console.log(this.idPerfilLogeado);
     this.validarSesion();
   }
   
   validarSesion(){
     console.log(this.idPerfilLogeado);
     this.href = this.router.url.substr(1);
-    console.log(this.href);
     this.navigationService.getOptionsMenu().subscribe(
       (options: any[]) => {
-        console.log(options);
         const modulo = options.filter( option => option.pagina === this.href);
         if(modulo.length === 1){
-          console.log(modulo[0].idConfiguracion);
+          const idModulo = modulo[0].idConfiguracion;
+          this.autenticationService.userAuthenticated(this.idPerfilLogeado, idModulo).subscribe(
+            (result: any) =>{
+              console.log(result);
+              if(result.noEstatus === 0){
+                this.router.navigate(['/dashboard']);
+              }
+            } ,
+            error => console.log(error)
+          );
         }
       },
       error => console.log(error)
