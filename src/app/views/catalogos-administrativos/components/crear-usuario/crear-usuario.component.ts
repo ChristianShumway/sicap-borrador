@@ -8,7 +8,7 @@ import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
-import {MatDatepickerInputEvent} from '@angular/material/datepicker';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -22,12 +22,8 @@ export class CrearUsuarioComponent implements OnInit {
   createUserForm: FormGroup;
   empresas: Empresa[];
   perfiles: Perfil[];
-  fecha;
-
-  public onFechaNacimiento(event: MatDatepickerInputEvent<Date>) {
-    this.fecha = event.value;
-    // this.fecha.setDate(this.fecha.getDate()+1);
-  }
+  fechaNacimientoFinal = Date;
+  pipe = new DatePipe('en-US');
   
   constructor(
     private router: Router,
@@ -74,23 +70,29 @@ export class CrearUsuarioComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      fechaNacimiento: new FormControl(this.fecha),
+      fechaNacimiento: new FormControl(new Date()),
       contrasena: contrasena,
       confirmarContrasena: confirmarContrasena,
       // imagen: new FormControl(),
     })
   }
 
+  public onFechaNacimiento(event): void {
+    this.fechaNacimientoFinal = event.value;
+  }
+
   createUser(){
     if(this.createUserForm.valid){
+      const format = 'yyyy/MM/dd';
+      const myFormatedDate = this.pipe.transform(this.fechaNacimientoFinal, format);
+      console.log(myFormatedDate);
       const usuario = {
         ...this.createUserForm.value,
         imagen: 'user-temp.png',
-        fechaNacimiento: "2019-11-18",
+        fechaNacimiento: myFormatedDate,
         cambiarContrasena: 0
       };
       console.log(usuario);
-
       this.usuariosService.createUsuario(usuario).subscribe(
         (data => {
           console.log(data);
@@ -106,8 +108,6 @@ export class CrearUsuarioComponent implements OnInit {
   }
 
   getCatalogos() {
-    // this.empresas = this.empresasService.getAllEmpresas();
-    // this.perfiles = this.perfilesService.getAllPerfiles();
     this.empresasService.getAllEmpresas().subscribe(
       ( (empresas: Empresa[]) => {
         this.empresas = empresas;

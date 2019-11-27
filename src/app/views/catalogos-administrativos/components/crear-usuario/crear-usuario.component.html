@@ -133,11 +133,10 @@
               <input 
                 matInput 
                 [matDatepicker]="fechaNacimiento"
-                (dateChange) = "onFechaNacimiento($event)"
-                [value] = "fechaNacimiento"
-                name="date" 
                 formControlName="fechaNacimiento" 
+                name="date" 
                 placeholder="Fecha Nacimiento" 
+                (dateChange)="onFechaNacimiento($event)"
               >
               <mat-datepicker-toggle matSuffix [for]="fechaNacimiento"></mat-datepicker-toggle>
               <mat-datepicker #fechaNacimiento (selectedChange)="onFechaNacimiento($event)"></mat-datepicker>

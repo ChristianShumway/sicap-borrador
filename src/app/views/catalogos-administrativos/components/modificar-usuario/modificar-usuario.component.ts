@@ -9,6 +9,7 @@ import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import { Usuario } from '../../../../shared/models/usuario';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -22,6 +23,8 @@ export class ModificarUsuarioComponent implements OnInit {
   empresas: Empresa[];
   perfiles: Perfil[];
   idUser;
+  fechaNacimientoFinal = Date;
+  pipe = new DatePipe('en-US');
   
   constructor(
     private router: Router,
@@ -82,16 +85,23 @@ export class ModificarUsuarioComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      fechaNacimiento: new FormControl(),
+      fechaNacimiento: new FormControl(new Date()),
     })
+  }
+
+  public onFechaNacimiento(event): void {
+    this.fechaNacimientoFinal = event.value;
   }
 
   updateUser(){
     if(this.updateUserForm.valid){
+      const format = 'yyyy/MM/dd';
+      const myFormatedDate = this.pipe.transform(this.fechaNacimientoFinal, format);
+      console.log(myFormatedDate);
       const usuario = {
         idUsuario: parseInt(this.idUser),
         ...this.updateUserForm.value,
-        fechaNacimiento: "2019-11-18",
+        fechaNacimiento: myFormatedDate,
       };
       console.log(usuario);
 
