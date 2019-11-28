@@ -28,31 +28,36 @@ export class PermisosComponent implements OnInit {
     this.navigation();
   }
 
+
   navigation() {
-    // this.menu = this.navigationService.iconMenu;
-    const menu = this.navigationService.iconMenu;
-    const permisos = this.navigationService.permisosMenu;
-    // const perfiles = this.perfilesService.getAllPerfiles();
-    this.perfilesService.getAllPerfiles().subscribe(
-      (perfiles => {
-        this.perfiles = perfiles;
-      }),
-      (error => console.log(error))
+    // const menu = this.navigationService.iconMenu;
+    this.navigationService.getMenu(1).subscribe(
+      menu => {
+        this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
+        
+        //  OBTENEMOS PERFILES
+        this.perfilesService.getAllPerfiles().subscribe(
+          (perfiles => {
+            this.perfiles = perfiles;
+          }),
+          (error => console.log(error))
+        );
+        
+        // OBTENEMOS CATALOGO DE MODULOS CON PERMISOS
+        const permisos = this.navigationService.permisosMenu;
+        this.permisos = permisos;
+        
+      },
+      error => {
+        console.log(error);
+      }
     );
-    this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
-    // this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link');
-    this.permisos = permisos;
-    console.log(this.menu);
-    console.log(this.permisos);
-    console.log(this.perfiles);
+    // console.log(this.menu);
+    // console.log(this.perfiles);
+    // console.log(this.permisos);
   }
 
   openModalPerfiles(idModulo) {
-    // const moduloSeleccionado = this.menu.filter( modulo => modulo.id === idPadre);
-    // moduloSeleccionado.map( modulo => {
-    //   this.arbol.push(modulo.id);
-    //   this.generaArbolModulo(modulo);
-    // })
     const permisosOpcionMenu = this.permisos.filter(permiso => permiso.idModulo === idModulo)
 
     //console.log(permisosOpcionMenu);
