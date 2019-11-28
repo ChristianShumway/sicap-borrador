@@ -23,7 +23,7 @@ export class ModificarUsuarioComponent implements OnInit {
   empresas: Empresa[];
   perfiles: Perfil[];
   idUser;
-  fechaNacimientoFinal = Date;
+  fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
   
   constructor(
@@ -48,6 +48,10 @@ export class ModificarUsuarioComponent implements OnInit {
         this.usuarioService.getUsuario(this.idUser).subscribe(
           ( (user: Usuario) => {
             console.log(user);
+            let fechaString = user.fechaNacimiento;
+            this.fechaNacimientoFinal = new Date(fechaString);
+            this.fechaNacimientoFinal.setDate(this.fechaNacimientoFinal.getDate()+1);
+            console.log(this.fechaNacimientoFinal);
             this.updateUserForm.patchValue(user);
           }),
           (error => console.log(error))
@@ -85,7 +89,7 @@ export class ModificarUsuarioComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      fechaNacimiento: new FormControl(new Date()),
+      fechaNacimiento: new FormControl(this.fechaNacimientoFinal),
     })
   }
 
