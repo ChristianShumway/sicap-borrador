@@ -64,25 +64,27 @@ export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
   }
   
   validarSesion(){
-    console.log(this.idPerfilLogeado);
-    this.href = this.router.url.substr(1);
-    this.navigationService.getOptionsMenu().subscribe(
-      (options: any[]) => {
-        const modulo = options.filter( option => option.pagina === this.href);
-        if(modulo.length === 1){
-          const idModulo = modulo[0].idConfiguracion;
-          this.autenticationService.userAuthenticated(this.idPerfilLogeado, idModulo).subscribe(
-            (result: any) =>{
-              if(result.noEstatus === 0){
-                this.router.navigate(['/dashboard']);
-              }
-            } ,
-            error => console.log(error)
-          );
-        }
-      },
-      error => console.log(error)
-    );
+    if(this.idPerfilLogeado || this.idPerfilLogeado !== 0){
+      console.log(this.idPerfilLogeado, 'se ejecuto');
+      this.href = this.router.url.substr(1);
+      this.navigationService.getOptionsMenu().subscribe(
+        (options: any[]) => {
+          const modulo = options.filter( option => option.pagina === this.href);
+          if(modulo.length === 1){
+            const idModulo = modulo[0].idConfiguracion;
+            this.autenticationService.userAuthenticated(this.idPerfilLogeado, idModulo).subscribe(
+              (result: any) =>{
+                if(result.noEstatus === 0){
+                  this.router.navigate(['/dashboard']);
+                }
+              } ,
+              error => console.log(error)
+            );
+          }
+        },
+        error => console.log(error)
+      );
+    }
   }
   
   
