@@ -44,8 +44,15 @@ export class PermisosComponent implements OnInit {
         );
         
         // OBTENEMOS CATALOGO DE MODULOS CON PERMISOS
-        const permisos = this.navigationService.permisosMenu;
-        this.permisos = permisos;
+        this.navigationService.getPermisosMenu().subscribe(
+          modulosPermisos => {
+            console.log(modulosPermisos);
+            this.permisos = modulosPermisos;
+            console.log(this.permisos);
+          },
+          error => console.log(error)
+        );
+        // const permisos = this.navigationService.permisosMenu;
         
       },
       error => {

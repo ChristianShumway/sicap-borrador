@@ -32,13 +32,18 @@ export class NavigationService {
   }
 
   getOptionsMenu(){
-    return this.http.get<any[]>(`${environment.apiURL}/config/getOptionsMenu/`)
+    return this.http.get<any[]>(`${environment.apiURL}/config/getOptionsMenu/`);
+  }
+
+  getPermisosMenu() {
+    return this.http.get<any[]>(`${environment.apiURL}/config//getAuthorizedProfiles/7`);
   }
 
   permisosMenu: Permisos[] = [
     { id: '1', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '5', autorizado: true },
     { id: '2', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '30', autorizado: true },
     { id: '3', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '31', autorizado: true },
+
     { id: '4', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '91', autorizado: true },
     { id: '5', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '92', autorizado: true },
     { id: '6', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '93', autorizado: true },
