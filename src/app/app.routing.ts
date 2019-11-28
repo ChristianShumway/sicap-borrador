@@ -52,6 +52,11 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Catálogos Administrativos', breadcrumb: 'Catálogos Administrativos'}
       },
       {
+        path: 'perfil/:id',
+        loadChildren: () => import('./views/perfil/perfil.module').then(m =>m.PerfilModule),
+        data: { title: 'Perfil', breadcrumb: 'PROFILE'}
+      },
+      {
         path: 'material', 
         loadChildren: () => import('./views/material-example-view/material-example-view.module').then(m => m.MaterialExampleViewModule), 
         data: { title: 'Material', breadcrumb: 'MATERIAL'}

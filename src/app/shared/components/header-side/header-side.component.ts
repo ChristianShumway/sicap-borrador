@@ -27,6 +27,7 @@ export class HeaderSideComponent implements OnInit {
 
   @Input() usuarioLogeado: Usuario;
   public rutaImg: string;
+  idCurrentUser;
 
   public egretThemes;
   public layoutConf:any;
@@ -38,7 +39,9 @@ export class HeaderSideComponent implements OnInit {
     private autenticacionService: AutenticacionService,
     private router: Router,
     private snackBar: MatSnackBar,
-  ) {}
+  ) {
+    this.idCurrentUser = this.autenticacionService.currentUserValue;
+  }
   ngOnInit() {
     this.egretThemes = this.themeService.egretThemes;
     this.layoutConf = this.layout.layoutConf;
