@@ -1,15 +1,22 @@
 <div fxLayout="row wrap">
-  <div fxFlex="100" fxFlex.gt-md="400px" fxFlex.gt-sm="50">
+  <div fxFlex="100" fxFlex.gt-md="400px" fxFlex.gt-sm="50" *ngIf = "!usuario">
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <div class="wrap-spiner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="100" fxFlex.gt-md="400px" fxFlex.gt-sm="50" *ngIf = "usuario">
     <mat-card class="profile-sidebar mb-1 pb-0">
       <div class="propic text-center">
-        <img src="assets/images/sq-face-220.jpg" alt="">
+        <img src="{{urlImg}}/{{usuario.imagen}}" [alt]="usuario.nombre">
       </div>
       <div class="profile-title text-center mb-1">
-        <div class="main-title">Jhone
-          <b>Doe</b>
+        <div class="main-title">{{usuario.nombre}}
+          <b>{{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}</b>
         </div>
-        <div class="subtitle mb-05">Big Data Expert</div>
-        <div class="text-muted">Hi I'm Jhone, sit amet consectetur adipisicing elit. Aperiam repellendus nam perspiciatis.</div>
+        <div class="subtitle mb-05">{{usuario.perfil.nombre}}</div>
+        <!-- <div class="text-muted">Hi I'm Jhone, sit amet consectetur adipisicing elit. Aperiam repellendus nam perspiciatis.</div> -->
       </div>
       <div class="profile-actions mb-1" fxLayoutAlign="center center">
         <button mat-raised-button color="primary">Mensaje</button>
@@ -18,37 +25,39 @@
       </div>
       <div class="profile-nav">
         <mat-nav-list>
-          <mat-list-item routerLink="/profile/overview" routerLinkActive="list-item-active">
+          <mat-list-item routerLink="/perfil/{{usuario.idUsuario}}/inicio/{{usuario.idUsuario}}" routerLinkActive="list-item-active">
             <mat-icon>home</mat-icon>
-            Overview
+            Resumen
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item routerLink="/profile/settings" routerLinkActive="list-item-active">
+          <mat-list-item routerLink="/perfil/{{usuario.idUsuario}}/ajustes/{{usuario.idUsuario}}" routerLinkActive="list-item-active">
             <mat-icon>settings</mat-icon>
-            Settings
+            Ajustes
           </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item routerLink="/profile/blank" routerLinkActive="list-item-active">
+          <!-- <mat-list-item routerLink="/profile/blank" routerLinkActive="list-item-active">
             <mat-icon>content_paste</mat-icon>
             Blank
-          </mat-list-item>
+          </mat-list-item> -->
         </mat-nav-list>
       </div>
     </mat-card>
 
     <!-- Contact Information -->
     <mat-card class="default">
-      <mat-card-title>Contact Information</mat-card-title>
+      <mat-card-title>Información</mat-card-title>
       <mat-card-content class="pt-0">
         <mat-list>
           <mat-list-item>
-            <mat-icon class="mr-1">public</mat-icon> www.mhrafi.com</mat-list-item>
+            <mat-icon class="mr-1">business</mat-icon> {{usuario.empresa.nombre}}</mat-list-item>
           <mat-list-item>
-            <mat-icon class="mr-1">email</mat-icon> example@gmail.com</mat-list-item>
+            <mat-icon class="mr-1">email</mat-icon> {{usuario.email}}</mat-list-item>
           <mat-list-item>
-            <mat-icon class="mr-1">phone</mat-icon> 8801822778800</mat-list-item>
+            <mat-icon class="mr-1">phone</mat-icon> {{usuario.telefono}}</mat-list-item>
           <mat-list-item>
-            <mat-icon class="mr-1">add_location</mat-icon> SUST, Sylhet, BD</mat-list-item>
+            <mat-icon class="mr-1">add_location</mat-icon> {{usuario.direccion}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">cake</mat-icon> {{usuario.fechaNacimiento | date}}</mat-list-item>
         </mat-list>
       </mat-card-content>
     </mat-card>

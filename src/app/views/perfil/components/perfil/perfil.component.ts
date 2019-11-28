@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
+import { Usuario } from '../../../../shared/models/usuario';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-perfil',
@@ -10,22 +12,38 @@ import { UsuariosService } from './../../../../shared/services/usuarios.service'
 export class PerfilComponent implements OnInit {
 
   activeView : string = 'overview';
+  usuario: Usuario;
+  urlImg: string;
 
   
 
   constructor(
     private router: ActivatedRoute,
     private usuariosService: UsuariosService
-  ) { }
+  ) { 
+    // this.usuario = {...this.usuario};
+  }
 
   ngOnInit() {
     this.getUser();
+    this.urlImg = environment.imgRUL;
     this.activeView = this.router.snapshot.params['view'];
   }
 
   getUser(){
     this.router.params.subscribe( (data: Params) => {
-      console.log(data);
+      if(data.id){
+        console.log(data);
+        this.usuariosService.getUsuario(data.id).subscribe(
+          (usuario: Usuario) => {
+            console.log(usuario);
+            this.usuario = usuario;
+          },
+          error => {
+            console.log(error);
+          }
+        );
+      }
     })
   }
 

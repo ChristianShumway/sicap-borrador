@@ -13,10 +13,14 @@ import { QuillModule } from 'ngx-quill';
 import { PerfilRoutingModule } from './perfil-routing.module';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { PerfilComponent } from './components/perfil/perfil.component';
+import { DetallesComponent } from './components/detalles/detalles.component';
+import { AjustesComponent } from './components/ajustes/ajustes.component';
 
 @NgModule({
   declarations: [
-    PerfilComponent
+    PerfilComponent,
+    DetallesComponent,
+    AjustesComponent
   ],
   imports: [
     CommonModule,
