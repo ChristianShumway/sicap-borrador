@@ -54,14 +54,18 @@ export class ModificarEmpresaComponent implements OnInit {
       };
       console.log(company);
       this.empresasService.updateEmpresa(company).subscribe(
-        ( success => {
+        ( (success: any) => {
           console.log(success);
-          this.router.navigate(['catalogos-administrativos/empresas']);
-          this.useAlerts('Modificación de Empresa', 'Correcto', 'success-dialog');
+          if(success.estatus === '05'){
+            this.router.navigate(['/catalogos-administrativos/empresas']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+          }
         }),
         ( error => {
           console.log(error);
-          this.useAlerts('Modificación de Empresa', 'Inorrecto', 'error-dialog');
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
         })
       );
     }

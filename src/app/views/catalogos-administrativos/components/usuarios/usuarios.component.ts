@@ -134,6 +134,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
             if(success.estatus === '05'){
               this.useAlerts(success.mensaje, ' ', 'success-dialog');
               this.getUsers();
+            } else {
+              this.useAlerts(success.mensaje, ' ', 'error-dialog');
             }
           },
             error => {

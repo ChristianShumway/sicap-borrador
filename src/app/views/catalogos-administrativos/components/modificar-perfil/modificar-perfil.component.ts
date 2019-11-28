@@ -38,14 +38,18 @@ export class ModificarPerfilComponent implements OnInit {
       };
       console.log(perfil);
       this.perfilesService.updatePerfil(perfil).subscribe(
-        (success => {
+        ((success:any) => {
           console.log(success);
-          this.router.navigate(['catalogos-administrativos/perfiles']);
-          this.useAlerts('Modificación de Perfil', 'Correcto', 'success-dialog');
+          if(success.estatus === '05'){
+            this.router.navigate(['/catalogos-administrativos/perfiles']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+          }
         }),
-        ( error => {
+        (error => {
           console.log(error);
-          this.useAlerts('Modificación de Perfil', 'Incorrecto', 'error-dialog');
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
         })
       );
     }

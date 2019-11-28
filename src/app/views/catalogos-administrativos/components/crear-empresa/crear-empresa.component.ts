@@ -53,14 +53,18 @@ export class CrearEmpresaComponent implements OnInit {
       };
       console.log(empresa);
       this.empresasService.createEmpresa(empresa).subscribe(
-        ( success => {
+        ( (success: any) => {
           console.log(success);
-          this.router.navigate(['/catalogos-administrativos/empresas']);
-          this.useAlerts('Creación de Empresa', 'Correcto', 'success-dialog');
+          if(success.estatus === '05'){
+            this.router.navigate(['/catalogos-administrativos/empresas']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+          }
         }),
         (error => {
           console.log(error);
-          this.useAlerts('Creación de Empresa', 'Incorrecto', 'error-dialog');
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
         })
       );
     }

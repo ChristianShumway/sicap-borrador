@@ -98,6 +98,8 @@ export class CrearUsuarioComponent implements OnInit {
           if(success.estatus === '05'){
             this.router.navigate(['/catalogos-administrativos/usuarios']);
             this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(success.mensaje, ' ', 'error-dialog');
           }
         }),
         (error => {
