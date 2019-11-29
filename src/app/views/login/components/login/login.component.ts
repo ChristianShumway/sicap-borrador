@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
 
   signinForm: FormGroup;
   returnUrl: string;
+  existeUsuario: boolean;
 
   constructor(
     private router: Router,
@@ -29,7 +30,7 @@ export class LoginComponent implements OnInit {
   ) { 
     // redirect to home if already logged in
     if (this.autenticacionService.currentUserValue) {
-      this.router.navigate(['/dashboard']);
+      // this.router.navigate(['/dashboard']);
     }
   }
 
@@ -53,8 +54,14 @@ export class LoginComponent implements OnInit {
         user => {
           console.log(user);
           if(user.email){
-            this.useAlerts('Acceso de usuario correcto', ' ', 'success-dialog');
-            this.router.navigate(['dashboard']);
+            if(user.cambiarContrasena == 0){
+              this.useAlerts('Acceso de usuario correcto', ' ', 'success-dialog');
+              this.router.navigate(['dashboard']);
+              this.existeUsuario = true;
+            } else if(user.cambiarContrasena == 1) {
+              this.useAlerts('Tienes que cambiar tu contraseña temporal', ' ', 'warning-dialog');
+              this.router.navigate(['/login/restaurar-password', user.idUsuario]);
+            }
           } else {
             this.useAlerts('Usuario no encontrado', ' ', 'error-dialog');
             this.submitButton.disabled = false;

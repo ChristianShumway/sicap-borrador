@@ -12,11 +12,13 @@ import { LoginRoutingModule } from './login-routing.module';
 
 import { LoginComponent } from './components/login/login.component';
 import { RecuperarComponent } from './components/recuperar/recuperar.component';
+import { RestaurarPasswordComponent } from './components/restaurar-password/restaurar-password.component';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RecuperarComponent
+    RecuperarComponent,
+    RestaurarPasswordComponent
   ],
   imports: [
     CommonModule,

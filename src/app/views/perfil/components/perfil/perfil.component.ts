@@ -1,20 +1,25 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, Params } from "@angular/router";
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
 import { Usuario } from '../../../../shared/models/usuario';
 import { environment } from './../../../../../environments/environment';
 import { BehaviorSubject } from 'rxjs';
+import { Observable } from 'rxjs/Rx';
+import { map } from 'rxjs/operators';
+
 
 @Component({
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
-  styleUrls: ['./perfil.component.scss']
+  styleUrls: ['./perfil.component.scss'],
+  // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PerfilComponent implements OnInit {
 
   activeView : string = 'overview';
   usuario: Usuario;
   urlImg: string;
+  // private users$: Observable<Usuario>;
   // private usuario = new BehaviorSubject<Usuario>();
 
 
@@ -40,13 +45,14 @@ export class PerfilComponent implements OnInit {
         this.usuariosService.getUsuario(data.id).subscribe(
           (usuario: Usuario) => {
             this.usuario = usuario;
+            // this.users$ = usuario;
           },
           error => {
             console.log(error);
           }
         );
       }
-    })
+    });
   }
 
 }

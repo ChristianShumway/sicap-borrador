@@ -20,7 +20,7 @@ export class UsuariosService {
     return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuarios`); 
   }
 
-  getUsuario(id: number){
+  getUsuario(id: number): Observable<Usuario>{
     return this.http.get<Usuario>(`${environment.apiURL}/user/getUsuariosByID/${id}`);
   }
 

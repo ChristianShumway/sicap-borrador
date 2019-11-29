@@ -240,6 +240,21 @@
   }
 }
 
+.warning-dialog {
+  color: white !important;
+  background-color:rgba(206, 153, 54, 0.9) !important;
+  .mat-simple-snackbar-action {
+    display: grid;
+    justify-items: center;
+  }
+  .mat-simple-snackbar-action::before {
+    font-family: 'Material Icons';
+    content: "warning";
+    color: white !important;
+    font-size: 22px;
+  }
+}
+
 @media (max-width: 959px) {
   .app-admin-container.sidebar-full {
     .main-content-wrap {

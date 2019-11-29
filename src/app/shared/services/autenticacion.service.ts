@@ -47,4 +47,9 @@ export class AutenticacionService {
     return this.http.get(`${environment.apiURL}/config/isAuthenticated/${idPerfil}/${idOpcion}`);
   }
 
+  restoreUser(user){
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/user/restoreUser`, JSON.stringify(user), { headers: headerss})
+  }
+
 }
