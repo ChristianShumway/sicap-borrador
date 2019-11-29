@@ -3,6 +3,7 @@ import { ActivatedRoute, Params } from "@angular/router";
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
 import { Usuario } from '../../../../shared/models/usuario';
 import { environment } from './../../../../../environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'app-perfil',
@@ -14,6 +15,8 @@ export class PerfilComponent implements OnInit {
   activeView : string = 'overview';
   usuario: Usuario;
   urlImg: string;
+  // private usuario = new BehaviorSubject<Usuario>();
+
 
   
 
@@ -36,7 +39,6 @@ export class PerfilComponent implements OnInit {
         console.log(data);
         this.usuariosService.getUsuario(data.id).subscribe(
           (usuario: Usuario) => {
-            console.log(usuario);
             this.usuario = usuario;
           },
           error => {

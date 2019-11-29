@@ -3,11 +3,14 @@ import { Usuario } from './../models/usuario';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsuariosService {
+
+  private usuario = new BehaviorSubject<Usuario[]>([]);
 
   constructor(
     private http: HttpClient,

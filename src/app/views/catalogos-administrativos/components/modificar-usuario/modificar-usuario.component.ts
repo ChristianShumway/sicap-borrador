@@ -121,7 +121,7 @@ export class ModificarUsuarioComponent implements OnInit {
         }),
         (error => {
           console.log(error);
-          this.useAlerts(error.mensaje, ' ', 'success-dialog');
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
         })
       );
     }
