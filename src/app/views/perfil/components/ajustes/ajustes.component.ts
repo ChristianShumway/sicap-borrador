@@ -7,6 +7,7 @@ import { Usuario } from '../../../../shared/models/usuario';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-ajustes',
@@ -26,7 +27,8 @@ export class AjustesComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private usuariosService: UsuariosService,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -70,8 +72,9 @@ export class AjustesComponent implements OnInit {
         (success => {
           // console.log(success);
           if(success.estatus === '05'){
-            this.router.navigate(['/perfil', this.usuario.idUsuario]);
             this.useAlerts(success.mensaje, ' ', 'success-dialog');
+            this.autenticacionService.logout();
+            this.router.navigate(['/login']);
           } else {
             this.useAlerts(success.mensaje, ' ', 'error-dialog');
           }

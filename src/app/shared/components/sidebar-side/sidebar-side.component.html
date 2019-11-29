@@ -60,11 +60,11 @@
           </button>
 
           <mat-menu #appUserMenu="matMenu">
-            <button mat-menu-item routerLink="/profile/overview">
+            <button mat-menu-item routerLink="/perfil/{{idCurrentUser}}/inicio/{{idCurrentUser}}">
               <mat-icon>account_box</mat-icon>
               <span>Perfil</span>
             </button>
-            <button mat-menu-item routerLink="/profile/settings">
+            <button mat-menu-item routerLink="/perfil/{{idCurrentUser}}/ajustes/{{idCurrentUser}}">
               <mat-icon>settings</mat-icon>
               <span>Editar Perfil</span>
             </button>

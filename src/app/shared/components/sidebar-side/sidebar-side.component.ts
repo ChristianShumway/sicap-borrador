@@ -21,6 +21,7 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
   public layoutConf: ILayoutConf;
   public rutaImg: string;
   public currentUser: Usuario;
+  idCurrentUser;
 
   @Input() usuarioLogeado: Usuario;
 
@@ -31,6 +32,7 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
     private autenticacionService: AutenticacionService,
     private router: Router
   ) {
+    this.idCurrentUser = this.autenticacionService.currentUserValue;
   }
 
   ngOnInit() {
