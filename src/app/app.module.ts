@@ -23,7 +23,7 @@ import { ErrorHandlerService } from './shared/services/error-handler.service';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
-  return new TranslateHttpLoader(httpClient);
+	return new TranslateHttpLoader(httpClient, "./assets/i18n/", ".json");
 }
 
 const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {

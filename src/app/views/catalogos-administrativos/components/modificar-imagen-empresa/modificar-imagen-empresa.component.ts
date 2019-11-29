@@ -13,12 +13,12 @@ import { environment } from './../../../../../environments/environment.prod';
 export class ModificarImagenEmpresaComponent implements OnInit {
   
   empresa: Empresa;
-  public uploader: FileUploader = new FileUploader({ url: 'https://evening-anchorage-315.herokuapp.com/api/' });
+  public uploaderLogo: FileUploader = new FileUploader({ url: 'https://evening-anchorage-315.herokuapp.com/api/' });
   public hasBaseDropZoneOver: boolean = false;
   console = console;
   empresaId;
   rutaImg: string;
-
+  rutaServe: string;
   constructor(
     private empresasService: EmpresasService,
     private router: Router,
@@ -26,8 +26,21 @@ export class ModificarImagenEmpresaComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    
+    this.rutaServe =environment.apiURL;
+    const headers = [{name: 'Accept', value: 'application/json'}];
+    this.uploaderLogo = new FileUploader({ url: this.rutaServe+'/catalog/uploadImageCompany' , autoUpload: true, headers: headers});
+    this.uploaderLogo.onBuildItemForm = (fileItem: any, form: any) => {
+      form.append('idCompany' , this.empresaId);
+     };
+     this.uploaderLogo.uploadAll();
+    this.uploaderLogo.onCompleteItem =  (item:any, response:any, status:any, headers:any) => {
+      this.empresa.imagen = item.some.name;
+      
+    };
     this.getCompany();
-    this.rutaImg = environment.imgRUL;
+    this.rutaImg = environment.imageServe;
+    
   }
 
   public fileOverBase(e: any): void {
@@ -52,6 +65,7 @@ export class ModificarImagenEmpresaComponent implements OnInit {
           ( (empresa: Empresa) => {
             console.log(empresa);
             this.empresa = empresa;
+            console.log(this.rutaImg);
             // this.updateCompanyForm.patchValue(empresa);
           }),
           (error => console.log(error))
