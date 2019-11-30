@@ -94,10 +94,6 @@ export class AjustesComponent implements OnInit {
 
   getValidations() {
     this.updateUserForm = new FormGroup({
-      email: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
       nombre: new FormControl('', [
         Validators.required,
       ]),
@@ -106,10 +102,6 @@ export class AjustesComponent implements OnInit {
       ]),
       apellidoMaterno: new FormControl('', [
         Validators.required,
-      ]),
-      usuario: new FormControl('', [
-        Validators.minLength(4),
-        Validators.maxLength(20)
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
       direccion: new FormControl('', [
