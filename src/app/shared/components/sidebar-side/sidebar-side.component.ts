@@ -8,6 +8,7 @@ import { environment } from './../../../../environments/environment';
 import { AutenticacionService } from "../../services/autenticacion.service";
 import { Router } from '@angular/router';
 import { IMenuItem } from './../../models/i-menu-item';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: "app-sidebar-side",
@@ -30,7 +31,8 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
     public themeService: ThemeService,
     private layout: LayoutService,
     private autenticacionService: AutenticacionService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {
     this.idCurrentUser = this.autenticacionService.currentUserValue;
   }
@@ -89,7 +91,17 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
 
   logOut(){
+    this.useAlerts('Sesión Finalizada', ' ', 'success-dialog');
     this.autenticacionService.logout();
     this.router.navigate(['/login']);
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 }

@@ -91,7 +91,7 @@ export class HeaderSideComponent implements OnInit {
   }
 
   logOut(){
-    this.useAlerts('Sesión Finalizada', 'Correcto', 'success-dialog');
+    this.useAlerts('Sesión Finalizada', ' ', 'success-dialog');
     this.autenticacionService.logout();
     this.router.navigate(['/login']);
   }
