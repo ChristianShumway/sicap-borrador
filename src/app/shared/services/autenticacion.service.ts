@@ -1,4 +1,3 @@
-// import {Http, Response} from "@angular/http";
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -52,4 +51,10 @@ export class AutenticacionService {
     return this.http.post<any>(`${environment.apiURL}/user/restoreUser`, JSON.stringify(user), { headers: headerss})
   }
 
+  updatePassword(user){
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/user/changePassword`, JSON.stringify(user), { headers: headerss})
+  }
+
+  
 }

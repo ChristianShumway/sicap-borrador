@@ -72,18 +72,29 @@ export class RestaurarPasswordComponent implements OnInit {
   }
 
   restorePassword() {
-    this.usuario = {
-      ...this.usuario,
-      ...this.passwordForm.value,
-      cambiarContrasena: 0
-    };
 
     if(this.passwordForm.valid){
-      console.log(this.usuario);
+      const usuario = {
+        idUsuario: this.usuario.idUsuario,
+        ...this.passwordForm.value,
+      };
+      console.log(usuario);
       this.submitButton.disabled = true;
       this.progressBar.mode = 'indeterminate';
-      this.useAlerts('Contraseña se ha cambiado', ' ', 'success-dialog');
-      this.router.navigate(['/login']);
+      this.autenticacionService.updatePassword(usuario).subscribe(
+        success => {
+          console.log(success);
+          if(success.estatus === '05'){
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+            this.autenticacionService.logout();
+            this.router.navigate(['/login']);
+          }
+        },
+        error => {
+          console.log(error);
+          this.useAlerts('Contraseña no se ha cambiado', ' ', 'error-dialog');
+        }
+      );
     }
   }
 
