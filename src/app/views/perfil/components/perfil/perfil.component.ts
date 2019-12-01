@@ -36,7 +36,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.urlImg = environment.imgRUL;
-    this.host= environment.imgRUL;
+    this.host= environment.host;
     this.activeView = this.router.snapshot.params['view'];
   }
 
