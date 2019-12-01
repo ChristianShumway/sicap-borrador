@@ -9,7 +9,7 @@
   <div fxFlex="100" fxFlex.gt-md="400px" fxFlex.gt-sm="50" *ngIf = "usuario">
     <mat-card class="profile-sidebar mb-1 pb-0">
       <div class="propic text-center">
-        <img src="{{urlImg}}/{{usuario.imagen}}" [alt]="usuario.nombre">
+        <img src="http://{{host}}/{{urlImg}}/files/{{usuario.imagen}}" [alt]="usuario.nombre">
       </div>
       <div class="profile-title text-center mb-1">
         <div class="main-title">{{usuario.nombre}}

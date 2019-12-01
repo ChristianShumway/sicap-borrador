@@ -9,6 +9,7 @@ import { environment } from './../../../../../environments/environment';
 })
 export class VistaUsuarioComponent implements OnInit {
   rutaImg: string;
+  host: string;
   constructor(
     public dialogRef: MatDialogRef<VistaUsuarioComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {}
@@ -19,5 +20,6 @@ export class VistaUsuarioComponent implements OnInit {
 
   ngOnInit() {
     this.rutaImg = environment.imgRUL;
+    this.host = environment.host;
   }
 }

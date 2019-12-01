@@ -22,9 +22,9 @@
       <mat-card class="user-card p-0" *ngIf="user.idPerfil !== 4">
         <mat-card-title>
           <div class="card-title-text">
-
-            <a *ngIf = "user.imagen" class="toolbar-avatar md mr-1"><img src="{{rutaImg}}/{{user.imagen}}" alt=""></a>
-            <a *ngIf = "!user.imagen" class="toolbar-avatar md mr-1"><img src="assets/images/faces/user-temp.png" alt=""></a>
+              
+            <a *ngIf = "user.imagen" class="toolbar-avatar md mr-1"><img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt=""></a>
+            <a *ngIf = "!user.imagen" class="toolbar-avatar md mr-1"><img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt=""></a>
             <span>{{user.nombre}} {{user.apellidoPaterno}}</span>
             <span fxFlex></span>
             <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">

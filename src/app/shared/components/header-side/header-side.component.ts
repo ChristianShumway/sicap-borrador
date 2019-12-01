@@ -27,6 +27,7 @@ export class HeaderSideComponent implements OnInit {
 
   @Input() usuarioLogeado: Usuario;
   public rutaImg: string;
+  public host: string;
   idCurrentUser;
 
   public egretThemes;
@@ -47,6 +48,7 @@ export class HeaderSideComponent implements OnInit {
     this.layoutConf = this.layout.layoutConf;
     this.translate.use(this.currentLang.code);
     this.rutaImg = environment.imgRUL;
+    this.host= environment.host;
   }
   setLang(lng) {
     this.currentLang = lng;

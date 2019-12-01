@@ -6,5 +6,7 @@
 export const environment = {
   production: false,
   apiURL: '',
-  imgRUL: 'assets/images/faces'
+  imageServe:'Sicap',
+  imgRUL: 'Sicap',
+  host:'localhost:8080'
 };

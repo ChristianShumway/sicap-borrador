@@ -29,7 +29,7 @@ import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.com
 import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
 import { PermisosComponent } from './components/permisos/permisos.component';
 import { ModalPerfilesComponent } from './components/modal-perfiles/modal-perfiles.component';
-
+import {MatListModule} from '@angular/material/list';
 @NgModule({
   declarations: [
     UsuariosComponent,
@@ -45,7 +45,7 @@ import { ModalPerfilesComponent } from './components/modal-perfiles/modal-perfil
     CrearPerfilComponent,
     ModificarPerfilComponent,
     PermisosComponent,
-    ModalPerfilesComponent
+    ModalPerfilesComponent,
   ],
   imports: [
   CommonModule,
@@ -54,6 +54,7 @@ import { ModalPerfilesComponent } from './components/modal-perfiles/modal-perfil
     RouterModule,
     ReactiveFormsModule,
     FormsModule,
+    MatListModule,
     FlexLayoutModule,
     NgxDatatableModule,
     ChartsModule,

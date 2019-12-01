@@ -19,6 +19,7 @@ export class PerfilComponent implements OnInit {
   activeView : string = 'overview';
   usuario: Usuario;
   urlImg: string;
+  host: string;
   // private users$: Observable<Usuario>;
   // private usuario = new BehaviorSubject<Usuario>();
 
@@ -35,6 +36,7 @@ export class PerfilComponent implements OnInit {
   ngOnInit() {
     this.getUser();
     this.urlImg = environment.imgRUL;
+    this.host= environment.imgRUL;
     this.activeView = this.router.snapshot.params['view'];
   }
 

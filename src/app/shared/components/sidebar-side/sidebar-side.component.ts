@@ -21,6 +21,7 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
   private menuItemsSub: Subscription;
   public layoutConf: ILayoutConf;
   public rutaImg: string;
+  public host: string;
   public currentUser: Usuario;
   idCurrentUser;
 
@@ -48,6 +49,7 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
     });
    
     this.rutaImg = environment.imgRUL;
+    this.host= environment.host;
     this.layoutConf = this.layout.layoutConf;
   }
   

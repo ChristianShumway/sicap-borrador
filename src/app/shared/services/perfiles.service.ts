@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Perfil } from './../models/perfil';
+import { AuthorizedProfile } from './../models/authorizedProfile';
+
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs'
@@ -49,6 +51,14 @@ export class PerfilesService {
     return this.http.get<Perfil>(`${environment.apiURL}/catalog/getPerfilByID/${idPerfil}`);
   }
 
+  getAuthorizedProfiles(idOPtion: number){
+    return this.http.get<AuthorizedProfile>(`${environment.apiURL}/config/getAuthorizedProfiles/${idOPtion}`);
+  }
+
+  updateAuthorizedProfile(authorizedProfile: Partial<AuthorizedProfile[]>): Observable<Perfil>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Perfil>(`${environment.apiURL}/config/saveAuthorizedProfiles`, JSON.stringify(authorizedProfile), { headers: headerss});
+  }
   createPerfil(newProfile): Observable<Perfil>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Perfil>(`${environment.apiURL}/catalog/createPerfil`, JSON.stringify(newProfile), { headers: headerss});
@@ -59,4 +69,8 @@ export class PerfilesService {
     return this.http.post<Perfil>(`${environment.apiURL}/catalog/updatePerfil`, JSON.stringify(profile), { headers: headerss});
   }
 
+  deletePerfil(profile: Partial<Perfil>): Observable<Perfil>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Perfil>(`${environment.apiURL}/catalog/deletePerfil`, JSON.stringify(profile), { headers: headerss});
+  }
 }

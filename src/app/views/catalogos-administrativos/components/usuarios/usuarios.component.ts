@@ -21,6 +21,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   users: Usuario[] = [];
   usersTemp: Usuario[] = [];
   rutaImg: string;
+  host: string;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -43,6 +44,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
+    this.host = environment.host;
   }
   
   ngOnDestroy(){

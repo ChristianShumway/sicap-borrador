@@ -1,21 +1,21 @@
 {
   "/user/*": {
-    "target": "http://108.175.5.160:8080/Sicap",
+    "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug"
   },
   "/catalog/*": {
-    "target": "http://108.175.5.160:8080/Sicap",
+    "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug"
   },
   "/dashboard/*": {
-    "target": "http://108.175.5.160:8080/Sicap",
+    "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug"
   },
   "/config/*": {
-    "target": "http://108.175.5.160:8080/Sicap",
+    "target": "http://localhost:9000/",
     "secure": false,
     "logLevel": "debug"
   }

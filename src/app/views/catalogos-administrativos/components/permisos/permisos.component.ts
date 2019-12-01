@@ -65,23 +65,34 @@ export class PermisosComponent implements OnInit {
   }
 
   openModalPerfiles(idModulo) {
-    const permisosOpcionMenu = this.permisos.filter(permiso => permiso.idModulo === idModulo)
+    this.perfilesService.getAuthorizedProfiles(idModulo).subscribe(
+      (perfiles => {
+        const profile = perfiles;
+        this.loadModal(profile);
+      }),
+      (error => console.log(error))
+    );
+  }
 
-    //console.log(permisosOpcionMenu);
-   
+  loadModal(profile){
     const dialogRef = this.dialog.open(ModalPerfilesComponent, {
       width: '300px',
-      data: permisosOpcionMenu
+      data: profile
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        console.log(result);
+        this.perfilesService.updateAuthorizedProfile(result).subscribe(
+          (perfiles => {
+            console.log(perfiles);
+            
+          }),
+          (error => console.log(error))
+        );
         // console.log(data);
       }
     });
   }
-
   generaArbolModulo(obj){
     if(obj.sub) {
       obj.sub.find( modulo => {

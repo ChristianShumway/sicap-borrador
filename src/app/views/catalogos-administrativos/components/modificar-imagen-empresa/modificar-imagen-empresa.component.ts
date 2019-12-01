@@ -18,6 +18,7 @@ export class ModificarImagenEmpresaComponent implements OnInit {
   console = console;
   empresaId;
   rutaImg: string;
+  host: string;
   rutaServe: string;
   constructor(
     private empresasService: EmpresasService,
@@ -40,7 +41,7 @@ export class ModificarImagenEmpresaComponent implements OnInit {
     };
     this.getCompany();
     this.rutaImg = environment.imageServe;
-    
+    this.host = environment.host;
   }
 
   public fileOverBase(e: any): void {
