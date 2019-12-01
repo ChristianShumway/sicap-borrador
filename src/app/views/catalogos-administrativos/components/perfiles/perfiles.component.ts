@@ -47,8 +47,8 @@ export class PerfilesComponent implements OnInit {
   getPerfiles(){
     this.perfilesService.getAllPerfiles().subscribe(
       ( (perfiles: Perfil[]) => {
-        this.perfiles = perfiles;
-        // console.log(this.perfiles);
+        this.perfiles = perfiles.filter(perfil => perfil.activo !== 0);
+        console.log(this.perfiles);
         this.perfilesTemp = this.perfiles;
         this.dataSource.data = this.perfiles;
       }),
@@ -85,9 +85,25 @@ export class PerfilesComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        const dataPerfil = {
+          idPerfil: id,
+          activo: 0
+        };
         console.log(result);
         console.log(id);
-        this.useAlerts('Eliminación de Perfil', 'Correcto', 'success-dialog');
+        this.perfilesService.deletePerfil(dataPerfil).subscribe(
+          (response:any) => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getPerfiles();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
       }
     });
   }

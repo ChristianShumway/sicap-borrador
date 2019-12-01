@@ -51,8 +51,8 @@ export class EmpresasComponent implements OnInit {
   getEmpresas(){
     this.empresasService.getAllEmpresas().subscribe(
       ( (empresas: Empresa[]) => {
-        console.log(empresas);
-        this.empresas = empresas;
+        this.empresas = empresas.filter( empresa => empresa.activo !== 0);
+        console.log(this.empresas);
         this.empresasTemp = this.empresas;
         this.dataSource.data = this.empresas;
       }),
@@ -89,9 +89,25 @@ export class EmpresasComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
+        const dataEmpresa = {
+          idEmpresa: id,
+          activo: 0
+        };
         console.log(result);
         console.log(id);
-        this.useAlerts('Eliminación de Empresa', 'Correcto', 'success-dialog');
+        this.empresasService.deleteEmpresa(dataEmpresa).subscribe(
+          (response:any) => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getEmpresas();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => {
+            console.log(error);
+          }
+        );
       }
     });
   }

@@ -59,4 +59,9 @@ export class PerfilesService {
     return this.http.post<Perfil>(`${environment.apiURL}/catalog/updatePerfil`, JSON.stringify(profile), { headers: headerss});
   }
 
+  deletePerfil(profile: Partial<Perfil>): Observable<Perfil>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Perfil>(`${environment.apiURL}/catalog/deletePerfil`, JSON.stringify(profile), { headers: headerss});
+  }
+
 }
