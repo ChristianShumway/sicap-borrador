@@ -30,4 +30,9 @@ export class EmpresasService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Empresa>(`${environment.apiURL}/catalog/updateCompany`, JSON.stringify(company), { headers: headerss});
   }
+
+  deleteEmpresa(company: Partial<Empresa>): Observable<Empresa>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<Empresa>(`${environment.apiURL}/catalog/deleteCompany`, JSON.stringify(company), { headers: headerss});
+  }
 }
