@@ -8,7 +8,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
-import { environment } from './../../../../../environments/environment.prod';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-ajustes',

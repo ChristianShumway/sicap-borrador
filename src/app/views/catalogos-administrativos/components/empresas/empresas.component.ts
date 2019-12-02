@@ -8,7 +8,7 @@ import { Router } from '@angular/router'
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
-import { environment } from './../../../../../environments/environment.prod';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-empresas',

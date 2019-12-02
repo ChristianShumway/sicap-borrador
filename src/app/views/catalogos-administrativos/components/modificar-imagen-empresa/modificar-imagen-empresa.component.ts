@@ -3,7 +3,7 @@ import { FileUploader } from 'ng2-file-upload';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Empresa } from './../../../../shared/models/empresa';
 import { EmpresasService } from '../../../../shared/services/empresas.service';
-import { environment } from './../../../../../environments/environment.prod';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-modificar-imagen-empresa',
