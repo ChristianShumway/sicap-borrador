@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { Empresa } from './../../../../shared/models/empresa';
 import { EmpresasService } from '../../../../shared/services/empresas.service';
 import { environment } from './../../../../../environments/environment';
+import {MatSnackBar} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-modificar-imagen-empresa',
@@ -23,7 +24,8 @@ export class ModificarImagenEmpresaComponent implements OnInit {
   constructor(
     private empresasService: EmpresasService,
     private router: Router,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit() {
@@ -34,11 +36,13 @@ export class ModificarImagenEmpresaComponent implements OnInit {
     this.uploaderLogo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idCompany' , this.empresaId);
      };
-     this.uploaderLogo.uploadAll();
+    this.uploaderLogo.uploadAll();
+    
     this.uploaderLogo.onCompleteItem =  (item:any, response:any, status:any, headers:any) => {
       this.empresa.imagen = item.some.name;
-      
+      this.useAlerts('Imágen de empresa actualizada', ' ', 'success-dialog');
     };
+
     this.getCompany();
     this.rutaImg = environment.imageServe;
     this.host = environment.host;
@@ -47,15 +51,6 @@ export class ModificarImagenEmpresaComponent implements OnInit {
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
   }
-
-  // getCompany(){
-  //   this.activatedRoute.params.subscribe( (data: Params) => {
-  //     const idCompany = data.id;
-  //     if(idCompany) {
-  //       // this.empresa = this.empresasService.getEmpresa(idCompany);
-  //     }
-  //   })
-  // }
 
   getCompany() {
     this.activatedRoute.params.subscribe((data: Params) => {
@@ -73,5 +68,14 @@ export class ModificarImagenEmpresaComponent implements OnInit {
         );
       }
     })
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 }

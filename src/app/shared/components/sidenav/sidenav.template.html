@@ -13,7 +13,9 @@
       </button>
     </div>
   </div>
-
+  <div *ngIf ="menuItems.length == '0'" appDropdown class="sidenav" style="height: 10vh;display: flex;justify-content: center;align-items: center;">
+    <mat-spinner [diameter]="40"></mat-spinner>
+  </div>
   <ul appDropdown class="sidenav">
     <li *ngFor="let item of menuItems" appDropdownLink routerLinkActive="open">
       <div class="nav-item-sep" *ngIf="item.type === 'separator'">

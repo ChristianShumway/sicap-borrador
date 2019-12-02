@@ -1,31 +1,26 @@
 <div class="wrap-buttons">
-  <a mat-raised-button color="primary" [routerLink]="'/catalogos-administrativos/crear-usuario'">Crear Usuario</a>
+  <a mat-raised-button matTooltip="Creación de un nuevo usuario" matTooltipPosition="left" color="primary" [routerLink]="'/catalogos-administrativos/crear-usuario'">Crear Usuario</a>
 </div>
 
 <mat-form-field class="margin-333" style="width: 98%">
-  <input 
-  matInput 
-  placeholder="Filtrar Usuarios" 
-  value=""
-  (keyup)='updateFilter($event)'>
+  <input matInput placeholder="Filtrar Usuarios" value="" (keyup)='updateFilter($event)'>
 </mat-form-field>
 
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as users; else noUsers">
+  <ng-container *ngIf="users.length; else loading">
+    <div *ngFor="let user of users" fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
 
-<div fxLayout="row wrap" *ngIf = "obs$ | async as users; else loading">
-  <ng-container *ngIf = "users.length; else noUsers">
-    <div
-     *ngFor="let user of users" 
-     fxFlex="100"
-     fxFlex.gt-sm="33"
-     fxFlex.sm="50">
- 
-      <mat-card class="user-card p-0" *ngIf="user.idPerfil !== 4">
+      <mat-card class="user-card p-0">
         <mat-card-title>
           <div class="card-title-text">
-              
-            <a *ngIf = "user.imagen" class="toolbar-avatar md mr-1"><img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt=""></a>
-            <a *ngIf = "!user.imagen" class="toolbar-avatar md mr-1"><img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt=""></a>
-            <span>{{user.nombre}} {{user.apellidoPaterno}}</span>
+
+            <a *ngIf="!user" class="toolbar-avatar md mr-1">
+              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            </a>
+            <a *ngIf="user" class="toolbar-avatar md mr-1" (click)="openDialogUser(user)">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt="">
+            </a>
+            <span class="title-card-catalogs">{{user.nombre}} {{user.apellidoPaterno}} {{user.apellidoMaterno}}</span>
             <span fxFlex></span>
             <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
               <mat-icon class="">more_vert</mat-icon>
@@ -38,31 +33,43 @@
           </div>
           <mat-divider></mat-divider>
         </mat-card-title>
-  
+
         <mat-card-content>
           <div class="user-details">
-            <p><mat-icon class="text-muted">business</mat-icon>{{user.empresa.nombre}}</p>
-            <p><mat-icon class="text-muted">email</mat-icon>{{user.email}}</p>
-            <p><mat-icon class="text-muted">phone</mat-icon>{{user.telefono}}</p>
-            <p><mat-icon class="text-muted">location_on</mat-icon>{{user.direccion}}</p>
-            <p><mat-icon class="text-muted">date_range</mat-icon>{{user.fechaNacimiento | date}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">business</mat-icon>{{user.empresa.nombre}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">email</mat-icon>{{user.email}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">phone</mat-icon>{{user.telefono}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_on</mat-icon>{{user.direccion}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">date_range</mat-icon>{{user.fechaNacimiento | date}}</p>
           </div>
         </mat-card-content>
       </mat-card>
     </div>
-  </ng-container>  
-
-  <ng-template #noUsers>
-    <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
-      <mat-card class="user-card p-0">
-        <mat-card-content>
-          <img src="assets/images/icons/no-close.png" alt="no found">
-        </mat-card-content>
-      </mat-card>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
     </div>
   </ng-template>
 </div>
 
-<ng-template #loading><h1>loading animation...</h1></ng-template>
+
+
+<!-- <ng-template #noUsers>
+  <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+    <mat-card class="user-card p-0">
+      <mat-card-content>
+        <img src="assets/images/icons/no-close.png" alt="no found">
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template> -->
+
+
 
 <mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

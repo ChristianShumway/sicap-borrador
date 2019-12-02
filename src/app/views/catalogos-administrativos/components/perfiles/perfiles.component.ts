@@ -80,6 +80,7 @@ export class PerfilesComponent implements OnInit {
   openDialoAlertDelete(id) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
+      panelClass: 'custom-dialog-container-delete',
       data: id
     });
 

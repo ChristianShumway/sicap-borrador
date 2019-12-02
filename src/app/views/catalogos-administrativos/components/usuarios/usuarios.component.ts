@@ -102,6 +102,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       const {opcion, id} = result[0];
       switch (opcion) {
         case 'mensaje':
+          const urlWpp = `https://api.whatsapp.com/api/send?phone=${id}`;
+          window.open(urlWpp);
           break;
         case 'editar':
           this.router.navigate([`/catalogos-administrativos/modificar-usuario/${id}`])
@@ -118,6 +120,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   openDialoAlertDelete(user) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
+      panelClass: 'custom-dialog-container-delete',
       data: user
     });
 

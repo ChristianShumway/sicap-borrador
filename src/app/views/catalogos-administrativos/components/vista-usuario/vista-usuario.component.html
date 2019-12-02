@@ -8,26 +8,27 @@
 <div mat-dialog-content class="mat-content">
   <div class="data-principal">
     <p>{{data.perfil.nombre}}</p>
-    <h2>{{data.nombre}} {{data.apellidoPaterno}} {{data.apellidoMaterno}}</h2>
+    <h2><span>{{data.nombre}}</span> {{data.apellidoPaterno}} {{data.apellidoMaterno}}</h2>
   </div>
   <div class="buttons">
-    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'mensaje', 'id':data.telefono}]" cdkFocusInitial>
+    <button matTooltip="Enviar Whatsapp" mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'mensaje', 'id':data.telefono}]" cdkFocusInitial>
       <mat-icon>mode_comment</mat-icon>
     </button>
-    <button mat-mini-fab [color]="'edit'"  [mat-dialog-close]="[{'opcion':'editar', 'id':data.idUsuario}]" cdkFocusInitial>
+    <button matTooltip="Editar Usuario"  mat-mini-fab [color]="'edit'"  [mat-dialog-close]="[{'opcion':'editar', 'id':data.idUsuario}]" cdkFocusInitial>
       <mat-icon>edit</mat-icon>
     </button>
-    <button mat-mini-fab [color]="'delete'"  [mat-dialog-close]="[{'opcion':'eliminar', 'id':data.idUsuario}]" cdkFocusInitial>
+    <button mat-mini-fab matTooltip="Eliminar Usuario" [color]="'delete'"  [mat-dialog-close]="[{'opcion':'eliminar', 'id':data.idUsuario}]" cdkFocusInitial>
       <mat-icon>delete</mat-icon>
     </button>
   </div>
   <hr>
   <div class="data-general">
+      <p><mat-icon class="text-muted">face</mat-icon>{{data.usuario}}</p>
     <p><mat-icon class="text-muted">business</mat-icon>{{data.empresa.nombre}}</p>
     <p><mat-icon class="text-muted">email</mat-icon>{{data.email}}</p>
     <p><mat-icon class="text-muted">phone</mat-icon>{{data.telefono}}</p>
     <p><mat-icon class="text-muted">location_on</mat-icon>{{data.direccion}}</p>
-    <p><mat-icon class="text-muted">date_range</mat-icon> {{data.fechaNacimiento | date}}</p>
+    <p><mat-icon class="text-muted">cake</mat-icon> {{data.fechaNacimiento | date}}</p>
   </div>
 </div>
 <div mat-dialog-actions>

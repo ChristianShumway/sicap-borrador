@@ -54,7 +54,7 @@ export class AjustesComponent implements OnInit {
      this.uploaderProfile.uploadAll();
     this.uploaderProfile.onCompleteItem =  (item:any, response:any, status:any, headers:any) => {
       this.usuario.imagen = item.some.name;
-      
+      this.useAlerts('Imágen de perfil actualizada', ' ', 'success-dialog');
     };
 
   }

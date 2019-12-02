@@ -210,6 +210,11 @@
   padding: 24px 0 !important;
 }
 
+.custom-dialog-container-delete .mat-dialog-container {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
 .error-dialog {
   color: white !important;
   background-color: rgba(211, 47, 47, .9) !important;
@@ -242,7 +247,7 @@
 
 .warning-dialog {
   color: white !important;
-  background-color:rgba(206, 153, 54, 0.9) !important;
+  background-color:rgba(245, 178, 53, 0.9) !important;
   .mat-simple-snackbar-action {
     display: grid;
     justify-items: center;
@@ -255,10 +260,46 @@
   }
 }
 
+// ESTILOS PERSONALIZADOS SICAP
+// catalogos
+.title-card-catalogs {
+  width: 60%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.toolbar-avatar.md > img {
+  min-width: 48px !important;
+  // height: auto !important;
+  object-fit: contain !important;
+}
+
+.p-info-catalogs {
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.wrap-loading-catalog{
+  width: 100%;
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 @media (max-width: 959px) {
   .app-admin-container.sidebar-full {
     .main-content-wrap {
       width: 100% !important;
     }
+  }
+}
+
+@media screen and (max-width: 599px){
+  .breadcrumb-bar .breadcrumb {
+    visibility: hidden !important;
   }
 }

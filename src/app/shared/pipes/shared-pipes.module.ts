@@ -6,18 +6,20 @@ import { ExcerptPipe } from "./excerpt.pipe";
 import { GetValueByKeyPipe } from './get-value-by-key.pipe';
 import { GetEmpresaPipe } from './get-empresa.pipe';
 import { GetPerfilPipe } from './get-perfil.pipe';
+import { TruncatePipe } from './truncate.pipe';
 
 const pipes = [
   RelativeTimePipe,
   ExcerptPipe,
   GetValueByKeyPipe,
   GetEmpresaPipe,
-  GetPerfilPipe
+  GetPerfilPipe,
+  TruncatePipe
 ]
 
 @NgModule({
   imports: [
-  CommonModule
+    CommonModule
   ],
   declarations: pipes,
   exports: pipes
