@@ -11,7 +11,15 @@ import { PerfilesComponent } from './components/perfiles/perfiles.component';
 import { CrearPerfilComponent } from './components/crear-perfil/crear-perfil.component';
 import { ModificarPerfilComponent } from './components/modificar-perfil/modificar-perfil.component';
 import { PermisosComponent } from './components/permisos/permisos.component';
-
+import { DestajistasComponent } from './components/destajistas/destajistas.component';
+import { CrearDestajistaComponent } from './components/crear-destajista/crear-destajista.component';
+import { ModificarDestajistaComponent } from './components/modificar-destajista/modificar-destajista.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
+import { CrearClienteComponent } from './components/crear-cliente/crear-cliente.component';
+import { ModificarClienteComponent } from './components/modificar-cliente/modificar-cliente.component';
+import { ProveedoresComponent } from './components/proveedores/proveedores.component';
+import { CrearProveedorComponent } from './components/crear-proveedor/crear-proveedor.component';
+import { ModificarProveedorComponent } from './components/modificar-proveedor/modificar-proveedor.component';
 
 const routes: Routes = [
   { 
@@ -68,6 +76,51 @@ const routes: Routes = [
     path: 'permisos', 
     component: PermisosComponent,
     data: { title: 'Permisos', breadcrumb: 'Asignación de Permisos'} 
+  },
+  { 
+    path: 'destajistas', 
+    component: DestajistasComponent,
+    data: { title: 'Lista de Destajistas', breadcrumb: 'Destajistas'} 
+  },
+  { 
+    path: 'crear-destajista', 
+    component: CrearDestajistaComponent,
+    data: { title: 'Crear Destajista', breadcrumb: 'Crear Destajista'} 
+  },
+  { 
+    path: 'modificar-destajista/:id', 
+    component: ModificarDestajistaComponent,
+    data: { title: 'Modificar Destajista', breadcrumb: 'Modificar Destajista'} 
+  },
+  { 
+    path: 'clientes', 
+    component: ClientesComponent,
+    data: { title: 'Lista de Clientes', breadcrumb: 'Clientes'} 
+  },
+  { 
+    path: 'crear-cliente', 
+    component: CrearClienteComponent,
+    data: { title: 'Crear Cliente', breadcrumb: 'Crear Cliente'} 
+  },
+  { 
+    path: 'modificar-cliente/:id', 
+    component: ModificarClienteComponent,
+    data: { title: 'Modificar Cliente', breadcrumb: 'Modificar Cliente'} 
+  },
+  { 
+    path: 'proveedores', 
+    component: ProveedoresComponent,
+    data: { title: 'Lista de Proveedores', breadcrumb: 'Proveedores'} 
+  },
+  { 
+    path: 'crear-proveedor', 
+    component: CrearProveedorComponent,
+    data: { title: 'Crear Proveedor', breadcrumb: 'Crear Proveedor'} 
+  },
+  { 
+    path: 'modificar-proveedor/:id', 
+    component: ModificarProveedorComponent,
+    data: { title: 'Modificar Proveedor', breadcrumb: 'Modificar Proveedor'} 
   },
 ];
 

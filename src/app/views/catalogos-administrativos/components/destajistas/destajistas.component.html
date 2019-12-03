@@ -1,0 +1,58 @@
+<div class="wrap-buttons">
+  <a mat-raised-button matTooltip="Creación de un nuevo destajista" matTooltipPosition="left" color="primary" [routerLink]="'/configuracion/crear-destajista'">Crear Destajista</a>
+</div>
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Destajistas" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as destajistas;">
+  <ng-container *ngIf="destajistas.length; else loading">
+    <div *ngFor="let destajista of destajistas" fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text">
+
+            <a class="toolbar-avatar md mr-1">
+              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            </a>
+
+            <span class="title-card-catalogs">{{destajista.nombre}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="destajistaMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #destajistaMenu="matMenu">
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-destajista', destajista.idDestajista]">Editar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(destajista.idDestajista)">Eliminar</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_city</mat-icon>{{destajista.ciudad}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_city</mat-icon>{{destajista.estado}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">room</mat-icon>{{destajista.direccion}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">phone</mat-icon>{{destajista.telefono}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">work</mat-icon>{{destajista.especialidad}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

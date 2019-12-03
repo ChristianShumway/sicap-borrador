@@ -30,6 +30,15 @@ import { ModificarPerfilComponent } from './components/modificar-perfil/modifica
 import { PermisosComponent } from './components/permisos/permisos.component';
 import { ModalPerfilesComponent } from './components/modal-perfiles/modal-perfiles.component';
 import {MatListModule} from '@angular/material/list';
+import { DestajistasComponent } from './components/destajistas/destajistas.component';
+import { CrearDestajistaComponent } from './components/crear-destajista/crear-destajista.component';
+import { ModificarDestajistaComponent } from './components/modificar-destajista/modificar-destajista.component';
+import { ClientesComponent } from './components/clientes/clientes.component';
+import { ProveedoresComponent } from './components/proveedores/proveedores.component';
+import { CrearClienteComponent } from './components/crear-cliente/crear-cliente.component';
+import { CrearProveedorComponent } from './components/crear-proveedor/crear-proveedor.component';
+import { ModificarClienteComponent } from './components/modificar-cliente/modificar-cliente.component';
+import { ModificarProveedorComponent } from './components/modificar-proveedor/modificar-proveedor.component';
 @NgModule({
   declarations: [
     UsuariosComponent,
@@ -46,6 +55,15 @@ import {MatListModule} from '@angular/material/list';
     ModificarPerfilComponent,
     PermisosComponent,
     ModalPerfilesComponent,
+    DestajistasComponent,
+    CrearDestajistaComponent,
+    ModificarDestajistaComponent,
+    ClientesComponent,
+    ProveedoresComponent,
+    CrearClienteComponent,
+    CrearProveedorComponent,
+    ModificarClienteComponent,
+    ModificarProveedorComponent,
   ],
   imports: [
   CommonModule,

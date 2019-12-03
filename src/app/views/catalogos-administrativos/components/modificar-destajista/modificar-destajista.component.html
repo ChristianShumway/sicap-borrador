@@ -1,0 +1,93 @@
+<mat-card class="p-0 container-create-user">
+  <mat-card-title class="">
+    <div class="card-title-text">Formulario para la modificación de destajistas</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="updateDestajistaForm" (submit)="createDestajista()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['nombre'].hasError('required') && updateDestajistaForm.controls['nombre'].touched"
+                class="form-error-msg">
+                Nombre del estajista es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="ciudad" formControlName="ciudad" placeholder="Ciudad">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['ciudad'].hasError('required') && updateDestajistaForm.controls['ciudad'].touched"
+                class="form-error-msg">
+                Ciudad es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="estado" formControlName="estado" placeholder="Estado">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['estado'].hasError('required') && updateDestajistaForm.controls['estado'].touched"
+                class="form-error-msg">
+                Estado es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="direccion" formControlName="direccion" placeholder="Dirección">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['direccion'].hasError('required') && updateDestajistaForm.controls['direccion'].touched"
+                class="form-error-msg">
+                Dirección es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['telefono'].hasError('required') && updateDestajistaForm.controls['telefono'].touched"
+                class="form-error-msg">
+                Número de teléfono invalido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="especialidad" formControlName="especialidad" placeholder="Especialidad">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateDestajistaForm.controls['especialidad'].hasError('required') && updateDestajistaForm.controls['especialidad'].touched"
+                class="form-error-msg">
+                Especialidad es un campo requerido
+              </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="updateDestajistaForm.invalid" type="submit">Agregar</button>
+        <button mat-raised-button [routerLink]="'/configuracion/destajistas'">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
