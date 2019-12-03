@@ -1,5 +1,5 @@
 <div class="wrap-buttons">
-  <a mat-raised-button matTooltip="Creación de un nuevo usuario" matTooltipPosition="left" color="primary" [routerLink]="'/catalogos-administrativos/crear-usuario'">Crear Usuario</a>
+  <a mat-raised-button matTooltip="Creación de un nuevo usuario" matTooltipPosition="left" color="primary" [routerLink]="'/configuracion/crear-usuario'">Crear Usuario</a>
 </div>
 
 <mat-form-field class="margin-333" style="width: 98%">
@@ -27,7 +27,7 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <button mat-menu-item (click)="openDialogUser(user)">Ver</button>
-              <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-usuario', user.idUsuario]">Editar</button>
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-usuario', user.idUsuario]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(user)">Eliminar</button>
             </mat-menu>
           </div>

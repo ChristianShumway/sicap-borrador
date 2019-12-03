@@ -1,5 +1,5 @@
 <div class="wrap-buttons">
-  <a mat-raised-button matTooltip="Creación de un nuevo perfil" matTooltipPosition="left" color="primary" [routerLink]="'/catalogos-administrativos/crear-perfil'">Crear Perfil</a>
+  <a mat-raised-button matTooltip="Creación de un nuevo perfil" matTooltipPosition="left" color="primary" [routerLink]="'/configuracion/crear-perfil'">Crear Perfil</a>
 </div>
 
 <mat-form-field class="margin-333" style="width: 98%">
@@ -30,7 +30,7 @@
             </button>
             <mat-menu #perfilMenu="matMenu">
               <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
-              <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-perfil', perfil.idPerfil]">Editar</button>
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-perfil', perfil.idPerfil]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(perfil.idPerfil)">Eliminar</button>
             </mat-menu>
           </div>

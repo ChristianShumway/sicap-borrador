@@ -47,9 +47,9 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Dashboards', breadcrumb: 'DASHBOARD'}
       },
       {
-        path: 'catalogos-administrativos',
+        path: 'configuracion',
         loadChildren: () => import('./views/catalogos-administrativos/catalogos-administrativos.module').then(m =>m.CatalogosAdministrativosModule),
-        data: { title: 'Catálogos Administrativos', breadcrumb: 'Catálogos Administrativos'}
+        data: { title: 'Configuración', breadcrumb: 'Configuración'}
       },
       {
         path: 'perfil/:id',

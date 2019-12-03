@@ -106,7 +106,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
           window.open(urlWpp);
           break;
         case 'editar':
-          this.router.navigate([`/catalogos-administrativos/modificar-usuario/${id}`])
+          this.router.navigate([`/configuracion/modificar-usuario/${id}`])
           break;
         case 'eliminar':
           this.openDialoAlertDelete(id);

@@ -1,5 +1,5 @@
 <div class="wrap-buttons">
-  <a mat-raised-button color="primary"  matTooltip="Creación de un nueva empresa" matTooltipPosition="left" [routerLink]="'/catalogos-administrativos/crear-empresa'">Crear Empresa</a>
+  <a mat-raised-button color="primary"  matTooltip="Creación de un nueva empresa" matTooltipPosition="left" [routerLink]="'/configuracion/crear-empresa'">Crear Empresa</a>
 </div>
 
 <mat-form-field class="margin-333" style="width: 98%">
@@ -27,8 +27,8 @@
             </button>
             <mat-menu #empresaMenu="matMenu">
               <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
-              <button mat-menu-item [routerLink]="['/catalogos-administrativos/modificar-empresa', empresa.idEmpresa]">Editar</button>
-              <button mat-menu-item [routerLink]="['/catalogos-administrativos/actualizar-perfil', empresa.idEmpresa]">Actualizar Logo</button>
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-empresa', empresa.idEmpresa]">Editar</button>
+              <button mat-menu-item [routerLink]="['/configuracion/actualizar-perfil', empresa.idEmpresa]">Actualizar Logo</button>
               <button mat-menu-item (click)="openDialoAlertDelete(empresa.idEmpresa)">Eliminar</button>
             </mat-menu>
           </div>

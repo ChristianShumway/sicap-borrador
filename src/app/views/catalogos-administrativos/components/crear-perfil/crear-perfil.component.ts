@@ -41,7 +41,7 @@ export class CrearPerfilComponent implements OnInit {
         ((success:any) => {
           console.log(success);
           if(success.estatus === '05'){
-            this.router.navigate(['/catalogos-administrativos/perfiles']);
+            this.router.navigate(['/configuracion/perfiles']);
             this.useAlerts(success.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(success.mensaje, ' ', 'error-dialog');

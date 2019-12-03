@@ -57,7 +57,7 @@ export class ModificarEmpresaComponent implements OnInit {
         ( (success: any) => {
           console.log(success);
           if(success.estatus === '05'){
-            this.router.navigate(['/catalogos-administrativos/empresas']);
+            this.router.navigate(['/configuracion/empresas']);
             this.useAlerts(success.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(success.mensaje, ' ', 'error-dialog');

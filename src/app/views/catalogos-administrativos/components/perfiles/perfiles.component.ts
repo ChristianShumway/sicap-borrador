@@ -1,6 +1,7 @@
 import { Component, OnInit,  ViewChild, OnDestroy, ChangeDetectorRef  } from '@angular/core';
 import { Perfil } from './../../../../shared/models/perfil';
 import { PerfilesService } from './../../../../shared/services/perfiles.service';
+import { UsuariosService } from 'app/shared/services/usuarios.service';
 import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -27,7 +28,8 @@ export class PerfilesComponent implements OnInit {
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -47,7 +49,7 @@ export class PerfilesComponent implements OnInit {
   getPerfiles(){
     this.perfilesService.getAllPerfiles().subscribe(
       ( (perfiles: Perfil[]) => {
-        this.perfiles = perfiles.filter(perfil => perfil.activo !== 0);
+        this.perfiles = perfiles.filter(perfil => perfil.activo !== 0 && perfil.nombre !== "Bajas");
         console.log(this.perfiles);
         this.perfilesTemp = this.perfiles;
         this.dataSource.data = this.perfiles;
@@ -77,33 +79,45 @@ export class PerfilesComponent implements OnInit {
     // console.log(this.dataSource.data);
   }
 
-  openDialoAlertDelete(id) {
+  openDialoAlertDelete(idP) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
-      data: id
+      data: idP
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         const dataPerfil = {
-          idPerfil: id,
+          idPerfil: idP,
           activo: 0
         };
-        console.log(result);
-        console.log(id);
-        this.perfilesService.deletePerfil(dataPerfil).subscribe(
-          (response:any) => {
-            if(response.estatus === '05'){
-              this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getPerfiles();
+
+        this.usuariosService.getUsuarios().subscribe(
+          response => {
+            const usuarios = response.filter(usuario => usuario.perfil.nombre !== 'Bajas' && usuario.idPerfil === idP);
+            const usuariosPertenecientesPerfil = usuarios.length;
+            console.log(usuariosPertenecientesPerfil);
+            if (usuariosPertenecientesPerfil === 0) {
+              // ELIMINAR PERFIL SI NO TIENE USUARIOS
+              this.perfilesService.deletePerfil(dataPerfil).subscribe(
+                (response:any) => {
+                  if(response.estatus === '05'){
+                    this.useAlerts(response.mensaje, ' ', 'success-dialog');
+                    this.getPerfiles();
+                  } else {
+                    this.useAlerts(response.mensaje, ' ', 'error-dialog');
+                  }
+                },
+                error => {
+                  console.log(error);
+                }
+              );
             } else {
-              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              this.useAlerts('No es posible eliminar perfil ya que tiene usuarios activos pertenecientes al mismo', ' ', 'error-dialog');
             }
           },
-          error => {
-            console.log(error);
-          }
+          error => console.log('no se obtuvieron usuarios')
         );
       }
     });

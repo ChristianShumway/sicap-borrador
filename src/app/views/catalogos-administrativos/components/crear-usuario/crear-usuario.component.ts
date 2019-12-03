@@ -96,7 +96,7 @@ export class CrearUsuarioComponent implements OnInit {
         (success => {
           // console.log(success);
           if(success.estatus === '05'){
-            this.router.navigate(['/catalogos-administrativos/usuarios']);
+            this.router.navigate(['/configuracion/usuarios']);
             this.useAlerts(success.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(success.mensaje, ' ', 'error-dialog');
@@ -113,13 +113,13 @@ export class CrearUsuarioComponent implements OnInit {
   getCatalogos() {
     this.empresasService.getAllEmpresas().subscribe(
       ( (empresas: Empresa[]) => {
-        this.empresas = empresas;
+        this.empresas = empresas.filter( empresa => empresa.activo === 1);
       }),
       (error => console.log(error))
     );
     this.perfilesService.getAllPerfiles().subscribe(
       ( (perfiles: Perfil[]) => {
-        this.perfiles = perfiles;
+        this.perfiles = perfiles.filter( perfil => perfil.activo === 1 && perfil.nombre !== 'Bajas');
       }),
       (error => console.log(error))
     );
