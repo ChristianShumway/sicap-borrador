@@ -24,8 +24,8 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #clienteMenu="matMenu">
-              <button mat-menu-item [routerLink]="['/configuracion/modificar-cliente', cliente.idcliente]">Editar</button>
-              <button mat-menu-item (click)="openDialoAlertDelete(cliente.idcliente)">Eliminar</button>
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-cliente', cliente.idCliente]">Editar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(cliente.idCliente)">Eliminar</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

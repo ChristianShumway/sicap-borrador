@@ -1,3 +1,62 @@
-<p>
-  proveedores works!
-</p>
+<div class="wrap-buttons">
+  <a mat-raised-button matTooltip="Creación de un nuevo proveedor" matTooltipPosition="left" color="primary" [routerLink]="'/configuracion/crear-proveedor'">Crear Proveedor</a>
+</div>
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Proveedores" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as proveedores;">
+  <ng-container *ngIf="proveedores.length; else loading">
+    <div *ngFor="let proveedor of proveedores" fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text">
+
+            <a class="toolbar-avatar md mr-1">
+              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            </a>
+
+            <span class="title-card-catalogs">{{proveedor.nombre}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="proveedorMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #proveedorMenu="matMenu">
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-proveedor', proveedor.idProveedor]">Editar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(proveedor.idProveedor)">Eliminar</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_city</mat-icon>{{proveedor.razonSocial}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_city</mat-icon>{{proveedor.rfc}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">room</mat-icon>{{proveedor.direccion}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">room</mat-icon>{{proveedor.localizacion}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">phone</mat-icon>{{proveedor.telefono}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">room</mat-icon>{{proveedor.familia}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">work</mat-icon>{{proveedor.especialidad}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>
