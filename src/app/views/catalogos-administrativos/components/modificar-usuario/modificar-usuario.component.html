@@ -81,7 +81,7 @@
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateUserForm.controls['idPerfil'].hasError('required') && updateUserForm.controls['idPerfil'].touched" class="form-error-msg">
-                Empresa es un campo requerido
+                Perfil es un campo requerido
               </small>
             </div>
           </div>
@@ -120,7 +120,7 @@
               <input matInput name="direccion" formControlName="direccion" placeholder="Dirección">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateUserForm.controls['direccion'].hasError('direccion') && updateUserForm.controls['direccion'].touched"
+              <small *ngIf="updateUserForm.controls['direccion'].hasError('required') && updateUserForm.controls['direccion'].touched"
                 class="form-error-msg">
                 Dirección es un campo requerido
               </small>

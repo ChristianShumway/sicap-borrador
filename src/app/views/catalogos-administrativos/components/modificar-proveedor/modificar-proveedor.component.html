@@ -1,3 +1,124 @@
-<p>
-  modificar-proveedor works!
-</p>
+<mat-card class="p-0 container-create-user">
+  <mat-card-title class="">
+    <div class="card-title-text">Formulario para la modificación de proveedores</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="updateProveedorForm" (submit)="updateProveedor()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre(s)">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['nombre'].hasError('required') && updateProveedorForm.controls['nombre'].touched"
+                class="form-error-msg">
+                Nombre del proveedor es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="razonSocial" formControlName="razonSocial" placeholder="Razón Social">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['razonSocial'].hasError('required') && updateProveedorForm.controls['razonSocial'].touched"
+                class="form-error-msg">
+                Razón social es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="rfc" formControlName="rfc" placeholder="RFC">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['rfc'].hasError('required') && updateProveedorForm.controls['rfc'].touched" class="form-error-msg">
+                RFC es un campo requerido
+              </small>
+              <small *ngIf="updateProveedorForm.controls['rfc'].hasError('minlength') && updateProveedorForm.controls['rfc'].touched" class="form-error-msg">
+                El rfc debe ser mínimo de 12 caracteres
+              </small>
+              <small *ngIf="updateProveedorForm.controls['rfc'].hasError('maxlength') && updateProveedorForm.controls['rfc'].touched" class="form-error-msg">
+                El rfc no debe ser mayor a 13 caracteres
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="direccion" formControlName="direccion" placeholder="Dirección">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['direccion'].hasError('direccion') && updateProveedorForm.controls['direccion'].touched"
+                class="form-error-msg">
+                Dirección es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="localizacion" formControlName="localizacion" placeholder="Localización">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['localizacion'].hasError('localizacion') && updateProveedorForm.controls['localizacion'].touched"
+                class="form-error-msg">
+                Localización es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['telefono'].hasError('required') && updateProveedorForm.controls['telefono'].touched"
+                class="form-error-msg">
+                Número de teléfono invalido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="familia" formControlName="familia" placeholder="Familia">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['familia'].hasError('familia') && updateProveedorForm.controls['familia'].touched"
+                class="form-error-msg">
+                Familia es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="especialidad" formControlName="especialidad" placeholder="Especialidad">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateProveedorForm.controls['especialidad'].hasError('especialidad') && updateProveedorForm.controls['especialidad'].touched"
+                class="form-error-msg">
+                Dirección es un campo requerido
+              </small>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="updateProveedorForm.invalid" type="submit">Modificar</button>
+        <button mat-raised-button [routerLink]="'/configuracion/proveedores'">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

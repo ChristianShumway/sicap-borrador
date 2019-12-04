@@ -20,6 +20,9 @@ import { ModificarClienteComponent } from './components/modificar-cliente/modifi
 import { ProveedoresComponent } from './components/proveedores/proveedores.component';
 import { CrearProveedorComponent } from './components/crear-proveedor/crear-proveedor.component';
 import { ModificarProveedorComponent } from './components/modificar-proveedor/modificar-proveedor.component';
+import { EmpleadosComponent } from './components/empleados/empleados.component';
+import { CrearEmpleadoComponent } from './components/crear-empleado/crear-empleado.component';
+import { ModificarEmpleadoComponent } from './components/modificar-empleado/modificar-empleado.component';
 
 const routes: Routes = [
   { 
@@ -121,6 +124,21 @@ const routes: Routes = [
     path: 'modificar-proveedor/:id', 
     component: ModificarProveedorComponent,
     data: { title: 'Modificar Proveedor', breadcrumb: 'Modificar Proveedor'} 
+  },
+  { 
+    path: 'empleados', 
+    component: EmpleadosComponent,
+    data: { title: 'Lista de Empleados', breadcrumb: 'Empleados'} 
+  },
+  { 
+    path: 'crear-empleado', 
+    component: CrearEmpleadoComponent,
+    data: { title: 'Crear Empleado', breadcrumb: 'Crear Empleado'} 
+  },
+  { 
+    path: 'modificar-empleado/:id', 
+    component: ModificarEmpleadoComponent,
+    data: { title: 'Modificar Empleado', breadcrumb: 'Modificar Empleado'} 
   },
 ];
 

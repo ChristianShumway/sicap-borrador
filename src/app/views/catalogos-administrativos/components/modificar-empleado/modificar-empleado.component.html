@@ -1,0 +1,87 @@
+<mat-card class="p-0 container-create-user">
+  <mat-card-title class="">
+    <div class="card-title-text">Formulario para la modificación de empleados</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="updateEmpleadoForm" (submit)="updateEmpleado()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="nombre" formControlName="nombre" placeholder="Nombre(s)">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateEmpleadoForm.controls['nombre'].hasError('required') && updateEmpleadoForm.controls['nombre'].touched"
+                class="form-error-msg">
+                Nombre es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Perfil</mat-label>
+              <mat-select formControlName="idEmpresa" required>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateEmpleadoForm.controls['idEmpresa'].hasError('required') && updateEmpleadoForm.controls['idEmpresa'].touched"
+                class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="puesto" formControlName="puesto" placeholder="Puesto">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateEmpleadoForm.controls['puesto'].hasError('required') && updateEmpleadoForm.controls['puesto'].touched"
+                class="form-error-msg">
+                Puesto es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateEmpleadoForm.controls['telefono'].hasError('required') && updateEmpleadoForm.controls['telefono'].touched"
+                class="form-error-msg">
+                Número de teléfono invalido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="especialidad" formControlName="especialidad" placeholder="Especialidad">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateEmpleadoForm.controls['especialidad'].hasError('required') && updateEmpleadoForm.controls['especialidad'].touched"
+                class="form-error-msg">
+                Especialidad es un campo requerido
+              </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="updateEmpleadoForm.invalid" type="submit">Modificar</button>
+        <button mat-raised-button [routerLink]="'/configuracion/empleados'">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

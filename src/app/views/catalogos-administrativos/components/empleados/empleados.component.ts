@@ -1,36 +1,32 @@
 import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
-import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { EmpleadoService } from '../../../../shared/services/empleado.service';
 import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
-import { Usuario } from './../../../../shared/models/usuario';
-import { environment } from './../../../../../environments/environment';
+import { Empleado } from './../../../../shared/models/empleado';
 
 @Component({
-  selector: 'app-usuarios',
-  templateUrl: './usuarios.component.html',
-  styleUrls: ['./usuarios.component.scss']
+  selector: 'app-empleados',
+  templateUrl: './empleados.component.html',
+  styleUrls: ['./empleados.component.scss']
 })
-export class UsuariosComponent implements OnInit, OnDestroy {
+export class EmpleadosComponent implements OnInit, OnDestroy {
 
-  users: Usuario[] = [];
-  usersTemp: Usuario[] = [];
-  rutaImg: string;
-  host: string;
+  empleados: Empleado[] = [];
+  empleadosTemp: Empleado[] = [];
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<Usuario> = new MatTableDataSource<Usuario>();
+  dataSource: MatTableDataSource<Empleado> = new MatTableDataSource<Empleado>();
 
 
 
   constructor(
-    private usuariosService: UsuariosService,
+    private empleadoService: EmpleadoService,
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
@@ -38,13 +34,11 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getUsers();
+    this.getEmpleadosTemp();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
-    this.rutaImg = environment.imgRUL;
-    this.host = environment.host;
   }
   
   ngOnDestroy(){
@@ -52,23 +46,29 @@ export class UsuariosComponent implements OnInit, OnDestroy {
       this.dataSource.disconnect(); 
     }
   }
+
+  getEmpleadosTemp() {
+    this.empleados = this.empleadoService.empleadosTemp;
+    this.empleadosTemp = this.empleados;
+    this.dataSource.data = this.empleados;
+  }
   
-  getUsers(){
-    this.usuariosService.getUsuarios().subscribe(
-      ( users => {
-        this.users = users.filter( user => user.idPerfil !== 4);
-        console.log(this.users);
-        this.usersTemp = this.users;
-        console.log(this.usersTemp);
-        this.dataSource.data = this.users;
-      }),
-      (error => console.log(error.message))
+  getEmpleados(){
+    this.empleadoService.getEmpleados().subscribe(
+      empleados => {
+        this.empleados = empleados.filter( empleados => empleados.activo === 1);
+        console.log(this.empleados);
+        this.empleadosTemp = this.empleados;
+        console.log(this.empleadosTemp);
+        this.dataSource.data = this.empleados;
+      },
+      error => console.log(error.message)
     );
   }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    var columns = Object.keys(this.usersTemp[0]);
+    var columns = Object.keys(this.empleadosTemp[0]);
     // Removes last "$$index" from "column"
     columns.splice(columns.length - 1);
     //console.log(columns);
@@ -76,7 +76,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     if (!columns.length)
       return;
 
-    const rows = this.usersTemp.filter(function(d) {
+    const rows = this.empleadosTemp.filter(function(d) {
       for (let i = 0; i <= columns.length; i++) {
         let column = columns[i];
         //console.log(d[column]);
@@ -90,55 +90,28 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     console.log(this.dataSource.data);
   }
 
-  openDialogUser(user): void {
-    console.log(user);
-    const dialogRef = this.dialog.open(VistaUsuarioComponent, {
-      width: '460px',
-      panelClass: 'custom-dialog-container-user',
-      data: {...user}
-    });
-
-    dialogRef.afterClosed().subscribe(result => {
-      const {opcion, id} = result[0];
-      switch (opcion) {
-        case 'mensaje':
-          const urlWpp = `https://api.whatsapp.com/api/send?phone=${id}`;
-          window.open(urlWpp);
-          break;
-        case 'editar':
-          this.router.navigate([`/configuracion/modificar-usuario/${id}`])
-          break;
-        case 'eliminar':
-          this.openDialoAlertDelete(id);
-          break;
-        default:
-          break;
-      }
-    });
-  }
-
-  openDialoAlertDelete(user) {
+  openDialoAlertDelete(idEmp) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
-      data: user
+      data: idEmp
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         // console.log(result);
         // console.log(user);
-        const usuarioBaja = {
-          ...user,
-          idPerfil: 4
+        const empleadoBaja = {
+          idEmpleado: idEmp,
+          activo: 0
         };
-        // console.log(usuarioBaja);
-        this.usuariosService.updateUsuario(usuarioBaja).subscribe(
+        // console.log(empleadoBaja);
+        this.empleadoService.updateEmpleado(empleadoBaja).subscribe(
           response => {
             console.log(response);
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getUsers();
+              this.getEmpleados();
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }

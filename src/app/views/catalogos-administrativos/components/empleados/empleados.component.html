@@ -1,0 +1,69 @@
+<div class="wrap-buttons">
+  <a mat-raised-button matTooltip="Creación de un nuevo empleado" matTooltipPosition="left" color="primary" [routerLink]="'/configuracion/crear-empleado'">Crear Empleado</a>
+</div>
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Empleados" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as empleados">
+  <ng-container *ngIf="empleados.length; else loading">
+    <div *ngFor="let empleado of empleados" fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text">
+
+            <a  class="toolbar-avatar md mr-1">
+              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            </a>
+            <span class="title-card-catalogs">{{empleado.nombre}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="empleadoMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #empleadoMenu="matMenu">
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-empleado', empleado.idEmpleado]">Editar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(empleado.idEmpleado)">Eliminar</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">business</mat-icon>{{empleado.idEmpresa}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">account_tree</mat-icon>{{empleado.puesto}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">phone</mat-icon>{{empleado.telefono}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">work</mat-icon>{{empleado.especialidad}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+
+
+<!-- <ng-template #noUsers>
+    <div fxFlex="100" fxFlex.gt-sm="33" fxFlex.sm="50">
+      <mat-card class="user-card p-0">
+        <mat-card-content>
+          <img src="assets/images/icons/no-close.png" alt="no found">
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-template> -->
+
+
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

@@ -48,7 +48,7 @@ export class ProveedoresService {
     return this.http.get<Proveedor>(`${environment.apiURL}/catalog/getProveedorByID/${id}`);
   }
 
-  createProveedor(proveedor): Observable<Proveedor>{
+  createProveedor(proveedor): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Proveedor>(`${environment.apiURL}/catalog/createProveedor`, JSON.stringify(proveedor), { headers: headerss});
   }

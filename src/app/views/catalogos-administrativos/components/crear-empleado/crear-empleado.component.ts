@@ -2,72 +2,84 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { CustomValidators } from 'ng2-validation';
 import { Router } from '@angular/router';
+import { EmpresasService } from './../../../../shared/services/empresas.service';
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { EmpresasService } from '../../../../shared/services/empresas.service';
+import { EmpleadoService } from 'app/shared/services/empleado.service';
 
 @Component({
-  selector: 'app-crear-empresa',
-  templateUrl: './crear-empresa.component.html',
-  styleUrls: ['./crear-empresa.component.scss']
+  selector: 'app-crear-empleado',
+  templateUrl: './crear-empleado.component.html',
+  styleUrls: ['./crear-empleado.component.scss']
 })
-export class CrearEmpresaComponent implements OnInit {
+export class CrearEmpleadoComponent implements OnInit {
 
   formData = {}
   console = console;
-  createCompanyForm: FormGroup;
-
+  createEmpleadoForm: FormGroup;
+  empresas: Empresa[];
+  
   constructor(
     private router: Router,
+    private empleadoService: EmpleadoService,
+    private empresasService: EmpresasService,
     private snackBar: MatSnackBar,
-    private empresasService: EmpresasService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.getCatalogos();
   }
 
   getValidations() {
-    this.createCompanyForm = new FormGroup({
+    this.createEmpleadoForm = new FormGroup({
       nombre: new FormControl('', [
         Validators.required,
       ]),
-      direccion: new FormControl('', [
+      idEmpresa: new FormControl('', [
+        Validators.required
+      ]),
+      puesto: new FormControl('', [
         Validators.required,
       ]),
       telefono: new FormControl('', CustomValidators.phone('BD')),
-      rfc: new FormControl('', [
+      especialidad: new FormControl('', [
         Validators.required,
-        Validators.minLength(12),
-        Validators.maxLength(13),
       ]),
-      descripcion: new FormControl(),
     })
   }
 
-  createCompany(){
-    if(this.createCompanyForm.valid){
-      const empresa: Empresa = {
-        ...this.createCompanyForm.value,
-        imagen: 'cima.png'
+
+  createEmpleado(){
+    if(this.createEmpleadoForm.valid){
+      const empleado = {
+        ...this.createEmpleadoForm.value,
       };
-      console.log(empresa);
-      this.empresasService.createEmpresa(empresa).subscribe(
-        ( (response: any) => {
-          console.log(response);
+      console.log(empleado);
+      this.empleadoService.createEmpleado(empleado).subscribe(
+        response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/configuracion/empresas']);
+            this.router.navigate(['/configuracion/empleados']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }
-        }),
-        (error => {
+        },
+        error => {
           console.log(error);
           this.useAlerts(error.message, ' ', 'error-dialog');
-        })
+        }
       );
     }
+  }
+
+  getCatalogos() {
+    this.empresasService.getAllEmpresas().subscribe(
+      ( (empresas: Empresa[]) => {
+        this.empresas = empresas.filter( empresa => empresa.activo === 1);
+      }),
+      (error => console.log(error))
+    );
   }
 
   useAlerts(message, action, className){

@@ -39,6 +39,9 @@ import { CrearClienteComponent } from './components/crear-cliente/crear-cliente.
 import { CrearProveedorComponent } from './components/crear-proveedor/crear-proveedor.component';
 import { ModificarClienteComponent } from './components/modificar-cliente/modificar-cliente.component';
 import { ModificarProveedorComponent } from './components/modificar-proveedor/modificar-proveedor.component';
+import { EmpleadosComponent } from './components/empleados/empleados.component';
+import { CrearEmpleadoComponent } from './components/crear-empleado/crear-empleado.component';
+import { ModificarEmpleadoComponent } from './components/modificar-empleado/modificar-empleado.component';
 @NgModule({
   declarations: [
     UsuariosComponent,
@@ -64,6 +67,9 @@ import { ModificarProveedorComponent } from './components/modificar-proveedor/mo
     CrearProveedorComponent,
     ModificarClienteComponent,
     ModificarProveedorComponent,
+    EmpleadosComponent,
+    CrearEmpleadoComponent,
+    ModificarEmpleadoComponent,
   ],
   imports: [
   CommonModule,

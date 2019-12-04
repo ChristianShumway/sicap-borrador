@@ -54,18 +54,18 @@ export class ModificarEmpresaComponent implements OnInit {
       };
       console.log(company);
       this.empresasService.updateEmpresa(company).subscribe(
-        ( (success: any) => {
-          console.log(success);
-          if(success.estatus === '05'){
+        ( (response: any) => {
+          console.log(response);
+          if(response.estatus === '05'){
             this.router.navigate(['/configuracion/empresas']);
-            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
-            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }
         }),
         ( error => {
           console.log(error);
-          this.useAlerts(error.mensaje, ' ', 'error-dialog');
+          this.useAlerts(error.message, ' ', 'error-dialog');
         })
       );
     }
@@ -82,7 +82,7 @@ export class ModificarEmpresaComponent implements OnInit {
       telefono: new FormControl('', CustomValidators.phone('BD')),
       rfc: new FormControl('', [
         Validators.required,
-        Validators.minLength(13),
+        Validators.minLength(12),
         Validators.maxLength(13),
       ]),
       descripcion: new FormControl(),

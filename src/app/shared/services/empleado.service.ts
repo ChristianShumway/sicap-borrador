@@ -9,10 +9,11 @@ import { Observable } from 'rxjs';
 })
 export class EmpleadoService {
 
-  proveedoresTemp: Empleado[] = [
+  empleadosTemp: Empleado[] = [
     {
       idEmpleado: 1,
       nombre: 'Gustavo Galindo',
+      idEmpresa: 1,
       puesto: 'Conocida',
       telefono: '(472) 101 4838',
       especialidad: 'conocida',
@@ -21,6 +22,7 @@ export class EmpleadoService {
     {
       idEmpleado: 2,
       nombre: 'Edgar Carmona',
+      idEmpresa: 1,
       puesto: 'Conocida',
       telefono: '(472) 101 4838',
       especialidad: 'conocida',
@@ -40,12 +42,12 @@ export class EmpleadoService {
     return this.http.get<Empleado>(`${environment.apiURL}/catalog/getEmpleadoByID/${id}`);
   }
 
-  createEmpleado(empleado): Observable<Empleado>{
+  createEmpleado(empleado): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Empleado>(`${environment.apiURL}/catalog/createEmpleado`, JSON.stringify(empleado), { headers: headerss});
   }
 
-  updateEmpleado(empleado: Partial<Empleado>): Observable<Empleado>{
+  updateEmpleado(empleado: Partial<Empleado>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Empleado>(`${environment.apiURL}/catalog/updateEmpleado`, JSON.stringify(empleado), { headers: headerss});
   }

@@ -30,10 +30,10 @@
                 RFC es un campo requerido
               </small>
               <small *ngIf="updateCompanyForm.controls['rfc'].hasError('minlength') && updateCompanyForm.controls['rfc'].touched" class="form-error-msg">
-                El rfc debe ser de 13 caracteres 
+                El rfc no debe ser menor de 12 caracteres 
               </small>
               <small *ngIf="updateCompanyForm.controls['rfc'].hasError('maxlength') && updateCompanyForm.controls['rfc'].touched" class="form-error-msg">
-                El rfc no debe ser de 13 caracteres
+                El rfc no no debe ser mayor de 13 caracteres
               </small>
             </div>
           </div>

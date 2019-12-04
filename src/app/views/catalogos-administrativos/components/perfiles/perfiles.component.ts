@@ -111,6 +111,7 @@ export class PerfilesComponent implements OnInit {
                 },
                 error => {
                   console.log(error);
+                  this.useAlerts(error.message, ' ', 'error-dialog');
                 }
               );
             } else {

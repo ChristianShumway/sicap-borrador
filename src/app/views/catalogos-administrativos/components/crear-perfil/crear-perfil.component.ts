@@ -38,18 +38,18 @@ export class CrearPerfilComponent implements OnInit {
     if(this.createProfileForm.valid){
       const perfil = this.createProfileForm.value;
       this.perfilesService.createPerfil(perfil).subscribe(
-        ((success:any) => {
-          console.log(success);
-          if(success.estatus === '05'){
+        ((response:any) => {
+          console.log(response);
+          if(response.estatus === '05'){
             this.router.navigate(['/configuracion/perfiles']);
-            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
-            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }
         }),
         (error => {
           console.log(error);
-          this.useAlerts(error.mensaje, ' ', 'error-dialog');
+          this.useAlerts(error.message, ' ', 'error-dialog');
         })
       );
       console.log(perfil);
