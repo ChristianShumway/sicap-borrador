@@ -32,7 +32,7 @@ export class ProveedoresComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getProveedoresTemp();
+    this.getProveedores();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -43,13 +43,6 @@ export class ProveedoresComponent implements OnInit, OnDestroy {
     if (this.dataSource) { 
       this.dataSource.disconnect(); 
     }
-  }
-
-  getProveedoresTemp(){
-    this.proveedores = this.proveedoresService.proveedoresTemp;
-    this.proveedoresTemp = this.proveedores;
-    this.dataSource.data = this.proveedores;
-    console.log(this.proveedores);
   }
 
   getProveedores(){

@@ -32,7 +32,7 @@ export class DestajistasComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getDestajistasTemp();
+    this.getDestajistas();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -43,13 +43,6 @@ export class DestajistasComponent implements OnInit, OnDestroy {
     if (this.dataSource) { 
       this.dataSource.disconnect(); 
     }
-  }
-
-  getDestajistasTemp(){
-    this.destajistas = this.destajistasService.destajistasTemp;
-    this.destajistasTemp = this.destajistas;
-    this.dataSource.data = this.destajistas;
-    console.log(this.destajistas);
   }
 
   getDestajistas(){
@@ -105,12 +98,12 @@ export class DestajistasComponent implements OnInit, OnDestroy {
         this.destajistasService.deleteDestajista(destajistaBaja).subscribe(
           response => {
             console.log(response);
-            // if(response.estatus === '05'){
-            //   this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            //   this.getDestajistas();
-            // } else {
-            //   this.useAlerts(response.mensaje, ' ', 'error-dialog');
-            // }
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getDestajistas();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
           },
             error => {
             this.useAlerts(error.mensaje, ' ', 'error-dialog');

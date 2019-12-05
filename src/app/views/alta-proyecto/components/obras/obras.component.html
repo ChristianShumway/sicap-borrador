@@ -1,0 +1,59 @@
+<div class="wrap-buttons">
+  <a mat-raised-button matTooltip="Creación de una nueva obra" matTooltipPosition="left" color="primary" [routerLink]="'/alta-proyecto/crear-obra'">Crear Obra</a>
+</div>
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Usuarios" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as obras">
+  <ng-container *ngIf="obras.length; else loading">
+    <div *ngFor="let obra of obras" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text">
+
+            <a class="toolbar-avatar md mr-1">
+              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            </a>
+            <!-- <a *ngIf="user" class="toolbar-avatar md mr-1" (click)="openDialogUser(user)">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt="">
+            </a> -->
+            <span class="title-card-catalogs">{{obra.noContrato}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
+              <button mat-menu-item [routerLink]="['/configuracion/modificar-obra', obra.idObra]">Editar</button>
+              <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">business</mat-icon>{{obra.fechaInicio | date}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">email</mat-icon>{{obra.fechaFin | date}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">phone</mat-icon>{{obra.lugarTrabajos}}</p>
+            <p class="p-info-catalogs">
+              <mat-icon class="text-muted">location_on</mat-icon>{{obra.idSupervisor}}</p>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

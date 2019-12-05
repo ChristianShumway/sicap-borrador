@@ -18,8 +18,8 @@ export class SidenavComponent {
   // Only for demo purpose
   addMenuItem() {
     this.menuItems.push({
-      id: 1,
-      name: "HOME",
+      id: 130,
+      name: "ALTA",
       type: "icon",
       tooltip: "Home",
       icon: "home",

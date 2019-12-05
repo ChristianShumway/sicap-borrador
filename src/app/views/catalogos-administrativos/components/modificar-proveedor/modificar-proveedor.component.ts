@@ -46,11 +46,12 @@ export class ModificarProveedorComponent implements OnInit {
     })
   }
 
-  updateCompany(){
+  updateProveedor(){
     if(this.updateProveedorForm.valid){
       const proveedor = {
         idProveedor: parseInt(this.proveedorId),
-        ...this.updateProveedorForm.value
+        ...this.updateProveedorForm.value,
+        activo: 1
       };
       console.log(proveedor);
       this.proveedoresService.updateProveedor(proveedor).subscribe(
@@ -65,7 +66,7 @@ export class ModificarProveedorComponent implements OnInit {
         }),
         ( error => {
           console.log(error);
-          this.useAlerts(error.mensaje, ' ', 'error-dialog');
+          this.useAlerts(error.message, ' ', 'error-dialog');
         })
       );
     }
@@ -90,7 +91,7 @@ export class ModificarProveedorComponent implements OnInit {
       localizacion: new FormControl('', [
         Validators.required
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       familia: new FormControl('', [
         Validators.required,
       ]),

@@ -9,6 +9,18 @@
       <div fxLayout="row wrap">
 
         <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+          
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="puesto" formControlName="puesto" placeholder="Puesto" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateUserForm.controls['puesto'].hasError('required') && updateUserForm.controls['puesto'].touched" class="form-error-msg">
+                Puesto es un campo requerido  
+              </small>
+            </div>
+          </div>
+
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput type="email" name="email" formControlName="email" placeholder="Correo Electrónico" >

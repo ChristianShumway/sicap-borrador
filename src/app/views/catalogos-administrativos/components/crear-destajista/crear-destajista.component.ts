@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Destajista } from './../../../../shared/models/destajista';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DestajistasService } from '../../../../shared/services/destajistas.service';
+import { EstadosService } from './../../../../shared/services/estados.service';
 
 @Component({
   selector: 'app-crear-destajista',
@@ -16,15 +17,18 @@ export class CrearDestajistaComponent implements OnInit {
   formData = {}
   console = console;
   createDestajistaForm: FormGroup;
+  estados: any[] = [];
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private destajistasService: DestajistasService
+    private destajistasService: DestajistasService,
+    private estadosService: EstadosService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.getCatalogo();
   }
 
   getValidations() {
@@ -38,10 +42,10 @@ export class CrearDestajistaComponent implements OnInit {
       ciudad: new FormControl('', [
         Validators.required,
       ]),
-      estado: new FormControl('', [
+      idEstado: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       especialidad: new FormControl('', [
         Validators.required,
       ]),
@@ -52,25 +56,33 @@ export class CrearDestajistaComponent implements OnInit {
     if (this.createDestajistaForm.valid) {
       const destajista: Destajista = {
         ...this.createDestajistaForm.value,
+        activo: 1
       };
       console.log(destajista);
       this.router.navigate(['/configuracion/destajistas']);
-      // this.destajistasService.createDestajista(destajista).subscribe(
-      //   ((success: any) => {
-      //     console.log(success);
-      //     if (success.estatus === '05') {
-      //       this.router.navigate(['/configuracion/destajistas']);
-      //       this.useAlerts(success.mensaje, ' ', 'success-dialog');
-      //     } else {
-      //       this.useAlerts(success.mensaje, ' ', 'error-dialog');
-      //     }
-      //   }),
-      //   (error => {
-      //     console.log(error);
-      //     this.useAlerts(error.mensaje, ' ', 'error-dialog');
-      //   })
-      // );
+      this.destajistasService.createDestajista(destajista).subscribe(
+        ((success: any) => {
+          console.log(success);
+          if (success.estatus === '05') {
+            this.router.navigate(['/configuracion/destajistas']);
+            this.useAlerts(success.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(success.mensaje, ' ', 'error-dialog');
+          }
+        }),
+        (error => {
+          console.log(error);
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
+        })
+      );
     }
+  }
+
+  getCatalogo(){
+    this.estadosService.getEstados().subscribe(
+      estados => this.estados = estados,
+      error => console.log(error)
+    );
   }
 
   useAlerts(message, action, className) {

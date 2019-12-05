@@ -37,26 +37,26 @@ export class ClientesService {
   }
 
   getClientes(): Observable<Cliente[]>  {
-    return this.http.get<Cliente[]>(`${environment.apiURL}/catalog/getClientes`); 
+    return this.http.get<Cliente[]>(`${environment.apiURL}/catalog/getAllCustomer`); 
   }
 
   getCliente(id: number): Observable<Cliente>{
-    return this.http.get<Cliente>(`${environment.apiURL}/catalog/getClienteByID/${id}`);
+    return this.http.get<Cliente>(`${environment.apiURL}/catalog/getCustomerByID/${id}`);
   }
 
   createCliente(cliente): Observable<Cliente>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Cliente>(`${environment.apiURL}/catalog/createCliente`, JSON.stringify(cliente), { headers: headerss});
+    return this.http.post<Cliente>(`${environment.apiURL}/catalog/createCustomer`, JSON.stringify(cliente), { headers: headerss});
   }
 
   updateCliente(cliente: Partial<Cliente>): Observable<Cliente>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Cliente>(`${environment.apiURL}/catalog/updateCliente`, JSON.stringify(cliente), { headers: headerss});
+    return this.http.post<Cliente>(`${environment.apiURL}/catalog/updateCustomer`, JSON.stringify(cliente), { headers: headerss});
   }
 
-  deleteCliente(cliente: Partial<Cliente>): Observable<Cliente>{
+  deleteCliente(cliente: Partial<Cliente>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Cliente>(`${environment.apiURL}/catalog/deleteCliente`, JSON.stringify(cliente), { headers: headerss});
+    return this.http.post<Cliente>(`${environment.apiURL}/catalog/deleteCustomer`, JSON.stringify(cliente), { headers: headerss});
   }
 
 }

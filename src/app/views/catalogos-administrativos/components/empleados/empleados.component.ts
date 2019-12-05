@@ -34,7 +34,7 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getEmpleadosTemp();
+    this.getEmpleados();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -47,19 +47,12 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
     }
   }
 
-  getEmpleadosTemp() {
-    this.empleados = this.empleadoService.empleadosTemp;
-    this.empleadosTemp = this.empleados;
-    this.dataSource.data = this.empleados;
-  }
-  
   getEmpleados(){
     this.empleadoService.getEmpleados().subscribe(
       empleados => {
         this.empleados = empleados.filter( empleados => empleados.activo === 1);
         console.log(this.empleados);
         this.empleadosTemp = this.empleados;
-        console.log(this.empleadosTemp);
         this.dataSource.data = this.empleados;
       },
       error => console.log(error.message)
@@ -106,7 +99,7 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
           activo: 0
         };
         // console.log(empleadoBaja);
-        this.empleadoService.updateEmpleado(empleadoBaja).subscribe(
+        this.empleadoService.deleteEmpleado(empleadoBaja).subscribe(
           response => {
             console.log(response);
             if(response.estatus === '05'){

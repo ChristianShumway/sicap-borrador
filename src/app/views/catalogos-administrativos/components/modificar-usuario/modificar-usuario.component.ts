@@ -62,6 +62,9 @@ export class ModificarUsuarioComponent implements OnInit {
 
   getValidations() {
     this.updateUserForm = new FormGroup({
+      puesto: new FormControl('', [
+        Validators.required,
+      ]),
       email: new FormControl('', [
         Validators.required,
         Validators.email
@@ -85,7 +88,7 @@ export class ModificarUsuarioComponent implements OnInit {
       idPerfil: new FormControl('', [
         Validators.required
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       direccion: new FormControl('', [
         Validators.required,
       ]),

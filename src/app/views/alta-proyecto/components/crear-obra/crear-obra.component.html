@@ -1,0 +1,209 @@
+<mat-card class="p-0 container-create-user">
+  <mat-card-title class="">
+    <div class="card-title-text">Formulario para la creación de obras</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="createObraForm" (submit)="createObra()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="idEmpresa" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idEmpresa'].hasError('required') && createObraForm.controls['idEmpresa'].touched" class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Cliente</mat-label>
+              <mat-select formControlName="idCliente" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+                  {{cliente.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idCliente'].hasError('required') && createObraForm.controls['idCliente'].touched" class="form-error-msg">
+                Cliente es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="noContrato" formControlName="noContrato" placeholder="Número de Contrato">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['noContrato'].hasError('required') && createObraForm.controls['noContrato'].touched" class="form-error-msg">
+                Número de contrato es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="nombreObra" formControlName="nombreObra" placeholder="Nombre de Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['nombreObra'].hasError('required') && createObraForm.controls['nombreObra'].touched" class="form-error-msg">
+                Nombre de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoTotalObra" formControlName="presupuestoTotalObra" placeholder="Apellido Paterno">
+            </mat-form-field>
+            <div class="validaciones">
+              <!-- <small *ngIf="createObraForm.controls['presupuestoTotalObra'].hasError('required') && createObraForm.controls['presupuestoTotalObra'].touched"
+                class="form-error-msg">
+                Presupuesto total de la obra es un campo requerido
+              </small> -->
+            </div>
+          </div>
+
+          <div *ngIf="error.isError" class="alert alert-danger">
+              {{ error.errorMessage }}
+           </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+                (dateChange)="onFechaInicioObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+              <mat-datepicker #fechaInicio (selectedChange)="onFechaInicioObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones"></div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Fecha Nacimiento"
+                (dateChange)="onFechaFinObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+              <mat-datepicker #fechaFin (selectedChange)="onFechaFinObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones"></div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="lugarTrabajos" formControlName="lugarTrabajos" placeholder="Lugar de Trabajos">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['lugarTrabajos'].hasError('required') && createObraForm.controls['lugarTrabajos'].touched"
+                class="form-error-msg">
+                Lugar de trabajos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Supervisor</mat-label>
+              <mat-select formControlName="idSupervisor" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor.idUsuario">
+                  {{supervisor.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idSupervisor'].hasError('required') && createObraForm.controls['idSupervisor'].touched" class="form-error-msg">
+                Supervisor es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Destajista</mat-label>
+              <mat-select formControlName="idDestajista" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let destajista of destajistas" [value]="destajista.idDestajista">
+                  {{destajista.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idDestajista'].hasError('required') && createObraForm.controls['idDestajista'].touched"
+                class="form-error-msg">
+                Destajista es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoMateriales" formControlName="presupuestoMateriales" placeholder="Presupuesto de Materiales">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['presupuestoMateriales'].hasError('required') && createObraForm.controls['presupuestoMateriales'].touched"
+                class="form-error-msg">
+                Presupuesto de materiales es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto Mano de Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['presupuestoManoObra'].hasError('required') && createObraForm.controls['presupuestoManoObra'].touched"
+                class="form-error-msg">
+                Presupuesto mano de obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoMaquinaria" formControlName="presupuestoMaquinaria" placeholder="Presupuesto de Maquinaria">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['presupuestoMaquinaria'].hasError('required') && createObraForm.controls['presupuestoMaquinaria'].touched"
+                class="form-error-msg">
+                Presupuesto de maquinaria es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoDestajo" formControlName="presupuestoDestajo" placeholder="Presupuesto de Destajo">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['presupuestoDestajo'].hasError('required') && createObraForm.controls['presupuestoDestajo'].touched"
+                class="form-error-msg">
+                Presupuesto de destajo es un campo requerido
+              </small>
+            </div>
+          </div>  
+          
+        </div>
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="createObraForm.invalid" type="submit">Agregar</button>
+        <button mat-raised-button [routerLink]="'/configuracion/obras'">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

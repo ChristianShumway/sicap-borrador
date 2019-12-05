@@ -5,6 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 import { DestajistasService } from './../../../../shared/services/destajistas.service';
 import { Destajista } from './../../../../shared/models/destajista';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { EstadosService } from '../../../../shared/services/estados.service';
 
 @Component({
   selector: 'app-modificar-destajista',
@@ -18,17 +19,20 @@ export class ModificarDestajistaComponent implements OnInit {
   console = console;
   updateDestajistaForm: FormGroup;
   destajistaId;
+  estados: any[] = [];
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private destajistasService: DestajistasService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private estadosService: EstadosService
   ) { }
 
   ngOnInit() {
     this.getDestajista();
     this.getValidations();
+    this.getCatalogo();
   }
 
   getDestajista() {
@@ -49,7 +53,8 @@ export class ModificarDestajistaComponent implements OnInit {
     if(this.updateDestajistaForm.valid){
       const destajista:Destajista = {
         idDestajista: parseInt(this.destajistaId),
-        ...this.updateDestajistaForm.value
+        ...this.updateDestajistaForm.value,
+        activo: 1
       };
       console.log(destajista);
       this.destajistasService.updateDestajista(destajista).subscribe(
@@ -81,14 +86,21 @@ export class ModificarDestajistaComponent implements OnInit {
       ciudad: new FormControl('', [
         Validators.required,
       ]),
-      estado: new FormControl('', [
+      idEstado: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       especialidad: new FormControl('', [
         Validators.required,
       ]),
     })
+  }
+
+  getCatalogo(){
+    this.estadosService.getEstados().subscribe(
+      estados => this.estados = estados,
+      error => console.log(error)
+    );
   }
 
   useAlerts(message, action, className){

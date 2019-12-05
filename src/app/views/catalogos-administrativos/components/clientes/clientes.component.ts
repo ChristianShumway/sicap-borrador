@@ -32,7 +32,7 @@ export class ClientesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    this.getClientesTemp();
+    this.getClientes();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -45,20 +45,12 @@ export class ClientesComponent implements OnInit, OnDestroy {
     }
   }
 
-  getClientesTemp(){
-    this.clientes = this.clientesService.clientesTemp;
-    this.clientesTemp = this.clientes;
-    this.dataSource.data = this.clientes;
-    console.log(this.clientes);
-  }
-
   getClientes(){
     this.clientesService.getClientes().subscribe(
       ( clientes => {
         this.clientes = clientes.filter( cliente => cliente.activo === 1);
         console.log(this.clientes);
         this.clientesTemp = this.clientes;
-        console.log(this.clientesTemp);
         this.dataSource.data = this.clientes;
       }),
       (error => console.log(error.message))
@@ -105,12 +97,12 @@ export class ClientesComponent implements OnInit, OnDestroy {
         this.clientesService.deleteCliente(clienteBaja).subscribe(
           response => {
             console.log(response);
-            // if(response.estatus === '05'){
-            //   this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            //   this.getClientes();
-            // } else {
-            //   this.useAlerts(response.mensaje, ' ', 'error-dialog');
-            // }
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getClientes();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
           },
             error => {
             this.useAlerts(error.mensaje, ' ', 'error-dialog');

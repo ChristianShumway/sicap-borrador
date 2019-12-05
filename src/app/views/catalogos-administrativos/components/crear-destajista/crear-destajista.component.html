@@ -35,12 +35,17 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="estado" formControlName="estado" placeholder="Estado">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="idEstado" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let estado of estados" [value]="estado.idEstado">
+                  {{estado.nombre}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createDestajistaForm.controls['estado'].hasError('required') && createDestajistaForm.controls['estado'].touched"
-                class="form-error-msg">
-                Estado es un campo requerido
+              <small *ngIf="createDestajistaForm.controls['idEstado'].hasError('required') && createDestajistaForm.controls['idEstado'].touched" class="form-error-msg">
+                Estado es un campo requerido 
               </small>
             </div>
           </div>
@@ -64,7 +69,7 @@
             <div class="validaciones">
               <small *ngIf="createDestajistaForm.controls['telefono'].hasError('required') && createDestajistaForm.controls['telefono'].touched"
                 class="form-error-msg">
-                Número de teléfono invalido
+                Teléfono es un campo requerido
               </small>
             </div>
           </div>

@@ -3,7 +3,8 @@ export interface Destajista {
   nombre: string;
   direccion: string;
   ciudad: string;
-  estado: string;
+  idEstado: number;
+  estado?: any[];
   telefono: string;
   especialidad: string;
   activo?: number;

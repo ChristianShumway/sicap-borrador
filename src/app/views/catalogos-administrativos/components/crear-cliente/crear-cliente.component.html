@@ -42,6 +42,12 @@
                 class="form-error-msg">
                 RFC es un campo requerido
               </small>
+              <small *ngIf="createClienteForm.controls['rfc'].hasError('minlength') && createClienteForm.controls['rfc'].touched" class="form-error-msg">
+                El RFC no debe ser menor de 12 caracteres 
+              </small>
+              <small *ngIf="createClienteForm.controls['rfc'].hasError('maxlength') && createClienteForm.controls['rfc'].touched" class="form-error-msg">
+                El RFC no debe ser mayor de 13 caracteres
+              </small>
             </div>
           </div>
 
@@ -52,7 +58,7 @@
             <div class="validaciones">
               <small *ngIf="createClienteForm.controls['telefono'].hasError('required') && createClienteForm.controls['telefono'].touched"
                 class="form-error-msg">
-                Número de teléfono invalido
+                Teléfono es un campo requerido
               </small>
             </div>
           </div>

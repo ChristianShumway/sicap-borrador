@@ -35,11 +35,15 @@ export class CrearEmpresaComponent implements OnInit {
       direccion: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       rfc: new FormControl('', [
         Validators.required,
         Validators.minLength(12),
         Validators.maxLength(13),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.email
       ]),
       descripcion: new FormControl(),
     })

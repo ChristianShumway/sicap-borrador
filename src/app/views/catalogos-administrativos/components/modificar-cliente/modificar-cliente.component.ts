@@ -49,7 +49,8 @@ export class ModificarClienteComponent implements OnInit {
     if(this.updateClienteForm.valid){
       const cliente:Cliente = {
         idCliente: parseInt(this.clienteId),
-        ...this.updateClienteForm.value
+        ...this.updateClienteForm.value,
+        activo: 1
       };
       console.log(cliente);
       this.clientesService.updateCliente(cliente).subscribe(
@@ -81,7 +82,7 @@ export class ModificarClienteComponent implements OnInit {
       rfc: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
     })
   }
 

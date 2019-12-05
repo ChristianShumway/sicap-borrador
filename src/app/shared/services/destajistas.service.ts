@@ -15,7 +15,7 @@ export class DestajistasService {
       nombre: 'Gustavo Galindo',
       direccion: 'Conocida',
       ciudad: 'Silao',
-      estado: 'Guanajuato',
+      idEstado: 1,
       telefono: '(472) 101 4838',
       especialidad: 'conocida',
       activo: 1
@@ -25,7 +25,7 @@ export class DestajistasService {
       nombre: 'Edgar Carmona',
       direccion: 'Conocida',
       ciudad: 'Puebla',
-      estado: 'Puebla',
+      idEstado: 2,
       telefono: '(472) 101 4838',
       especialidad: 'conocida',
       activo: 1
@@ -36,16 +36,12 @@ export class DestajistasService {
     private http: HttpClient,
   ) { }
 
-  getDestajistaTemp(){
-    return this.destajistasTemp;
-  }
-
   getDestajistas(): Observable<Destajista[]>  {
-    return this.http.get<Destajista[]>(`${environment.apiURL}/catalog/getDestajistas`); 
+    return this.http.get<Destajista[]>(`${environment.apiURL}/catalog/getAllDestajista`); 
   }
 
   getDestajista(id: number): Observable<Destajista>{
-    return this.http.get<Destajista>(`${environment.apiURL}/catalog/getDestajistasByID/${id}`);
+    return this.http.get<Destajista>(`${environment.apiURL}/catalog/getDestajistaID/${id}`);
   }
 
   createDestajista(destajista): Observable<Destajista>{
@@ -58,7 +54,7 @@ export class DestajistasService {
     return this.http.post<Destajista>(`${environment.apiURL}/catalog/updateDestajista`, JSON.stringify(destajista), { headers: headerss});
   }
 
-  deleteDestajista(destajista: Partial<Destajista>): Observable<Destajista>{
+  deleteDestajista(destajista: Partial<Destajista>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Destajista>(`${environment.apiURL}/catalog/deleteDestajista`, JSON.stringify(destajista), { headers: headerss});
   }

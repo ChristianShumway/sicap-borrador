@@ -37,8 +37,10 @@ export class CrearClienteComponent implements OnInit {
       ]),
       rfc: new FormControl('', [
         Validators.required,
+        Validators.minLength(12),
+        Validators.maxLength(13),
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
     })
   }
 
@@ -46,24 +48,25 @@ export class CrearClienteComponent implements OnInit {
     if (this.createClienteForm.valid) {
       const cliente: Cliente = {
         ...this.createClienteForm.value,
+        activo: 1
       };
       console.log(cliente);
       this.router.navigate(['/configuracion/clientes']);
-      // this.clientesService.createCliente(cliente).subscribe(
-      //   ((response: any) => {
-      //     console.log(response);
-      //     if (response.estatus === '05') {
-      //       this.router.navigate(['/configuracion/clientes']);
-      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-      //     } else {
-      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-      //     }
-      //   }),
-      //   (error => {
-      //     console.log(error);
-      //     this.useAlerts(error.mensaje, ' ', 'error-dialog');
-      //   })
-      // );
+      this.clientesService.createCliente(cliente).subscribe(
+        ((response: any) => {
+          console.log(response);
+          if (response.estatus === '05') {
+            this.router.navigate(['/configuracion/clientes']);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        }),
+        (error => {
+          console.log(error);
+          this.useAlerts(error.mensaje, ' ', 'error-dialog');
+        })
+      );
     }
   }
 

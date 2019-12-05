@@ -5,7 +5,7 @@
   </mat-card-title>
 
   <mat-card-content>
-    <form [formGroup]="updateDestajistaForm" (submit)="createDestajista()">
+    <form [formGroup]="updateDestajistaForm" (submit)="updateDestajista()">
       <div fxLayout="row wrap">
 
         <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
@@ -35,12 +35,16 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="estado" formControlName="estado" placeholder="Estado">
+              <mat-label>Estado</mat-label>
+              <mat-select formControlName="idEstado" required>
+                <mat-option *ngFor="let estado of estados" [value]="estado.idEstado">
+                  {{estado.nombre}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateDestajistaForm.controls['estado'].hasError('required') && updateDestajistaForm.controls['estado'].touched"
-                class="form-error-msg">
-                Estado es un campo requerido
+              <small *ngIf="updateDestajistaForm.controls['idEstado'].hasError('required') && updateDestajistaForm.controls['idEstado'].touched" class="form-error-msg">
+                Estado es un campo requerido 
               </small>
             </div>
           </div>

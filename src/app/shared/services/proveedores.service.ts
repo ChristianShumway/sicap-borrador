@@ -41,26 +41,26 @@ export class ProveedoresService {
   ) { }
 
   getProveedores(): Observable<Proveedor[]>  {
-    return this.http.get<Proveedor[]>(`${environment.apiURL}/catalog/getProveedores`); 
+    return this.http.get<Proveedor[]>(`${environment.apiURL}/catalog/getAllWholeSale`); 
   }
 
   getProveedor(id: number): Observable<Proveedor>{
-    return this.http.get<Proveedor>(`${environment.apiURL}/catalog/getProveedorByID/${id}`);
+    return this.http.get<Proveedor>(`${environment.apiURL}/catalog/getWholeSaleByID/${id}`);
   }
 
   createProveedor(proveedor): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Proveedor>(`${environment.apiURL}/catalog/createProveedor`, JSON.stringify(proveedor), { headers: headerss});
+    return this.http.post<Proveedor>(`${environment.apiURL}/catalog/createWholeSale`, JSON.stringify(proveedor), { headers: headerss});
   }
 
   updateProveedor(proveedor: Partial<Proveedor>): Observable<Proveedor>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<Proveedor>(`${environment.apiURL}/catalog/updateProveedor`, JSON.stringify(proveedor), { headers: headerss});
+    return this.http.post<Proveedor>(`${environment.apiURL}/catalog/updateWholeSale`, JSON.stringify(proveedor), { headers: headerss});
   }
 
   deleteProveedor(proveedor: Partial<Proveedor>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/catalog/deleteProveedor`, JSON.stringify(proveedor), { headers: headerss});
+    return this.http.post<any>(`${environment.apiURL}/catalog/deleteWholeSale`, JSON.stringify(proveedor), { headers: headerss});
   }
 
 }

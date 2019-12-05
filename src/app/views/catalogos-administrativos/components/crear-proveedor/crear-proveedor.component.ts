@@ -47,7 +47,7 @@ export class CrearProveedorComponent implements OnInit {
       localizacion: new FormControl('', [
         Validators.required
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       familia: new FormControl('', [
         Validators.required,
       ]),
@@ -61,22 +61,23 @@ export class CrearProveedorComponent implements OnInit {
     if(this.createProveedorForm.valid){
       const proveedor = {
         ...this.createProveedorForm.value,
+        activo: 1
       };
       console.log(proveedor);
-      // this.proveedoresService.createProveedor(proveedor).subscribe(
-      //   (response => {
-      //     if(response.estatus === '05'){
-      //       this.router.navigate(['/configuracion/proveedores']);
-      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-      //     } else {
-      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-      //     }
-      //   }),
-      //   (error => {
-      //     console.log(error);
-      //     this.useAlerts(error.mensaje, ' ', 'success-dialog');
-      //   })
-      // );
+      this.proveedoresService.createProveedor(proveedor).subscribe(
+        (response => {
+          if(response.estatus === '05'){
+            this.router.navigate(['/configuracion/proveedores']);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        }),
+        (error => {
+          console.log(error);
+          this.useAlerts(error.mensaje, ' ', 'success-dialog');
+        })
+      );
     }
   }
 

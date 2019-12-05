@@ -42,7 +42,7 @@ export class CrearEmpleadoComponent implements OnInit {
       puesto: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       especialidad: new FormControl('', [
         Validators.required,
       ]),
@@ -54,6 +54,7 @@ export class CrearEmpleadoComponent implements OnInit {
     if(this.createEmpleadoForm.valid){
       const empleado = {
         ...this.createEmpleadoForm.value,
+        activo: 1
       };
       console.log(empleado);
       this.empleadoService.createEmpleado(empleado).subscribe(

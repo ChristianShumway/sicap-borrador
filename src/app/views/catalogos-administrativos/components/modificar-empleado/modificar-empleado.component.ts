@@ -61,7 +61,7 @@ export class ModificarEmpleadoComponent implements OnInit {
       puesto: new FormControl('', [
         Validators.required,
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       especialidad: new FormControl('', [
         Validators.required,
       ]),
@@ -73,6 +73,7 @@ export class ModificarEmpleadoComponent implements OnInit {
       const empleado = {
         idEmpleado: parseInt(this.idEmpleado),
         ...this.updateEmpleadoForm.value,
+        activo: 1
       };
 
       console.log(empleado);

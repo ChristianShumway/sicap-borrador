@@ -43,6 +43,9 @@ export class CrearUsuarioComponent implements OnInit {
     let confirmarContrasena = new FormControl('', CustomValidators.equalTo(contrasena));
 
     this.createUserForm = new FormGroup({
+      puesto: new FormControl('', [
+        Validators.required,
+      ]),
       email: new FormControl('', [
         Validators.required,
         Validators.email
@@ -66,7 +69,7 @@ export class CrearUsuarioComponent implements OnInit {
       idPerfil: new FormControl('', [
         Validators.required
       ]),
-      telefono: new FormControl('', CustomValidators.phone('BD')),
+      telefono: new FormControl('', Validators.required),
       direccion: new FormControl('', [
         Validators.required,
       ]),

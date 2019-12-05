@@ -57,6 +57,11 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Perfil', breadcrumb: 'PROFILE'}
       },
       {
+        path: 'alta-proyecto',
+        loadChildren: () => import('./views/alta-proyecto/alta-proyecto.module').then(m =>m.AltaProyectoModule),
+        data: { title: 'Alta de Proyecto', breadcrumb: 'Alta de Proyecto'}
+      },
+      {
         path: 'material', 
         loadChildren: () => import('./views/material-example-view/material-example-view.module').then(m => m.MaterialExampleViewModule), 
         data: { title: 'Material', breadcrumb: 'MATERIAL'}
