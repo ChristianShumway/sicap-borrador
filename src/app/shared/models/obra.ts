@@ -11,16 +11,16 @@ export interface Obra {
   cliente?: Cliente;
   noContrato: string;
   nombreObra: string;
-  presupuestoTotalObra: number;
+  presupuestoTotal: number;
   fechaInicio: string;
   fechaFin: string;
-  plazoEjecucion?: string;
-  lugarTrabajos: string;
+  plazoEjecucion?: number;
+  lugarTrabajo: string;
   idSupervisor: number
   supervisor?: Usuario;
   idDestajista: number;
   destajista?: Destajista;
-  presupuestoMateriales: number;
+  presupuestoMaterial: number;
   presupuestoManoObra: number;
   presupuestoMaquinaria: number;
   presupuestoDestajo: number;

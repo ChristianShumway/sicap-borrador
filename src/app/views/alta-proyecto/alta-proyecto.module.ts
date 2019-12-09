@@ -14,11 +14,15 @@ import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { AltaProyectoRoutingModule } from './alta-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
 import { CrearObraComponent } from './components/crear-obra/crear-obra.component';
+import { ModificarObraComponent } from './components/modificar-obra/modificar-obra.component';
+import { ModalEliminarComponent } from './../catalogos-administrativos/components/modal-eliminar/modal-eliminar.component';
 
 @NgModule({
   declarations: [
     ObrasComponent,
     CrearObraComponent,
+    ModificarObraComponent,
+    // ModalEliminarComponent
   ],
   imports: [
     CommonModule,
@@ -34,6 +38,9 @@ import { CrearObraComponent } from './components/crear-obra/crear-obra.component
     SharedModule,
     QuillModule,
     SharedPipesModule
+  ],
+  entryComponents: [
+    // ModalEliminarComponent
   ]
 })
 export class AltaProyectoModule { }

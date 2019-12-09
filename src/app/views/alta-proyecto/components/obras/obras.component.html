@@ -12,7 +12,7 @@
 
       <mat-card class="user-card p-0">
         <mat-card-title>
-          <div class="card-title-text">
+          <div class="card-title-text obra">
 
             <a class="toolbar-avatar md mr-1">
               <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
@@ -27,7 +27,7 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <!-- <button mat-menu-item (click)="openDialogUser(user)">Ver</button> -->
-              <button mat-menu-item [routerLink]="['/configuracion/modificar-obra', obra.idObra]">Editar</button>
+              <button mat-menu-item [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
             </mat-menu>
           </div>
@@ -36,14 +36,14 @@
 
         <mat-card-content>
           <div class="user-details">
-            <p class="p-info-catalogs">
-              <mat-icon class="text-muted">business</mat-icon>{{obra.fechaInicio | date}}</p>
-            <p class="p-info-catalogs">
-              <mat-icon class="text-muted">email</mat-icon>{{obra.fechaFin | date}}</p>
-            <p class="p-info-catalogs">
-              <mat-icon class="text-muted">phone</mat-icon>{{obra.lugarTrabajos}}</p>
-            <p class="p-info-catalogs">
-              <mat-icon class="text-muted">location_on</mat-icon>{{obra.idSupervisor}}</p>
+            <div class="wrap-detalles-obra">
+              <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
+              <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
+              <p class="p-info-catalogs"><span>Lugar:</span> {{obra.lugarTrabajo}}</p>
+              <p class="p-info-catalogs"><span>Supervisor Encargado:</span> 
+                {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}
+              </p>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>

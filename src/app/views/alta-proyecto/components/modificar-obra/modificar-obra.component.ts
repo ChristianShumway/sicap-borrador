@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { CustomValidators } from 'ng2-validation';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { ObraService } from '../../../../shared/services/obra.service';
 import { EmpresasService } from './../../../../shared/services/empresas.service';
 import { ClientesService } from '../../../../shared/services/clientes.service';
@@ -12,20 +11,20 @@ import { Empresa } from './../../../../shared/models/empresa';
 import { Cliente } from './../../../../shared/models/cliente';
 import { Usuario } from './../../../../shared/models/usuario';
 import { Destajista } from './../../../../shared/models/destajista';
+import { Obra } from '../../../../shared/models/obra';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
-
 @Component({
-  selector: 'app-crear-obra',
-  templateUrl: './crear-obra.component.html',
-  styleUrls: ['./crear-obra.component.scss']
+  selector: 'app-modificar-obra',
+  templateUrl: './modificar-obra.component.html',
+  styleUrls: ['./modificar-obra.component.scss']
 })
-export class CrearObraComponent implements OnInit {
+export class ModificarObraComponent implements OnInit {
 
   formData = {}
   console = console;
-  createObraForm: FormGroup;
+  updateObraForm: FormGroup;
   empresas: Empresa[];
   clientes: Cliente[];
   supervisores: Usuario[];
@@ -34,6 +33,7 @@ export class CrearObraComponent implements OnInit {
   fechaFinObra;
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
+  obraId;
   
   constructor(
     private router: Router,
@@ -43,21 +43,35 @@ export class CrearObraComponent implements OnInit {
     private usuariosService: UsuariosService,
     private destajistasService: DestajistasService,
     private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
-    this.getValidations();
+    this.getObra();
     this.getCatalogos();
+    this.getValidations();
     this.compareTwoDates();
-    this.fechaInicioObra = new Date(this.createObraForm.controls['fechaInicio'].value);
-    this.fechaFinObra = new Date(this.createObraForm.controls['fechaFin'].value);
-    this.fechaInicioObra.setDate(this.fechaInicioObra.getDate());
-    this.fechaFinObra.setDate(this.fechaFinObra.getDate());
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.obraId = data.id;
+      if(this.obraId){
+        this.obraService.getObra(this.obraId).subscribe(
+          (obra: Obra) => {
+            console.log(obra);
+            this.fechaInicioObra = new Date(obra.fechaInicio).setDate(this.fechaInicioObra);
+            this.fechaFinObra = new Date(obra.fechaFin).setDate(this.fechaFinObra);
+            this.updateObraForm.patchValue(obra);
+          },
+          error => console.log(error)
+        );
+      }
+    });
   }
 
   getValidations() {
-
-    this.createObraForm = new FormGroup({
+    this.updateObraForm = new FormGroup({
       idEmpresa: new FormControl('', [
         Validators.required,
       ]),
@@ -73,8 +87,8 @@ export class CrearObraComponent implements OnInit {
       presupuestoTotal: new FormControl('', [
         Validators.required,
       ]),
-      fechaInicio: new FormControl(new Date(), Validators.required),
-      fechaFin: new FormControl(new Date(), Validators.required),
+      fechaInicio: new FormControl(this.fechaInicioObra, Validators.required),
+      fechaFin: new FormControl(this.fechaFinObra, Validators.required),
       plazoEjecucion: new FormControl('0', [
         Validators.required
       ]),
@@ -113,13 +127,15 @@ export class CrearObraComponent implements OnInit {
   }
 
   compareTwoDates(){
-    const controlFechaInicio = new Date(this.createObraForm.controls['fechaInicio'].value);
-    const controlFechaFin = new Date(this.createObraForm.controls['fechaFin'].value);
+    const controlFechaInicio = new Date(this.updateObraForm.controls['fechaInicio'].value);
+    const controlFechaFin = new Date(this.updateObraForm.controls['fechaFin'].value);
+    // const controlFechaInicio = new Date(this.fechaInicioObra);
+    // const controlFechaFin = new Date(this.fechaFinObra);
     this.getPlazoEjecucion(controlFechaInicio, controlFechaFin);
 
     if( controlFechaFin < controlFechaInicio){
         this.error={isError:true,errorMessage:'Fecha inicio de la obra no puede ser mayor a la fecha final de la obra'};
-        this.createObraForm.controls['fechaInicio'].setValue('');
+        this.updateObraForm.controls['fechaInicio'].setValue('');
     } else {
       this.error={isError:false};
     }
@@ -132,22 +148,23 @@ export class CrearObraComponent implements OnInit {
     var fechaInicio = new Date(nuevaFechaInicio).getTime();
     var fechaFin    = new Date(nuevaFechaFin).getTime();
     const plazoEjecucion = fechaFin - fechaInicio;
-    this.createObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)));
+    this.updateObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)));
   }
 
-  createObra(){
-    if(this.createObraForm.valid){
+  updateObra(){
+    if(this.updateObraForm.valid){
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicioObra, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinObra, format);
       const obra = {
-        ...this.createObraForm.value,
+        idObra: parseInt(this.obraId),
+        ...this.updateObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
         activo:1
       };
       console.log(obra);
-      this.obraService.createObra(obra).subscribe(
+      this.obraService.updateObra(obra).subscribe(
         (response => {
           if(response.estatus === '05'){
             this.router.navigate(['/alta-proyecto/obras']);

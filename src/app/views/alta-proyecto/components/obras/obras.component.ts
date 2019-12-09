@@ -21,6 +21,9 @@ export class ObrasComponent implements OnInit {
   obrasTemp: Obra[] = [];
   rutaImg: string;
   host: string;
+  // fechaActual= New Date();
+  estatusObraPeriodo: number;
+  diasFaltantesObra: number;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -37,7 +40,7 @@ export class ObrasComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getObrasTemp();
+    this.getObras();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -52,24 +55,25 @@ export class ObrasComponent implements OnInit {
     }
   }
 
-  getObrasTemp() {
+  getObrasTemp(){
     this.obras = this.obraService.obrasTemp;
     this.obrasTemp = this.obras;
     this.dataSource.data = this.obras;
   }
   
-  // getObras(){
-  //   this.obraService.getUsuarios().subscribe(
-  //     ( users => {
-  //       this.users = users.filter( user => user.idPerfil !== 4);
-  //       console.log(this.users);
-  //       this.usersTemp = this.users;
-  //       console.log(this.usersTemp);
-  //       this.dataSource.data = this.users;
-  //     }),
-  //     (error => console.log(error.message))
-  //   );
-  // }
+  getObras(){
+    this.obraService.getObras().subscribe(
+      ( (obras: Obra[]) => {
+        this.obras = obras.filter( obra => obra.activo === 1);
+        //this.obras = obras;
+        console.log(this.obras);
+        this.obrasTemp = this.obras;
+        console.log(this.obrasTemp);
+        this.dataSource.data = this.obras;
+      }),
+      (error => console.log(error.message))
+    );
+  }
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
@@ -105,27 +109,25 @@ export class ObrasComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         // console.log(result);
-        // console.log(user);
-        const usuarioBaja = {
+        const obraBaja = {
           idObra: idObra,
           activo: 0
         };
-        console.log(usuarioBaja);
-        // this.obraService.updateUsuario(usuarioBaja).subscribe(
-        //   response => {
-        //     console.log(response);
-        //     if(response.estatus === '05'){
-        //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-        //       this.getUsers();
-        //     } else {
-        //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-        //     }
-        //   },
-        //     error => {
-        //     this.useAlerts(error.message, ' ', 'error-dialog');
-        //     console.log(error);
-        //   }
-        // );
+        console.log(obraBaja);
+        this.obraService.deleteObra(obraBaja).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getObras();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
       }
     });
   }
