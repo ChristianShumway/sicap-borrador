@@ -15,6 +15,7 @@ import { Obra } from '../../../../shared/models/obra';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+
 @Component({
   selector: 'app-modificar-obra',
   templateUrl: './modificar-obra.component.html',
@@ -60,8 +61,12 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.getObra(this.obraId).subscribe(
           (obra: Obra) => {
             console.log(obra);
-            this.fechaInicioObra = new Date(obra.fechaInicio).setDate(this.fechaInicioObra);
-            this.fechaFinObra = new Date(obra.fechaFin).setDate(this.fechaFinObra);
+            let inicioString = obra.fechaInicio;
+            let finString = obra.fechaFin;
+            this.fechaInicioObra = new Date(inicioString);
+            this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
+            this.fechaFinObra = new Date(finString);
+            this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
             this.updateObraForm.patchValue(obra);
           },
           error => console.log(error)
@@ -200,7 +205,7 @@ export class ModificarObraComponent implements OnInit {
 
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
-        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 1);
+        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
       },
       error => console.log(error)
     );

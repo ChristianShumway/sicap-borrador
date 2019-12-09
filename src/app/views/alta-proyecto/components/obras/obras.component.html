@@ -14,12 +14,12 @@
         <mat-card-title>
           <div class="card-title-text obra">
 
-            <a class="toolbar-avatar md mr-1">
+            <a *ngIf="!obra" class="toolbar-avatar md mr-1">
               <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
             </a>
-            <!-- <a *ngIf="user" class="toolbar-avatar md mr-1" (click)="openDialogUser(user)">
-              <img src="http://{{host}}/{{rutaImg}}/files/{{user.imagen}}" alt="">
-            </a> -->
+            <a *ngIf="obra" class="toolbar-avatar md mr-1" (click)="openDialogUser(user)">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
             <span class="title-card-catalogs">{{obra.noContrato}}</span>
             <span fxFlex></span>
             <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
@@ -37,8 +37,8 @@
         <mat-card-content>
           <div class="user-details">
             <div class="wrap-detalles-obra">
-              <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
-              <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
+              <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date:"fullDate"}}</p>
+              <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date:"fullDate"}}</p>
               <p class="p-info-catalogs"><span>Lugar:</span> {{obra.lugarTrabajo}}</p>
               <p class="p-info-catalogs"><span>Supervisor Encargado:</span> 
                 {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}

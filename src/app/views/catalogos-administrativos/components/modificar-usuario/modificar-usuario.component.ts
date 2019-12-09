@@ -48,6 +48,7 @@ export class ModificarUsuarioComponent implements OnInit {
         this.usuarioService.getUsuario(this.idUser).subscribe(
           ( (user: Usuario) => {
             console.log(user);
+            console.log(user.fechaNacimiento);
             let fechaString = user.fechaNacimiento;
             this.fechaNacimientoFinal = new Date(fechaString);
             this.fechaNacimientoFinal.setDate(this.fechaNacimientoFinal.getDate()+1);
