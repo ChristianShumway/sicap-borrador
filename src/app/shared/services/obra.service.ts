@@ -3,6 +3,7 @@ import { Obra } from './../models/obra';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
+import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -30,6 +31,10 @@ export class ObraService {
     }
   ];
 
+  private obra: Obra;
+  private obrasubject = new BehaviorSubject<Obra>(null);
+  
+
   constructor(
     private http: HttpClient
   ) { }
@@ -38,6 +43,25 @@ export class ObraService {
     return this.http.get<Obra[]>(`${environment.apiURL}/obra/getAllObra`); 
   }
 
+  getDataObra(): Observable<Obra> {
+    return this.obrasubject.asObservable();
+  }
+
+  // private refresh() {
+  //   this.obrasubject.next(this.obra);
+  // }
+  
+  getObraObservable(id:number){
+    return this.http.get<Obra>(`${environment.apiURL}/obra/getObraByID/${id}`).subscribe(
+      (obra: Obra) => {
+        this.obra = obra;
+        this.obrasubject.next(this.obra);
+        // this.refresh();
+      },
+      error => console.log(error)
+    );
+  }
+  
   getObra(id: number): Observable<Obra>{
     return this.http.get<Obra>(`${environment.apiURL}/obra/getObraByID/${id}`);
   }

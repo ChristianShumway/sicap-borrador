@@ -19,7 +19,8 @@
       </div>
     
       <!-- Sidebar user -->
-      <div class="app-user">
+
+      <div class="app-user" *ngIf = "usuarioLogeado">
         <!-- datos usuario -->
         <div class="app-user-photo">
           <img src="http://{{host}}/{{rutaImg}}/files/{{usuarioLogeado.imagen}}" class="mat-elevation-z1" alt="">

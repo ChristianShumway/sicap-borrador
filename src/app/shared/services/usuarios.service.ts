@@ -10,7 +10,9 @@ import { BehaviorSubject } from 'rxjs';
 })
 export class UsuariosService {
 
-  private usuario = new BehaviorSubject<Usuario[]>([]);
+  // private usuario = new BehaviorSubject<Usuario[]>([]);
+  private usuario: Usuario;
+  private usuariosubject = new BehaviorSubject<Usuario>(null);
 
   constructor(
     private http: HttpClient,
@@ -18,6 +20,20 @@ export class UsuariosService {
 
   getUsuarios(): Observable<Usuario[]>  {
     return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuarios`); 
+  }
+
+  getDataUsuario(): Observable<Usuario> {
+    return this.usuariosubject.asObservable();
+  }
+
+  getUsuarioObservable(id:number){
+    return this.http.get<Usuario>(`${environment.apiURL}/user/getUsuariosByID/${id}`).subscribe(
+      (user: Usuario) => {
+        this.usuario = user;
+        this.usuariosubject.next(this.usuario);
+      },
+      error => console.log(error)
+    );
   }
 
   getUsuario(id: number): Observable<Usuario>{

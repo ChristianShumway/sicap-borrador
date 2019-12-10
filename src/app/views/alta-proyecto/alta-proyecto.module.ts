@@ -16,13 +16,19 @@ import { ObrasComponent } from './components/obras/obras.component';
 import { CrearObraComponent } from './components/crear-obra/crear-obra.component';
 import { ModificarObraComponent } from './components/modificar-obra/modificar-obra.component';
 import { ModalEliminarComponent } from './components/modal-eliminar/modal-eliminar.component';
+import { VerObraComponent } from './components/ver-obra/ver-obra.component';
+import { DatosObraComponent } from './components/datos-obra/datos-obra.component';
+import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
 
 @NgModule({
   declarations: [
     ObrasComponent,
     CrearObraComponent,
     ModificarObraComponent,
-    ModalEliminarComponent
+    ModalEliminarComponent,
+    VerObraComponent,
+    DatosObraComponent,
+    BitacoraObraComponent
   ],
   imports: [
     CommonModule,

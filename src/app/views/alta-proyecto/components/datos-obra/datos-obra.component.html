@@ -1,0 +1,124 @@
+<mat-card class="p-0" *ngIf="usuario">
+  <mat-tab-group>
+    <mat-tab label="Modificar Información">
+      <mat-card-content class="mt-1">
+        <form [formGroup]="updateUserForm" (submit)="updateUser()">
+          <div fxLayout="row wrap">
+
+            <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="nombre" formControlName="nombre" placeholder="Nombre(s)">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="updateUserForm.controls['nombre'].hasError('required') && updateUserForm.controls['nombre'].touched" class="form-error-msg">
+                    Nombre es un campo requerido
+                  </small>
+                </div>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="apellidoPaterno" formControlName="apellidoPaterno" placeholder="Apellido Paterno">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="updateUserForm.controls['apellidoPaterno'].hasError('required') && updateUserForm.controls['apellidoPaterno'].touched"
+                    class="form-error-msg">
+                    Apellido Paterno es un campo requerido
+                  </small>
+                </div>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="apellidoMaterno" formControlName="apellidoMaterno" placeholder="Apellido Materno">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="updateUserForm.controls['apellidoMaterno'].hasError('required') && updateUserForm.controls['apellidoMaterno'].touched"
+                    class="form-error-msg">
+                    Apellido Materno es un campo requerido
+                  </small>
+                </div>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="telefono" formControlName="telefono" placeholder="Teléfono">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="updateUserForm.controls['telefono'].hasError('required') && updateUserForm.controls['telefono'].touched" class="form-error-msg">
+                    Número de teléfono invalido
+                  </small>
+                </div>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="direccion" formControlName="direccion" placeholder="Dirección">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="updateUserForm.controls['direccion'].hasError('direccion') && updateUserForm.controls['direccion'].touched"
+                    class="form-error-msg">
+                    Dirección es un campo requerido
+                  </small>
+                </div>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput [matDatepicker]="fechaNacimiento" formControlName="fechaNacimiento" name="date" placeholder="Fecha Nacimiento"
+                    (dateChange)="onFechaNacimiento($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaNacimiento" (selectedChange)="onFechaNacimiento($event)"></mat-datepicker-toggle>
+                </mat-form-field>
+                <mat-datepicker #fechaNacimiento></mat-datepicker>
+                <div class="validaciones"></div>
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="updateUserForm.invalid" type="submit">Modificar</button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Foto de Perfil">
+      <mat-card-content>
+        <div class="mb-1">
+          <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [uploader]="uploaderProfile" />
+          <div ng2FileDrop (click)="fileInput.click()" [ngClass]="{'dz-file-over': hasBaseDropZoneOver}" [uploader]="uploaderProfile"
+            (fileOver)="fileOverBase($event)" class="fileupload-drop-zone-logo-div">
+            <p>Perfil imagen</p>
+            <p>Arrastra o click sobre la imagen o zona punteada</p>
+
+            <div *ngIf="uploaderProfile.queue.length; else tableNoData">
+              <div *ngFor="let item of uploaderProfile.queue ">
+                <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
+                  <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+                  <mat-progress-bar class="" color="primary" mode="determinate" [value]="item.progress">
+                  </mat-progress-bar>
+                </div>
+              </div>
+            </div>
+
+            <div *ngIf="!usuario">
+              <div class="wrap-loading-catalog">
+                <mat-spinner [diameter]="40"></mat-spinner>
+              </div>
+            </div>
+
+            <img *ngIf="usuario" class="fileupload-drop-zone-logo" src="http://{{host}}/{{rutaImg}}/files/{{usuario.imagen}}" alt="">
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+
+<mat-card class="p-0" *ngIf="!usuario" class="wrapper-settings">
+  <mat-card-content>
+    <mat-spinner></mat-spinner>
+  </mat-card-content>
+</mat-card>

@@ -1,0 +1,77 @@
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50" *ngIf="(!obraObs$ | async) as obra">
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <div class="wrap-spiner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </mat-card>
+  </div>
+  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50" *ngIf="(obraObs$ | async) as obra">
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <div class="propic text-center">
+        <img src="http://{{host}}/{{urlImg}}/files/{{obra.empresa.imagen}}" [alt]="obra.nombre">
+      </div>
+      <div class="profile-title text-center mb-1">
+        <div class="main-title">{{obra.noContrato}}
+          <!-- <b>{{obra.apellidoPaterno}} {{obra.apellidoMaterno}}</b> -->
+        </div>
+        <div class="subtitle mb-05">{{obra.nombreObra}}</div>
+        <div class="subtitle mb-05">Días Faltantes:</div>
+        <!-- <div class="text-muted">Hi I'm Jhone, sit amet consectetur adipisicing elit. Aperiam repellendus nam perspiciatis.</div> -->
+      </div>
+      <div class="profile-actions mb-1" fxLayoutAlign="center center">
+        <!-- <button mat-raised-button color="primary">Mensaje</button> -->
+        <span fxFlex="8px"></span>
+        <!-- <button mat-raised-button color="accent">Follow</button> -->
+      </div>
+      <div class="profile-nav">
+        <mat-nav-list>
+          <mat-list-item routerLink="bitacora/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon>assignment</mat-icon>
+            Bitácora
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="datos/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon>folder</mat-icon>
+            Datos
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <!-- <mat-list-item routerLink="/profile/blank" routerLinkActive="list-item-active">
+            <mat-icon>content_paste</mat-icon>
+            Blank
+          </mat-list-item> -->
+        </mat-nav-list>
+      </div>
+    </mat-card>
+
+    <!-- Contact Information -->
+    <mat-card class="default">
+      <mat-card-title>Información de la obra</mat-card-title>
+      <mat-card-content class="pt-0">
+        <mat-list>
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon> {{obra.fechaInicio | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon> {{obra.fechaFin | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">map</mat-icon> {{obra.lugarTrabajo}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">timer</mat-icon> {{obra.plazoEjecucion}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">person</mat-icon> {{obra.supervisor.nombre}} {{obra.supervisor.appellidoPaterno}} {{obra.supervisor.apellidoMaterno}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">business_center</mat-icon> {{obra.cliente.nombre}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">emoji_people</mat-icon> {{obra.destajista.nombre}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">attach_money</mat-icon> {{obra.presupuestoTotal}}</mat-list-item>
+        </mat-list>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Profile Views -->
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+    <router-outlet></router-outlet>
+  </div>
+</div>

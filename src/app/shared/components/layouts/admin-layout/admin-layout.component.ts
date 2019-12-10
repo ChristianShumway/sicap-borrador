@@ -7,7 +7,7 @@ import {
   ResolveStart, 
   ResolveEnd 
 } from '@angular/router';
-import { Subscription } from "rxjs";
+import { Subscription, Observable } from "rxjs";
 import { TranslateService } from '@ngx-translate/core';
 import { ThemeService } from '../../../services/theme.service';
 import { LayoutService } from '../../../services/layout.service';
@@ -22,7 +22,7 @@ import { environment } from './../../../../../environments/environment';
 @Component({
   selector: 'app-admin-layout',
   templateUrl: './admin-layout.template.html',
-  // changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class AdminLayoutComponent implements OnInit, AfterViewInit {
   public isModuleLoading: Boolean = false;
@@ -36,6 +36,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
   currentUser;
   usuarioLogeado: Usuario;
+  private usuarioObs$: Observable<Usuario>;
 
   constructor(
     private router: Router,
@@ -51,7 +52,7 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
     this.routerEventSub = router.events.pipe(filter(event => event instanceof NavigationEnd))
     .subscribe((routeChange: NavigationEnd) => {
       this.layout.adjustLayout({ route: routeChange.url });
-      this.scrollToTop();
+      // this.scrollToTop();
     });
     
     // Translator init
@@ -63,11 +64,11 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.getUsuario();
-    this.usuarioLogeado = {
-      ...this.usuarioLogeado,
-      imagen: 'user-temp.png',
-      idPerfil: 0,
-    };
+    // this.usuarioLogeado = {
+    //   ...this.usuarioLogeado,
+    //   imagen: 'user-temp.png',
+    //   idPerfil: 0,
+    // };
     // this.layoutConf = this.layout.layoutConf;
     this.layoutConfSub = this.layout.layoutConf$.subscribe((layoutConf) => {
       this.layoutConf = layoutConf;
@@ -155,15 +156,17 @@ export class AdminLayoutComponent implements OnInit, AfterViewInit {
   }
 
   getUsuario(){
-    this.UsuariosService.getUsuario(this.currentUser).subscribe(
-      (user: Usuario) => {
-        this.usuarioLogeado = user;
-      },
-      error => {
-        console.log(error);
-        this.useAlerts('Usuario no ha iniciado sesión', 'Error', 'error-dialog');
-      }    
-    );
+    // this.UsuariosService.getUsuario(this.currentUser).subscribe(
+    //   (user: Usuario) => {
+    //     this.usuarioLogeado = user;
+    //   },
+    //   error => {
+    //     console.log(error);
+    //     this.useAlerts('Usuario no ha iniciado sesión', 'Error', 'error-dialog');
+    //   }    
+    // );
+    this.UsuariosService.getUsuarioObservable(this.currentUser);
+    this.usuarioObs$ = this.UsuariosService.getDataUsuario();
   }
 
   useAlerts(message, action, className){

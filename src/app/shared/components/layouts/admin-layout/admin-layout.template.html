@@ -1,4 +1,4 @@
-<div class="app-admin-wrap" [dir]='layoutConf?.dir'>
+<div class="app-admin-wrap" [dir]='layoutConf?.dir' *ngIf="(usuarioObs$ | async) as usuarioLogeado">
   <!-- Header for top navigation layout -->
   <!-- ONLY REQUIRED FOR **TOP** NAVIGATION LAYOUT -->
   <app-header-top 

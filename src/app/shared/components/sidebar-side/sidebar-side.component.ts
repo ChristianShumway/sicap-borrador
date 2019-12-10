@@ -54,6 +54,7 @@ export class SidebarSideComponent implements OnInit, OnDestroy, AfterViewInit, O
   }
   
   ngOnChanges(){
+    console.log(this. usuarioLogeado.idPerfil);
     this.getMenu();
   }
 

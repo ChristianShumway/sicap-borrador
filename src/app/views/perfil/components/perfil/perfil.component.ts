@@ -12,25 +12,21 @@ import { map } from 'rxjs/operators';
   selector: 'app-perfil',
   templateUrl: './perfil.component.html',
   styleUrls: ['./perfil.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class PerfilComponent implements OnInit {
 
+  private usuarioObs$: Observable<Usuario>;
   activeView : string = 'overview';
   usuario: Usuario;
   urlImg: string;
   host: string;
-  // private users$: Observable<Usuario>;
-  // private usuario = new BehaviorSubject<Usuario>();
-
-
-  
 
   constructor(
     private router: ActivatedRoute,
     private usuariosService: UsuariosService
   ) { 
-    // this.usuario = {...this.usuario};
   }
 
   ngOnInit() {
@@ -44,15 +40,17 @@ export class PerfilComponent implements OnInit {
     this.router.params.subscribe( (data: Params) => {
       if(data.id){
         console.log(data);
-        this.usuariosService.getUsuario(data.id).subscribe(
-          (usuario: Usuario) => {
-            this.usuario = usuario;
-            // this.users$ = usuario;
-          },
-          error => {
-            console.log(error);
-          }
-        );
+        this.usuariosService.getUsuarioObservable(data.id);
+        this.usuarioObs$ = this.usuariosService.getDataUsuario();
+        // this.usuariosService.getUsuario(data.id).subscribe(
+        //   (usuario: Usuario) => {
+        //     this.usuario = usuario;
+        //     // this.users$ = usuario;
+        //   },
+        //   error => {
+        //     console.log(error);
+        //   }
+        // );
       }
     });
   }

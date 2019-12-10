@@ -4,3 +4,17 @@
   height: 452px;
   align-items: center;
 }
+
+.wrap-img-profile img{
+  width: 12rem !important;
+  height: 12rem !important;
+  object-fit: cover;
+  object-position: center center;
+}
+
+@media screen and (max-width: 480px) {
+  .wrap-img-profile img{
+    width: 10rem !important;
+    height: 10rem !important;
+  }
+}
