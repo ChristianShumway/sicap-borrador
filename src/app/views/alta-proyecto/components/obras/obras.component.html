@@ -17,7 +17,7 @@
             <a *ngIf="!obra" class="toolbar-avatar md mr-1">
               <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
             </a>
-            <a *ngIf="obra" class="toolbar-avatar md mr-1" (click)="openDialogUser(user)">
+            <a *ngIf="obra" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <span class="title-card-catalogs">{{obra.noContrato}}</span>

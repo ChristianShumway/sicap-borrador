@@ -19,6 +19,8 @@ import { ModalEliminarComponent } from './components/modal-eliminar/modal-elimin
 import { VerObraComponent } from './components/ver-obra/ver-obra.component';
 import { DatosObraComponent } from './components/datos-obra/datos-obra.component';
 import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
+import { ObraDataComponent } from './components/obra-data/obra-data.component';
+import { CatalogoConceptosComponent } from './components/catalogo-conceptos/catalogo-conceptos.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,9 @@ import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.
     ModalEliminarComponent,
     VerObraComponent,
     DatosObraComponent,
-    BitacoraObraComponent
+    BitacoraObraComponent,
+    ObraDataComponent,
+    CatalogoConceptosComponent
   ],
   imports: [
     CommonModule,
