@@ -76,9 +76,7 @@ export class ModificarUsuarioComponent implements OnInit {
       apellidoPaterno: new FormControl('', [
         Validators.required,
       ]),
-      apellidoMaterno: new FormControl('', [
-        Validators.required,
-      ]),
+      apellidoMaterno: new FormControl(),
       usuario: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(20)

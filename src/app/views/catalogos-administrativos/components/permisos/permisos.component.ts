@@ -3,6 +3,8 @@ import { NavigationService } from './../../../../shared/services/navigation.serv
 import {MatDialog} from '@angular/material/dialog';
 import { ModalPerfilesComponent } from './../modal-perfiles/modal-perfiles.component';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
+import { filter } from 'rxjs/operators';
+import { Perfil } from '../../../../shared/models/perfil';
 
 @Component({
   selector: 'app-permisos',
@@ -66,7 +68,8 @@ export class PermisosComponent implements OnInit {
 
   openModalPerfiles(idModulo) {
     this.perfilesService.getAuthorizedProfiles(idModulo).subscribe(
-      (perfiles => {
+      ((perfiles) => {
+        console.log(perfiles);
         const profile = perfiles;
         this.loadModal(profile);
       }),

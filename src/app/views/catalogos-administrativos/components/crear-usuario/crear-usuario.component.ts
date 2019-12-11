@@ -22,7 +22,7 @@ export class CrearUsuarioComponent implements OnInit {
   createUserForm: FormGroup;
   empresas: Empresa[];
   perfiles: Perfil[];
-  fechaNacimientoFinal = Date;
+  fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
   
   constructor(
@@ -36,10 +36,12 @@ export class CrearUsuarioComponent implements OnInit {
   ngOnInit() {
     this.getValidations();
     this.getCatalogos();
+    this.fechaNacimientoFinal = new Date(this.createUserForm.controls['fechaNacimiento'].value);
+    this.fechaNacimientoFinal.setDate(this.fechaNacimientoFinal.getDate());
   }
 
   getValidations() {
-    let contrasena = new FormControl('', Validators.required);
+    let contrasena = new FormControl('', [Validators.required,  Validators.minLength(8),]);
     let confirmarContrasena = new FormControl('', CustomValidators.equalTo(contrasena));
 
     this.createUserForm = new FormGroup({
@@ -56,9 +58,7 @@ export class CrearUsuarioComponent implements OnInit {
       apellidoPaterno: new FormControl('', [
         Validators.required,
       ]),
-      apellidoMaterno: new FormControl('', [
-        Validators.required,
-      ]),
+      apellidoMaterno: new FormControl(),
       usuario: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(20)

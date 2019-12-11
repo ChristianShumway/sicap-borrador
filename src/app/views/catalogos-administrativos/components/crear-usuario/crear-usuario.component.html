@@ -164,6 +164,9 @@
               <small *ngIf="createUserForm.controls['contrasena'].hasError('required') && createUserForm.controls['contrasena'].touched" class="form-error-msg">
                 Contraseña es un campo requerido 
               </small>
+              <small *ngIf="createUserForm.controls['contrasena'].hasError('minlength') && createUserForm.controls['contrasena'].touched" class="form-error-msg">
+                  La contraseña debe ser de mayor a {{createUserForm.controls['contrasena'].errors.minlength.requiredLength}} caracteres 
+                </small>
             </div>
           </div>
 

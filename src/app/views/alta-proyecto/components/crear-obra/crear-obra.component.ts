@@ -183,7 +183,7 @@ export class CrearObraComponent implements OnInit {
 
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
-        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 1);
+        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
       },
       error => console.log(error)
     );

@@ -1,12 +1,16 @@
-<div fxLayout="row wrap">
-  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50" *ngIf="(!obraObs$ | async) as obra">
+<div fxLayout="row wrap"  *ngIf="!(obraObs$ | async) as obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <mat-card class="profile-sidebar mb-1 pb-0">
       <div class="wrap-spiner">
         <mat-spinner></mat-spinner>
       </div>
     </mat-card>
   </div>
-  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50" *ngIf="(obraObs$ | async) as obra">
+</div>
+
+<div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
+  
+  <div fxFlex="100" fxFlex.gt-md="300px" fxFlex.gt-sm="50" *ngIf= "obra.idSupervisor === usuarioLogeado">
     <mat-card class="profile-sidebar mb-1 pb-0">
       <div class="propic text-center">
         <img src="http://{{host}}/{{urlImg}}/files/{{obra.empresa.imagen}}" [alt]="obra.nombre">
@@ -71,7 +75,27 @@
   </div>
 
   <!-- Profile Views -->
-  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)">
+  <div fxFlex="100" fxFlex.gt-sm="50" fxFlex.gt-md="calc(100% - 300px)" *ngIf= "obra.idSupervisor === usuarioLogeado">
     <router-outlet></router-outlet>
   </div>
+
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" *ngIf= "obra.idSupervisor !== usuarioLogeado">
+    <mat-card>
+      <mat-card-content class="wrap-spiner">
+        <div class="wrap-message">
+          <div class="icon">
+            <mat-icon>lock</mat-icon>
+          </div>
+          <div class="message">
+            <h1>ACCESSO DENEGADO</h1>
+            <p>Usuario no puede visualizar la información de esta obra</p>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions class="direction">
+          <button mat-button color="primary" [routerLink]="['/dashboard']">Inicio</button>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+
 </div>

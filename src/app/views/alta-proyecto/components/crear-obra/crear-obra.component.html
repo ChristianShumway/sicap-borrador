@@ -140,7 +140,7 @@
               <mat-select formControlName="idSupervisor" required>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor.idUsuario">
-                  {{supervisor.nombre}}
+                  {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
