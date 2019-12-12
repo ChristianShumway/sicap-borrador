@@ -10,7 +10,7 @@ export class CatalogoConceptosService {
   catalogoConceptosTemp: CatalogoConceptos[] = [
     {
       numero: 1,
-      descricion: 'Poda de Árbol tipo "A"',
+      descripcion: 'Poda de Árbol tipo "A"',
       unidad: 'Árbol',
       cantidad: 720,
       precioUnitario: 152.99,

@@ -26,16 +26,15 @@ export class ObraService {
     return this.obrasubject.asObservable();
   }
 
-  // private refresh() {
-  //   this.obrasubject.next(this.obra);
-  // }
+  private refresh() {
+    this.obrasubject.next(this.obra);
+  }
   
   getObraObservable(id:number){
     return this.http.get<Obra>(`${environment.apiURL}/obra/getObraByID/${id}`).subscribe(
       (obra: Obra) => {
         this.obra = obra;
-        this.obrasubject.next(this.obra);
-        // this.refresh();
+        this.refresh();
       },
       error => console.log(error)
     );
