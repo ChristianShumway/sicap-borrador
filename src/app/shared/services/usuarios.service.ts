@@ -26,11 +26,15 @@ export class UsuariosService {
     return this.usuariosubject.asObservable();
   }
 
+  private refresh() {
+    this.usuariosubject.next(this.usuario);
+  }
+
   getUsuarioObservable(id:number){
     return this.http.get<Usuario>(`${environment.apiURL}/user/getUsuariosByID/${id}`).subscribe(
       (user: Usuario) => {
         this.usuario = user;
-        this.usuariosubject.next(this.usuario);
+        this.refresh();
       },
       error => console.log(error)
     );

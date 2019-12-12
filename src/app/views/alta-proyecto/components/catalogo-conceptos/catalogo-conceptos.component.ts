@@ -15,10 +15,11 @@ import { CatalogoConceptos } from './../../../../shared/models/catalogo-concepto
 export class CatalogoConceptosComponent implements OnInit {
 
   @Input() obra: Obra;
-  displayedColumns: string[] = ['numero', 'descripcion', 'unidad', 'cantidad', 'precioUnitario', 'importe'];
-  dataSource;
   public uploaderCatalogo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
+
+  displayedColumns: string[] = ['numero', 'descripcion', 'unidad', 'cantidad', 'precioUnitario', 'importe'];
+  dataSource;
   rutaImg: string;
   host: string;
   rutaServe: string;
@@ -40,14 +41,17 @@ export class CatalogoConceptosComponent implements OnInit {
     this.rutaServe = environment.apiURL;
     this.rutaImg = environment.imageServe;
     this.host = environment.host;
+
     const headers = [{ name: 'Accept', value: 'application/json' }];
-    this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/user/uploadImageUser', autoUpload: true, headers: headers });
+    this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadConcepts', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idUser', this.obra.supervisor.idUsuario);
+      form.append('idObra', this.obra.idObra);
     };
+    console.log(this.uploaderCatalogo);
     this.uploaderCatalogo.uploadAll();
     this.uploaderCatalogo.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      this.obra.supervisor.imagen = item.some.name;
+      console.log(item.some.name)
+      // this.obra.supervisor.imagen = item.some.name;
       this.useAlerts('Imágen de perfil actualizada', ' ', 'success-dialog');
     };
   }
