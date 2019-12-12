@@ -55,11 +55,11 @@ export class ObrasComponent implements OnInit {
     }
   }
 
-  getObrasTemp(){
-    this.obras = this.obraService.obrasTemp;
-    this.obrasTemp = this.obras;
-    this.dataSource.data = this.obras;
-  }
+  // getObrasTemp(){
+  //   this.obras = this.obraService.obrasTemp;
+  //   this.obrasTemp = this.obras;
+  //   this.dataSource.data = this.obras;
+  // }
   
   getObras(){
     this.obraService.getObras().subscribe(
