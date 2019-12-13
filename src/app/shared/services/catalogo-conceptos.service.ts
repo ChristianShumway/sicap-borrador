@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CatalogoConceptos } from '../models/catalogo-conceptos';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'environments/environment';
@@ -85,6 +85,11 @@ export class CatalogoConceptosService {
 
   getCatalogoObra(id: number): Observable<any>{
     return this.http.get<CatalogoConceptos>(`${environment.apiURL}/obra/getConceptsByObra/${id}`);
+  }
+
+  createConceptoExtraordinario(extraordinario): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<CatalogoConceptos>(`${environment.apiURL}/obra/addConcepts`, JSON.stringify(extraordinario), { headers: headerss});
   }
 
 }

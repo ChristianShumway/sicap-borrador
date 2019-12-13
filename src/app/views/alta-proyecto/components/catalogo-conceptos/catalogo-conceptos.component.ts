@@ -6,6 +6,8 @@ import { Obra } from '../../../../shared/models/obra';
 import { CatalogoConceptosService } from './../../../../shared/services/catalogo-conceptos.service';
 import { CatalogoConceptos } from './../../../../shared/models/catalogo-conceptos';
 import { Observable } from 'rxjs';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
 
 @Component({
   selector: 'app-catalogo-conceptos',
@@ -34,7 +36,8 @@ export class CatalogoConceptosComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private catalogoConceptosService: CatalogoConceptosService
+    private catalogoConceptosService: CatalogoConceptosService,
+    private bottomSheet: MatBottomSheet
   ) { }
 
 
@@ -112,6 +115,19 @@ export class CatalogoConceptosComponent implements OnInit {
       horizontalPosition: 'right',
       panelClass: [className]
     });
+  }
+
+  openBottomExtraordinario(): void {
+    let sheet = this.bottomSheet.open(AgregarConceptoExtraordinarioComponent, {
+      data: {
+        idObra:this.obra.idObra, 
+
+      }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked'+this.obra.idObra);
+    });  
   }
 
 }
