@@ -1,40 +1,52 @@
-import { Component, OnInit, ViewChild, Input } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
 import { environment } from './../../../../../environments/environment';
 import { FileUploader } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Obra } from '../../../../shared/models/obra';
-import { MatPaginator, MatTableDataSource } from '@angular/material';
 import { CatalogoConceptosService } from './../../../../shared/services/catalogo-conceptos.service';
 import { CatalogoConceptos } from './../../../../shared/models/catalogo-conceptos';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-catalogo-conceptos',
   templateUrl: './catalogo-conceptos.component.html',
-  styleUrls: ['./catalogo-conceptos.component.scss']
+  styleUrls: ['./catalogo-conceptos.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class CatalogoConceptosComponent implements OnInit {
 
   @Input() obra: Obra;
   public uploaderCatalogo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
+  private catalogoConceptosObs$: Observable<CatalogoConceptos>;
+  listaConceptos: CatalogoConceptos[];
 
-  displayedColumns: string[] = ['numero', 'descripcion', 'unidad', 'cantidad', 'precioUnitario', 'importe'];
-  dataSource;
   rutaImg: string;
   host: string;
   rutaServe: string;
-  conceptos: CatalogoConceptos[];
+  loadingFile = false;
+  conceptosExistentes= false;
+  nameFile: string;
+
+  rows = [];
+  columns = [];
+  temp = [];
 
   constructor(
     private snackBar: MatSnackBar,
     private catalogoConceptosService: CatalogoConceptosService
   ) { }
 
-  @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
 
   ngOnInit() {
+    this.verifyConceptsExist();
     this.initUploadCatalogo();
-    this.getCatalogo();
+  }
+
+  verifyConceptsExist() {
+    this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
+    this.catalogoConceptosObs$ = this.catalogoConceptosService.getDataCatalogo();
+    this.columns = this.catalogoConceptosService.getDataColumns();
   }
 
   initUploadCatalogo() {
@@ -46,25 +58,51 @@ export class CatalogoConceptosComponent implements OnInit {
     this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadConcepts', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.obra.idObra);
+      this.loadingFile = true;
     };
-    console.log(this.uploaderCatalogo);
     this.uploaderCatalogo.uploadAll();
     this.uploaderCatalogo.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
-      console.log(item.some.name)
-      // this.obra.supervisor.imagen = item.some.name;
-      this.useAlerts('Imágen de perfil actualizada', ' ', 'success-dialog');
+      this.loadingFile = false;
+      const result = JSON.parse(response);
+      console.log(result);
+      if(result.estatus == "05"){
+        this.listaConceptos = result.response;
+        this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
+        this.columns = this.catalogoConceptosService.getDataColumns();
+        this.rows = this.temp = this.listaConceptos;
+        this.useAlerts(result.mensaje, ' ', 'success-dialog');
+      } else {
+        this.useAlerts(result.mensaje, ' ', 'error-dialog');
+      }
     };
-  }
-
-  getCatalogo(){
-    this.conceptos = this.catalogoConceptosService.catalogoConceptosTemp;
-    this.dataSource = new MatTableDataSource(this.conceptos);
-    this.dataSource.paginator = this.paginator;
-    console.log(this.conceptos);
   }
 
   public fileOverBase(e: any): void {
     this.hasBaseDropZoneOver = e;
+  }
+
+  updateFilter(event, cat) {
+    this.temp = cat;
+    const val = event.target.value.toLowerCase();
+    var columns = Object.keys(this.temp[0]);
+    // Removes last "$$index" from "column"
+    columns.splice(columns.length - 1);
+
+    // console.log(columns);
+    if (!columns.length)
+      return;
+
+    const rows = this.temp.filter(function(d) {
+      for (let i = 0; i <= columns.length; i++) {
+        let column = columns[i];
+        // console.log(d[column]);
+        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
+          return true;
+        }
+      }
+    });
+
+    this.rows = rows;
   }
 
   useAlerts(message, action, className) {

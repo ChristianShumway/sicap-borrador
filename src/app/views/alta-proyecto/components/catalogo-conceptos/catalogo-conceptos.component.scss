@@ -37,3 +37,33 @@ table {
 .wrap-btn{
   margin-bottom: 10px;
 }
+
+.wrap-catalog-list{
+  margin: 10px 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-gap: 10px;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  padding: 5px;
+}
+
+// .icon-excel-status{}
+
+.icon-excel-status img{
+  width: 70px;
+}
+
+// .message{}
+
+.message p{
+  margin-bottom: 0;
+  font-size: 16px;
+  color: #4caf50;
+}
+
+.wrap-button{
+  margin: 10px 7px;
+  text-align: right;
+}
