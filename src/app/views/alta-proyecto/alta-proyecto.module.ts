@@ -22,6 +22,8 @@ import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.
 import { ObraDataComponent } from './components/obra-data/obra-data.component';
 import { CatalogoConceptosComponent } from './components/catalogo-conceptos/catalogo-conceptos.component';
 import { AgregarConceptoExtraordinarioComponent } from './components/agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
+import { CatalogoMaterialesComponent } from './components/catalogo-materiales/catalogo-materiales.component';
+import { AgregarMaterialExtraordinarioComponent } from './components/agregar-material-extraordinario/agregar-material-extraordinario.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { AgregarConceptoExtraordinarioComponent } from './components/agregar-con
     BitacoraObraComponent,
     ObraDataComponent,
     CatalogoConceptosComponent,
-    AgregarConceptoExtraordinarioComponent
+    AgregarConceptoExtraordinarioComponent,
+    CatalogoMaterialesComponent,
+    AgregarMaterialExtraordinarioComponent
   ],
   imports: [
     CommonModule,
@@ -53,7 +57,8 @@ import { AgregarConceptoExtraordinarioComponent } from './components/agregar-con
   ],
   entryComponents: [
     ModalEliminarComponent,
-    AgregarConceptoExtraordinarioComponent
+    AgregarConceptoExtraordinarioComponent,
+    AgregarMaterialExtraordinarioComponent
   ]
 })
 export class AltaProyectoModule { }

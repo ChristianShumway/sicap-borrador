@@ -2,22 +2,22 @@ import { Component, OnInit, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { CatalogoConceptos } from './../../../../shared/models/catalogo-conceptos';
-import { CatalogoConceptosService } from '../../../../shared/services/catalogo-conceptos.service';
+import { Material } from './../../../../shared/models/material';
+import { MaterialService } from '../../../../shared/services/material.service';
 
 @Component({
-  selector: 'app-agregar-concepto-extraordinario',
-  templateUrl: './agregar-concepto-extraordinario.component.html',
-  styleUrls: ['./agregar-concepto-extraordinario.component.scss']
+  selector: 'app-agregar-material-extraordinario',
+  templateUrl: './agregar-material-extraordinario.component.html',
+  styleUrls: ['./agregar-material-extraordinario.component.scss']
 })
-export class AgregarConceptoExtraordinarioComponent implements OnInit {
+export class AgregarMaterialExtraordinarioComponent implements OnInit {
 
-  createExtraordinaryConceptForm: FormGroup;
+  createExtraordinaryMaterialForm: FormGroup;
 
   constructor(
     private snackBar: MatSnackBar,
-    private catalogoConceptosService: CatalogoConceptosService,
-    private bottomSheetRef: MatBottomSheetRef<AgregarConceptoExtraordinarioComponent>,
+    private catalogoMaterialesService: MaterialService,
+    private bottomSheetRef: MatBottomSheetRef<AgregarMaterialExtraordinarioComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
   ) { }
 
@@ -26,8 +26,8 @@ export class AgregarConceptoExtraordinarioComponent implements OnInit {
   }
 
   getValidations() {
-    this.createExtraordinaryConceptForm = new FormGroup({
-      noConcepto: new FormControl('', [
+    this.createExtraordinaryMaterialForm = new FormGroup({
+      noMaterial: new FormControl('', [
         Validators.required,
       ]),
       descripcion: new FormControl('', [
@@ -49,18 +49,18 @@ export class AgregarConceptoExtraordinarioComponent implements OnInit {
   }
 
   createExtraordinary(){
-    if(this.createExtraordinaryConceptForm.valid){
-      const concepto = {
-        ...this.createExtraordinaryConceptForm.value,
+    if(this.createExtraordinaryMaterialForm.valid){
+      const material = {
+        ...this.createExtraordinaryMaterialForm.value,
         tipo:2,
         idObra: this.data.idObra
       };
-      console.log(concepto);
-      this.catalogoConceptosService.createConceptoExtraordinario(concepto).subscribe(
+      console.log(material);
+      this.catalogoMaterialesService.createMaterialExtraordinario(material).subscribe(
         response => {
           if(response.estatus === '05'){
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.catalogoConceptosService.getCatalogObservable(this.data.idObra);
+            this.catalogoMaterialesService.getCatalogObservable(this.data.idObra);
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }  

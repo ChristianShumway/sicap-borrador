@@ -1,20 +1,20 @@
 <mat-card class="p-0 container-create-user">
   <mat-card-title class="">
-    <div class="card-title-text">Llena el formulario para la creación de un concepto extraordinario</div>
+    <div class="card-title-text">Llena el formulario para la creación de un material extraordinario</div>
     <mat-divider></mat-divider>
   </mat-card-title>
 
   <mat-card-content>
-    <form [formGroup]="createExtraordinaryConceptForm" (submit)="createExtraordinary()">
+    <form [formGroup]="createExtraordinaryMaterialForm" (submit)="createExtraordinary()">
       <div fxLayout="row wrap">
 
         <div fxFlex="100" fxFlex.gt-xs="100">
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="noConcepto" formControlName="noConcepto" placeholder="No. Concepto" value="">
+              <input matInput type="number" name="noMaterial" formControlName="noMaterial" placeholder="No. Concepto" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['noConcepto'].hasError('required') && createExtraordinaryConceptForm.controls['noConcepto'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['noMaterial'].hasError('required') && createExtraordinaryMaterialForm.controls['noMaterial'].touched"
                 class="form-error-msg">
                 El número del concepto extraordinario es un campo requerido
               </small>
@@ -25,7 +25,7 @@
               <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['descripcion'].hasError('required') && createExtraordinaryConceptForm.controls['descripcion'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['descripcion'].hasError('required') && createExtraordinaryMaterialForm.controls['descripcion'].touched"
                 class="form-error-msg">
                 La descripción del concepto extraordinario es un campo requerido
               </small>
@@ -36,7 +36,7 @@
               <input matInput name="unidad" formControlName="unidad" placeholder="Unidad" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['unidad'].hasError('required') && createExtraordinaryConceptForm.controls['unidad'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['unidad'].hasError('required') && createExtraordinaryMaterialForm.controls['unidad'].touched"
                 class="form-error-msg">
                 Unidad es un campo requerido
               </small>
@@ -47,7 +47,7 @@
               <input matInput type="number" name="cantidad" formControlName="cantidad" placeholder="Cantidad" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['cantidad'].hasError('required') && createExtraordinaryConceptForm.controls['cantidad'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['cantidad'].hasError('required') && createExtraordinaryMaterialForm.controls['cantidad'].touched"
                 class="form-error-msg">
                 La cantidad es un campo requerido
               </small>
@@ -58,7 +58,7 @@
               <input matInput type="number" name="precioUnitario" formControlName="precioUnitario" placeholder="Precio Unitario" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['precioUnitario'].hasError('required') && createExtraordinaryConceptForm.controls['precioUnitario'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['precioUnitario'].hasError('required') && createExtraordinaryMaterialForm.controls['precioUnitario'].touched"
                 class="form-error-msg">
                 El precio unitario es un campo requerido
               </small>
@@ -69,7 +69,7 @@
               <input matInput type="number" name="importe" formControlName="importe" placeholder="Importe" value="">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createExtraordinaryConceptForm.controls['importe'].hasError('required') && createExtraordinaryConceptForm.controls['importe'].touched"
+              <small *ngIf="createExtraordinaryMaterialForm.controls['importe'].hasError('required') && createExtraordinaryMaterialForm.controls['importe'].touched"
                 class="form-error-msg">
                 El importe es un campo requerido
               </small>
@@ -81,8 +81,7 @@
       </div>
 
       <div class="cont-btns">
-        <button mat-raised-button color="primary" [disabled]="createExtraordinaryConceptForm.invalid" type="submit">Agregar</button>
-        <!-- <button mat-raised-button [routerLink]="'/configuracion/perfiles'">Cancelar</button> -->
+        <button mat-raised-button color="primary" [disabled]="createExtraordinaryMaterialForm.invalid" type="submit">Agregar</button>
       </div>
     </form>
   </mat-card-content>

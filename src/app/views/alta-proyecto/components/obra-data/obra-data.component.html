@@ -1,3 +1,230 @@
-<p>
-  {{obra | json}}
-</p>
+<mat-card class="p-0 container-create-user">
+
+  <mat-card-content>
+    <form [formGroup]="updateObraForm" (submit)="updateObra()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="idEmpresa" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['idEmpresa'].hasError('required') && updateObraForm.controls['idEmpresa'].touched"
+                class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Cliente</mat-label>
+              <mat-select formControlName="idCliente" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+                  {{cliente.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['idCliente'].hasError('required') && updateObraForm.controls['idCliente'].touched"
+                class="form-error-msg">
+                Cliente es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="noContrato" formControlName="noContrato" placeholder="Número de Contrato">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['noContrato'].hasError('required') && updateObraForm.controls['noContrato'].touched"
+                class="form-error-msg">
+                Número de contrato es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="nombreObra" formControlName="nombreObra" placeholder="Nombre de Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['nombreObra'].hasError('required') && updateObraForm.controls['nombreObra'].touched"
+                class="form-error-msg">
+                Nombre de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Presupuesto Total de Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoTotal'].hasError('required') && updateObraForm.controls['presupuestoTotal'].touched"
+                class="form-error-msg">
+                Presupuesto total de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <div class="validaciones">
+              <small *ngIf="error.isError" class="form-error-msg">
+                {{ error.errorMessage }}
+              </small>
+            </div>
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+                (dateChange)="onFechaInicioObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+              <mat-datepicker #fechaInicio (selectedChange)="onFechaInicioObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['fechaInicio'].hasError('required') && updateObraForm.controls['fechaInicio'].touched"
+                class="form-error-msg">
+                Fecha Inicio de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Fecha Fin de Obra" (dateChange)="onFechaFinObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+              <mat-datepicker #fechaFin (selectedChange)="onFechaFinObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['fechaFin'].hasError('required') && updateObraForm.controls['fechaFin'].touched" class="form-error-msg">
+                Fecha Finalización de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="plazoEjecucion" formControlName="plazoEjecucion" placeholder="Plazo de Ejecución" readonly>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['plazoEjecucion'].hasError('required') && updateObraForm.controls['plazoEjecucion'].touched"
+                class="form-error-msg">
+                Plazo de ejecución es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="lugarTrabajo" formControlName="lugarTrabajo" placeholder="Lugar de Trabajos">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['lugarTrabajo'].hasError('required') && updateObraForm.controls['lugarTrabajo'].touched"
+                class="form-error-msg">
+                Lugar de trabajos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Supervisor</mat-label>
+              <mat-select formControlName="idSupervisor" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor.idUsuario">
+                  {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['idSupervisor'].hasError('required') && updateObraForm.controls['idSupervisor'].touched"
+                class="form-error-msg">
+                Supervisor es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Destajista</mat-label>
+              <mat-select formControlName="idDestajista" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let destajista of destajistas" [value]="destajista.idDestajista">
+                  {{destajista.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['idDestajista'].hasError('required') && updateObraForm.controls['idDestajista'].touched"
+                class="form-error-msg">
+                Destajista es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoMaterial" formControlName="presupuestoMaterial" placeholder="Presupuesto de Materiales">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoMaterial'].hasError('required') && updateObraForm.controls['presupuestoMaterial'].touched"
+                class="form-error-msg">
+                Presupuesto de materiales es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto Mano de Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoManoObra'].hasError('required') && updateObraForm.controls['presupuestoManoObra'].touched"
+                class="form-error-msg">
+                Presupuesto mano de obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoMaquinaria" formControlName="presupuestoMaquinaria" placeholder="Presupuesto de Maquinaria">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoMaquinaria'].hasError('required') && updateObraForm.controls['presupuestoMaquinaria'].touched"
+                class="form-error-msg">
+                Presupuesto de maquinaria es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoDestajo" formControlName="presupuestoDestajo" placeholder="Presupuesto de Destajo">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoDestajo'].hasError('required') && updateObraForm.controls['presupuestoDestajo'].touched"
+                class="form-error-msg">
+                Presupuesto de destajo es un campo requerido
+              </small>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="updateObraForm.invalid" type="submit">Modificar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
