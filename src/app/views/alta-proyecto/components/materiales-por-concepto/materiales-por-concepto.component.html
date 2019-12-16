@@ -1,0 +1,75 @@
+<div *ngIf="(conceptosObs$ | async) as catalogo">
+
+  <div *ngIf="catalogo.length; else cargarCatalogo">
+    <div class="div" *ngIf="catalogo">
+      <mat-form-field class="margin-333" style="width: 100%">
+        <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
+      </mat-form-field>
+     
+      <div class="mat-box-shadow margin-333">
+   
+        <ngx-datatable
+        class="material fullscreen bg-white ml-0 mr-0" 
+        [rows]="catalogo" 
+        [columnMode]="'force'" 
+        [headerHeight]="50" 
+        [footerHeight]="50" 
+        [rowHeight]="'auto'"
+        [columns]="columns" 
+        [reorderable]="reorderable">
+          
+          <ngx-datatable-column name="No." [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row?.noConcepto }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Descripción" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.descripcion}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Unidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.unidad}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.cantidad}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.precioUnitario}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Importe" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.importe}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <div *ngIf="(materialesObs$ | async) as materiales">
+            <ngx-datatable-column name="Materiales" [flexGrow]="1" *ngIf="materiales.length">
+              <ng-template let-row="row" ngx-datatable-cell-template >
+                <button mat-stroked-button color="warn" (click)="verListaMateriales(materiales)">Asignar</button>
+              </ng-template>
+            </ngx-datatable-column>
+          </div>
+        </ngx-datatable>    
+
+      </div>
+    </div>
+  </div>
+
+  <ng-template #cargarCatalogo>
+    <h1>a ver que ponemos aqui</h1>
+  </ng-template>
+
+
+</div>

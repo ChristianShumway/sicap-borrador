@@ -1,0 +1,16 @@
+<mat-selection-list #list>
+  <mat-list-option 
+  *ngFor="let material of data"
+  [selected]="material.selected" 
+  (click)="agregarMateriales(list)" 
+  [value]="{'idMaterial':material.idMaterial, 'idObra': material.idObra, 'cantidad': material.cantidad}"
+  >
+    <div>{{material.descripcion}}</div>
+    <div><input type="text"></div>
+  </mat-list-option>
+</mat-selection-list>
+<button mat-raised-button (click)="agregarMateriales(list)">Agregar</button>
+<!-- 
+<p>
+  Options selected: {{list.selectedOptions.selected }}
+</p> -->

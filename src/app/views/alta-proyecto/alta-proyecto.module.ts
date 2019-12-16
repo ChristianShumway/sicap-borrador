@@ -24,6 +24,9 @@ import { CatalogoConceptosComponent } from './components/catalogo-conceptos/cata
 import { AgregarConceptoExtraordinarioComponent } from './components/agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
 import { CatalogoMaterialesComponent } from './components/catalogo-materiales/catalogo-materiales.component';
 import { AgregarMaterialExtraordinarioComponent } from './components/agregar-material-extraordinario/agregar-material-extraordinario.component';
+import { MaterialesPorConceptoComponent } from './components/materiales-por-concepto/materiales-por-concepto.component';
+import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
+import { AsignarMaterialesConceptoComponent } from './components/asignar-materiales-concepto/asignar-materiales-concepto.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +41,10 @@ import { AgregarMaterialExtraordinarioComponent } from './components/agregar-mat
     CatalogoConceptosComponent,
     AgregarConceptoExtraordinarioComponent,
     CatalogoMaterialesComponent,
-    AgregarMaterialExtraordinarioComponent
+    AgregarMaterialExtraordinarioComponent,
+    MaterialesPorConceptoComponent,
+    BibliotecaComponent,
+    AsignarMaterialesConceptoComponent
   ],
   imports: [
     CommonModule,
@@ -58,7 +64,8 @@ import { AgregarMaterialExtraordinarioComponent } from './components/agregar-mat
   entryComponents: [
     ModalEliminarComponent,
     AgregarConceptoExtraordinarioComponent,
-    AgregarMaterialExtraordinarioComponent
+    AgregarMaterialExtraordinarioComponent,
+    AsignarMaterialesConceptoComponent
   ]
 })
 export class AltaProyectoModule { }
