@@ -1,16 +1,49 @@
-<mat-selection-list #list>
+<!-- <mat-selection-list #list>
   <mat-list-option 
   *ngFor="let material of data"
   [selected]="material.selected" 
   (click)="agregarMateriales(list)" 
   [value]="{'idMaterial':material.idMaterial, 'idObra': material.idObra, 'cantidad': material.cantidad}"
   >
-    <div>{{material.descripcion}}</div>
-    <div><input type="text"></div>
+    {{material.descripcion}}
   </mat-list-option>
 </mat-selection-list>
-<button mat-raised-button (click)="agregarMateriales(list)">Agregar</button>
-<!-- 
-<p>
-  Options selected: {{list.selectedOptions.selected }}
-</p> -->
+<button mat-raised-button (click)="agregarMateriales(list)">Agregar</button>  -->
+
+<ngx-datatable 
+  class="material fullscreen bg-white ml-0 mr-0" 
+  class="material bg-white" 
+  [rows]="data"
+  [columns] = "columns"
+  [columnMode]="'force'"  
+  [headerHeight]="50"
+  [footerHeight]="50" 
+  [rowHeight]="80"
+  [limit]="10" 
+  > 
+
+  <ngx-datatable-column name="Descripción" [flexGrow]="1">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row?.descripcion }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad Disponible" [flexGrow]="1">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row?.cantidadDisponible }}
+    </ng-template>
+  </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad Seleccionada" [flexGrow]="1">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      <p>
+        <mat-form-field appearance="outline">
+          <!-- <mat-label>Materiales Necesitados</mat-label> -->
+          <input matInput type="number" [(ngModel)] = "row.cantidadSeleccionada">
+        </mat-form-field>
+      </p>
+    </ng-template>
+  </ngx-datatable-column>
+</ngx-datatable>
+
+<button mat-raised-button color="primary" (click)="agregarMateriales(data)">Registrar</button>

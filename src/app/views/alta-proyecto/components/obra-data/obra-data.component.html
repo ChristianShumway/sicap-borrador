@@ -68,12 +68,12 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Presupuesto Total de Obra">
+              <input matInput type="number" name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Monto Total del Contrato">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="updateObraForm.controls['presupuestoTotal'].hasError('required') && updateObraForm.controls['presupuestoTotal'].touched"
                 class="form-error-msg">
-                Presupuesto total de la obra es un campo requerido
+                El monto Total del Contrato es un campo requerido
               </small>
             </div>
           </div>

@@ -56,15 +56,23 @@ export class MaterialesPorConceptoComponent implements OnInit {
     this.materialesObs$ = this.catalogoMaterialesService.getDataCatalogo();
   }
 
- 
-  verListaMateriales(listaMateriales): void {
-    let sheet = this.bottomSheet.open(AsignarMaterialesConceptoComponent, {
-      data: listaMateriales
-    });
 
-    sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
-    });  
+ 
+  verListaMateriales(idConcepto): void {
+    console.log(idConcepto);
+    this.catalogoMaterialesService.getMaterialAvailable(this.obra.idObra, idConcepto).subscribe(
+      materialesDisponibles => {
+        let sheet = this.bottomSheet.open(AsignarMaterialesConceptoComponent, {
+        data: materialesDisponibles
+        });
+
+        sheet.backdropClick().subscribe( () => {
+          console.log('clicked'+this.obra.idObra);
+        });  
+      },
+      error => console.log(error)
+    );
+
   }
 
   updateFilter(event, cat) {

@@ -71,4 +71,8 @@ export class MaterialService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Material>(`${environment.apiURL}/obra/addMaterial`, JSON.stringify(extraordinario), { headers: headerss});
   }
+
+  getMaterialAvailable(idObra, idConcepto){
+    return this.http.get<any>(`${environment.apiURL}/obra/getMaterialAvailable/${idObra}/${idConcepto}`);
+  }
 }

@@ -9,47 +9,61 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <div fxFlex="100" fxFlex.gt-md="50" fxFlex.gt-sm="50" *ngIf= "obra.idSupervisor === usuarioLogeado || usuario.idPerfil === 1">
-    <mat-card class="profile-sidebar mb-1 pb-0">
-      <div class="propic text-center">
-        <img src="http://{{host}}/{{urlImg}}/files/{{obra.empresa.imagen}}" [alt]="obra.nombre">
-      </div>
-      <div class="profile-title text-center mb-1">
-        <div class="main-title">{{obra.noContrato}}
-          <!-- <b>{{obra.apellidoPaterno}} {{obra.apellidoMaterno}}</b> -->
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <mat-card class="profile-sidebar mb-1 pb-0 wrap-data-obra">
+      <div class="col-left">
+        <div class="propic text-center">
+          <img src="http://{{host}}/{{urlImg}}/files/{{obra.empresa.imagen}}" [alt]="obra.nombre">
         </div>
-        <div class="subtitle mb-05">{{obra.nombreObra}}</div>
-        <div class="subtitle mb-05">Días Faltantes:</div>
-        <!-- <div class="text-muted">Hi I'm Jhone, sit amet consectetur adipisicing elit. Aperiam repellendus nam perspiciatis.</div> -->
+        <div class="profile-title text-center mb-1">
+          <div class="main-title">{{obra.noContrato}}
+          </div>
+          <div class="subtitle mb-05">{{obra.nombreObra}}</div>
+          <div class="subtitle mb-05">Días Faltantes: {{obra.fechaFin | diasFaltantes}} días</div>
+        </div>
+        <div class="profile-actions mb-1" fxLayoutAlign="center center">
+          <span fxFlex="8px"></span>
+        </div>
+        <div class="profile-nav">
+          <mat-nav-list>
+            <mat-list-item routerLink="bitacora/{{obra.idObra}}" routerLinkActive="list-item-active">
+              <mat-icon>assignment</mat-icon>
+              Bitácora
+            </mat-list-item>
+            <mat-divider></mat-divider>
+            <mat-list-item routerLink="datos/{{obra.idObra}}" routerLinkActive="list-item-active">
+              <mat-icon>folder</mat-icon>
+              Datos
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </mat-nav-list>
+        </div>
       </div>
-      <div class="profile-actions mb-1" fxLayoutAlign="center center">
-        <!-- <button mat-raised-button color="primary">Mensaje</button> -->
-        <span fxFlex="8px"></span>
-        <!-- <button mat-raised-button color="accent">Follow</button> -->
-      </div>
-      <div class="profile-nav">
-        <mat-nav-list>
-          <mat-list-item routerLink="bitacora/{{obra.idObra}}" routerLinkActive="list-item-active">
-            <mat-icon>assignment</mat-icon>
-            Bitácora
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <mat-list-item routerLink="datos/{{obra.idObra}}" routerLinkActive="list-item-active">
-            <mat-icon>folder</mat-icon>
-            Datos
-          </mat-list-item>
-          <mat-divider></mat-divider>
-          <!-- <mat-list-item routerLink="/profile/blank" routerLinkActive="list-item-active">
-            <mat-icon>content_paste</mat-icon>
-            Blank
-          </mat-list-item> -->
-        </mat-nav-list>
+      <div class="col-right">
+        <!-- <h2>Información de la obra</h2> -->
+        <mat-list>
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon><span class="span-info">Fecha Inicio:</span> {{obra.fechaInicio | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon><span class="span-info">Fecha Fin:</span> {{obra.fechaFin | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">map</mat-icon><span class="span-info">Lugar de Trabajo:</span> {{obra.lugarTrabajo}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">timer</mat-icon><span class="span-info">Plazo Ejecución:</span> {{obra.plazoEjecucion}} días</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">person</mat-icon><span class="span-info">Supervisor:</span> {{obra.supervisor.nombre}} {{obra.supervisor.appellidoPaterno}} {{obra.supervisor.apellidoMaterno}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">business_center</mat-icon><span class="span-info">Cliente:</span> {{obra.cliente.nombre}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">emoji_people</mat-icon><span class="span-info">Destajista:</span> {{obra.destajista.nombre}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">attach_money</mat-icon><span class="span-info">Monto Total:</span> {{obra.presupuestoTotal | currency}}</mat-list-item>
+        </mat-list>
       </div>
     </mat-card>
   </div>
 
-  <div fxFlex="100" fxFlex.gt-md="50" fxFlex.gt-sm="50" *ngIf= "obra.idSupervisor === usuarioLogeado || usuario.idPerfil === 1">
-    <!-- Contact Information -->
+  <!-- <div fxFlex="100" fxFlex.gt-md="50" fxFlex.gt-sm="50">
     <mat-card class="default">
       <mat-card-title>Información de la obra</mat-card-title>
       <mat-card-content class="pt-0">
@@ -73,14 +87,14 @@
         </mat-list>
       </mat-card-content>
     </mat-card>
-  </div>
+  </div> -->
 
   <!-- Profile Views -->
-  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="100" *ngIf= "obra.idSupervisor === usuarioLogeado || usuario.idPerfil === 1">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="100">
     <router-outlet></router-outlet>
   </div>
 
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" *ngIf= "obra.idSupervisor !== usuarioLogeado && usuario.idPerfil !== 1">
+  <!-- <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" *ngIf= "obra.idSupervisor !== usuarioLogeado && usuario.idPerfil !== 1">
     <mat-card>
       <mat-card-content class="wrap-spiner">
         <div class="wrap-message">
@@ -97,6 +111,6 @@
           <button mat-button color="primary" [routerLink]="['/dashboard']">Inicio</button>
       </mat-card-actions>
     </mat-card>
-  </div>
+  </div> -->
 
 </div>

@@ -7,6 +7,7 @@ import { GetValueByKeyPipe } from './get-value-by-key.pipe';
 import { GetEmpresaPipe } from './get-empresa.pipe';
 import { GetPerfilPipe } from './get-perfil.pipe';
 import { TruncatePipe } from './truncate.pipe';
+import { DiasFaltantesPipe } from './dias-faltantes.pipe';
 
 const pipes = [
   RelativeTimePipe,
@@ -14,7 +15,8 @@ const pipes = [
   GetValueByKeyPipe,
   GetEmpresaPipe,
   GetPerfilPipe,
-  TruncatePipe
+  TruncatePipe,
+  DiasFaltantesPipe
 ]
 
 @NgModule({

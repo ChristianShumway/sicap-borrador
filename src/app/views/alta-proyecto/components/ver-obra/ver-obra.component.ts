@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectionStrategy, OnChanges  } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Observable } from 'rxjs';
 import { ObraService } from '../../../../shared/services/obra.service';
 import { ActivatedRoute, Params, Router,  } from '@angular/router';
@@ -15,7 +15,7 @@ import { Usuario } from './../../../../shared/models/usuario';
   styleUrls: ['./ver-obra.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class VerObraComponent implements OnInit, OnChanges {
+export class VerObraComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
   urlImg: string;
@@ -23,6 +23,8 @@ export class VerObraComponent implements OnInit, OnChanges {
   usuarioLogeado: any;
   idSupervisorObra: any;
   usuario: Usuario;
+  diaActual = new Date();
+  obra: any;
 
   constructor(
     private obraService: ObraService,
@@ -43,24 +45,20 @@ export class VerObraComponent implements OnInit, OnChanges {
     this.host= environment.host;
   }
 
-  ngOnChanges() {
-    this.getUsuario();
-    this.getObra();
-    // console.log(this.idSupervisorObra);
-    // if(this.usuarioLogeado !== this.idSupervisorObra){
-    //   this.useAlerts('Usuario no tiene acceso a esta obra', ' ', 'error-dialog');
-    //   this.router.navigate(['/dashboard']);
-    // }
-  }
-
   getObra() {
     this.activatedRoute.params.subscribe( (data: Params) => {
       const idObraActual = data.id;
       this.obraService.getObraObservable(idObraActual);
       this.obraObs$ = this.obraService.getDataObra();
-      this.obraService.getObra(idObraActual).subscribe(
-        obra => this.idSupervisorObra = obra.idSupervisor
-      );
+      this.getUsuario();
+      // this.obraService.getDataObra().subscribe(
+      //   obra => {
+      //     console.log(obra.fechaFin);
+      //   }
+      // );
+      // this.obraService.getObra(idObraActual).subscribe(
+      //   obra => this.idSupervisorObra = obra.idSupervisor
+      // );
     });
   }
 
@@ -68,6 +66,10 @@ export class VerObraComponent implements OnInit, OnChanges {
     this.usuariosService.getUsuario(this.usuarioLogeado).subscribe(
       (user: Usuario) => {
         this.usuario = user;
+        if(this.usuario.idPerfil !== 1 && this.usuario.idPerfil !== 2){
+          this.useAlerts('Usuario no tiene acceso a esta obra', ' ', 'error-dialog');
+          this.router.navigate(['/dashboard']);
+        }
       }
     );
   }

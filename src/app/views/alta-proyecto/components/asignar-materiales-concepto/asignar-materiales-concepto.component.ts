@@ -1,6 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+
 
 @Component({
   selector: 'app-asignar-materiales-concepto',
@@ -9,6 +11,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 })
 export class AsignarMaterialesConceptoComponent implements OnInit {
   materiales: any[] = [];
+  listaTotalMateriales: any[] = [];
+  materialForm: FormGroup;
+
+
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheetRef: MatBottomSheetRef<AsignarMaterialesConceptoComponent>,
@@ -16,19 +22,33 @@ export class AsignarMaterialesConceptoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    // console.log(this.data);
-
-    console.log(this.data);
+    // this.getValidations();
+    // this.materialForm.patchValue(this.data);
     // this.bottomSheetRef.dismiss();
+    console.log(this.data);
   }
+
+
+
+  // getValidations() {
+  //   this.materialForm = new FormGroup({
+  //     idConcepto: new FormControl(),
+  //     idMaterial: new FormControl(),
+  //     descripcion: new FormControl(),
+  //     cantidadDisponible: new FormControl(),
+  //     cantidadSeleccionada: new FormControl(),
+  //   })
+  // }
 
   agregarMateriales(list){
-    this.materiales = list.selectedOptions.selected.map(item => item.value);
-    console.log(this.materiales);
-    // console.log(this.shoes.selectedOptions.selected)
+    console.log(list);
+    // this.materiales = list.map(item => item.value);
+    // console.log(this.materiales);
+    // console.log(list.selectedOptions.selected)
   }
 
-  typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
+
+  // typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {

@@ -157,7 +157,7 @@ export class ObraDataComponent implements OnInit {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicioObra, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinObra, format);
-      const obra = {
+      const obra: Obra = {
         idObra: this.obra.idObra,
         ...this.updateObraForm.value,
         fechaInicio: nuevaFechaInicio,
@@ -165,20 +165,25 @@ export class ObraDataComponent implements OnInit {
         activo:1
       };
       console.log(obra);
-      this.obraService.updateObra(obra).subscribe(
-        (response => {
-          if(response.estatus === '05'){
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.obraService.getObraObservable(this.obra.idObra);
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        }),
-        (error => {
-          console.log(error);
-          this.useAlerts(error.message, ' ', 'error-dialog');
-        })
-      );
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoDestajo);
+      if(obra.presupuestoTotal < sumaPresupuestos){
+        this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
+      } else {
+        this.obraService.updateObra(obra).subscribe(
+          (response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.obraService.getObraObservable(this.obra.idObra);
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          }),
+          (error => {
+            console.log(error);
+            this.useAlerts(error.message, ' ', 'error-dialog');
+          })
+        );
+      }
     }
   }
 

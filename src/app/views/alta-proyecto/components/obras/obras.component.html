@@ -3,7 +3,7 @@
 </div>
 
 <mat-form-field class="margin-333" style="width: 98%">
-  <input matInput placeholder="Filtrar Usuarios" value="" (keyup)='updateFilter($event)'>
+  <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
 </mat-form-field>
 
 <div fxLayout="row wrap" *ngIf="(obs$ | async) as obras">
@@ -37,12 +37,13 @@
         <mat-card-content>
           <div class="user-details">
             <div class="wrap-detalles-obra">
-              <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date:"fullDate"}}</p>
-              <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date:"fullDate"}}</p>
+              <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
+              <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
               <p class="p-info-catalogs"><span>Lugar:</span> {{obra.lugarTrabajo}}</p>
               <p class="p-info-catalogs"><span>Supervisor Encargado:</span> 
                 {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}
               </p>
+              <p class="p-info-catalogs"><span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency}}</p>
             </div>
           </div>
         </mat-card-content>

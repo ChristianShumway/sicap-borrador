@@ -41,6 +41,24 @@
   text-align: right;
 }
 
+.wrap-data-obra{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.span-info{
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+@media screen and (max-width: 1280px){
+  .wrap-data-obra{
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+}
+
 @media screen and (max-width: 768px){
   .wrap-message{
     grid-template-columns: 1fr;
