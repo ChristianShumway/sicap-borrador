@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
-import { ModalEliminarComponent } from './../../../catalogos-administrativos/components/modal-eliminar/modal-eliminar.component';
+import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
 

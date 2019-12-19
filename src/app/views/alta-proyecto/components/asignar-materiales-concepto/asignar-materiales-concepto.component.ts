@@ -1,8 +1,8 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-
+import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
+import { MaterialService } from '../../../../shared/services/material.service';
 
 @Component({
   selector: 'app-asignar-materiales-concepto',
@@ -10,49 +10,65 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
   styleUrls: ['./asignar-materiales-concepto.component.scss']
 })
 export class AsignarMaterialesConceptoComponent implements OnInit {
-  materiales: any[] = [];
   listaTotalMateriales: any[] = [];
-  materialForm: FormGroup;
-
+  idUsuarioLogeado;
+  nombreMaterialesIncorrectos: any[] = [];
 
   constructor(
     private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService,
+    private catalogoMaterialesService: MaterialService,
     private bottomSheetRef: MatBottomSheetRef<AsignarMaterialesConceptoComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
   ) { }
 
   ngOnInit() {
-    // this.getValidations();
-    // this.materialForm.patchValue(this.data);
-    // this.bottomSheetRef.dismiss();
-    console.log(this.data);
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
+    console.log(this.data.listaMateriales);
   }
 
-
-
-  // getValidations() {
-  //   this.materialForm = new FormGroup({
-  //     idConcepto: new FormControl(),
-  //     idMaterial: new FormControl(),
-  //     descripcion: new FormControl(),
-  //     cantidadDisponible: new FormControl(),
-  //     cantidadSeleccionada: new FormControl(),
-  //   })
-  // }
 
   agregarMateriales(list){
-    console.log(list);
-    // this.materiales = list.map(item => item.value);
-    // console.log(this.materiales);
-    // console.log(list.selectedOptions.selected)
+    //console.log(list.listaMateriales);
+    list.listaMateriales.map ( material => {
+      if(material.cantidadAntesDeLaOperacion !== material.cantidadSeleccionada){
+        material = {
+          ...material,
+          idUsuarioModifico: this.idUsuarioLogeado,
+          idConcepto: this.data.idConcepto,
+          cantidadAntesDeLaOperacion: material.cantidadSeleccionada
+        };
+        this.listaTotalMateriales.push(material);
+      }
+    });
+    console.log(this.listaTotalMateriales);
+    this.catalogoMaterialesService.addMaterialsToConcept(this.listaTotalMateriales).subscribe( 
+      result => {
+        console.log(result);
+        result.map( material => {
+          if(material.statusCode == 0){
+            this.nombreMaterialesIncorrectos.push(material.descripcion);
+          }
+        });
+        if(this.nombreMaterialesIncorrectos.length >= 1){
+          this.useAlerts(`No se agregaron los materiales ${this.nombreMaterialesIncorrectos.toString()} `, ' ', 'error-dialog');
+        } else {
+          this.useAlerts('Materiales agregado al concepto', ' ', 'success-dialog');
+        }
+        console.log(this.nombreMaterialesIncorrectos);
+        this.bottomSheetRef.dismiss();
+        // this.catalogoMaterialesService.getCatalogObservable(this.data.idObra);
+      },
+      error => {
+        console.log(error);
+      }
+    );
+    
   }
-
-
-  // typesOfShoes: string[] = ['Boots', 'Clogs', 'Loafers', 'Moccasins', 'Sneakers'];
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 4000,
+      duration: 6000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

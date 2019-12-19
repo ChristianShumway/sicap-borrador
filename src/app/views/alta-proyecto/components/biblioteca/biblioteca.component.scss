@@ -1,0 +1,28 @@
+.mat-list-icon {
+  color: rgba(0, 0, 0, 0.54);
+}
+
+.mat-list-icon.excel {
+  color: rgba(46, 125, 50, 0.54);
+}
+
+
+.mat-list-icon.word {
+  color: rgba(21, 101, 192, 0.54);
+}
+
+.mat-list-icon.pdf {
+  color: rgba(204, 75, 76, 0.54);
+}
+
+.mat-list-icon.jpg {
+  color: rgba(33, 181, 234, 0.54);
+}
+
+
+
+.wrap-button{
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}

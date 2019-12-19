@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Material } from '../models/material';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'environments/environment';
+import { MaterialesConcepto } from './../models/materiales-concepto';
 
 @Injectable({
   providedIn: 'root'
@@ -73,6 +74,11 @@ export class MaterialService {
   }
 
   getMaterialAvailable(idObra, idConcepto){
-    return this.http.get<any>(`${environment.apiURL}/obra/getMaterialAvailable/${idObra}/${idConcepto}`);
+    return this.http.get<MaterialesConcepto[]>(`${environment.apiURL}/obra/getMaterialAvailable/${idObra}/${idConcepto}`);
+  }
+
+  addMaterialsToConcept(materials){
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/addMaterialToConcept`, JSON.stringify(materials), { headers: headerss});
   }
 }

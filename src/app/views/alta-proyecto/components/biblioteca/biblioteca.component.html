@@ -1,3 +1,27 @@
-<p>
-  biblioteca works!
-</p>
+<mat-list>
+  <mat-list-item class="wrap-button">
+    <button mat-raised-button color="primary" (click)="abrirAltaDocumento()">Agregar Archivo</button>
+  </mat-list-item>
+  <mat-divider></mat-divider>
+  <h3 mat-subheader>Archivos</h3>
+  <div *ngIf="(documentosObs$ | async) as documentos">
+    <mat-list-item *ngFor="let documento of documentos">
+      <div class="cont">
+        <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
+          <mat-icon class="">more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #documentMenu="matMenu">
+        <a mat-menu-item href="{{documento.ruta}}/{{documento.nombre}}" target="blank">Descargar</a>
+        <button mat-menu-item (click)="openDialoAlertDelete(documento.idArchivoObra)">Eliminar</button>
+      </mat-menu>
+      <mat-icon mat-list-icon class="excel" *ngIf="documento.extension==='xlsx' || documento.extension==='xls'">note</mat-icon>
+      <mat-icon mat-list-icon class="word" *ngIf="documento.extension==='docx' || documento.extension==='doc'">note</mat-icon>
+      <mat-icon mat-list-icon class="pdf" *ngIf="documento.extension==='pdf'">note</mat-icon>
+      <mat-icon mat-list-icon class="jpg" *ngIf="documento.extension==='jpg' || documento.extension==='png'">note</mat-icon>
+      <h4 mat-line >{{documento.nombre}}</h4>
+      <p mat-line> {{documento.fechaAgrego | date}} </p>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </div>
+</mat-list>

@@ -8,6 +8,7 @@ import { MaterialService } from '../../../../shared/services/material.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AsignarMaterialesConceptoComponent } from '../asignar-materiales-concepto/asignar-materiales-concepto.component';
+import { MaterialesConcepto } from '../../../../shared/models/materiales-concepto';
 
 @Component({
   selector: 'app-materiales-por-concepto',
@@ -61,9 +62,13 @@ export class MaterialesPorConceptoComponent implements OnInit {
   verListaMateriales(idConcepto): void {
     console.log(idConcepto);
     this.catalogoMaterialesService.getMaterialAvailable(this.obra.idObra, idConcepto).subscribe(
-      materialesDisponibles => {
+      (materialesDisponibles: MaterialesConcepto[]) => {
         let sheet = this.bottomSheet.open(AsignarMaterialesConceptoComponent, {
-        data: materialesDisponibles
+        data: {
+          listaMateriales : materialesDisponibles,
+          idConcepto: idConcepto,
+          idObra: this.obra.idObra
+        }
         });
 
         sheet.backdropClick().subscribe( () => {

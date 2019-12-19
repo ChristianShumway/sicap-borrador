@@ -13,7 +13,7 @@
 <ngx-datatable 
   class="material fullscreen bg-white ml-0 mr-0" 
   class="material bg-white" 
-  [rows]="data"
+  [rows]="data.listaMateriales"
   [columns] = "columns"
   [columnMode]="'force'"  
   [headerHeight]="50"
@@ -30,7 +30,7 @@
 
   <ngx-datatable-column name="Cantidad Disponible" [flexGrow]="1">
     <ng-template let-row="row" ngx-datatable-cell-template>
-      {{ row?.cantidadDisponible }}
+      {{ row?.cantidadDisponible }} / {{row?.cantidadOriginal}}
     </ng-template>
   </ngx-datatable-column>
 
@@ -46,4 +46,6 @@
   </ngx-datatable-column>
 </ngx-datatable>
 
-<button mat-raised-button color="primary" (click)="agregarMateriales(data)">Registrar</button>
+<div class="wrap-button">
+  <button mat-raised-button color="primary" (click)="agregarMateriales(data)">Registrar</button>
+</div>
