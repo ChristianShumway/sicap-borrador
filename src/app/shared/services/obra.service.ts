@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { environment } from 'environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { DocumentosObra } from './../models/documentos-obra';
+import { MontoProgramado } from '../models/monto-programado';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,8 @@ export class ObraService {
   private obrasubject = new BehaviorSubject<Obra>(null);
   private archivoObra: DocumentosObra;
   private archivosObraSubject = new BehaviorSubject<DocumentosObra>(null);
+  private montosObra: MontoProgramado;
+  private montosObraSubject = new BehaviorSubject<MontoProgramado>(null);
   
 
   constructor(
@@ -85,5 +88,35 @@ export class ObraService {
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}`);
   }
 
+
+  getDataMontosObra(): Observable<MontoProgramado> {
+    return this.montosObraSubject.asObservable();
+  }
+
+  private refreshMontos() {
+    this.montosObraSubject.next(this.montosObra);
+  }
+  
+  getMontosObraObservable(id:number){
+    return this.http.get<MontoProgramado>(`${environment.apiURL}/obra/getBudgetByObra/${id}`).subscribe(
+      (montos: MontoProgramado) => {
+        this.montosObra = montos;
+        this.refreshMontos();
+      },
+      error => console.log(error)
+    );
+  }
+
+  createUpdateMontoObra(monto): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/updateBudget`, JSON.stringify(monto), { headers: headerss});
+  }
+
+ 
+
+  deleteMontoObra(monto: Partial<MontoProgramado>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/deleteBudget`, JSON.stringify(monto), { headers: headerss});
+  }
 
 }

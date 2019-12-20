@@ -1,0 +1,16 @@
+<div class="wrap-form-modificar">
+  <form [formGroup]="modificarMontoForm" (submit)="ModificarMonto()">
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-xs="100">
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input type="number" matInput placeholder="Monto" name="monto" formControlName="monto">
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+    <div class="cont-btn">
+      <button mat-raised-button color="primary" [disabled]="modificarMontoForm.invalid" type="submit">Modificar</button>
+    </div>
+  </form>
+</div>

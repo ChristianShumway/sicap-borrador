@@ -28,6 +28,8 @@ import { MaterialesPorConceptoComponent } from './components/materiales-por-conc
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 import { AsignarMaterialesConceptoComponent } from './components/asignar-materiales-concepto/asignar-materiales-concepto.component';
 import { AltaDocumentoComponent } from './components/alta-documento/alta-documento.component';
+import { MontosProgramadosComponent } from './components/montos-programados/montos-programados.component';
+import { ModificarMontoProgramadoComponent } from './components/modificar-monto-programado/modificar-monto-programado.component';
 
 @NgModule({
   declarations: [
@@ -46,7 +48,9 @@ import { AltaDocumentoComponent } from './components/alta-documento/alta-documen
     MaterialesPorConceptoComponent,
     BibliotecaComponent,
     AsignarMaterialesConceptoComponent,
-    AltaDocumentoComponent
+    AltaDocumentoComponent,
+    MontosProgramadosComponent,
+    ModificarMontoProgramadoComponent
   ],
   imports: [
     CommonModule,
@@ -68,7 +72,8 @@ import { AltaDocumentoComponent } from './components/alta-documento/alta-documen
     AgregarConceptoExtraordinarioComponent,
     AgregarMaterialExtraordinarioComponent,
     AsignarMaterialesConceptoComponent,
-    AltaDocumentoComponent
+    AltaDocumentoComponent,
+    ModificarMontoProgramadoComponent
   ]
 })
 export class AltaProyectoModule { }

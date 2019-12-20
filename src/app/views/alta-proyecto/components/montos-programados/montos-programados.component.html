@@ -1,0 +1,49 @@
+<div class="wrap-add-montos">
+  <mat-accordion>
+    <mat-expansion-panel>
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Agregar Monto
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="montoForm" (submit)="addMonto()">
+        <div fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.gt-xs="100">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input type="number" matInput placeholder="Monto"  name="monto" formControlName="monto" value="">
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="cont-btn">
+          <button mat-raised-button color="primary" [disabled]="montoForm.invalid" type="submit">Agregar</button>
+        </div>
+      </form>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="wrap-list-montos" *ngIf="(montosObs$ | async) as montos">
+  <mat-list>
+    <h4 mat-subheader>Montos Programados Agregados</h4>
+    <mat-list-item *ngFor="let monto of montos" >
+      <div class="cont">
+        <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+          <mat-icon class="">more_vert</mat-icon>
+        </button>
+      </div>
+      <mat-menu #montostMenu="matMenu">
+        <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+        <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+      </mat-menu>
+      <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+      <h2 mat-line>{{monto.monto | currency}}</h2>
+      <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>
+</div>
