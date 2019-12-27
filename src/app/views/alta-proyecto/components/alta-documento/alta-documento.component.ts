@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 import { environment } from './../../../../../environments/environment';
 import { FileUploader } from 'ng2-file-upload';
 import { ObraService } from './../../../../shared/services/obra.service';
@@ -12,7 +11,6 @@ import { ObraService } from './../../../../shared/services/obra.service';
   styleUrls: ['./alta-documento.component.scss']
 })
 export class AltaDocumentoComponent implements OnInit {
-  idUsuarioLogeado;
   public uploaderArchivo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
 
@@ -23,14 +21,12 @@ export class AltaDocumentoComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService,
     private obraService: ObraService,
     private bottomSheetRef: MatBottomSheetRef<AltaDocumentoComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
   ) { }
 
   ngOnInit() {
-    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.initUploadCatalogo();
   }
 
@@ -43,7 +39,7 @@ export class AltaDocumentoComponent implements OnInit {
     this.uploaderArchivo = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObra', autoUpload: true, headers: headers });
     this.uploaderArchivo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.data.idObra);
-      form.append('idUserAdd', this.idUsuarioLogeado);
+      form.append('idUserAdd', this.data.idUsuario);
       this.loadingFile = true;
       console.log(this.loadingFile);
     };

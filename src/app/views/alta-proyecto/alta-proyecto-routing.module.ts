@@ -6,6 +6,10 @@ import { ModificarObraComponent } from './components/modificar-obra/modificar-ob
 import { VerObraComponent } from './components/ver-obra/ver-obra.component';
 import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
 import { DatosObraComponent } from './components/datos-obra/datos-obra.component';
+import { CatalogoConceptosComponent } from './components/catalogo-conceptos/catalogo-conceptos.component';
+import { CatalogoMaterialesComponent } from './components/catalogo-materiales/catalogo-materiales.component';
+import { MaterialesPorConceptoComponent } from './components/materiales-por-concepto/materiales-por-concepto.component';
+import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
 
 const routes: Routes = [
   {
@@ -32,6 +36,11 @@ const routes: Routes = [
         data: { title: 'Obra', breadcrumb: 'Obra'},
         children:[
           {
+            path: '',
+            component: VerObraComponent,
+            data: { title: 'Obra', breadcrumb: 'Obra'},
+          },
+          {
             path: 'bitacora/:id',
             component: BitacoraObraComponent,
             data: { title: 'Bitácora de Obra', breadcrumb: 'Bitácora de Obra'},
@@ -40,7 +49,27 @@ const routes: Routes = [
             path: 'datos/:id',
             component: DatosObraComponent,
             data: { title: 'Datos de la Obra', breadcrumb: 'Datos de la Obra'},
-          }
+          },
+          {
+            path: 'catalogo-conceptos/:id',
+            component: CatalogoConceptosComponent,
+            data: { title: 'Catálogo de Conceptos', breadcrumb: 'Catálogo de Conceptos'},
+          },
+          {
+            path: 'catalogo-materiales/:id',
+            component: CatalogoMaterialesComponent,
+            data: { title: 'Catálogo de Materiales', breadcrumb: 'Catálogo de Materiales'},
+          },
+          {
+            path: 'materiales-concepto/:id',
+            component: MaterialesPorConceptoComponent,
+            data: { title: 'Asignación de Materiales por Concepto', breadcrumb: 'Asinación de Materiales por Concepto'},
+          },
+          {
+            path: 'biblioteca/:id',
+            component: BibliotecaComponent,
+            data: { title: 'Biblioteca de la Obra', breadcrumb: 'Biblioteca de la Obra'},
+          },
         ]
       }
     ]

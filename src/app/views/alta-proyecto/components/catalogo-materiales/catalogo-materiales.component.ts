@@ -8,6 +8,8 @@ import { MaterialService } from './../../../../shared/services/material.service'
 import { Observable } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AgregarMaterialExtraordinarioComponent } from '../agregar-material-extraordinario/agregar-material-extraordinario.component';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-catalogo-materiales',
@@ -17,11 +19,13 @@ import { AgregarMaterialExtraordinarioComponent } from '../agregar-material-extr
 })
 export class CatalogoMaterialesComponent implements OnInit {
 
-  @Input() obra: Obra;
+  // @Input() obra: Obra;
   public uploaderCatalogo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
   private catalogoMaterialesObs$: Observable<Material>;
   listaMateriales: Material[];
+  idObra;
+  usuarioLogeado;
 
   rutaImg: string;
   host: string;
@@ -37,17 +41,27 @@ export class CatalogoMaterialesComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private catalogoMaterialesService: MaterialService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private activatedRoute: ActivatedRoute,
+    private autenticacionService: AutenticacionService
   ) { }
 
 
   ngOnInit() {
+    this.getObra();
     this.verifyMaterialsExist();
     this.initUploadCatalogo();
+    this.usuarioLogeado = this.autenticacionService.currentUserValue;
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+    })
   }
 
   verifyMaterialsExist() {
-    this.catalogoMaterialesService.getCatalogObservable(this.obra.idObra);
+    this.catalogoMaterialesService.getCatalogObservable(this.idObra);
     this.catalogoMaterialesObs$ = this.catalogoMaterialesService.getDataCatalogo();
     this.columns = this.catalogoMaterialesService.getDataColumns();
   }
@@ -60,7 +74,7 @@ export class CatalogoMaterialesComponent implements OnInit {
     const headers = [{ name: 'Accept', value: 'application/json' }];
     this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadMaterial', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idObra', this.obra.idObra);
+      form.append('idObra', this.idObra);
       this.loadingFile = true;
     };
     this.uploaderCatalogo.uploadAll();
@@ -70,7 +84,7 @@ export class CatalogoMaterialesComponent implements OnInit {
       console.log(result);
       if(result.estatus == "05"){
         this.listaMateriales = result.response;
-        this.catalogoMaterialesService.getCatalogObservable(this.obra.idObra);
+        this.catalogoMaterialesService.getCatalogObservable(this.idObra);
         this.columns = this.catalogoMaterialesService.getDataColumns();
         this.rows = this.temp = this.listaMateriales;
         this.useAlerts(result.mensaje, ' ', 'success-dialog');
@@ -120,13 +134,13 @@ export class CatalogoMaterialesComponent implements OnInit {
   openBottomExtraordinario(): void {
     let sheet = this.bottomSheet.open(AgregarMaterialExtraordinarioComponent, {
       data: {
-        idObra:this.obra.idObra, 
-
+        idObra:this.idObra, 
+        idUsuario: this.usuarioLogeado
       }
     });
 
     sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
+      console.log('clicked'+this.idObra);
     });  
   }
 

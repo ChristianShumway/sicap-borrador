@@ -2,3 +2,19 @@
   text-align: right;
   margin: 10px 0;
 }
+
+.cantidad-seleccionada {
+  border-top: none !important;
+}
+
+.ngx-datatable.material .datatable-body .datatable-body-row .datatable-body-cell {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}
+
+.force {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+}

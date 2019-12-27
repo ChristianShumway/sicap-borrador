@@ -10,6 +10,7 @@ import { AutenticacionService } from '../../../../shared/services/autenticacion.
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MontoProgramado } from './../../../../shared/models/monto-programado';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-montos-programados',
@@ -24,6 +25,10 @@ export class MontosProgramadosComponent implements OnInit {
   panelOpenState = false;
   montoForm: FormGroup;
   private montosObs$ : Observable<MontoProgramado>;
+  fechaInicio;
+  fechaFin;
+  pipe = new DatePipe('en-US');
+  error:any={isError:false,errorMessage:''};
   
   constructor(
     private snackBar: MatSnackBar,
@@ -37,14 +42,38 @@ export class MontosProgramadosComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getValidations();
     this.getMontos();
+    this.fechaInicio = new Date(this.montoForm.controls['fechaInicio'].value);
+    this.fechaFin = new Date(this.montoForm.controls['fechaFin'].value);
+    this.fechaInicio.setDate(this.fechaInicio.getDate());
+    this.fechaFin.setDate(this.fechaFin.getDate());
   }
 
   getValidations() {
     this.montoForm = new FormGroup({
-      monto: new FormControl('', [
-        Validators.required,
-      ]),
+      monto: new FormControl('', Validators.required),
+      fechaInicio: new FormControl(new Date(), Validators.required),
+      fechaFin: new FormControl(new Date(), Validators.required),
     })
+  }
+
+  public onFechaInicio(event): void {
+    this.fechaInicio = event.value;
+    this.compareTwoDates();
+  }
+
+  public onFechaFin(event): void {
+    this.fechaFin = event.value;
+    this.compareTwoDates();
+  }
+
+  compareTwoDates(){
+    const controlFechaInicio = new Date(this.montoForm.controls['fechaInicio'].value);
+    const controlFechaFin = new Date(this.montoForm.controls['fechaFin'].value);
+
+    if( controlFechaFin < controlFechaInicio){
+      this.useAlerts('Fecha inicio periodo no puede ser mayor a la fecha final', ' ', 'warning-dialog');
+      this.montoForm.controls['fechaInicio'].setValue('');
+    } 
   }
 
   getMontos(){
@@ -54,26 +83,31 @@ export class MontosProgramadosComponent implements OnInit {
 
   addMonto(){
     if(this.montoForm.valid){
+      const format = 'yyyy/MM/dd';
+      const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
+      const nuevaFechaFin = this.pipe.transform(this.fechaFin, format);
       const monto: MontoProgramado = {
         ...this.montoForm.value,
         idUsuarioCreo: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
+        fechaInicio: nuevaFechaInicio,
+        fechaFin: nuevaFechaFin,
         idObra: this.obra.idObra
       };
       console.log(monto);
-      this.obraService.createUpdateMontoObra(monto).subscribe(
-        response => {
-          console.log(response);
-          if(response.estatus === '05'){
-            this.obraService.getMontosObraObservable(this.obra.idObra);
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.montoForm.reset();
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'success-dialog')
-      );
+      // this.obraService.createUpdateMontoObra(monto).subscribe(
+      //   response => {
+      //     console.log(response);
+      //     if(response.estatus === '05'){
+      //       this.obraService.getMontosObraObservable(this.obra.idObra);
+      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
+      //       this.montoForm.reset();
+      //     } else {
+      //       this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
+      //     }
+      //   },
+      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
+      // );
     }
   }
 

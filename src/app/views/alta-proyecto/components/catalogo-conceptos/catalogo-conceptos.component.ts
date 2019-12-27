@@ -8,6 +8,8 @@ import { CatalogoConceptos } from './../../../../shared/models/catalogo-concepto
 import { Observable } from 'rxjs';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-catalogo-conceptos',
@@ -17,11 +19,13 @@ import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extr
 })
 export class CatalogoConceptosComponent implements OnInit {
 
-  @Input() obra: Obra;
+  // @Input() obra: Obra;
   public uploaderCatalogo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
   private catalogoConceptosObs$: Observable<CatalogoConceptos>;
   listaConceptos: CatalogoConceptos[];
+  idObra;
+  usuarioLogeado;
 
   rutaImg: string;
   host: string;
@@ -37,17 +41,27 @@ export class CatalogoConceptosComponent implements OnInit {
   constructor(
     private snackBar: MatSnackBar,
     private catalogoConceptosService: CatalogoConceptosService,
-    private bottomSheet: MatBottomSheet
+    private bottomSheet: MatBottomSheet,
+    private activatedRoute: ActivatedRoute,
+    private autenticacionService: AutenticacionService
   ) { }
 
 
   ngOnInit() {
+    this.getObra();
     this.verifyConceptsExist();
     this.initUploadCatalogo();
+    this.usuarioLogeado = this.autenticacionService.currentUserValue;
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+    })
   }
 
   verifyConceptsExist() {
-    this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
+    this.catalogoConceptosService.getCatalogObservable(this.idObra);
     this.catalogoConceptosObs$ = this.catalogoConceptosService.getDataCatalogo();
     this.columns = this.catalogoConceptosService.getDataColumns();
   }
@@ -60,7 +74,7 @@ export class CatalogoConceptosComponent implements OnInit {
     const headers = [{ name: 'Accept', value: 'application/json' }];
     this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadConcepts', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idObra', this.obra.idObra);
+      form.append('idObra', this.idObra);
       this.loadingFile = true;
     };
     this.uploaderCatalogo.uploadAll();
@@ -70,7 +84,7 @@ export class CatalogoConceptosComponent implements OnInit {
       console.log(result);
       if(result.estatus == "05"){
         this.listaConceptos = result.response;
-        this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
+        this.catalogoConceptosService.getCatalogObservable(this.idObra);
         this.columns = this.catalogoConceptosService.getDataColumns();
         this.rows = this.temp = this.listaConceptos;
         this.useAlerts(result.mensaje, ' ', 'success-dialog');
@@ -120,13 +134,13 @@ export class CatalogoConceptosComponent implements OnInit {
   openBottomExtraordinario(): void {
     let sheet = this.bottomSheet.open(AgregarConceptoExtraordinarioComponent, {
       data: {
-        idObra:this.obra.idObra, 
-
+        idObra:this.idObra, 
+        idUsuario: this.usuarioLogeado
       }
     });
 
     sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
+      console.log('clicked'+this.idObra);
     });  
   }
 

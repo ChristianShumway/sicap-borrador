@@ -11,17 +11,53 @@
         
       <div class="mat-box-shadow margin-333">
         <ngx-datatable 
-        class="material fullscreen bg-white" 
-        style="height: calc(100vh - 160px)" 
+        class="material fullscreen bg-white"
+        [rows]="catalogo"
         [columnMode]="'force'"
-        [headerHeight]="50" 
-        [footerHeight]="0" 
-        [scrollbarV]="true"
+        [headerHeight]="50"
+        [footerHeight]="50"
         [scrollbarH]="true"
-        [rowHeight]="50"
-        [limit]="10" 
-        [rows]="catalogo" 
-        [columns]="columns">
+        [rowHeight]="'auto'"
+        [limit]="20"
+        [scrollbarH]="true"
+        [rowHeight]="50">
+
+          <ngx-datatable-column name="No." [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+                {{ row?.noMaterial }}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Descripción" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.descripcion}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Unidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.unidad}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.cantidad}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.precioUnitario | currency}}
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Importe" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              {{row?.importe | currency}}
+            </ng-template>
+          </ngx-datatable-column>
+
         </ngx-datatable>
       </div>
     </div>

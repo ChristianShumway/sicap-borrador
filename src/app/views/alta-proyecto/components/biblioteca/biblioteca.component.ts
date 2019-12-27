@@ -8,6 +8,8 @@ import { DocumentosObra } from './../../../../shared/models/documentos-obra';
 import { ObraService } from './../../../../shared/services/obra.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-biblioteca',
@@ -18,6 +20,8 @@ import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.compo
 export class BibliotecaComponent implements OnInit {
 
   @Input() obra: Obra;
+  idObra;
+  usuarioLogeado;
   private documentosObs$ : Observable<DocumentosObra>;
 
   constructor(
@@ -25,10 +29,19 @@ export class BibliotecaComponent implements OnInit {
     private bottomSheet: MatBottomSheet,
     private obraService: ObraService,
     public dialog: MatDialog,
+    private activatedRoute: ActivatedRoute,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getDocuments();
+    this.usuarioLogeado = this.autenticacionService.currentUserValue;
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+    })
   }
 
 
@@ -67,7 +80,8 @@ export class BibliotecaComponent implements OnInit {
   abrirAltaDocumento(): void {
     let sheet = this.bottomSheet.open(AltaDocumentoComponent, {
     data: {
-      idObra: this.obra.idObra
+      idObra: this.obra.idObra,
+      idUsuario: this.usuarioLogeado
     }
     });
 

@@ -11,15 +11,16 @@
 <button mat-raised-button (click)="agregarMateriales(list)">Agregar</button>  -->
 
 <ngx-datatable 
-  class="material fullscreen bg-white ml-0 mr-0" 
-  class="material bg-white" 
+  class="material fullscreen bg-white ml-0 mr-0 force" 
+  style="display: flex !important;justify-content: center !important;align-items: center !important;"
   [rows]="data.listaMateriales"
   [columns] = "columns"
   [columnMode]="'force'"  
   [headerHeight]="50"
   [footerHeight]="50" 
-  [rowHeight]="80"
-  [limit]="10" 
+  [scrollbarH]="true"
+  [rowHeight]="'auto'"
+  [limit]="20"
   > 
 
   <ngx-datatable-column name="Descripción" [flexGrow]="1">
@@ -36,14 +37,19 @@
 
   <ngx-datatable-column name="Cantidad Seleccionada" [flexGrow]="1">
     <ng-template let-row="row" ngx-datatable-cell-template>
-      <p>
-        <mat-form-field appearance="outline">
+        <mat-form-field class="cantidad-seleccionada">
           <!-- <mat-label>Materiales Necesitados</mat-label> -->
           <input matInput type="number" [(ngModel)] = "row.cantidadSeleccionada">
         </mat-form-field>
-      </p>
     </ng-template>
   </ngx-datatable-column>
+
+  <ngx-datatable-column name="Cantidad Total" [flexGrow]="1">
+    <ng-template let-row="row" ngx-datatable-cell-template>
+      {{ row?.cantidadSeleccionada * cantidadConcepto  }} 
+    </ng-template>
+  </ngx-datatable-column>
+  
 </ngx-datatable>
 
 <div class="wrap-button">

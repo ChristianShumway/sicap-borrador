@@ -1,7 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core';
 import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 import { MaterialService } from '../../../../shared/services/material.service';
 
 @Component({
@@ -11,30 +10,28 @@ import { MaterialService } from '../../../../shared/services/material.service';
 })
 export class AsignarMaterialesConceptoComponent implements OnInit {
   listaTotalMateriales: any[] = [];
-  idUsuarioLogeado;
   nombreMaterialesIncorrectos: any[] = [];
+  cantidadConcepto;
 
   constructor(
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService,
     private catalogoMaterialesService: MaterialService,
     private bottomSheetRef: MatBottomSheetRef<AsignarMaterialesConceptoComponent>,
     @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
   ) { }
 
   ngOnInit() {
-    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     console.log(this.data.listaMateriales);
+    this.cantidadConcepto = this.data.cantidadConcepto;
   }
 
 
   agregarMateriales(list){
-    //console.log(list.listaMateriales);
     list.listaMateriales.map ( material => {
       if(material.cantidadAntesDeLaOperacion !== material.cantidadSeleccionada){
         material = {
           ...material,
-          idUsuarioModifico: this.idUsuarioLogeado,
+          idUsuarioModifico: this.data.idUsuario,
           idConcepto: this.data.idConcepto,
           cantidadAntesDeLaOperacion: material.cantidadSeleccionada
         };
@@ -56,8 +53,8 @@ export class AsignarMaterialesConceptoComponent implements OnInit {
           this.useAlerts('Materiales agregado al concepto', ' ', 'success-dialog');
         }
         console.log(this.nombreMaterialesIncorrectos);
+        this.catalogoMaterialesService.getCatalogObservable(this.data.idObra);
         this.bottomSheetRef.dismiss();
-        // this.catalogoMaterialesService.getCatalogObservable(this.data.idObra);
       },
       error => {
         console.log(error);

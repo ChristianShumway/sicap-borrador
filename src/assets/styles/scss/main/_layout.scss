@@ -303,7 +303,6 @@ input[type=number] { -moz-appearance:textfield; }
   overflow-x: auto !important;
 }
 
-
 @media (max-width: 959px) {
   .app-admin-container.sidebar-full {
     .main-content-wrap {
@@ -315,5 +314,15 @@ input[type=number] { -moz-appearance:textfield; }
 @media screen and (max-width: 599px){
   .breadcrumb-bar .breadcrumb {
     visibility: hidden !important;
+  }
+}
+
+@media screen and (max-width:480px){
+  .ngx-datatable .datatable-footer .datatable-footer-inner {
+    display: grid !important;
+    height: 90px !important;
+    text-align: center;
+    justify-content: center;
+    width: 100% !important;
   }
 }
