@@ -9,11 +9,14 @@
   </mat-list-option>
 </mat-selection-list>
 <button mat-raised-button (click)="agregarMateriales(list)">Agregar</button>  -->
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
 
 <ngx-datatable 
   class="material fullscreen bg-white ml-0 mr-0 force" 
   style="display: flex !important;justify-content: center !important;align-items: center !important;"
-  [rows]="data.listaMateriales"
+  [rows]="materiales"
   [columns] = "columns"
   [columnMode]="'force'"  
   [headerHeight]="50"

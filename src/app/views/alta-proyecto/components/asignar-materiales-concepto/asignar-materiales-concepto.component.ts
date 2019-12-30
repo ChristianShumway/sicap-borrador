@@ -12,6 +12,9 @@ export class AsignarMaterialesConceptoComponent implements OnInit {
   listaTotalMateriales: any[] = [];
   nombreMaterialesIncorrectos: any[] = [];
   cantidadConcepto;
+  temp = [];
+  materiales = [];
+
 
   constructor(
     private snackBar: MatSnackBar,
@@ -23,6 +26,8 @@ export class AsignarMaterialesConceptoComponent implements OnInit {
   ngOnInit() {
     console.log(this.data.listaMateriales);
     this.cantidadConcepto = this.data.cantidadConcepto;
+    this.materiales = this.data.listaMateriales;
+    this.temp = this.data.listaMateriales;
   }
 
 
@@ -70,6 +75,26 @@ export class AsignarMaterialesConceptoComponent implements OnInit {
       horizontalPosition: 'right',
       panelClass: [className]
     });
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    var columns = Object.keys(this.temp[0]);
+    columns.splice(columns.length - 1);
+
+    if (!columns.length)
+      return;
+
+    const rows = this.temp.filter(function(d) {
+      for (let i = 0; i <= columns.length; i++) {
+        let column = columns[i];
+        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
+          return true;
+        }
+      }
+    });
+
+    this.materiales = rows;
   }
 
 }
