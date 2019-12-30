@@ -81,4 +81,8 @@ export class MaterialService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/obra/addMaterialToConcept`, JSON.stringify(materials), { headers: headerss});
   }
+
+  removeCatalogoMateriales(id: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/removeMaterials/${id}`);
+  }
 }

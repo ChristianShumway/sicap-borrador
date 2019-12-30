@@ -53,7 +53,8 @@ export class AgregarMaterialExtraordinarioComponent implements OnInit {
       const material = {
         ...this.createExtraordinaryMaterialForm.value,
         tipo:2,
-        idObra: this.data.idObra
+        idObra: this.data.idObra,
+        idUsuarioModifico: this.data.idUsuario
       };
       console.log(material);
       this.catalogoMaterialesService.createMaterialExtraordinario(material).subscribe(

@@ -10,6 +10,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import {MatDialog} from '@angular/material/dialog';
 
 @Component({
   selector: 'app-catalogo-conceptos',
@@ -43,7 +45,8 @@ export class CatalogoConceptosComponent implements OnInit {
     private catalogoConceptosService: CatalogoConceptosService,
     private bottomSheet: MatBottomSheet,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    public dialog: MatDialog,
   ) { }
 
 
@@ -57,6 +60,13 @@ export class CatalogoConceptosComponent implements OnInit {
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
       this.idObra = data.id;
+      this.catalogoConceptosService.getCatalogoObra(this.idObra)
+      .subscribe( 
+        conceptos => {
+          console.log(conceptos);
+          this.temp = conceptos;
+        }
+      );
     })
   }
 
@@ -75,6 +85,7 @@ export class CatalogoConceptosComponent implements OnInit {
     this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadConcepts', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.idObra);
+      form.append('idUsuario', this.usuarioLogeado);
       this.loadingFile = true;
     };
     this.uploaderCatalogo.uploadAll();
@@ -98,21 +109,17 @@ export class CatalogoConceptosComponent implements OnInit {
     this.hasBaseDropZoneOver = e;
   }
 
-  updateFilter(event, cat) {
-    this.temp = cat;
+  updateFilter(event) {
     const val = event.target.value.toLowerCase();
     var columns = Object.keys(this.temp[0]);
-    // Removes last "$$index" from "column"
     columns.splice(columns.length - 1);
 
-    // console.log(columns);
     if (!columns.length)
       return;
 
     const rows = this.temp.filter(function(d) {
       for (let i = 0; i <= columns.length; i++) {
         let column = columns[i];
-        // console.log(d[column]);
         if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
           return true;
         }
@@ -121,6 +128,34 @@ export class CatalogoConceptosComponent implements OnInit {
 
     this.rows = rows;
   }
+
+  eliminarCatalogo() {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      data: this.idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.catalogoConceptosService.removeCatalogoObra(this.idObra).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.catalogoConceptosService.getCatalogObservable(this.idObra);
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
 
   useAlerts(message, action, className) {
     this.snackBar.open(message, action, {

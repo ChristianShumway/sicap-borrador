@@ -53,7 +53,8 @@ export class AgregarConceptoExtraordinarioComponent implements OnInit {
       const concepto = {
         ...this.createExtraordinaryConceptForm.value,
         tipo:2,
-        idObra: this.data.idObra
+        idObra: this.data.idObra,
+        idUsuarioModifico: this.data.idUsuario
       };
       console.log(concepto);
       this.catalogoConceptosService.createConceptoExtraordinario(concepto).subscribe(

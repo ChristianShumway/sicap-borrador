@@ -10,6 +10,8 @@ import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AgregarMaterialExtraordinarioComponent } from '../agregar-material-extraordinario/agregar-material-extraordinario.component';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 
 @Component({
   selector: 'app-catalogo-materiales',
@@ -43,7 +45,8 @@ export class CatalogoMaterialesComponent implements OnInit {
     private catalogoMaterialesService: MaterialService,
     private bottomSheet: MatBottomSheet,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    public dialog: MatDialog,
   ) { }
 
 
@@ -75,6 +78,7 @@ export class CatalogoMaterialesComponent implements OnInit {
     this.uploaderCatalogo = new FileUploader({ url: this.rutaServe + '/obra/uploadMaterial', autoUpload: true, headers: headers });
     this.uploaderCatalogo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.idObra);
+      form.append('idUsuario', this.usuarioLogeado);
       this.loadingFile = true;
     };
     this.uploaderCatalogo.uploadAll();
@@ -120,6 +124,33 @@ export class CatalogoMaterialesComponent implements OnInit {
     });
 
     this.rows = rows;
+  }
+
+  eliminarCatalogo() {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      data: this.idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.catalogoMaterialesService.removeCatalogoMateriales(this.idObra).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.catalogoMaterialesService.getCatalogObservable(this.idObra);
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
   }
 
   useAlerts(message, action, className) {

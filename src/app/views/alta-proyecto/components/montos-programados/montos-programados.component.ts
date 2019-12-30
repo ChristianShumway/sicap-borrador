@@ -22,7 +22,7 @@ export class MontosProgramadosComponent implements OnInit {
 
   @Input() obra: Obra;
   idUsuarioLogeado;
-  panelOpenState = false;
+  panelOpenState: boolean = false;
   montoForm: FormGroup;
   private montosObs$ : Observable<MontoProgramado>;
   fechaInicio;
@@ -90,24 +90,25 @@ export class MontosProgramadosComponent implements OnInit {
         ...this.montoForm.value,
         idUsuarioCreo: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
-        fechaInicio: nuevaFechaInicio,
-        fechaFin: nuevaFechaFin,
+        fechaInicial: nuevaFechaInicio,
+        fechaFinal: nuevaFechaFin,
         idObra: this.obra.idObra
       };
       console.log(monto);
-      // this.obraService.createUpdateMontoObra(monto).subscribe(
-      //   response => {
-      //     console.log(response);
-      //     if(response.estatus === '05'){
-      //       this.obraService.getMontosObraObservable(this.obra.idObra);
-      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-      //       this.montoForm.reset();
-      //     } else {
-      //       this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
-      //     }
-      //   },
-      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
-      // );
+      this.obraService.createUpdateMontoObra(monto).subscribe(
+        response => {
+          console.log(response);
+          if(response.estatus === '05'){
+            this.obraService.getMontosObraObservable(this.obra.idObra);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.panelOpenState = !this.panelOpenState;
+            this.montoForm.reset();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
     }
   }
 

@@ -7,6 +7,22 @@
             <input type="number" matInput placeholder="Monto" name="monto" formControlName="monto">
           </mat-form-field>
         </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Desde"
+              (dateChange)="onFechaInicio($event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Hasta"
+              (dateChange)="onFechaFin($event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFin (selectedChange)="onFechaFin($event)"></mat-datepicker>
+          </mat-form-field>
+        </div>
       </div>
     </div>
     <div class="cont-btn">

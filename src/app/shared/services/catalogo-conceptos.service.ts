@@ -92,4 +92,8 @@ export class CatalogoConceptosService {
     return this.http.post<CatalogoConceptos>(`${environment.apiURL}/obra/addConcepts`, JSON.stringify(extraordinario), { headers: headerss});
   }
 
+  removeCatalogoObra(id: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/removeConcepts/${id}`);
+  }
+
 }
