@@ -62,6 +62,11 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Alta de Proyecto', breadcrumb: 'Alta de Proyecto'}
       },
       {
+        path: 'seguimiento-control',
+        loadChildren: () => import('./views/seguimiento-control/seguimiento-control.module').then(m =>m.SeguimientoControlModule),
+        data: { title: 'Seguimiento y Control', breadcrumb: 'Seguimiento y Control'}
+      },
+      {
         path: 'material', 
         loadChildren: () => import('./views/material-example-view/material-example-view.module').then(m => m.MaterialExampleViewModule), 
         data: { title: 'Material', breadcrumb: 'MATERIAL'}

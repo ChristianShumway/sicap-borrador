@@ -1,0 +1,61 @@
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as obras">
+  <ng-container *ngIf="obras.length; else loading">
+    <div *ngFor="let obra of obras" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text obra">
+
+            <a *ngIf="!obra" class="toolbar-avatar md mr-1" [routerLink]="['/seguimiento-control/crear-nota-bitacora', obra.idObra]">
+              <img src="assets/images/faces/user-temp.png" alt="">
+            </a>
+            <a *ngIf="obra" class="toolbar-avatar md mr-1" [routerLink]="['/seguimiento-control/crear-nota-bitacora', obra.idObra]" >
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <span class="title-card-catalogs">{{obra.noContrato}}</span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <!-- <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a> -->
+              <button mat-menu-item [routerLink]="['/seguimiento-control/crear-nota-bitacora', obra.idObra]">Reportar Avance</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <div class="wrap-detalles-obra">
+              <p class="p-info-catalogs">
+                <span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Lugar:</span> {{obra.lugarTrabajo}}</p>
+              <p class="p-info-catalogs">
+                <span>Supervisor Encargado:</span>
+                {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}
+              </p>
+              <p class="p-info-catalogs">
+                <span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>
