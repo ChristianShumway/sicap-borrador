@@ -68,15 +68,17 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Monto Total del Contrato">
+              <input matInput name="lugarTrabajo" formControlName="lugarTrabajo" placeholder="Lugar de Trabajos">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateObraForm.controls['presupuestoTotal'].hasError('required') && updateObraForm.controls['presupuestoTotal'].touched"
+              <small *ngIf="updateObraForm.controls['lugarTrabajo'].hasError('required') && updateObraForm.controls['lugarTrabajo'].touched"
                 class="form-error-msg">
-                El monto Total del Contrato es un campo requerido
+                Lugar de trabajos es un campo requerido
               </small>
             </div>
           </div>
+  
+
 
           <div class="pb-1">
             <div class="validaciones">
@@ -125,18 +127,6 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="lugarTrabajo" formControlName="lugarTrabajo" placeholder="Lugar de Trabajos">
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="updateObraForm.controls['lugarTrabajo'].hasError('required') && updateObraForm.controls['lugarTrabajo'].touched"
-                class="form-error-msg">
-                Lugar de trabajos es un campo requerido
-              </small>
-            </div>
-          </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width">
               <mat-label>Supervisor</mat-label>
               <mat-select formControlName="idSupervisor" required>
                 <mat-option>--</mat-option>
@@ -167,6 +157,18 @@
               <small *ngIf="updateObraForm.controls['idDestajista'].hasError('required') && updateObraForm.controls['idDestajista'].touched"
                 class="form-error-msg">
                 Destajista es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Monto Total del Contrato">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['presupuestoTotal'].hasError('required') && updateObraForm.controls['presupuestoTotal'].touched"
+                class="form-error-msg">
+                El monto Total del Contrato es un campo requerido
               </small>
             </div>
           </div>

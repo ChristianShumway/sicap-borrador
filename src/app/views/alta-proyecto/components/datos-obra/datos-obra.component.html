@@ -1,6 +1,6 @@
 <mat-card class="p-0" *ngIf="(obraObs$ | async) as obra">
   <mat-tab-group>
-    <mat-tab label="Datos Obra">
+    <mat-tab label="Datos de Obra">
       <mat-card-content class="mt-1">
         <app-obra-data [obra]="obra"></app-obra-data>
       </mat-card-content>
@@ -14,18 +14,18 @@
       <mat-card-content>
         <app-catalogo-materiales [obra]="obra"></app-catalogo-materiales>
       </mat-card-content>
-    </mat-tab>
-    <mat-tab label="Asignación de Materiales por Concepto">
+    </mat-tab> -->
+    <mat-tab label="Materiales por Concepto">
       <mat-card-content>
         <app-materiales-por-concepto [obra]="obra"></app-materiales-por-concepto>
       </mat-card-content>
-    </mat-tab> -->
+    </mat-tab>
     <mat-tab label="Biblioteca">
       <mat-card-content>
         <app-biblioteca [obra]="obra"></app-biblioteca>
       </mat-card-content>
     </mat-tab>
-    <mat-tab label="Períodos">
+    <mat-tab label="Programación">
       <mat-card-content>
         <app-montos-programados [obra]="obra"></app-montos-programados>
       </mat-card-content>

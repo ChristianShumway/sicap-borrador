@@ -26,7 +26,7 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #userMenu="matMenu">
-              <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a>
+              <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">Ver</a>
               <button mat-menu-item [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
             </mat-menu>

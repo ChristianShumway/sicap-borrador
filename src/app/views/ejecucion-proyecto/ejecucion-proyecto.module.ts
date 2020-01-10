@@ -12,14 +12,14 @@ import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { AgmCoreModule } from '@agm/core';
 
-import { SeguimientoControlRoutingModule } from './seguimiento-control-routing.module';
+import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
 import { CrearNotaBitacoraComponent } from './components/crear-nota-bitacora/crear-nota-bitacora.component';
 
 @NgModule({
   declarations: [ObrasComponent, CrearNotaBitacoraComponent],
   imports: [
-    CommonModule,
+  CommonModule,
     RouterModule,
     FormsModule,
     ReactiveFormsModule,
@@ -31,11 +31,8 @@ import { CrearNotaBitacoraComponent } from './components/crear-nota-bitacora/cre
     SharedModule,
     QuillModule,
     SharedPipesModule,
-    SeguimientoControlRoutingModule,
-    AgmCoreModule.forRoot({
-      apiKey: 'AIzaSyBK9scW-xOTnRY_OIUy6VscLFbAfsZeft8',
-      libraries: ['places']
-    })
+    EjecucionProyectoRoutingModule,
+    AgmCoreModule
   ]
 })
-export class SeguimientoControlModule { }
+export class EjecucionProyectoModule { }

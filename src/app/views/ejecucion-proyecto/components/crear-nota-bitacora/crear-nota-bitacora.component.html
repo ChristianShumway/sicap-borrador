@@ -32,6 +32,8 @@
       </div>
     </div>
 
+    <h5>Dirección: {{address}}</h5>
+
     <!-- <div class="form-group">
       <label>Enter address</label>
       <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
@@ -39,13 +41,17 @@
     </div> -->
 
     <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-      <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)"></agm-marker>
+      <agm-marker 
+      [latitude]="latitude" 
+      [longitude]="longitude" 
+      [markerDraggable]="true" 
+      mouseOver= "false"
+      (dragEnd)="markerDragEnd($event)">
+      </agm-marker>
     </agm-map>
 
-    <h5>Address: {{address}}</h5>
-    <div>Latitude: {{latitude}}</div>
-    <div>Longitude: {{longitude}}</div>
   </div>
+
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "catalogo">
     <div class="mat-box-shadow margin-333">
       <ngx-datatable 

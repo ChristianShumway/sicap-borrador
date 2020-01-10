@@ -41,14 +41,14 @@ const routes: Routes = [
             data: { title: 'Obra', breadcrumb: 'Obra'},
           },
           {
-            path: 'bitacora/:id',
+            path: 'cronograma/:id',
             component: BitacoraObraComponent,
-            data: { title: 'Bitácora de Obra', breadcrumb: 'Bitácora de Obra'},
+            data: { title: 'Cronograma de Obra', breadcrumb: 'Cronograma de Obra'},
           },
           {
-            path: 'datos/:id',
+            path: 'ficha-planeacion/:id',
             component: DatosObraComponent,
-            data: { title: 'Datos de la Obra', breadcrumb: 'Datos de la Obra'},
+            data: { title: 'Ficha de Planeación de la Obra', breadcrumb: 'Ficha de Planeación de la Obra'},
           },
           {
             path: 'catalogo-conceptos/:id',
@@ -56,9 +56,9 @@ const routes: Routes = [
             data: { title: 'Catálogo de Conceptos', breadcrumb: 'Catálogo de Conceptos'},
           },
           {
-            path: 'catalogo-materiales/:id',
+            path: 'lista-materiales/:id',
             component: CatalogoMaterialesComponent,
-            data: { title: 'Catálogo de Materiales', breadcrumb: 'Catálogo de Materiales'},
+            data: { title: 'Lista de Materiales', breadcrumb: 'Lista de Materiales'},
           },
           {
             path: 'materiales-concepto/:id',

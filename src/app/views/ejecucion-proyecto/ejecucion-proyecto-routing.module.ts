@@ -8,9 +8,9 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'obras',
+        path: 'proyectos',
         component: ObrasComponent,
-        data: {title: 'Obras', breadcrumb: 'Obras'}
+        data: {title: 'Proyectos', breadcrumb: 'Proyectos'}
       },
       {
         path: 'crear-nota-bitacora/:id',
@@ -25,4 +25,4 @@ const routes: Routes = [
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class SeguimientoControlRoutingModule { }
+export class EjecucionProyectoRoutingModule { }

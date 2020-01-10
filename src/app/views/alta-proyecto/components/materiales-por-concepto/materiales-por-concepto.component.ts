@@ -21,10 +21,9 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 
 export class MaterialesPorConceptoComponent implements OnInit {
 
-  // @Input() obra: Obra;
+  @Input() obra: Obra;
   private conceptosObs$: Observable<CatalogoConceptos>;
   private materialesObs$ : Observable<Material>;
-  idObra;
   usuarioLogeado;
 
   rows = [];
@@ -43,20 +42,14 @@ export class MaterialesPorConceptoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getObra();
     this.getCatalogoConceptos();
     this.getCatalogoMateriales();
     this.usuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
-  getObra(){
-    this.activatedRoute.params.subscribe( (data: Params) => {
-      this.idObra = data.id;
-    })
-  }
 
   getCatalogoConceptos(){
-    this.catalogoConceptosService.getCatalogObservable(this.idObra);
+    this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
     this.conceptosObs$ = this.catalogoConceptosService.getDataCatalogo();
     this.columns = this.catalogoConceptosService.getDataColumns();
     this.catalogoConceptosService.getDataCatalogo().subscribe(
@@ -66,27 +59,27 @@ export class MaterialesPorConceptoComponent implements OnInit {
   }
 
   getCatalogoMateriales(){
-    this.catalogoMaterialesService.getCatalogObservable(this.idObra);
+    this.catalogoMaterialesService.getCatalogObservable(this.obra.idObra);
     this.materialesObs$ = this.catalogoMaterialesService.getDataCatalogo();
   }
 
 
   verListaMateriales(idConcepto, cantidadConcepto): void {
     console.log(idConcepto);
-    this.catalogoMaterialesService.getMaterialAvailable(this.idObra, idConcepto).subscribe(
+    this.catalogoMaterialesService.getMaterialAvailable(this.obra.idObra, idConcepto).subscribe(
       (materialesDisponibles: MaterialesConcepto[]) => {
         let sheet = this.bottomSheet.open(AsignarMaterialesConceptoComponent, {
         data: {
           listaMateriales : materialesDisponibles,
           idConcepto,
-          idObra: this.idObra,
+          idObra: this.obra.idObra,
           idUsuario: this.usuarioLogeado,
           cantidadConcepto
         }
         });
 
         sheet.backdropClick().subscribe( () => {
-          console.log('clicked'+this.idObra);
+          console.log('clicked'+this.obra.idObra);
         });  
       },
       error => console.log(error)
