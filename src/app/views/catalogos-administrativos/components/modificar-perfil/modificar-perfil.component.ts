@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, Params } from '@angular/router';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
 import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-perfil',
@@ -17,24 +18,28 @@ export class ModificarPerfilComponent implements OnInit {
   console = console;
   updateProfileForm: FormGroup;
   idPerfil;
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private perfilesService: PerfilesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
     this.getProfile();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   updateProfile(){
     if(this.updateProfileForm.valid){
       const perfil = {
         idPerfil: parseInt(this.idPerfil),
-        ...this.updateProfileForm.value
+        ...this.updateProfileForm.value,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(perfil);
       this.perfilesService.updatePerfil(perfil).subscribe(

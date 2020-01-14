@@ -6,6 +6,7 @@ import { ProveedoresService } from './../../../../shared/services/proveedores.se
 import { Proveedor } from './../../../../shared/models/proveedor';
 import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-proveedor',
@@ -17,15 +18,18 @@ export class CrearProveedorComponent implements OnInit {
   formData = {}
   console = console;
   createProveedorForm: FormGroup;
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
     private proveedoresService: ProveedoresService,
     private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -61,7 +65,8 @@ export class CrearProveedorComponent implements OnInit {
     if(this.createProveedorForm.valid){
       const proveedor = {
         ...this.createProveedorForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(proveedor);
       this.proveedoresService.createProveedor(proveedor).subscribe(

@@ -5,6 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 import { ProveedoresService } from './../../../../shared/services/proveedores.service';
 import { Proveedor } from './../../../../shared/models/proveedor';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-proveedor',
@@ -18,17 +19,20 @@ export class ModificarProveedorComponent implements OnInit {
   console = console;
   updateProveedorForm: FormGroup;
   proveedorId;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private proveedoresService: ProveedoresService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getProveedor();
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getProveedor() {
@@ -51,7 +55,8 @@ export class ModificarProveedorComponent implements OnInit {
       const proveedor = {
         idProveedor: parseInt(this.proveedorId),
         ...this.updateProveedorForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(proveedor);
       this.proveedoresService.updateProveedor(proveedor).subscribe(

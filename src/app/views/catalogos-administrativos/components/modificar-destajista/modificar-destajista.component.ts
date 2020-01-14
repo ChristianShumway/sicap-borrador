@@ -6,6 +6,7 @@ import { DestajistasService } from './../../../../shared/services/destajistas.se
 import { Destajista } from './../../../../shared/models/destajista';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { EstadosService } from '../../../../shared/services/estados.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-destajista',
@@ -20,19 +21,22 @@ export class ModificarDestajistaComponent implements OnInit {
   updateDestajistaForm: FormGroup;
   destajistaId;
   estados: any[] = [];
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private destajistasService: DestajistasService,
     private snackBar: MatSnackBar,
-    private estadosService: EstadosService
+    private estadosService: EstadosService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getDestajista();
     this.getValidations();
     this.getCatalogo();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getDestajista() {
@@ -54,7 +58,8 @@ export class ModificarDestajistaComponent implements OnInit {
       const destajista:Destajista = {
         idDestajista: parseInt(this.destajistaId),
         ...this.updateDestajistaForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(destajista);
       this.destajistasService.updateDestajista(destajista).subscribe(

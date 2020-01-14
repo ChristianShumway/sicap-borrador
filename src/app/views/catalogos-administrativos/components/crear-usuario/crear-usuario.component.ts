@@ -9,6 +9,7 @@ import { Perfil } from './../../../../shared/models/perfil';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
 import { DatePipe } from '@angular/common';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -24,13 +25,15 @@ export class CrearUsuarioComponent implements OnInit {
   perfiles: Perfil[];
   fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
     private empresasService: EmpresasService,
     private perfilesService: PerfilesService,
     private snackBar: MatSnackBar,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class CrearUsuarioComponent implements OnInit {
     this.getCatalogos();
     this.fechaNacimientoFinal = new Date(this.createUserForm.controls['fechaNacimiento'].value);
     this.fechaNacimientoFinal.setDate(this.fechaNacimientoFinal.getDate());
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -92,7 +96,8 @@ export class CrearUsuarioComponent implements OnInit {
         ...this.createUserForm.value,
         imagen: 'user-temp.png',
         fechaNacimiento: myFormatedDate,
-        cambiarContrasena: 0
+        cambiarContrasena: 0,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       // console.log(usuario);
       this.usuariosService.createUsuario(usuario).subscribe(

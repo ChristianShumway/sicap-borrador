@@ -6,6 +6,7 @@ import { EmpresasService } from './../../../../shared/services/empresas.service'
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { EmpleadoService } from 'app/shared/services/empleado.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-empleado',
@@ -18,12 +19,14 @@ export class CrearEmpleadoComponent implements OnInit {
   console = console;
   createEmpleadoForm: FormGroup;
   empresas: Empresa[];
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
     private empleadoService: EmpleadoService,
     private empresasService: EmpresasService,
     private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -54,7 +57,8 @@ export class CrearEmpleadoComponent implements OnInit {
     if(this.createEmpleadoForm.valid){
       const empleado = {
         ...this.createEmpleadoForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(empleado);
       this.empleadoService.createEmpleado(empleado).subscribe(

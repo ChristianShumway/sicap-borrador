@@ -5,6 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 import { EmpresasService } from './../../../../shared/services/empresas.service';
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-empresa',
@@ -18,17 +19,20 @@ export class ModificarEmpresaComponent implements OnInit {
   console = console;
   updateCompanyForm: FormGroup;
   empresaId;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private empresasService: EmpresasService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getEmpresa();
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getEmpresa() {
@@ -50,7 +54,8 @@ export class ModificarEmpresaComponent implements OnInit {
     if(this.updateCompanyForm.valid){
       const company = {
         idEmpresa: parseInt(this.empresaId),
-        ...this.updateCompanyForm.value
+        ...this.updateCompanyForm.value,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(company);
       this.empresasService.updateEmpresa(company).subscribe(

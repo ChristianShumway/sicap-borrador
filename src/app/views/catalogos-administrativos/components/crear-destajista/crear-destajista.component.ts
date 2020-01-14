@@ -6,6 +6,7 @@ import { Destajista } from './../../../../shared/models/destajista';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { DestajistasService } from '../../../../shared/services/destajistas.service';
 import { EstadosService } from './../../../../shared/services/estados.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-destajista',
@@ -18,17 +19,20 @@ export class CrearDestajistaComponent implements OnInit {
   console = console;
   createDestajistaForm: FormGroup;
   estados: any[] = [];
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
     private destajistasService: DestajistasService,
-    private estadosService: EstadosService
+    private estadosService: EstadosService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
     this.getCatalogo();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -56,7 +60,8 @@ export class CrearDestajistaComponent implements OnInit {
     if (this.createDestajistaForm.valid) {
       const destajista: Destajista = {
         ...this.createDestajistaForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(destajista);
       this.router.navigate(['/configuracion/destajistas']);

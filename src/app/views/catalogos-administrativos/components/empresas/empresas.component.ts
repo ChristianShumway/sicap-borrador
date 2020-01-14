@@ -10,6 +10,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { environment } from './../../../../../environments/environment';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-empresas',
@@ -22,6 +23,7 @@ export class EmpresasComponent implements OnInit {
   empresasTemp: Empresa[] = [];
   rutaImg: string;
   host: string;
+  idUsuarioLogeado;
 
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
@@ -34,7 +36,8 @@ export class EmpresasComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private snackBar: MatSnackBar,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -44,7 +47,8 @@ export class EmpresasComponent implements OnInit {
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
-    this.host = environment.host
+    this.host = environment.host;
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   ngOnDestroy() {
@@ -97,7 +101,8 @@ export class EmpresasComponent implements OnInit {
       if (result) {
         const dataEmpresa = {
           idEmpresa: idE,
-          activo: 0
+          activo: 0,
+          // usuarioModifico: this.idUsuarioLogeado
         };
         this.usuariosService.getUsuarios().subscribe(
           response => {

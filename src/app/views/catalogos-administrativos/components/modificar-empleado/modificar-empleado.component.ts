@@ -7,6 +7,7 @@ import { Empleado } from '../../../../shared/models/empleado';
 import { EmpresasService } from './../../../../shared/services/empresas.service';
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-empleado',
@@ -20,13 +21,15 @@ export class ModificarEmpleadoComponent implements OnInit {
   updateEmpleadoForm: FormGroup; 
   empresas: Empresa[];
   idEmpleado;
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
     private empleadoService: EmpleadoService,
     private activatedRoute: ActivatedRoute,
     private empresasService: EmpresasService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -73,7 +76,8 @@ export class ModificarEmpleadoComponent implements OnInit {
       const empleado = {
         idEmpleado: parseInt(this.idEmpleado),
         ...this.updateEmpleadoForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioModifico: this.idUsuarioLogeado
       };
 
       console.log(empleado);

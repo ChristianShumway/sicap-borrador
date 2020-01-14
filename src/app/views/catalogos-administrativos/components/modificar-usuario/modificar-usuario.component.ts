@@ -10,6 +10,7 @@ import { Perfil } from './../../../../shared/models/perfil';
 import { Usuario } from '../../../../shared/models/usuario';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -25,6 +26,7 @@ export class ModificarUsuarioComponent implements OnInit {
   idUser;
   fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
@@ -32,13 +34,15 @@ export class ModificarUsuarioComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private empresasService: EmpresasService,
     private perfilesService: PerfilesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
     this.getUser();
     this.getCatalogos();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getUser() {
@@ -108,6 +112,7 @@ export class ModificarUsuarioComponent implements OnInit {
         idUsuario: parseInt(this.idUser),
         ...this.updateUserForm.value,
         fechaNacimiento: myFormatedDate,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(usuario);
 

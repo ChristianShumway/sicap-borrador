@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Empresa } from './../../../../shared/models/empresa';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { EmpresasService } from '../../../../shared/services/empresas.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-empresa',
@@ -16,15 +17,18 @@ export class CrearEmpresaComponent implements OnInit {
   formData = {}
   console = console;
   createCompanyForm: FormGroup;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private empresasService: EmpresasService
+    private empresasService: EmpresasService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -53,7 +57,8 @@ export class CrearEmpresaComponent implements OnInit {
     if(this.createCompanyForm.valid){
       const empresa: Empresa = {
         ...this.createCompanyForm.value,
-        imagen: 'cima.png'
+        imagen: 'cima.png',
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(empresa);
       this.empresasService.createEmpresa(empresa).subscribe(

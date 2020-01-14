@@ -8,6 +8,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { Empleado } from './../../../../shared/models/empleado';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-empleados',
@@ -18,6 +19,7 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
 
   empleados: Empleado[] = [];
   empleadosTemp: Empleado[] = [];
+  idUsuarioLogeado;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -30,7 +32,8 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -39,6 +42,7 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
   
   ngOnDestroy(){
@@ -96,7 +100,8 @@ export class EmpleadosComponent implements OnInit, OnDestroy {
         // console.log(user);
         const empleadoBaja = {
           idEmpleado: idEmp,
-          activo: 0
+          activo: 0,
+          // usuarioModifico: this.idUsuarioLogeado
         };
         // console.log(empleadoBaja);
         this.empleadoService.deleteEmpleado(empleadoBaja).subscribe(

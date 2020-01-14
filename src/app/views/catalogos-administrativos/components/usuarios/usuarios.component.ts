@@ -10,6 +10,7 @@ import { VistaUsuarioComponent } from '../vista-usuario/vista-usuario.component'
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { Usuario } from './../../../../shared/models/usuario';
 import { environment } from './../../../../../environments/environment';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -22,6 +23,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
   usersTemp: Usuario[] = [];
   rutaImg: string;
   host: string;
+  idUsuarioLogeado
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -34,7 +36,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -45,6 +48,7 @@ export class UsuariosComponent implements OnInit, OnDestroy {
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
   
   ngOnDestroy(){
@@ -130,7 +134,8 @@ export class UsuariosComponent implements OnInit, OnDestroy {
         // console.log(user);
         const usuarioBaja = {
           ...user,
-          idPerfil: 4
+          idPerfil: 4,
+          // usuarioModifico: this.idUsuarioLogeado
         };
         // console.log(usuarioBaja);
         this.usuariosService.updateUsuario(usuarioBaja).subscribe(

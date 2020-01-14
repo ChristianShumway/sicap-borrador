@@ -5,6 +5,7 @@ import { CustomValidators } from 'ng2-validation';
 import { ClientesService } from './../../../../shared/services/clientes.service';
 import { Cliente } from './../../../../shared/models/cliente';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-modificar-cliente',
@@ -18,17 +19,20 @@ export class ModificarClienteComponent implements OnInit {
   console = console;
   updateClienteForm: FormGroup;
   clienteId;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private activatedRoute: ActivatedRoute,
     private clientesService: ClientesService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getCliente();
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getCliente() {
@@ -50,7 +54,8 @@ export class ModificarClienteComponent implements OnInit {
       const cliente:Cliente = {
         idCliente: parseInt(this.clienteId),
         ...this.updateClienteForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(cliente);
       this.clientesService.updateCliente(cliente).subscribe(

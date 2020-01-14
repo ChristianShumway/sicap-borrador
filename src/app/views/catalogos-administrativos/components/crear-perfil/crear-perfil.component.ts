@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { PerfilesService } from './../../../../shared/services/perfiles.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-perfil',
@@ -14,15 +15,18 @@ export class CrearPerfilComponent implements OnInit {
   formData = {}
   console = console;
   createProfileForm: FormGroup;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private perfilesService: PerfilesService
+    private perfilesService: PerfilesService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
     this.getValidations();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -36,7 +40,10 @@ export class CrearPerfilComponent implements OnInit {
 
   createProfile(){
     if(this.createProfileForm.valid){
-      const perfil = this.createProfileForm.value;
+      const perfil = {
+        ...this.createProfileForm.value,
+        // usuarioCreo: this.idUsuarioLogeado
+      }
       this.perfilesService.createPerfil(perfil).subscribe(
         ((response:any) => {
           console.log(response);

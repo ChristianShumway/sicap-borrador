@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { Cliente } from './../../../../shared/models/cliente';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ClientesService } from '../../../../shared/services/clientes.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-cliente',
@@ -16,11 +17,13 @@ export class CrearClienteComponent implements OnInit {
   formData = {}
   console = console;
   createClienteForm: FormGroup;
+  idUsuarioLogeado;
 
   constructor(
     private router: Router,
     private snackBar: MatSnackBar,
-    private clientesService: ClientesService
+    private clientesService: ClientesService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -48,7 +51,8 @@ export class CrearClienteComponent implements OnInit {
     if (this.createClienteForm.valid) {
       const cliente: Cliente = {
         ...this.createClienteForm.value,
-        activo: 1
+        activo: 1,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(cliente);
       this.router.navigate(['/configuracion/clientes']);

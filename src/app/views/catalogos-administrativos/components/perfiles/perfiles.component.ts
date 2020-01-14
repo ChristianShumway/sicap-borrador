@@ -8,6 +8,7 @@ import { Observable } from 'rxjs';
 import { Router } from '@angular/router'
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import {MatSnackBar} from '@angular/material/snack-bar';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-perfiles',
@@ -18,6 +19,7 @@ export class PerfilesComponent implements OnInit {
 
   perfiles: Perfil[] = [];
   perfilesTemp: Perfil[] = [];
+  idUsuarioLogeado;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -29,7 +31,8 @@ export class PerfilesComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private snackBar: MatSnackBar,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -38,6 +41,7 @@ export class PerfilesComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   ngOnDestroy(){
@@ -90,7 +94,8 @@ export class PerfilesComponent implements OnInit {
       if(result){
         const dataPerfil = {
           idPerfil: idP,
-          activo: 0
+          activo: 0,
+          // usuarioModifico: this.idUsuarioLogeado
         };
 
         this.usuariosService.getUsuarios().subscribe(

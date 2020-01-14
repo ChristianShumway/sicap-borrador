@@ -8,6 +8,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { Destajista } from './../../../../shared/models/destajista';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-destajistas',
@@ -18,6 +19,7 @@ export class DestajistasComponent implements OnInit, OnDestroy {
 
   destajistas: Destajista[] = [];
   destajistasTemp: Destajista[] = [];
+  idUsuarioLogeado;
 
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -28,7 +30,8 @@ export class DestajistasComponent implements OnInit, OnDestroy {
     private changeDetectorRef: ChangeDetectorRef,
     public dialog: MatDialog,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -37,6 +40,7 @@ export class DestajistasComponent implements OnInit, OnDestroy {
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   ngOnDestroy(){
@@ -92,7 +96,8 @@ export class DestajistasComponent implements OnInit, OnDestroy {
       if(result){
         const destajistaBaja = {
           idDestajista: idDest,
-          activo: 0
+          activo: 0,
+          // usuarioModifico: this.idUsuarioLogeado
         };
         // console.log(destajistaBaja);
         this.destajistasService.deleteDestajista(destajistaBaja).subscribe(
