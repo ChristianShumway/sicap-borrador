@@ -63,7 +63,12 @@
 
 
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "catalogo.length">
+    <mat-form-field class="margin-333" style="width: 98%">
+      <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
+    </mat-form-field>
+
     <div class="mat-box-shadow margin-333">
+
       <ngx-datatable 
       class="material fullscreen bg-white"
       [rows]="catalogo"

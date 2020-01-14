@@ -27,6 +27,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   idUsuarioLogeado;
   idObra;
   catalogo: CatalogoConceptos[] = [];
+  temp = [];
   fecha = new Date();
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
@@ -98,6 +99,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
         this.obraSupervisionService.getCatalogObservable(this.idObra);
         this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
           this.catalogo = catalogo;
+          this.temp = catalogo;
           console.log(catalogo);
         })
       }
@@ -149,6 +151,26 @@ export class CrearNotaBitacoraComponent implements OnInit {
       }
  
     });
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    var columns = Object.keys(this.temp[0]);
+    columns.splice(columns.length - 1);
+
+    if (!columns.length)
+      return;
+
+    const rows = this.temp.filter(function(d) {
+      for (let i = 0; i <= columns.length; i++) {
+        let column = columns[i];
+        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
+          return true;
+        }
+      }
+    });
+
+    this.catalogo = rows;
   }
 
   reportarAvance(){
