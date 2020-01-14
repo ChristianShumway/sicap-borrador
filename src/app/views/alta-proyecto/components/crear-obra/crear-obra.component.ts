@@ -16,6 +16,7 @@ import { Destajista } from './../../../../shared/models/destajista';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Obra } from '../../../../shared/models/obra';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-crear-obra',
@@ -35,6 +36,7 @@ export class CrearObraComponent implements OnInit {
   fechaFinObra;
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
+  idUsuarioLogeado;
   
   constructor(
     private router: Router,
@@ -44,6 +46,7 @@ export class CrearObraComponent implements OnInit {
     private usuariosService: UsuariosService,
     private destajistasService: DestajistasService,
     private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -54,6 +57,7 @@ export class CrearObraComponent implements OnInit {
     this.fechaFinObra = new Date(this.createObraForm.controls['fechaFin'].value);
     this.fechaInicioObra.setDate(this.fechaInicioObra.getDate());
     this.fechaFinObra.setDate(this.fechaFinObra.getDate());
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
   getValidations() {
@@ -145,7 +149,8 @@ export class CrearObraComponent implements OnInit {
         ...this.createObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
-        activo:1
+        activo:1,
+        // usuarioCreo: this.idUsuarioLogeado
       };
       console.log(obra);
       const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoDestajo);

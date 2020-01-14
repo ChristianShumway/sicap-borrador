@@ -9,6 +9,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 @Component({
   selector: 'app-obras',
@@ -24,6 +25,7 @@ export class ObrasComponent implements OnInit {
   // fechaActual= New Date();
   estatusObraPeriodo: number;
   diasFaltantesObra: number;
+  idUsuarioLogeado;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -36,7 +38,8 @@ export class ObrasComponent implements OnInit {
     public dialog: MatDialog,
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private autenticacionService: AutenticacionService
   ) { }
 
   ngOnInit() {
@@ -47,6 +50,7 @@ export class ObrasComponent implements OnInit {
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
   
   ngOnDestroy(){
@@ -111,7 +115,8 @@ export class ObrasComponent implements OnInit {
         // console.log(result);
         const obraBaja = {
           idObra: idObra,
-          activo: 0
+          activo: 0,
+          // usuarioModifico: this.idUsuarioLogeado
         };
         console.log(obraBaja);
         this.obraService.deleteObra(obraBaja).subscribe(
