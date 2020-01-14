@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-obras',
@@ -16,15 +17,17 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
   styleUrls: ['./obras.component.scss']
 })
 export class ObrasComponent implements OnInit {
-
+  
   obras: Obra[] = [];
   obrasTemp: Obra[] = [];
   rutaImg: string;
   host: string;
-  // fechaActual= New Date();
+  fechaActual = new Date();
+  pipe = new DatePipe('en-US');
   estatusObraPeriodo: number;
   diasFaltantesObra: number;
   idUserLogeado;
+  porcentajeEjecucionFaltante: number;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -43,7 +46,6 @@ export class ObrasComponent implements OnInit {
 
   ngOnInit() {
     this.idUserLogeado = this.autenticacionService.currentUserValue;
-    console.log(this.idUserLogeado);
     this.getObras();
     //paginator
     this.changeDetectorRef.detectChanges();
@@ -64,12 +66,27 @@ export class ObrasComponent implements OnInit {
     this.obraService.getObras().subscribe(
       ((obras: Obra[]) => {
         this.obras = obras.filter(obra => obra.activo === 1 && obra.idSupervisor === this.idUserLogeado);
-        console.log(this.obras);
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
+        this.vadilateStatus(this.obras);
       }),
       (error => console.log(error.message))
     );
+  }
+
+  vadilateStatus(obras){
+    const format = 'yyyy/MM/dd';
+    const nuevaFechaActual = this.pipe.transform(this.fechaActual, format);
+    let fechaActual = new Date(nuevaFechaActual).getTime();
+
+    obras.map( (obra: Obra) => { 
+      let fechaFinObra    = new Date(obra.fechaFin).getTime();
+      let plazoEjecucion = fechaFinObra - fechaActual;
+      const diasFaltantes = Math.ceil(plazoEjecucion/(1000*60*60*24));
+
+      this.porcentajeEjecucionFaltante = (diasFaltantes/obra.plazoEjecucion) * 100;
+      console.log(this.porcentajeEjecucionFaltante);
+    })
   }
 
   updateFilter(event) {

@@ -7,6 +7,8 @@ import { Obra } from './../../../../shared/models/obra';
 import { ObraService } from 'app/shared/services/obra.service';
 import { Observable } from 'rxjs';
 import { CatalogoConceptos } from './../../../../shared/models/catalogo-conceptos';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-crear-nota-bitacora',
@@ -17,7 +19,6 @@ import { CatalogoConceptos } from './../../../../shared/models/catalogo-concepto
 export class CrearNotaBitacoraComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
-  notaBitacora: string;
   latitude: number;
   longitude: number;
   zoom: number;
@@ -27,6 +28,8 @@ export class CrearNotaBitacoraComponent implements OnInit {
   idObra;
   catalogo: CatalogoConceptos[] = [];
   fecha = new Date();
+  pipe = new DatePipe('en-US');
+  notaBitacoraForm: FormGroup;
  
   @ViewChild('search', {static: false})
   public searchElementRef: ElementRef;
@@ -44,6 +47,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObra();
+    this.getValidations();
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -69,6 +73,14 @@ export class CrearNotaBitacoraComponent implements OnInit {
         });
       });
     });
+  }
+
+  getValidations(){
+    this.notaBitacoraForm = new FormGroup({
+      notaBitacora: new FormControl('', Validators.required),
+      latitud: new FormControl('', Validators.required),
+      longitud: new FormControl('', Validators.required),
+    })
   }
 
   getObra(){
@@ -106,6 +118,8 @@ export class CrearNotaBitacoraComponent implements OnInit {
         this.longitude = position.coords.longitude;
         this.zoom = 8;
         this.getAddress(this.latitude, this.longitude);
+        this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
+        this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
       });
     }
   }
@@ -115,6 +129,8 @@ export class CrearNotaBitacoraComponent implements OnInit {
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
+    this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
+    this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
   }
  
   getAddress(latitude, longitude) {
@@ -136,14 +152,17 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   reportarAvance(){
-    const avance = {
-      nota: this.notaBitacora,
-      longitud: this.longitude,
-      latitude: this.latitude,
-      usuarioRegista: this.idUsuarioLogeado,
-      fecha: this.fecha
+    if(this.notaBitacoraForm.valid){
+      const format = 'yyyy/MM/dd';
+      const nuevaFecha = this.pipe.transform(this.fecha, format);
+      const avance = {
+        ...this.notaBitacoraForm.value,
+        usuarioRegista: this.idUsuarioLogeado,
+        fecha: nuevaFecha
+      }
+
+      console.log (avance);
     }
-    console.log (avance);
   }
 
 }

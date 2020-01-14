@@ -7,52 +7,62 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
-
-    <div class="info-obra">
-      <h1>{{obra.noContrato}}</h1>
-      <p>{{obra.nombreObra}}</p>
-    </div>
-
-    <div class="info-bitacora">
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <textarea matInput placeholder="Nota" [(ngModel)] = "notaBitacora"></textarea>
-        </mat-form-field>
+  <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()">
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+      <div class="info-obra">
+        <h1>{{obra.noContrato}}</h1>
+        <p>{{obra.nombreObra}}</p>
       </div>
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <input  matInput placeholder="Latitud" name="latitud" [(ngModel)] = "latitude" readonly>
-        </mat-form-field>
+  
+      <div class="info-bitacora">
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Nota" formControlName="notaBitacora"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input  matInput placeholder="Latitud" name="latitud" formControlName="latitud" readonly>
+          </mat-form-field>
+        </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input  matInput placeholder="Longitud" name="longitud" formControlName="longitud" readonly>
+          </mat-form-field>
+        </div>
       </div>
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <input  matInput placeholder="Longitud" name="longitud" [(ngModel)] = "longitude" readonly>
-        </mat-form-field>
-      </div>
-    </div>
-
-    <h5>Dirección: {{address}}</h5>
-
-    <!-- <div class="form-group">
-      <label>Enter address</label>
-      <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
-        autocapitalize="off" spellcheck="off" type="text" #search>
-    </div> -->
-
-    <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom">
-      <agm-marker 
+  
+      <h5>Dirección: {{address}}</h5>
+  
+      <!-- <div class="form-group">
+        <label>Enter address</label>
+        <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+          autocapitalize="off" spellcheck="off" type="text" #search>
+      </div> -->
+  
+      <agm-map 
       [latitude]="latitude" 
       [longitude]="longitude" 
-      [markerDraggable]="true" 
-      mouseOver= "false"
-      (dragEnd)="markerDragEnd($event)">
-      </agm-marker>
-    </agm-map>
+      [zoom]="zoom" 
+      [scrollwheel]="null"
+      [gestureHandling]="'cooperative'">
+        <agm-marker 
+        [latitude]="latitude" 
+        [longitude]="longitude" 
+        [markerDraggable]="true" 
+        (dragEnd)="markerDragEnd($event)">
+        </agm-marker>
+      </agm-map>
+  
+      <div class="wrap-button" *ngIf = "catalogo.length">
+        <button mat-raised-button color="primary"  [disabled]="notaBitacoraForm.invalid" type="submit">Validar</button>
+      </div>
+  
+    </div>
+  </form>
 
-  </div>
 
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "catalogo">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "catalogo.length">
     <div class="mat-box-shadow margin-333">
       <ngx-datatable 
       class="material fullscreen bg-white"
@@ -115,9 +125,6 @@
         </ngx-datatable-column>
 
       </ngx-datatable>
-    </div>
-    <div class="wrap-button">
-      <button mat-raised-button color="primary" (click)="reportarAvance()">Validar</button>
     </div>
   </div>
 </div>

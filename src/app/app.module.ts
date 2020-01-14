@@ -50,7 +50,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBK9scW-xOTnRY_OIUy6VscLFbAfsZeft8',
       libraries: ['places'],
-      apiVersion: '3.31'
+      // apiVersion: '3.31'
     })
   ],
   declarations: [AppComponent],
