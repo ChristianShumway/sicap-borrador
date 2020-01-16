@@ -25,18 +25,22 @@ import { AutenticacionService } from './../../../../shared/services/autenticacio
 })
 export class CrearObraComponent implements OnInit {
 
-  formData = {}
-  console = console;
   createObraForm: FormGroup;
   empresas: Empresa[];
   clientes: Cliente[];
   supervisores: Usuario[];
+  gerenteProyecto: Usuario[];
+  planeacionPresupuestos: Usuario[];
+  controlObra: Usuario[];
+  compras: Usuario[];
   destajistas: Destajista[];
   fechaInicioObra;
   fechaFinObra;
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
   idUsuarioLogeado;
+  observacionText: string;
+  observacionesGenerales = [];
   
   constructor(
     private router: Router,
@@ -72,10 +76,16 @@ export class CrearObraComponent implements OnInit {
       noContrato: new FormControl('', [
         Validators.required,
       ]),
+      noLicitacion: new FormControl('', [
+        Validators.required,
+      ]),
       nombreObra: new FormControl('', [
         Validators.required,
       ]),
-      presupuestoTotal: new FormControl('', [
+      lugarTrabajo: new FormControl('', [
+        Validators.required
+      ]),
+      objetivo: new FormControl('', [
         Validators.required,
       ]),
       fechaInicio: new FormControl(new Date(), Validators.required),
@@ -83,8 +93,17 @@ export class CrearObraComponent implements OnInit {
       plazoEjecucion: new FormControl('0', [
         Validators.required
       ]),
-      lugarTrabajo: new FormControl('', [
+      idGerente: new FormControl('', [
         Validators.required
+      ]),
+      idPlaneacionPresupuesto: new FormControl('', [
+        Validators.required,
+      ]),
+      idControlObra: new FormControl('', [
+        Validators.required,
+      ]),
+      idCompras: new FormControl('', [
+        Validators.required,
       ]),
       idSupervisor: new FormControl('', [
         Validators.required
@@ -92,16 +111,34 @@ export class CrearObraComponent implements OnInit {
       idDestajista: new FormControl('', [
         Validators.required
       ]),
+      cantidadPersonal: new FormControl('', [
+        Validators.required,
+      ]),
+      presupuestoTotal: new FormControl('', [
+        Validators.required,
+      ]),
       presupuestoMaterial: new FormControl('', [
         Validators.required,
       ]),
       presupuestoManoObra: new FormControl('', [
         Validators.required
       ]),
+      presupuestoSubcontrato: new FormControl('', [
+        Validators.required
+      ]),
       presupuestoMaquinaria: new FormControl('', [
         Validators.required
       ]),
-      presupuestoDestajo: new FormControl('', [
+      importeIndirecto: new FormControl('', [
+        Validators.required
+      ]),
+      importeFinanciamiento: new FormControl('', [
+        Validators.required
+      ]),
+      utilidadEsperada: new FormControl('', [
+        Validators.required
+      ]),
+      cargosAdicionales: new FormControl('', [
         Validators.required
       ]),
     })
@@ -149,13 +186,24 @@ export class CrearObraComponent implements OnInit {
         ...this.createObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
+        presupuestoTotal: parseFloat(this.createObraForm.value.presupuestoTotal),
+        presupuestoMaterial: parseFloat(this.createObraForm.value.presupuestoMaterial),
+        presupuestoMaquinaria: parseFloat(this.createObraForm.value.presupuestoMaquinaria),
+        presupuestoManoObra: parseFloat(this.createObraForm.value.presupuestoManoObra),
+        presupuestoSubcontrato: parseFloat(this.createObraForm.value.presupuestoSubcontrato),
+        importeIndirecto: parseFloat(this.createObraForm.value.importeIndirecto),
+        importeFinanciamiento: parseFloat(this.createObraForm.value.importeFinanciamiento),
+        utilidadEsperada: parseFloat(this.createObraForm.value.utilidadEsperada),
+        cargosAdicionales: parseFloat(this.createObraForm.value.cargosAdicionales),
         activo:1,
-        // usuarioCreo: this.idUsuarioLogeado
+        observacionesGenerales: this.observacionesGenerales,
+        // idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoDestajo);
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
+      console.log(sumaPresupuestos);
       if(obra.presupuestoTotal < sumaPresupuestos){
-        this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
+        this.useAlerts('Presupuesto total de la obra no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       } else {
         this.obraService.createObra(obra).subscribe(
           (response => {
@@ -190,11 +238,15 @@ export class CrearObraComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.clientes = this.clientesService.clientesTemp;
+    // this.clientes = this.clientesService.clientesTemp;
 
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
         this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
+        this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
+        this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
+        this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
+        this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
       },
       error => console.log(error)
     );
@@ -206,7 +258,12 @@ export class CrearObraComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.destajistas = this.destajistasService.destajistasTemp;
+    // this.destajistas = this.destajistasService.destajistasTemp;
+  }
+
+  addObservation(observacion){
+    this.observacionesGenerales.push(observacion);
+    this.observacionText="";
   }
 
   useAlerts(message, action, className){

@@ -32,6 +32,10 @@ export class ObraDataComponent implements OnInit {
   empresas: Empresa[];
   clientes: Cliente[];
   supervisores: Usuario[];
+  gerenteProyecto: Usuario[];
+  planeacionPresupuestos: Usuario[];
+  controlObra: Usuario[];
+  compras: Usuario[];
   destajistas: Destajista[];
   fechaInicioObra;
   fechaFinObra;
@@ -39,6 +43,8 @@ export class ObraDataComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   obraId;
   idUsuarioLogeado;
+  observacionText: string;
+  observacionesGenerales = [];
 
   constructor(
     private router: Router,
@@ -87,10 +93,16 @@ export class ObraDataComponent implements OnInit {
       noContrato: new FormControl('', [
         Validators.required,
       ]),
+      noLicitacion: new FormControl('', [
+        Validators.required,
+      ]),
       nombreObra: new FormControl('', [
         Validators.required,
       ]),
-      presupuestoTotal: new FormControl('', [
+      lugarTrabajo: new FormControl('', [
+        Validators.required
+      ]),
+      objetivo: new FormControl('', [
         Validators.required,
       ]),
       fechaInicio: new FormControl(this.fechaInicioObra, Validators.required),
@@ -98,8 +110,17 @@ export class ObraDataComponent implements OnInit {
       plazoEjecucion: new FormControl('0', [
         Validators.required
       ]),
-      lugarTrabajo: new FormControl('', [
+      idGerente: new FormControl('', [
         Validators.required
+      ]),
+      idPlaneacionPresupuesto: new FormControl('', [
+        Validators.required,
+      ]),
+      idControlObra: new FormControl('', [
+        Validators.required,
+      ]),
+      idCompras: new FormControl('', [
+        Validators.required,
       ]),
       idSupervisor: new FormControl('', [
         Validators.required
@@ -107,16 +128,34 @@ export class ObraDataComponent implements OnInit {
       idDestajista: new FormControl('', [
         Validators.required
       ]),
+      cantidadPersonal: new FormControl('', [
+        Validators.required,
+      ]),
+      presupuestoTotal: new FormControl('', [
+        Validators.required,
+      ]),
       presupuestoMaterial: new FormControl('', [
         Validators.required,
       ]),
       presupuestoManoObra: new FormControl('', [
         Validators.required
       ]),
+      presupuestoSubcontrato: new FormControl('', [
+        Validators.required
+      ]),
       presupuestoMaquinaria: new FormControl('', [
         Validators.required
       ]),
-      presupuestoDestajo: new FormControl('', [
+      importeIndirecto: new FormControl('', [
+        Validators.required
+      ]),
+      importeFinanciamiento: new FormControl('', [
+        Validators.required
+      ]),
+      utilidadEsperada: new FormControl('', [
+        Validators.required
+      ]),
+      cargosAdicionales: new FormControl('', [
         Validators.required
       ]),
     })
@@ -165,11 +204,20 @@ export class ObraDataComponent implements OnInit {
         ...this.updateObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
+        presupuestoTotal: parseFloat(this.updateObraForm.value.presupuestoTotal),
+        presupuestoMaterial: parseFloat(this.updateObraForm.value.presupuestoMaterial),
+        presupuestoMaquinaria: parseFloat(this.updateObraForm.value.presupuestoMaquinaria),
+        presupuestoManoObra: parseFloat(this.updateObraForm.value.presupuestoManoObra),
+        presupuestoSubcontrato: parseFloat(this.updateObraForm.value.presupuestoSubcontrato),
+        importeIndirecto: parseFloat(this.updateObraForm.value.importeIndirecto),
+        importeFinanciamiento: parseFloat(this.updateObraForm.value.importeFinanciamiento),
+        utilidadEsperada: parseFloat(this.updateObraForm.value.utilidadEsperada),
+        cargosAdicionales: parseFloat(this.updateObraForm.value.cargosAdicionales),
         activo:1,
         // usuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoDestajo);
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
       if(obra.presupuestoTotal < sumaPresupuestos){
         this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       } else {
@@ -211,6 +259,10 @@ export class ObraDataComponent implements OnInit {
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
         this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
+        this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
+        this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
+        this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
+        this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
       },
       error => console.log(error)
     );
@@ -223,6 +275,11 @@ export class ObraDataComponent implements OnInit {
     );
 
     this.destajistas = this.destajistasService.destajistasTemp;
+  }
+
+  addObservation(observacion){
+    this.observacionesGenerales.push(observacion);
+    this.observacionText="";
   }
 
   useAlerts(message, action, className){

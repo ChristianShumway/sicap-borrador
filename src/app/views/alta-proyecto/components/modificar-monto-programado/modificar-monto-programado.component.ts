@@ -17,6 +17,7 @@ export class ModificarMontoProgramadoComponent implements OnInit {
   fechaInicioPeriodo;
   fechaFinPeriodo;
   pipe = new DatePipe('en-US');
+  tipoPresupuestos: any[] = [];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -26,6 +27,7 @@ export class ModificarMontoProgramadoComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.getCatalogoP();
     let inicioString = this.data.monto.fechaInicial;
     let finString = this.data.monto.fechaFinal;
     this.fechaInicioPeriodo= new Date(inicioString);
@@ -39,11 +41,10 @@ export class ModificarMontoProgramadoComponent implements OnInit {
 
   getValidations() {
     this.modificarMontoForm = new FormGroup({
-      monto: new FormControl('', [
-        Validators.required,
-      ]),
-      fechaInicio: new FormControl(this.fechaInicioPeriodo, Validators.required),
-      fechaFin: new FormControl(this.fechaFinPeriodo, Validators.required),
+      idTipoPresupuesto: new FormControl('', Validators.required),
+      monto: new FormControl('', [Validators.required,]),
+      fechaInicial: new FormControl(this.fechaInicioPeriodo, Validators.required),
+      fechaFinal: new FormControl(this.fechaFinPeriodo, Validators.required),
     })
   }
 
@@ -52,6 +53,15 @@ export class ModificarMontoProgramadoComponent implements OnInit {
     console.log(presupuesto);
             
     this.modificarMontoForm.patchValue(presupuesto);
+  }
+
+  getCatalogoP(){
+    this.obraService.getPresupuestosParaMontosObra().subscribe(
+      presupuestos => {
+        this.tipoPresupuestos = presupuestos;
+      },
+      error => console.log(error)
+    );
   }
 
   public onFechaInicio(event): void {
@@ -65,12 +75,12 @@ export class ModificarMontoProgramadoComponent implements OnInit {
   }
 
   compareTwoDates(){
-    const controlFechaInicio = new Date(this.modificarMontoForm.controls['fechaInicio'].value);
-    const controlFechaFin = new Date(this.modificarMontoForm.controls['fechaFin'].value);
+    const controlFechaInicio = new Date(this.modificarMontoForm.controls['fechaInicial'].value);
+    const controlFechaFin = new Date(this.modificarMontoForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
       this.useAlerts('Fecha inicio periodo no puede ser mayor a la fecha final', ' ', 'warning-dialog');
-      this.modificarMontoForm.controls['fechaInicio'].setValue('');
+      this.modificarMontoForm.controls['fechaInicial'].setValue('');
     } 
   }
 
@@ -89,7 +99,7 @@ export class ModificarMontoProgramadoComponent implements OnInit {
         fechaInicial: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
       };
-
+      // console.log(monto);
       this.obraService.createUpdateMontoObra(monto).subscribe(
         response => {
           console.log(response);

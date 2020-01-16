@@ -10,6 +10,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { SharedModule } from './../../shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { AltaProyectoRoutingModule } from './alta-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
@@ -30,6 +31,8 @@ import { AsignarMaterialesConceptoComponent } from './components/asignar-materia
 import { AltaDocumentoComponent } from './components/alta-documento/alta-documento.component';
 import { MontosProgramadosComponent } from './components/montos-programados/montos-programados.component';
 import { ModificarMontoProgramadoComponent } from './components/modificar-monto-programado/modificar-monto-programado.component';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -65,7 +68,8 @@ import { ModificarMontoProgramadoComponent } from './components/modificar-monto-
     FileUploadModule,
     SharedModule,
     QuillModule,
-    SharedPipesModule
+    SharedPipesModule,
+    NgxMaskModule.forRoot(options)
   ],
   entryComponents: [
     ModalEliminarComponent,

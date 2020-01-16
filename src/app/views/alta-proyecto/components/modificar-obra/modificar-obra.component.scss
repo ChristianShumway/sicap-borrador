@@ -14,3 +14,23 @@
 .cont-btns button:first-child{
   margin-right: 10px;
 }
+
+.btn-add-observacion{
+  position: absolute;
+  top: -25px;
+  right: 0px;
+}
+
+.title-observaciones{
+  border-bottom: 1px solid lightgray;
+  margin: 0;
+  padding-bottom: 5px;
+  color: darkgray;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.wrap-observaciones-generales p {
+  margin: 0 0 8px;
+  color: #3b9a4a;
+}

@@ -31,6 +31,11 @@ const routes: Routes = [
         data: { title: 'Modificar Obra', breadcrumb: 'Modificar Obra'}
       },
       {
+        path: 'materiales-concepto/:id',
+        component: MaterialesPorConceptoComponent,
+        data: { title: 'Asignación de Materiales por Concepto', breadcrumb: 'Asinación de Materiales por Concepto'},
+      },
+      {
         path: 'ver-obra/:id',
         component: VerObraComponent,
         data: { title: 'Obra', breadcrumb: 'Obra'},
@@ -59,11 +64,6 @@ const routes: Routes = [
             path: 'lista-materiales/:id',
             component: CatalogoMaterialesComponent,
             data: { title: 'Lista de Materiales', breadcrumb: 'Lista de Materiales'},
-          },
-          {
-            path: 'materiales-concepto/:id',
-            component: MaterialesPorConceptoComponent,
-            data: { title: 'Asignación de Materiales por Concepto', breadcrumb: 'Asinación de Materiales por Concepto'},
           },
           {
             path: 'biblioteca/:id',

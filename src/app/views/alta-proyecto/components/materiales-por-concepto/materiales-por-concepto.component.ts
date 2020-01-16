@@ -11,6 +11,7 @@ import { AsignarMaterialesConceptoComponent } from '../asignar-materiales-concep
 import { MaterialesConcepto } from '../../../../shared/models/materiales-concepto';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { ObraService } from 'app/shared/services/obra.service';
 
 @Component({
   selector: 'app-materiales-por-concepto',
@@ -21,7 +22,7 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 
 export class MaterialesPorConceptoComponent implements OnInit {
 
-  @Input() obra: Obra;
+  // @Input() obra: Obra;
   private conceptosObs$: Observable<CatalogoConceptos>;
   private materialesObs$ : Observable<Material>;
   usuarioLogeado;
@@ -31,6 +32,7 @@ export class MaterialesPorConceptoComponent implements OnInit {
   temp = [];
   reorderable: boolean = true;
   loadingIndicator: boolean = true;
+  idObra;
 
   constructor(
     private catalogoConceptosService: CatalogoConceptosService,
@@ -38,18 +40,26 @@ export class MaterialesPorConceptoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private obraService: ObraService
   ) { }
 
   ngOnInit() {
+    this.getObra();
     this.getCatalogoConceptos();
     this.getCatalogoMateriales();
     this.usuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {	   
+      this.idObra = data.id;
+    })	    
+  }	  
+
 
   getCatalogoConceptos(){
-    this.catalogoConceptosService.getCatalogObservable(this.obra.idObra);
+    this.catalogoConceptosService.getCatalogObservable(this.idObra);
     this.conceptosObs$ = this.catalogoConceptosService.getDataCatalogo();
     this.columns = this.catalogoConceptosService.getDataColumns();
     this.catalogoConceptosService.getDataCatalogo().subscribe(
@@ -59,27 +69,27 @@ export class MaterialesPorConceptoComponent implements OnInit {
   }
 
   getCatalogoMateriales(){
-    this.catalogoMaterialesService.getCatalogObservable(this.obra.idObra);
+    this.catalogoMaterialesService.getCatalogObservable(this.idObra);
     this.materialesObs$ = this.catalogoMaterialesService.getDataCatalogo();
   }
 
 
   verListaMateriales(idConcepto, cantidadConcepto): void {
     console.log(idConcepto);
-    this.catalogoMaterialesService.getMaterialAvailable(this.obra.idObra, idConcepto).subscribe(
+    this.catalogoMaterialesService.getMaterialAvailable(this.idObra, idConcepto).subscribe(
       (materialesDisponibles: MaterialesConcepto[]) => {
         let sheet = this.bottomSheet.open(AsignarMaterialesConceptoComponent, {
         data: {
           listaMateriales : materialesDisponibles,
           idConcepto,
-          idObra: this.obra.idObra,
+          idObra: this.idObra,
           idUsuario: this.usuarioLogeado,
           cantidadConcepto
         }
         });
 
         sheet.backdropClick().subscribe( () => {
-          console.log('clicked'+this.obra.idObra);
+          console.log('clicked'+this.idObra);
         });  
       },
       error => console.log(error)

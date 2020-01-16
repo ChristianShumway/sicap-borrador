@@ -57,6 +57,17 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
+              <input matInput name="noLicitacion" formControlName="noLicitacion" placeholder="Número de Licitación">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['noLicitacion'].hasError('required') && createObraForm.controls['noLicitacion'].touched" class="form-error-msg">
+                Número de Licitación es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
               <input matInput name="nombreObra" formControlName="nombreObra" placeholder="Nombre de Obra">
             </mat-form-field>
             <div class="validaciones">
@@ -74,6 +85,17 @@
               <small *ngIf="createObraForm.controls['lugarTrabajo'].hasError('required') && createObraForm.controls['lugarTrabajo'].touched"
                 class="form-error-msg">
                 Lugar de trabajos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="objetivo" formControlName="objetivo" placeholder="Objetivo de la Obra">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['objetivo'].hasError('required') && createObraForm.controls['objetivo'].touched" class="form-error-msg">
+                Objetivo de la obra es un campo requerido
               </small>
             </div>
           </div>
@@ -124,10 +146,78 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <mat-label>Supervisor</mat-label>
-              <mat-select formControlName="idSupervisor" required>
+              <mat-label>Gerente de Proyecto</mat-label>
+              <mat-select formControlName="idGerente" required>
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor.idUsuario">
+                <mat-option *ngFor="let gerente of gerenteProyecto" [value]="gerente.idUsuario">
+                  {{gerente.nombre}} {{gerente.apellidoPaterno}} {{gerente.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idGerente'].hasError('required') && createObraForm.controls['idGerente'].touched" class="form-error-msg">
+                Gerente del proyecto es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Planeación y Presupuestos</mat-label>
+              <mat-select formControlName="idPlaneacionPresupuesto" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let personal of planeacionPresupuestos" [value]="personal.idUsuario">
+                  {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idPlaneacionPresupuesto'].hasError('required') && createObraForm.controls['idPlaneacionPresupuesto'].touched" class="form-error-msg">
+                Planeación y presupuestos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Control de Obra</mat-label>
+              <mat-select formControlName="idControlObra" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let personal of controlObra" [value]="personal.idUsuario">
+                  {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idControlObra'].hasError('required') && createObraForm.controls['idControlObra'].touched" class="form-error-msg">
+                Control de obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Compras</mat-label>
+              <mat-select formControlName="idCompras" required>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let personal of compras" [value]="personal.idUsuario">
+                  {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['idCompras'].hasError('required') && createObraForm.controls['idCompras'].touched" class="form-error-msg">
+                Compras es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Supervisor</mat-label>
+              <mat-select formControlName="idSupervisor" multiple>
+                <mat-option>--</mat-option>
+                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor">
                   {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
                 </mat-option>
               </mat-select>
@@ -141,10 +231,10 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <mat-label>Destajista</mat-label>
-              <mat-select formControlName="idDestajista" required>
+              <mat-label>Subcontratista</mat-label>
+              <mat-select formControlName="idDestajista" multiple>
                 <mat-option>--</mat-option>
-                <mat-option *ngFor="let destajista of destajistas" [value]="destajista.idDestajista">
+                <mat-option *ngFor="let destajista of destajistas" [value]="destajista">
                   {{destajista.nombre}}
                 </mat-option>
               </mat-select>
@@ -152,26 +242,38 @@
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['idDestajista'].hasError('required') && createObraForm.controls['idDestajista'].touched"
                 class="form-error-msg">
-                Destajista es un campo requerido
+                Subcontratista es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number"  name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Monto Total del Contrato">
+              <input matInput type="number"  name="cantidadPersonal" formControlName="cantidadPersonal" placeholder="Cantidad de Personal">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['cantidadPersonal'].hasError('required') && createObraForm.controls['cantidadPersonal'].touched"
+                class="form-error-msg">
+                Cantidad de personal es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Presupuesto Total de la Obra" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['presupuestoTotal'].hasError('required') && createObraForm.controls['presupuestoTotal'].touched"
                 class="form-error-msg">
-                El monto total del contrato es un campo requerido
+                El presupuesto total de la obra es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoMaterial" formControlName="presupuestoMaterial" placeholder="Presupuesto de Materiales">
+              <input matInput name="presupuestoMaterial" formControlName="presupuestoMaterial" placeholder="Presupuesto de Materiales" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['presupuestoMaterial'].hasError('required') && createObraForm.controls['presupuestoMaterial'].touched"
@@ -183,7 +285,7 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto Mano de Obra">
+              <input matInput name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto Mano de Obra" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['presupuestoManoObra'].hasError('required') && createObraForm.controls['presupuestoManoObra'].touched"
@@ -195,27 +297,95 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoMaquinaria" formControlName="presupuestoMaquinaria" placeholder="Presupuesto de Maquinaria">
+              <input matInput name="presupuestoSubcontrato" formControlName="presupuestoSubcontrato" placeholder="Presupuesto de Subcontratos" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createObraForm.controls['presupuestoMaquinaria'].hasError('required') && createObraForm.controls['presupuestoMaquinaria'].touched"
+              <small *ngIf="createObraForm.controls['presupuestoSubcontrato'].hasError('required') && createObraForm.controls['presupuestoSubcontrato'].touched"
                 class="form-error-msg">
-                Presupuesto de maquinaria es un campo requerido
+                Presupuesto de subcontratos es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="presupuestoDestajo" formControlName="presupuestoDestajo" placeholder="Presupuesto de Destajo">
+              <input matInput name="presupuestoMaquinaria" formControlName="presupuestoMaquinaria" placeholder="Presupuesto de Maquinaria y Equipo" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createObraForm.controls['presupuestoDestajo'].hasError('required') && createObraForm.controls['presupuestoDestajo'].touched"
+              <small *ngIf="createObraForm.controls['presupuestoMaquinaria'].hasError('required') && createObraForm.controls['presupuestoMaquinaria'].touched"
                 class="form-error-msg">
-                Presupuesto de destajo es un campo requerido
+                Presupuesto de maquinaria y equipo es un campo requerido
               </small>
             </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="importeIndirecto" formControlName="importeIndirecto" placeholder="Importe de Indirectos" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['importeIndirecto'].hasError('required') && createObraForm.controls['importeIndirecto'].touched"
+                class="form-error-msg">
+                Importe de indirectos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="importeFinanciamiento" formControlName="importeFinanciamiento" placeholder="Importe de Financiamiento" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['importeFinanciamiento'].hasError('required') && createObraForm.controls['importeFinanciamiento'].touched"
+                class="form-error-msg">
+                Importe de financiamiento es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput  name="utilidadEsperada" formControlName="utilidadEsperada" placeholder="Utilidad Esperada" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['utilidadEsperada'].hasError('required') && createObraForm.controls['utilidadEsperada'].touched"
+                class="form-error-msg">
+                Utilidad esperada es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="cargosAdicionales" formControlName="cargosAdicionales" placeholder="Cargos Adicionales" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createObraForm.controls['cargosAdicionales'].hasError('required') && createObraForm.controls['cargosAdicionales'].touched"
+                class="form-error-msg">
+                Cargos adicionales es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width wrap-input-observaciones">
+              <input matInput  name="observacionesGenerales"  placeholder="Observación General"  [(ngModel)] = "observacionText"  [ngModelOptions]="{standalone: true}"  >
+              <a 
+              mat-mini-fab 
+              color="primary" 
+              class="btn-add-observacion" 
+              matTooltip="Agregar Observación"
+              matTooltipPosition="left"
+              (click)="addObservation(observacionText)"><mat-icon>add</mat-icon></a>
+            </mat-form-field>
           </div>  
+
+          <div class="pb-1" *ngIf="observacionesGenerales.length">
+            <p class="title-observaciones">Observaciones Generales:</p>
+            <ul class="wrap-observaciones-generales">
+              <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> <p>{{observacion}}</p></li>
+            </ul>
+          </div>
           
         </div>
       </div>

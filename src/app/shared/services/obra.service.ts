@@ -88,6 +88,9 @@ export class ObraService {
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}`);
   }
 
+  getPresupuestosParaMontosObra(): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiURL}/obra/getBudgetType`); 
+  }
 
   getDataMontosObra(): Observable<MontoProgramado> {
     return this.montosObraSubject.asObservable();
