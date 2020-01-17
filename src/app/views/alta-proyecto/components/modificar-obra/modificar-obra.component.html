@@ -220,15 +220,15 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Supervisor</mat-label>
-              <mat-select formControlName="idSupervisor" required>
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor.idUsuario">
+              <mat-select   formControlName="supervisor" multiple >
+                <!-- <mat-select-trigger>{{supervisoresSeleccionados}}</mat-select-trigger> -->
+                <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor" >
                   {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateObraForm.controls['idSupervisor'].hasError('required') && updateObraForm.controls['idSupervisor'].touched"
+              <small *ngIf="updateObraForm.controls['supervisor'].hasError('required') && updateObraForm.controls['supervisor'].touched"
                 class="form-error-msg">
                 Supervisor es un campo requerido
               </small>
@@ -238,15 +238,14 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Subcontratista</mat-label>
-              <mat-select formControlName="idDestajista" required>
-                <mat-option>--</mat-option>
-                <mat-option *ngFor="let destajista of destajistas" [value]="destajista.idDestajista">
+              <mat-select formControlName="destajista" multiple>
+                <mat-option *ngFor="let destajista of destajistas" [value]="destajista">
                   {{destajista.nombre}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="updateObraForm.controls['idDestajista'].hasError('required') && updateObraForm.controls['idDestajista'].touched"
+              <small *ngIf="updateObraForm.controls['destajista'].hasError('required') && updateObraForm.controls['destajista'].touched"
                 class="form-error-msg">
                 Subcontratista es un campo requerido
               </small>
@@ -384,12 +383,12 @@
               matTooltipPosition="left"
               (click)="addObservation(observacionText)"><mat-icon>add</mat-icon></a>
             </mat-form-field>
-          </div>  
-
+          </div> 
+           
           <div class="pb-1" *ngIf="observacionesGenerales.length">
             <p class="title-observaciones">Observaciones Generales:</p>
             <ul class="wrap-observaciones-generales">
-              <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> <p>{{observacion}}</p></li>
+              <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> <p>{{observacion.comentario}}</p></li>
             </ul>
           </div>
 

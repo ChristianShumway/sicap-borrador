@@ -25,9 +25,9 @@ export interface Obra {
   controlObra?: Usuario;
   idCompras: number;
   compras?: Usuario;
-  idSupervisor: number
+  idSupervisor?: number
   supervisor?: Usuario;
-  idDestajista: number;
+  idDestajista?: number;
   destajista?: Destajista;
   cantidadPersonal?: number;
   presupuestoTotal: number;
@@ -40,6 +40,6 @@ export interface Obra {
   utilidadEsperada: number;
   cargosAdicionales: number;
   presupuestoDestajo?: number;
-  observacionesGenerales?: any[];
+  observacion?: any[];
   activo?: number;
 }

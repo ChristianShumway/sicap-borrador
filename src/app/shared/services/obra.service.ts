@@ -115,11 +115,25 @@ export class ObraService {
     return this.http.post<any>(`${environment.apiURL}/obra/updateBudget`, JSON.stringify(monto), { headers: headerss});
   }
 
- 
-
   deleteMontoObra(monto: Partial<MontoProgramado>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/obra/deleteBudget`, JSON.stringify(monto), { headers: headerss});
+  }
+
+
+  createObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/createObservation`, JSON.stringify(observacion), { headers: headerss});
+  }
+
+  updateObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/updateObservation`, JSON.stringify(observacion), { headers: headerss});
+  }
+
+  deleteObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/deleteObservation`, JSON.stringify(observacion), { headers: headerss});
   }
 
 }

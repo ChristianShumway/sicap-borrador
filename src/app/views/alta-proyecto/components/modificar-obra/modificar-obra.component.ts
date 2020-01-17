@@ -41,6 +41,8 @@ export class ModificarObraComponent implements OnInit {
   idUsuarioLogeado;
   observacionText: string;
   observacionesGenerales = [];
+  supervisoresSeleccionados;
+  destajistasSeleccionados;
   
   constructor(
     private router: Router,
@@ -56,7 +58,6 @@ export class ModificarObraComponent implements OnInit {
 
   ngOnInit() {
     this.getObra();
-    this.getCatalogos();
     this.getValidations();
     this.compareTwoDates();
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
@@ -69,6 +70,8 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.getObra(this.obraId).subscribe(
           (obra: Obra) => {
             console.log(obra);
+            this.observacionesGenerales = obra.observacion;
+            console.log(this.observacionesGenerales);
             let inicioString = obra.fechaInicio;
             let finString = obra.fechaFin;
             this.fechaInicioObra = new Date(inicioString);
@@ -76,6 +79,9 @@ export class ModificarObraComponent implements OnInit {
             this.fechaFinObra = new Date(finString);
             this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
             this.updateObraForm.patchValue(obra);
+            this.supervisoresSeleccionados = obra.supervisor;
+            this.destajistasSeleccionados = obra.destajista;
+            this.getCatalogos();
           },
           error => console.log(error)
         );
@@ -123,10 +129,10 @@ export class ModificarObraComponent implements OnInit {
       idCompras: new FormControl('', [
         Validators.required,
       ]),
-      idSupervisor: new FormControl('', [
+      supervisor: new FormControl(this.supervisoresSeleccionados, [
         Validators.required
       ]),
-      idDestajista: new FormControl('', [
+      destajista: new FormControl('', [
         Validators.required
       ]),
       cantidadPersonal: new FormControl('', [
@@ -257,8 +263,6 @@ export class ModificarObraComponent implements OnInit {
       error => console.log(error)
     );
 
-    // this.clientes = this.clientesService.clientesTemp;
-
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
         this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
@@ -266,6 +270,15 @@ export class ModificarObraComponent implements OnInit {
         this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
         this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
         this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
+        const listSupervisoresCheck=[];
+        this.supervisores.map( supervisor => {
+          this.supervisoresSeleccionados.map( ss => {
+            if(supervisor.idUsuario === ss.idUsuario){
+              listSupervisoresCheck.push(supervisor);
+            }
+          });
+        });
+        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck);   
       },
       error => console.log(error)
     );
@@ -273,16 +286,55 @@ export class ModificarObraComponent implements OnInit {
     this.destajistasService.getDestajistas().subscribe(
       (destajistas: Destajista[]) => {
         this.destajistas = destajistas.filter( destajista => destajista.activo === 1);
+        const listDestajistasCheck =[];
+        this.destajistas.map( destajista => {
+          this.destajistasSeleccionados.map( ds => {
+            if(destajista.idDestajista === ds.idDestajista){
+              listDestajistasCheck.push(destajista);
+            }
+          });
+        });
+        this.updateObraForm.get('destajista').setValue(listDestajistasCheck); 
       },
       error => console.log(error)
     );
 
-    // this.destajistas = this.destajistasService.destajistasTemp;
+    // this.clientes = this.clientesService.clientesTemp;
+
+  }
+
+  getObservacionesObra(){
+    this.obraService.getObra(this.obraId).subscribe(
+    (obra: Obra) => {
+      this.observacionesGenerales = obra.observacion;
+    },
+    error => console.log(error)
+  );   
   }
 
   addObservation(observacion){
-    this.observacionesGenerales.push(observacion);
+    // this.observacionesGenerales.push(observacion);
+    const observacionGeneral = {
+      comentario: observacion,
+      idUsuarioModifico: this.idUsuarioLogeado,
+      idObra: this.obraId
+    }
+    this.obraService.createObservacionObra(observacionGeneral).subscribe(
+      (response => {
+        if(response.estatus === '05'){
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.getObservacionesObra();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      }),
+      (error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      })
+    );
     this.observacionText="";
+    console.log(observacionGeneral);
   }
 
   useAlerts(message, action, className){

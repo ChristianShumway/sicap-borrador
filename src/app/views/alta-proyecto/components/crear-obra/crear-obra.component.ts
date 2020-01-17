@@ -105,10 +105,10 @@ export class CrearObraComponent implements OnInit {
       idCompras: new FormControl('', [
         Validators.required,
       ]),
-      idSupervisor: new FormControl('', [
+      supervisor: new FormControl('', [
         Validators.required
       ]),
-      idDestajista: new FormControl('', [
+      destajista: new FormControl('', [
         Validators.required
       ]),
       cantidadPersonal: new FormControl('', [
@@ -196,8 +196,8 @@ export class CrearObraComponent implements OnInit {
         utilidadEsperada: parseFloat(this.createObraForm.value.utilidadEsperada),
         cargosAdicionales: parseFloat(this.createObraForm.value.cargosAdicionales),
         activo:1,
-        observacionesGenerales: this.observacionesGenerales,
-        // idUsuarioModifico: this.idUsuarioLogeado
+        // observacionesGenerales: this.observacionesGenerales,
+        idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
       const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);

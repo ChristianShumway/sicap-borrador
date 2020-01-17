@@ -31,6 +31,8 @@ import { AsignarMaterialesConceptoComponent } from './components/asignar-materia
 import { AltaDocumentoComponent } from './components/alta-documento/alta-documento.component';
 import { MontosProgramadosComponent } from './components/montos-programados/montos-programados.component';
 import { ModificarMontoProgramadoComponent } from './components/modificar-monto-programado/modificar-monto-programado.component';
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
+// import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -69,7 +71,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     SharedModule,
     QuillModule,
     SharedPipesModule,
-    NgxMaskModule.forRoot(options)
+    NgxMaskModule.forRoot(options),
+    NgxDocViewerModule
   ],
   entryComponents: [
     ModalEliminarComponent,

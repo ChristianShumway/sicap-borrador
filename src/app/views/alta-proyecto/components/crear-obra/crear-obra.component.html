@@ -215,7 +215,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Supervisor</mat-label>
-              <mat-select formControlName="idSupervisor" multiple>
+              <mat-select formControlName="supervisor" multiple>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let supervisor of supervisores" [value]="supervisor">
                   {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
@@ -223,7 +223,7 @@
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createObraForm.controls['idSupervisor'].hasError('required') && createObraForm.controls['idSupervisor'].touched" class="form-error-msg">
+              <small *ngIf="createObraForm.controls['supervisor'].hasError('required') && createObraForm.controls['supervisor'].touched" class="form-error-msg">
                 Supervisor es un campo requerido
               </small>
             </div>
@@ -232,7 +232,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Subcontratista</mat-label>
-              <mat-select formControlName="idDestajista" multiple>
+              <mat-select formControlName="destajista" multiple>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let destajista of destajistas" [value]="destajista">
                   {{destajista.nombre}}
@@ -240,7 +240,7 @@
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="createObraForm.controls['idDestajista'].hasError('required') && createObraForm.controls['idDestajista'].touched"
+              <small *ngIf="createObraForm.controls['destajista'].hasError('required') && createObraForm.controls['destajista'].touched"
                 class="form-error-msg">
                 Subcontratista es un campo requerido
               </small>
@@ -365,26 +365,6 @@
                 Cargos adicionales es un campo requerido
               </small>
             </div>
-          </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width wrap-input-observaciones">
-              <input matInput  name="observacionesGenerales"  placeholder="Observación General"  [(ngModel)] = "observacionText"  [ngModelOptions]="{standalone: true}"  >
-              <a 
-              mat-mini-fab 
-              color="primary" 
-              class="btn-add-observacion" 
-              matTooltip="Agregar Observación"
-              matTooltipPosition="left"
-              (click)="addObservation(observacionText)"><mat-icon>add</mat-icon></a>
-            </mat-form-field>
-          </div>  
-
-          <div class="pb-1" *ngIf="observacionesGenerales.length">
-            <p class="title-observaciones">Observaciones Generales:</p>
-            <ul class="wrap-observaciones-generales">
-              <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> <p>{{observacion}}</p></li>
-            </ul>
           </div>
           
         </div>
