@@ -389,7 +389,17 @@
             <div class="pb-1" *ngIf="observacionesGenerales.length">
               <p class="title-observaciones">Observaciones Generales:</p>
               <ul class="wrap-observaciones-generales">
-                <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> <p>{{observacion.comentario}}</p></li>
+                <li *ngFor = "let observacion of observacionesGenerales" class="observacion"> 
+                  <p>
+                    {{observacion.comentario}} 
+                    <span 
+                    matTooltip="Eliminar Observación" 
+                    matTooltipPosition="left"
+                    (click)="deleteObservation(observacion)">
+                    <mat-icon>delete</mat-icon></span>
+                  </p>
+                  
+                </li>
               </ul>
             </div>
   

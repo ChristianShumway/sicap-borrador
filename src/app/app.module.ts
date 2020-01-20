@@ -66,7 +66,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    { provide: LOCALE_ID, useValue: "es-ES" }, //fecha español
+    // { provide: LOCALE_ID, useValue: "es-ES" }, //fecha español
   ],
   bootstrap: [AppComponent]
 })

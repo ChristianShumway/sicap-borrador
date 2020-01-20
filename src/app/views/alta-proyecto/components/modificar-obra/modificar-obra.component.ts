@@ -337,6 +337,27 @@ export class ModificarObraComponent implements OnInit {
     console.log(observacionGeneral);
   }
 
+  deleteObservation(observacion){
+    const observacionGeneral = {
+      ...observacion,
+      idUsuarioModifico: this.idUsuarioLogeado,
+    }
+    this.obraService.deleteObservacionObra(observacionGeneral).subscribe(
+      (response => {
+        if(response.estatus === '05'){
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.getObservacionesObra();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      }),
+      (error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      })
+    );
+  }
+
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
       duration: 4000,

@@ -31,6 +31,28 @@
 }
 
 .wrap-observaciones-generales p {
-  margin: 0 0 8px;
+  margin: 0;
   color: #3b9a4a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+}
+
+.wrap-observaciones-generales li:nth-child(even){
+  background: #d3d3d338;
+  border-radius: 5px;
+}
+
+.observacion p span{
+  display: inherit;
+  cursor: pointer;
+}
+
+.wrap-observaciones-generales li:hover{
+  background: lightgrey;
+}
+
+.wrap-observaciones-generales li:hover p{
+  color: white;
 }
