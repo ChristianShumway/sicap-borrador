@@ -10,6 +10,8 @@ import { CatalogoConceptosComponent } from './components/catalogo-conceptos/cata
 import { CatalogoMaterialesComponent } from './components/catalogo-materiales/catalogo-materiales.component';
 import { MaterialesPorConceptoComponent } from './components/materiales-por-concepto/materiales-por-concepto.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
+import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-equipo/lista-maquinaria-equipo.component';
+import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
 
 const routes: Routes = [
   {
@@ -64,6 +66,16 @@ const routes: Routes = [
             path: 'lista-materiales/:id',
             component: CatalogoMaterialesComponent,
             data: { title: 'Lista de Materiales', breadcrumb: 'Lista de Materiales'},
+          },
+          {
+            path: 'lista-maquinaria-equipo/:id',
+            component: ListaMaquinariaEquipoComponent,
+            data: { title: 'Lista de Maquinaria y Equipo', breadcrumb: 'Lista de Maquinaria y Equipo'},
+          },
+          {
+            path: 'lista-personal/:id',
+            component: ListaPersonalComponent,
+            data: { title: 'Lista de Personal', breadcrumb: 'Lista de Personal'},
           },
           {
             path: 'biblioteca/:id',

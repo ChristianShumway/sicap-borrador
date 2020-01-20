@@ -73,6 +73,16 @@
             Lista de Materiales
           </mat-list-item>
           <mat-divider></mat-divider>
+          <mat-list-item routerLink="lista-personal/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">people</mat-icon>
+            Lista de Personal
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="lista-maquinaria-equipo/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">local_shipping</mat-icon>
+            Lista de Maquinaria y Equipo
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <!-- <mat-list-item routerLink="materiales-concepto/{{obra.idObra}}" routerLinkActive="list-item-active">
             <mat-icon class="mr-1">beenhere</mat-icon>
             Materiales por Concepto

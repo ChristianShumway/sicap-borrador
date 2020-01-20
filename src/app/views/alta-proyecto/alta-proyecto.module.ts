@@ -32,6 +32,8 @@ import { AltaDocumentoComponent } from './components/alta-documento/alta-documen
 import { MontosProgramadosComponent } from './components/montos-programados/montos-programados.component';
 import { ModificarMontoProgramadoComponent } from './components/modificar-monto-programado/modificar-monto-programado.component';
 import {NgxDocViewerModule} from 'ngx-doc-viewer';
+import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-equipo/lista-maquinaria-equipo.component';
+import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
 // import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -55,7 +57,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     AsignarMaterialesConceptoComponent,
     AltaDocumentoComponent,
     MontosProgramadosComponent,
-    ModificarMontoProgramadoComponent
+    ModificarMontoProgramadoComponent,
+    ListaMaquinariaEquipoComponent,
+    ListaPersonalComponent
   ],
   imports: [
     CommonModule,
