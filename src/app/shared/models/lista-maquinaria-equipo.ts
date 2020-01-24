@@ -1,11 +1,13 @@
 export interface ListaMaquinariaEquipo {
-  idMaterial?: number;
-  noMaterial: number;
-  descripcion: string;
-  unidad: string;
-  cantidad: number;
-  precioUnitario: number;
-  importe: number;
+  idVehiculo?: number;
+  noVehiculo: number;
+  id: string;
+  placas: string;
+  marca: string;
+  modelo: string;
+  linea: string;
+  tipoVehiculo: string;
+  equipoAdicional: string;
+  idArchivoObra: number;
   tipo?: number;
-  idObra?: number;
 }

@@ -24,8 +24,8 @@ export class ListaPersonalService {
     this.listaSubject.next(this.listaPersonal);
   }
 
-  getListObservable(id:number){
-    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getMaterialsByObra/${id}`).subscribe(
+  getListObservable(id:number, idUser: number){
+    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`).subscribe(
       (lista: ListaPersonal) => {
         this.listaPersonal = lista;
         this.refresh();
@@ -34,12 +34,12 @@ export class ListaPersonalService {
     );
   }
 
-  getListaPersonal(id: number): Observable<any>{
-    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getMaterialsByObra/${id}`);
+  getListaPersonal(id: number, idUser: number): Observable<any>{
+    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`);
   }
 
-  removeListaPersonal(id: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/obra/removeMaterials/${id}`);
+  removeListaPersonal(idFile: number, idUser: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
   
 }

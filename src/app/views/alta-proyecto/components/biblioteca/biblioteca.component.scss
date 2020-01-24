@@ -2,20 +2,20 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
-.mat-list-icon.excel {
+.mat-list-icon.excel, .excel {
   color: rgba(46, 125, 50, 0.54);
 }
 
 
-.mat-list-icon.word {
+.mat-list-icon.word, .word {
   color: rgba(21, 101, 192, 0.54);
 }
 
-.mat-list-icon.pdf {
+.mat-list-icon.pdf, .pdf {
   color: rgba(204, 75, 76, 0.54);
 }
 
-.mat-list-icon.jpg {
+.mat-list-icon.jpg, .jpg {
   color: rgba(33, 181, 234, 0.54);
 }
 
@@ -23,10 +23,27 @@
   color: rgba(0, 0, 0, 0.54);
 }
 
-
-
 .wrap-button{
   margin: 10px 0;
   display: flex;
   justify-content: flex-end;
+}
+
+.title-doc{
+  color: gray;
+}
+
+.container-visualizador{
+  text-align: right;
+  margin: 20px 0;
+}
+
+.mat-close{
+  background:#c62828;
+  color:white;
+  transition: cubic-bezier(0.075, 0.82, 0.165, 1) 1s;
+}
+
+.mat-close:hover{
+  background: #b71c1c;
 }

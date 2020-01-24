@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy } from '@angular/core';
-import { MapsAPILoader, MouseEvent } from '@agm/core';
+import { MapsAPILoader, MouseEvent, AgmMap } from '@agm/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 import { ObraSupervisionService } from '../../../../shared/services/obra.supervision.service';
@@ -32,7 +32,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
  
-  @ViewChild('search', {static: false})
+  @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
 
   constructor(
@@ -93,7 +93,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
         this.obraObs$ = this.obraService.getDataObra();
         this.obraService.getDataObra().subscribe( data => {
           if(data !== null){
-            this.validateAccessObra(data.idSupervisor);
+            this.validateAccessObra(data.supervisor);
           }
         })
         this.obraSupervisionService.getCatalogObservable(this.idObra);
@@ -106,16 +106,25 @@ export class CrearNotaBitacoraComponent implements OnInit {
     })
   }
 
-  validateAccessObra(idSupervisorObra) {
-    if(idSupervisorObra !== this.idUsuarioLogeado){
-      this.router.navigate(['/dashboard']);
-    }
+  validateAccessObra(supervisores) {
+    console.log(supervisores);
+    // let idSupervisores = [];
+    // supervisores.map(supervisor => {
+    //   idSupervisores.push(supervisor.idUsuario);
+    // });
+    // console.log(idSupervisores);
+    // const idExistente = idSupervisores.filter( id => id === this.idUsuarioLogeado);
+    // console.log(idExistente.length);
+    // if(!idExistente){
+    //   this.router.navigate(['/dashboard']);
+    // }
   }
 
   // Get Current Location Coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
+        console.log(position);
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 8;
@@ -141,7 +150,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
       console.log(status);
       if (status === 'OK') {
         if (results[0]) {
-          this.zoom = 12;
+          this.zoom = 16;
           this.address = results[0].formatted_address;
         } else {
           window.alert('No results found');
@@ -151,6 +160,39 @@ export class CrearNotaBitacoraComponent implements OnInit {
       }
  
     });
+  }
+
+  obtenerUbicacionCoord(event){
+    let lat, lon;
+    
+    if(event.target.name === 'latitud'){
+      lat = parseFloat(event.target.value);
+      lon = this.longitude;
+    } else if(event.target.name === 'longitud'){
+      lat = this.longitude;
+      lon = parseFloat(event.target.value);
+    }
+
+    this.getAddress(lat, lon);
+    this.geoCoder.setCenter(new google.maps.LatLng(lat, lon));
+
+    // console.log(lat);
+    // console.log(lon);
+
+    let myLatLng = new google.maps.LatLng(lat, lon);
+    // console.log(myLatLng);
+      var marker = new google.maps.Marker({
+        position: myLatLng,
+        // map: map,
+        // icon: 'marcador.png',
+        // title: sucursal[0],
+        // zIndex: sucursal[4],
+        clickable: true
+      });
+
+      console.log(marker);
+    
+ 
   }
 
   updateFilter(event) {
@@ -182,9 +224,45 @@ export class CrearNotaBitacoraComponent implements OnInit {
         usuarioRegista: this.idUsuarioLogeado,
         fecha: nuevaFecha
       }
-
-      console.log (avance);
     }
   }
+
+//   function initialize() {
+//     var  infowindow = new google.maps.InfoWindow();
+//   var mapOptions = {
+//     zoom: 13,
+//     center: new google.maps.LatLng(21.874649,-102.280334)
+//   }
+ 
+//   var map = new google.maps.Map(document.getElementById('map-canvas'),
+//                                 mapOptions);
+ 
+//   setMarkers(map, sucursales,infowindow);
+//  }
+//  function setMarkers(map, locations,infowindow) {
+ 
+//   for (var i = 0; i < locations.length; i++) {
+//     var sucursal = locations[i];
+//     var myLatLng = new google.maps.LatLng(sucursal[1], sucursal[2]);
+//     var marker = new google.maps.Marker({
+//         position: myLatLng,
+//         map: map,
+//         icon: 'marcador.png',
+//         title: sucursal[0],
+//         zIndex: sucursal[4],
+//  clickable: true
+//     });
+//  agregarLeyenda(marker,sucursal[3],infowindow,map);
+ 
+//   }
+//   }
+ 
+//   function agregarLeyenda(marker,leyenda,infowindow,map){
+ 
+//   google.maps.event.addListener(marker, 'click', function() {
+//                 infowindow.setContent("<div class='textoMenu' style='width: 250px; height:70px;'>"+leyenda+"</div>");
+//                 infowindow.open(map, marker);
+//             });
+//  }
 
 }

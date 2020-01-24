@@ -34,6 +34,8 @@ import { ModificarMontoProgramadoComponent } from './components/modificar-monto-
 import {NgxDocViewerModule} from 'ngx-doc-viewer';
 import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-equipo/lista-maquinaria-equipo.component';
 import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
+import { CatalogoSubcontratoComponent } from './components/catalogo-subcontrato/catalogo-subcontrato.component';
+import { CatalogoManoObraComponent } from './components/catalogo-mano-obra/catalogo-mano-obra.component';
 // import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -59,7 +61,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     MontosProgramadosComponent,
     ModificarMontoProgramadoComponent,
     ListaMaquinariaEquipoComponent,
-    ListaPersonalComponent
+    ListaPersonalComponent,
+    CatalogoSubcontratoComponent,
+    CatalogoManoObraComponent
   ],
   imports: [
     CommonModule,

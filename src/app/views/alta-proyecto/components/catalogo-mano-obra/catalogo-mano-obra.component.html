@@ -1,13 +1,13 @@
 <div class="container-upload">
   <div class="mb-1">
-    <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [uploader]="uploaderListaPersonal" />
-    <div ng2FileDrop (click)="fileInput.click()" [ngClass]="{'dz-file-over': hasBaseDropZoneOver}" [uploader]="uploaderListaPersonal"
+    <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [uploader]="uploaderCatalogoManoObra" />
+    <div ng2FileDrop (click)="fileInput.click()" [ngClass]="{'dz-file-over': hasBaseDropZoneOver}" [uploader]="uploaderCatalogoManoObra"
       (fileOver)="fileOverBase($event)" class="fileupload-drop-zone-logo-div">
-      <p>Lista de Personal</p>
+      <p>Catálogo de Mano de Obra</p>
       <p>Arrastra o click sobre la imagen o zona punteada</p>
 
-      <div *ngIf="uploaderListaPersonal.queue.length; else tableNoData">
-        <div *ngFor="let item of uploaderListaPersonal.queue ">
+      <div *ngIf="uploaderCatalogoManoObra.queue.length; else tableNoData">
+        <div *ngFor="let item of uploaderCatalogoManoObra.queue ">
           <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
             <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
             <mat-progress-bar class="" color="primary" mode="determinate" [value]="item.progress">
@@ -26,55 +26,55 @@
   </div>
 </div>
 
-<div *ngIf="(ListaPersonalObs$ | async) as catalogo">
-    
-  <div class="container-lists" *ngFor="let lista of catalogo">
-    <div *ngIf="lista">
-      <div class="div" *ngIf="lista.tipoDetalle === 1">
+<div *ngIf="(CatalogoManoObraObs$ | async) as catalogo">
+
+  <div class="container-lists" *ngFor="let cat of catalogo">
+    <div *ngIf="cat">
+      <div class="div" *ngIf="cat.tipoDetalle === 4">
         <div class="wrap-button">
-          <button mat-raised-button color="primary" (click)="eliminarLista(lista.idArchivoObra)">Eliminar Lista de Personal</button>
+          <button mat-raised-button color="primary" (click)="eliminarCatalogo(cat.idArchivoObra)">Eliminar Catálogo de Mano de Obra</button>
         </div>
-  
+
         <div class="mat-box-shadow margin-333">
-          <ngx-datatable class="material fullscreen bg-white" [rows]="lista.details" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+          <ngx-datatable class="material fullscreen bg-white" [rows]="cat.details" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
             [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50">
-  
+
             <ngx-datatable-column name="No." [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{ row?.noPersonal }}</p>
+                <p>{{ row?.noManoObra }}</p>
               </ng-template>
             </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Nombre" [flexGrow]="1">
+
+            <ngx-datatable-column name="Descripción" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.nombre}}</p>
+                <p>{{row?.descripcion}}</p>
               </ng-template>
             </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Categoria" [flexGrow]="1">
+
+            <ngx-datatable-column name="Unidad" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.categoria}}</p>
+                <p>{{row?.unidad}}</p>
               </ng-template>
             </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Ciudad Origen" [flexGrow]="1">
+
+            <ngx-datatable-column name="Cantidad" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.ciudadOrigen}}</p>
+                <p>{{row?.cantidad}}</p>
               </ng-template>
             </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Teléfono" [flexGrow]="1">
+
+            <ngx-datatable-column name="Precio" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.telefono}}</p>
+                <p>{{row?.precio | currency}}</p>
               </ng-template>
             </ngx-datatable-column>
-  
-            <ngx-datatable-column name="Número IMSS" [flexGrow]="1">
+
+            <ngx-datatable-column name="Importe" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.numeroImms}}</p>
+                <p>{{row?.importe | currency}}</p>
               </ng-template>
             </ngx-datatable-column>
-  
+
           </ngx-datatable>
         </div>
 

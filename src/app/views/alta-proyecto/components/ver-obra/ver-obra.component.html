@@ -68,6 +68,16 @@
             Catálogo de Conceptos
           </mat-list-item>
           <mat-divider></mat-divider>
+          <mat-list-item routerLink="catalogo-mano-obra/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">layers</mat-icon>
+            Catálogo Mano de Obra
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="catalogo-subcontrato/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">layers</mat-icon>
+            Catálogo de Subcontratos
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item routerLink="lista-materiales/{{obra.idObra}}" routerLinkActive="list-item-active">
             <mat-icon class="mr-1">local_mall</mat-icon>
             Lista de Materiales

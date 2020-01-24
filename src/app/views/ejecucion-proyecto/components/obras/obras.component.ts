@@ -10,6 +10,9 @@ import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import { DatePipe } from '@angular/common';
+import { Usuario } from '../../../../shared/models/usuario';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import { ObservacionObraGeneralComponent } from '../observacion-obra-general/observacion-obra-general.component';
 
 @Component({
   selector: 'app-obras',
@@ -28,12 +31,11 @@ export class ObrasComponent implements OnInit {
   diasFaltantesObra: number;
   idUserLogeado;
   porcentajeEjecucionFaltante: number;
+  accesoBitacora = false;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
   dataSource: MatTableDataSource<Obra> = new MatTableDataSource<Obra>();
-
-
 
   constructor(
     private obraService: ObraService,
@@ -41,7 +43,8 @@ export class ObrasComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
   ngOnInit() {
@@ -65,7 +68,32 @@ export class ObrasComponent implements OnInit {
   getObras() {
     this.obraService.getObras().subscribe(
       ((obras: Obra[]) => {
-        this.obras = obras.filter(obra => obra.activo === 1 && obra.idSupervisor === this.idUserLogeado);
+        // this.obras = obras.filter(obra => obra.activo === 1 && obra.idSupervisor === this.idUserLogeado);
+        const obrasActivas = obras.filter(obra => obra.activo === 1);
+        obrasActivas.map( (obra: Obra) => {
+          if(obra.idGerente === this.idUserLogeado){
+            this.obras.push(obra);
+          }
+          if(obra.idPlaneacionPresupuesto === this.idUserLogeado){
+            this.obras.push(obra);
+          }
+          if(obra.idControlObra === this.idUserLogeado){
+            this.obras.push(obra);
+          }
+          if(obra.idCompras === this.idUserLogeado){
+            this.obras.push(obra);
+          }
+          obra.supervisor.map( (supervisor) => {
+            // console.log(supervisor);
+            
+            if (supervisor.idUsuario === this.idUserLogeado){
+              this.accesoBitacora = true;
+              this.obras.push(obra);
+            }
+          });
+        });
+        // console.log(this.obras);
+
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
         this.vadilateStatus(this.obras);
@@ -108,6 +136,19 @@ export class ObrasComponent implements OnInit {
 
     this.dataSource.data = rows;
     console.log(this.dataSource.data);
+  }
+
+  abrirAltaComentario(idObra): void {
+    let sheet = this.bottomSheet.open(ObservacionObraGeneralComponent, {
+    data: {
+      idObra: idObra,
+      idUsuario: this.idUserLogeado
+    }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked' + idObra);
+    });  
   }
 
   useAlerts(message, action, className) {

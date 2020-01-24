@@ -1,11 +1,11 @@
 export interface ListaPersonal {
-  idMaterial?: number;
-  noMaterial: number;
-  descripcion: string;
-  unidad: string;
-  cantidad: number;
-  precioUnitario: number;
-  importe: number;
+  idPersonal?: number;
+  noPersonal: number;
+  nombre: string;
+  categoria: string;
+  ciudadOrigen: string;
+  telefono: string;
+  numeroImss: string;
+  idArchivoObra?: number;
   tipo?: number;
-  idObra?: number;
 }

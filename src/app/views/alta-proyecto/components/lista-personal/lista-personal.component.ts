@@ -46,33 +46,40 @@ export class ListaPersonalComponent implements OnInit {
 
 
   ngOnInit() {
+    this.usuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObra();
     this.verifyPersonalExist();
-    this.initUploadCatalogo();
-    this.usuarioLogeado = this.autenticacionService.currentUserValue;
+    this.initUploadList();
   }
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
       this.idObra = data.id;
+      this.listaPersonalService.getListaPersonal(this.idObra, this.usuarioLogeado).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => console.log(error)
+      );
     })
   }
 
   verifyPersonalExist() {
-    this.listaPersonalService.getListObservable(this.idObra);
+    this.listaPersonalService.getListObservable(this.idObra, this.usuarioLogeado);
     this.ListaPersonalObs$ = this.listaPersonalService.getDataListaPersonal();
   }
 
-  initUploadCatalogo() {
+  initUploadList() {
     this.rutaServe = environment.apiURL;
     this.rutaImg = environment.imageServe;
     this.host = environment.host;
 
     const headers = [{ name: 'Accept', value: 'application/json' }];
-    this.uploaderListaPersonal = new FileUploader({ url: this.rutaServe + '/obra/uploadMaterial', autoUpload: true, headers: headers });
+    this.uploaderListaPersonal = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObraDetails', autoUpload: true, headers: headers });
     this.uploaderListaPersonal.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.idObra);
-      form.append('idUsuario', this.usuarioLogeado);
+      form.append('typeFile', 1)
+      form.append('idUserAdd ', this.usuarioLogeado);
       this.loadingFile = true;
     };
     this.uploaderListaPersonal.uploadAll();
@@ -82,7 +89,7 @@ export class ListaPersonalComponent implements OnInit {
       console.log(result);
       if(result.estatus == "05"){
         this.listaPersonal = result.response;
-        this.listaPersonalService.getListObservable(this.idObra);
+        this.listaPersonalService.getListObservable(this.idObra, this.usuarioLogeado);
         // this.columns = this.listaPersonalService.getDataColumns();
         this.rows = this.temp = this.listaPersonal;
         this.useAlerts(result.mensaje, ' ', 'success-dialog');
@@ -120,7 +127,7 @@ export class ListaPersonalComponent implements OnInit {
     this.rows = rows;
   }
 
-  eliminarCatalogo() {
+  eliminarLista(idArchivo) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
@@ -129,11 +136,11 @@ export class ListaPersonalComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.listaPersonalService.removeListaPersonal(this.idObra).subscribe(
+        this.listaPersonalService.removeListaPersonal(idArchivo, this.usuarioLogeado).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.listaPersonalService.getListObservable(this.idObra);
+              this.listaPersonalService.getListObservable(this.idObra, this.usuarioLogeado);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }

@@ -15,9 +15,10 @@ import { AgmCoreModule } from '@agm/core';
 import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
 import { CrearNotaBitacoraComponent } from './components/crear-nota-bitacora/crear-nota-bitacora.component';
+import { ObservacionObraGeneralComponent } from './components/observacion-obra-general/observacion-obra-general.component';
 
 @NgModule({
-  declarations: [ObrasComponent, CrearNotaBitacoraComponent],
+  declarations: [ObrasComponent, CrearNotaBitacoraComponent, ObservacionObraGeneralComponent],
   imports: [
   CommonModule,
     RouterModule,
@@ -33,6 +34,9 @@ import { CrearNotaBitacoraComponent } from './components/crear-nota-bitacora/cre
     SharedPipesModule,
     EjecucionProyectoRoutingModule,
     AgmCoreModule
+  ],
+  entryComponents: [
+    ObservacionObraGeneralComponent,
   ]
 })
 export class EjecucionProyectoModule { }

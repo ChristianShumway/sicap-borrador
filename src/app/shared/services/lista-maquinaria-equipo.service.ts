@@ -24,8 +24,8 @@ export class ListaMaquinariaEquipoService {
     this.listaSubject.next(this.listaMaquinariaEquipo);
   }
 
-  getListObservable(id:number){
-    return this.http.get<ListaMaquinariaEquipo>(`${environment.apiURL}/obra/getMaterialsByObra/${id}`).subscribe(
+  getListObservable(id:number, idUser:number){
+    return this.http.get<ListaMaquinariaEquipo>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`).subscribe(
       (lista: ListaMaquinariaEquipo) => {
         this.listaMaquinariaEquipo = lista;
         this.refresh();
@@ -34,12 +34,12 @@ export class ListaMaquinariaEquipoService {
     );
   }
 
-  getListaMaquinariaEquipo(id: number): Observable<any>{
-    return this.http.get<ListaMaquinariaEquipo>(`${environment.apiURL}/obra/getMaterialsByObra/${id}`);
+  getListaMaquinariaEquipo(id: number, idUser:number): Observable<any>{
+    return this.http.get<ListaMaquinariaEquipo>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`);
   }
 
-  removeListaMaquinariaEquipo(id: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/obra/removeMaterials/${id}`);
+  removeListaMaquinariaEquipo(idFile: number, idUser:number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
 
 }

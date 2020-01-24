@@ -74,8 +74,8 @@ export class ObraService {
     this.archivosObraSubject.next(this.archivoObra);
   }
   
-  getArchivoObraObservable(id:number){
-    return this.http.get<DocumentosObra>(`${environment.apiURL}/obra/getFilesObra/${id}`).subscribe(
+  getArchivoObraObservable(id:number, type:number, idUser: number){
+    return this.http.get<DocumentosObra>(`${environment.apiURL}/obra/getFilesObra/${id}/${type}/${idUser}`).subscribe(
       (documento: DocumentosObra) => {
         this.archivoObra = documento;
         this.refreshArchivos();
@@ -84,8 +84,8 @@ export class ObraService {
     );
   }
 
-  deleteDocument(id: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}`);
+  deleteDocument(id: number, idUser: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}/${idUser}`);
   }
 
   getPresupuestosParaMontosObra(): Observable<any[]>{

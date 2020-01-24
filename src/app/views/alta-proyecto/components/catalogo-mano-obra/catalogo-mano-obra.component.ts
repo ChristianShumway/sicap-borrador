@@ -2,8 +2,8 @@ import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core
 import { environment } from './../../../../../environments/environment';
 import { FileUploader } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ListaMaquinariaEquipo } from './../../../../shared/models/lista-maquinaria-equipo';
-import { ListaMaquinariaEquipoService } from './../../../../shared/services/lista-maquinaria-equipo.service';
+import { CatalogoManoObra } from './../../../../shared/models/catalogo-mano-obra';
+import { CatalogoManoObraService } from './../../../../shared/services/catalogo-mano-obra.service';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
@@ -11,17 +11,17 @@ import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 
 @Component({
-  selector: 'app-lista-maquinaria-equipo',
-  templateUrl: './lista-maquinaria-equipo.component.html',
-  styleUrls: ['./lista-maquinaria-equipo.component.scss'],
+  selector: 'app-catalogo-mano-obra',
+  templateUrl: './catalogo-mano-obra.component.html',
+  styleUrls: ['./catalogo-mano-obra.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ListaMaquinariaEquipoComponent implements OnInit {
+export class CatalogoManoObraComponent implements OnInit {
 
-  public uploaderListaMaqEquipo: FileUploader = new FileUploader({ url: '' });
+  public uploaderCatalogoManoObra: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
-  private ListaMaqEquipoObs$: Observable<ListaMaquinariaEquipo>;
-  listaMaquinariaEquipo: ListaMaquinariaEquipo[];
+  private CatalogoManoObraObs$: Observable<CatalogoManoObra>;
+  catalogoManoObra: CatalogoManoObra[];
   idObra;
   usuarioLogeado;
 
@@ -38,10 +38,10 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
 
   constructor(
     private snackBar: MatSnackBar,
-    private listaMaquinariaEquipoService: ListaMaquinariaEquipoService,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService,
     public dialog: MatDialog,
+    private catalogoManoObraService: CatalogoManoObraService,
+    private autenticacionService: AutenticacionService,
   ) { }
 
 
@@ -55,12 +55,18 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
       this.idObra = data.id;
+      this.catalogoManoObraService.getCatalogoManoObra(this.idObra, this.usuarioLogeado).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => console.log(error)
+      );
     })
   }
 
   verifyPersonalExist() {
-    this.listaMaquinariaEquipoService.getListObservable(this.idObra, this.usuarioLogeado);
-    this.ListaMaqEquipoObs$ = this.listaMaquinariaEquipoService.getDataListaMaquinariaEquipo();
+    this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
+    this.CatalogoManoObraObs$ = this.catalogoManoObraService.getDataCatalogoManoObra();
   }
 
   initUploadList() {
@@ -69,23 +75,23 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
     this.host = environment.host;
 
     const headers = [{ name: 'Accept', value: 'application/json' }];
-    this.uploaderListaMaqEquipo = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObraDetails', autoUpload: true, headers: headers });
-    this.uploaderListaMaqEquipo.onBuildItemForm = (fileItem: any, form: any) => {
+    this.uploaderCatalogoManoObra = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObraDetails', autoUpload: true, headers: headers });
+    this.uploaderCatalogoManoObra.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.idObra);
-      form.append('typeFile', 2)
+      form.append('typeFile', 4)
       form.append('idUserAdd ', this.usuarioLogeado);
       this.loadingFile = true;
     };
-    this.uploaderListaMaqEquipo.uploadAll();
-    this.uploaderListaMaqEquipo.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+    this.uploaderCatalogoManoObra.uploadAll();
+    this.uploaderCatalogoManoObra.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
       const result = JSON.parse(response);
       console.log(result);
       if(result.estatus == "05"){
-        this.listaMaquinariaEquipo = result.response;
-        this.listaMaquinariaEquipoService.getListObservable(this.idObra, this.usuarioLogeado);
-        // this.columns = this.listaMaquinariaEquipoService.getDataColumns();
-        this.rows = this.temp = this.listaMaquinariaEquipo;
+        this.catalogoManoObra = result.response;
+        this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
+        // this.columns = this.catalogoManoObraService.getDataColumns();
+        this.rows = this.temp = this.catalogoManoObra;
         this.useAlerts(result.mensaje, ' ', 'success-dialog');
       } else {
         this.useAlerts(result.mensaje, ' ', 'error-dialog');
@@ -121,7 +127,7 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
     this.rows = rows;
   }
 
-  eliminarLista(idArchivo) {
+  eliminarCatalogo(idArchivo) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
@@ -130,11 +136,11 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.listaMaquinariaEquipoService.removeListaMaquinariaEquipo(idArchivo, this.usuarioLogeado).subscribe(
+        this.catalogoManoObraService.removeCatalogoManoObra(idArchivo, this.usuarioLogeado).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.listaMaquinariaEquipoService.getListObservable(this.idObra, this.usuarioLogeado);
+              this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
