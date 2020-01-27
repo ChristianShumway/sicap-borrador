@@ -136,4 +136,8 @@ export class ObraService {
     return this.http.post<any>(`${environment.apiURL}/obra/deleteObservation`, JSON.stringify(observacion), { headers: headerss});
   }
 
+  getExportarFicha(id: number) {
+    return this.http.get<any>(`${environment.apiURL}/obra/getFichaPlaneacion/${id}`);
+  }
+
 }

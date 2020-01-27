@@ -30,6 +30,7 @@
               <button mat-menu-item [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
               <button mat-menu-item [routerLink]="['/alta-proyecto/materiales-concepto', obra.idObra]">Materiales por Concepto</button>
+              <button mat-menu-item (click)="exportarFicha(obra.idObra)">Exportar ficha de Planeación</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

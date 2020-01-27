@@ -30,6 +30,9 @@
             <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
           </mat-form-field>
         </div>
+        <div class="pb-1">
+          <a (click)="getCurrentLocation()">ver</a>
+        </div>
       </div>
 
       <h5>Dirección: {{address}}</h5>
@@ -40,7 +43,7 @@
             autocapitalize="off" spellcheck="off" type="text" #search>
         </div> -->
 
-      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'" [mapTypeControl]='true'>
+      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'" [mapTypeControl]='true'  (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
         <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
         </agm-marker>
       </agm-map>

@@ -34,6 +34,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
  
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
+  @ViewChild(AgmMap, {static: true}) map: AgmMap;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -163,7 +164,8 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   obtenerUbicacionCoord(event){
-    let lat, lon;
+    var lat;
+    var lon;
     
     if(event.target.name === 'latitud'){
       lat = parseFloat(event.target.value);
@@ -173,26 +175,11 @@ export class CrearNotaBitacoraComponent implements OnInit {
       lon = parseFloat(event.target.value);
     }
 
+    var myLatLng = new google.maps.LatLng(lat, lon);
+    console.log(myLatLng);
+
     this.getAddress(lat, lon);
-    this.geoCoder.setCenter(new google.maps.LatLng(lat, lon));
 
-    // console.log(lat);
-    // console.log(lon);
-
-    let myLatLng = new google.maps.LatLng(lat, lon);
-    // console.log(myLatLng);
-      var marker = new google.maps.Marker({
-        position: myLatLng,
-        // map: map,
-        // icon: 'marcador.png',
-        // title: sucursal[0],
-        // zIndex: sucursal[4],
-        clickable: true
-      });
-
-      console.log(marker);
-    
- 
   }
 
   updateFilter(event) {
