@@ -10,6 +10,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { SharedModule } from './../../shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { AltaProyectoRoutingModule } from './alta-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
@@ -30,6 +31,14 @@ import { AsignarMaterialesConceptoComponent } from './components/asignar-materia
 import { AltaDocumentoComponent } from './components/alta-documento/alta-documento.component';
 import { MontosProgramadosComponent } from './components/montos-programados/montos-programados.component';
 import { ModificarMontoProgramadoComponent } from './components/modificar-monto-programado/modificar-monto-programado.component';
+import {NgxDocViewerModule} from 'ngx-doc-viewer';
+import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-equipo/lista-maquinaria-equipo.component';
+import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
+import { CatalogoSubcontratoComponent } from './components/catalogo-subcontrato/catalogo-subcontrato.component';
+import { CatalogoManoObraComponent } from './components/catalogo-mano-obra/catalogo-mano-obra.component';
+// import { NgxDocViewerModule } from 'modules';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -50,7 +59,11 @@ import { ModificarMontoProgramadoComponent } from './components/modificar-monto-
     AsignarMaterialesConceptoComponent,
     AltaDocumentoComponent,
     MontosProgramadosComponent,
-    ModificarMontoProgramadoComponent
+    ModificarMontoProgramadoComponent,
+    ListaMaquinariaEquipoComponent,
+    ListaPersonalComponent,
+    CatalogoSubcontratoComponent,
+    CatalogoManoObraComponent
   ],
   imports: [
     CommonModule,
@@ -65,7 +78,9 @@ import { ModificarMontoProgramadoComponent } from './components/modificar-monto-
     FileUploadModule,
     SharedModule,
     QuillModule,
-    SharedPipesModule
+    SharedPipesModule,
+    NgxMaskModule.forRoot(options),
+    NgxDocViewerModule
   ],
   entryComponents: [
     ModalEliminarComponent,

@@ -28,6 +28,7 @@
       <div class="col-right wrap-info-obra">
         <!-- <h2>Información de la obra</h2> -->
         <mat-list>
+          <!-- {{obra | json}} -->
           <mat-list-item>
             <mat-icon class="mr-1">date_range</mat-icon><span class="span-info">Fecha Inicio:</span> {{obra.fechaInicio | date}}</mat-list-item>
           <mat-list-item>
@@ -37,11 +38,31 @@
           <mat-list-item>
             <mat-icon class="mr-1">timer</mat-icon><span class="span-info">Plazo Ejecución:</span> {{obra.plazoEjecucion}} días</mat-list-item>
           <mat-list-item>
-            <mat-icon class="mr-1">person</mat-icon><span class="span-info">Supervisor:</span> {{obra.supervisor.nombre}} {{obra.supervisor.appellidoPaterno}} {{obra.supervisor.apellidoMaterno}}</mat-list-item>
+            <mat-icon class="mr-1">person</mat-icon>
+            <span class="span-info">Supervisor:</span> 
+            <div *ngIf="obra.supervisor.length > 1">
+              <ul class="text">
+                <li *ngFor="let supervisor of obra.supervisor"> {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}} </li>
+              </ul> 
+            </div>
+            <div *ngIf="obra.supervisor.length === 1">
+              <span *ngFor="let supervisor of obra.supervisor"> {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}} </span>
+            </div>
+          </mat-list-item>
           <mat-list-item>
             <mat-icon class="mr-1">business_center</mat-icon><span class="span-info">Cliente:</span> {{obra.cliente.nombre}}</mat-list-item>
           <mat-list-item>
-            <mat-icon class="mr-1">emoji_people</mat-icon><span class="span-info">Destajista:</span> {{obra.destajista.nombre}}</mat-list-item>
+            <mat-icon class="mr-1">emoji_people</mat-icon>
+            <span class="span-info">Destajista:</span> 
+            <div *ngIf="obra.destajista.length > 1">
+              <ul class="text">
+                <li *ngFor="let destajista of obra.destajista"> {{destajista.nombre}}</li>
+              </ul> 
+            </div>
+            <div *ngIf="obra.destajista.length === 1">
+              <span *ngFor="let destajista of obra.destajista"> {{destajista.nombre}} </span>
+            </div>
+          </mat-list-item>
           <mat-list-item>
             <mat-icon class="mr-1">attach_money</mat-icon><span class="span-info">Monto Total:</span> {{obra.presupuestoTotal | currency}}</mat-list-item>
         </mat-list>
@@ -68,9 +89,29 @@
             Catálogo de Conceptos
           </mat-list-item>
           <mat-divider></mat-divider>
+          <mat-list-item routerLink="catalogo-mano-obra/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">layers</mat-icon>
+            Catálogo Mano de Obra
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="catalogo-subcontrato/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">layers</mat-icon>
+            Catálogo de Subcontratos
+          </mat-list-item>
+          <mat-divider></mat-divider>
           <mat-list-item routerLink="lista-materiales/{{obra.idObra}}" routerLinkActive="list-item-active">
             <mat-icon class="mr-1">local_mall</mat-icon>
             Lista de Materiales
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="lista-personal/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">people</mat-icon>
+            Lista de Personal
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="lista-maquinaria-equipo/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">local_shipping</mat-icon>
+            Lista de Maquinaria y Equipo
           </mat-list-item>
           <mat-divider></mat-divider>
           <!-- <mat-list-item routerLink="materiales-concepto/{{obra.idObra}}" routerLinkActive="list-item-active">

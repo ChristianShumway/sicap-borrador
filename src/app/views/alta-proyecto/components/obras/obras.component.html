@@ -14,10 +14,10 @@
         <mat-card-title>
           <div class="card-title-text obra">
 
-            <a *ngIf="!obra" class="toolbar-avatar md mr-1">
+            <a *ngIf="!obra" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">
               <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
             </a>
-            <a *ngIf="obra" class="toolbar-avatar md mr-1">
+            <a *ngIf="obra" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <span class="title-card-catalogs">{{obra.noContrato}}</span>
@@ -29,6 +29,8 @@
               <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">Ver</a>
               <button mat-menu-item [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">Editar</button>
               <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
+              <button mat-menu-item [routerLink]="['/alta-proyecto/materiales-concepto', obra.idObra]">Materiales por Concepto</button>
+              <button mat-menu-item (click)="exportarFicha(obra.idObra)">Exportar ficha de Planeación</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>
@@ -40,10 +42,12 @@
               <p class="p-info-catalogs"><span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
               <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
               <p class="p-info-catalogs"><span>Lugar:</span> {{obra.lugarTrabajo}}</p>
-              <p class="p-info-catalogs"><span>Supervisor Encargado:</span> 
-                {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}
+              <p class="p-info-catalogs"><span>Supervisor(es) Encargado(s):</span> 
+              <b class="text-supervisor-obra" *ngFor="let supervisor of obra.supervisor">
+                - {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
+              </b>
               </p>
-              <p class="p-info-catalogs"><span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency}}</p>
+              <p class="p-info-catalogs"><span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency:"MXN":"symbol"}}</p>
             </div>
           </div>
         </mat-card-content>

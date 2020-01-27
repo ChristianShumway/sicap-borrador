@@ -24,12 +24,14 @@ import { AutenticacionService } from './../../../../shared/services/autenticacio
 })
 export class ModificarObraComponent implements OnInit {
 
-  formData = {}
-  console = console;
   updateObraForm: FormGroup;
   empresas: Empresa[];
   clientes: Cliente[];
   supervisores: Usuario[];
+  gerenteProyecto: Usuario[];
+  planeacionPresupuestos: Usuario[];
+  controlObra: Usuario[];
+  compras: Usuario[];
   destajistas: Destajista[];
   fechaInicioObra;
   fechaFinObra;
@@ -37,6 +39,10 @@ export class ModificarObraComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   obraId;
   idUsuarioLogeado;
+  observacionText: string;
+  observacionesGenerales = [];
+  supervisoresSeleccionados;
+  destajistasSeleccionados;
   
   constructor(
     private router: Router,
@@ -52,7 +58,6 @@ export class ModificarObraComponent implements OnInit {
 
   ngOnInit() {
     this.getObra();
-    this.getCatalogos();
     this.getValidations();
     this.compareTwoDates();
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
@@ -65,6 +70,8 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.getObra(this.obraId).subscribe(
           (obra: Obra) => {
             console.log(obra);
+            this.observacionesGenerales = obra.observacion;
+            console.log(this.observacionesGenerales);
             let inicioString = obra.fechaInicio;
             let finString = obra.fechaFin;
             this.fechaInicioObra = new Date(inicioString);
@@ -72,6 +79,9 @@ export class ModificarObraComponent implements OnInit {
             this.fechaFinObra = new Date(finString);
             this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
             this.updateObraForm.patchValue(obra);
+            this.supervisoresSeleccionados = obra.supervisor;
+            this.destajistasSeleccionados = obra.destajista;
+            this.getCatalogos();
           },
           error => console.log(error)
         );
@@ -90,10 +100,16 @@ export class ModificarObraComponent implements OnInit {
       noContrato: new FormControl('', [
         Validators.required,
       ]),
+      noLicitacion: new FormControl('', [
+        Validators.required,
+      ]),
       nombreObra: new FormControl('', [
         Validators.required,
       ]),
-      presupuestoTotal: new FormControl('', [
+      lugarTrabajo: new FormControl('', [
+        Validators.required
+      ]),
+      objetivo: new FormControl('', [
         Validators.required,
       ]),
       fechaInicio: new FormControl(this.fechaInicioObra, Validators.required),
@@ -101,14 +117,29 @@ export class ModificarObraComponent implements OnInit {
       plazoEjecucion: new FormControl('0', [
         Validators.required
       ]),
-      lugarTrabajo: new FormControl('', [
+      idGerente: new FormControl('', [
         Validators.required
       ]),
-      idSupervisor: new FormControl('', [
+      idPlaneacionPresupuesto: new FormControl('', [
+        Validators.required,
+      ]),
+      idControlObra: new FormControl('', [
+        Validators.required,
+      ]),
+      idCompras: new FormControl('', [
+        Validators.required,
+      ]),
+      supervisor: new FormControl(this.supervisoresSeleccionados, [
         Validators.required
       ]),
-      idDestajista: new FormControl('', [
+      destajista: new FormControl('', [
         Validators.required
+      ]),
+      cantidadPersonal: new FormControl('', [
+        Validators.required,
+      ]),
+      presupuestoTotal: new FormControl('', [
+        Validators.required,
       ]),
       presupuestoMaterial: new FormControl('', [
         Validators.required,
@@ -116,10 +147,22 @@ export class ModificarObraComponent implements OnInit {
       presupuestoManoObra: new FormControl('', [
         Validators.required
       ]),
+      presupuestoSubcontrato: new FormControl('', [
+        Validators.required
+      ]),
       presupuestoMaquinaria: new FormControl('', [
         Validators.required
       ]),
-      presupuestoDestajo: new FormControl('', [
+      importeIndirecto: new FormControl('', [
+        Validators.required
+      ]),
+      importeFinanciamiento: new FormControl('', [
+        Validators.required
+      ]),
+      utilidadEsperada: new FormControl('', [
+        Validators.required
+      ]),
+      cargosAdicionales: new FormControl('', [
         Validators.required
       ]),
     })
@@ -170,11 +213,20 @@ export class ModificarObraComponent implements OnInit {
         ...this.updateObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
+        presupuestoTotal: parseFloat(this.updateObraForm.value.presupuestoTotal),
+        presupuestoMaterial: parseFloat(this.updateObraForm.value.presupuestoMaterial),
+        presupuestoMaquinaria: parseFloat(this.updateObraForm.value.presupuestoMaquinaria),
+        presupuestoManoObra: parseFloat(this.updateObraForm.value.presupuestoManoObra),
+        presupuestoSubcontrato: parseFloat(this.updateObraForm.value.presupuestoSubcontrato),
+        importeIndirecto: parseFloat(this.updateObraForm.value.importeIndirecto),
+        importeFinanciamiento: parseFloat(this.updateObraForm.value.importeFinanciamiento),
+        utilidadEsperada: parseFloat(this.updateObraForm.value.utilidadEsperada),
+        cargosAdicionales: parseFloat(this.updateObraForm.value.cargosAdicionales),
         activo:1,
-        // usuarioModifico: this.idUsuarioLogeado
+        // idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoDestajo);
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
       if(obra.presupuestoTotal < sumaPresupuestos){
         this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       } else {
@@ -211,11 +263,22 @@ export class ModificarObraComponent implements OnInit {
       error => console.log(error)
     );
 
-    this.clientes = this.clientesService.clientesTemp;
-
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
         this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
+        this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
+        this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
+        this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
+        this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
+        const listSupervisoresCheck=[];
+        this.supervisores.map( supervisor => {
+          this.supervisoresSeleccionados.map( ss => {
+            if(supervisor.idUsuario === ss.idUsuario){
+              listSupervisoresCheck.push(supervisor);
+            }
+          });
+        });
+        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck);   
       },
       error => console.log(error)
     );
@@ -223,11 +286,76 @@ export class ModificarObraComponent implements OnInit {
     this.destajistasService.getDestajistas().subscribe(
       (destajistas: Destajista[]) => {
         this.destajistas = destajistas.filter( destajista => destajista.activo === 1);
+        const listDestajistasCheck =[];
+        this.destajistas.map( destajista => {
+          this.destajistasSeleccionados.map( ds => {
+            if(destajista.idDestajista === ds.idDestajista){
+              listDestajistasCheck.push(destajista);
+            }
+          });
+        });
+        this.updateObraForm.get('destajista').setValue(listDestajistasCheck); 
       },
       error => console.log(error)
     );
 
-    this.destajistas = this.destajistasService.destajistasTemp;
+    // this.clientes = this.clientesService.clientesTemp;
+
+  }
+
+  getObservacionesObra(){
+    this.obraService.getObra(this.obraId).subscribe(
+    (obra: Obra) => {
+      this.observacionesGenerales = obra.observacion;
+    },
+    error => console.log(error)
+  );   
+  }
+
+  addObservation(observacion){
+    // this.observacionesGenerales.push(observacion);
+    const observacionGeneral = {
+      comentario: observacion,
+      idUsuarioModifico: this.idUsuarioLogeado,
+      idObra: this.obraId
+    }
+    this.obraService.createObservacionObra(observacionGeneral).subscribe(
+      (response => {
+        if(response.estatus === '05'){
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.getObservacionesObra();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      }),
+      (error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      })
+    );
+    this.observacionText="";
+    console.log(observacionGeneral);
+  }
+
+  deleteObservation(observacion){
+    const observacionGeneral = {
+      ...observacion,
+      idUsuarioModifico: this.idUsuarioLogeado,
+    }
+    this.obraService.deleteObservacionObra(observacionGeneral).subscribe(
+      (response => {
+        if(response.estatus === '05'){
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.getObservacionesObra();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      }),
+      (error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      })
+    );
   }
 
   useAlerts(message, action, className){

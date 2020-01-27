@@ -74,8 +74,8 @@ export class ObraService {
     this.archivosObraSubject.next(this.archivoObra);
   }
   
-  getArchivoObraObservable(id:number){
-    return this.http.get<DocumentosObra>(`${environment.apiURL}/obra/getFilesObra/${id}`).subscribe(
+  getArchivoObraObservable(id:number, type:number, idUser: number){
+    return this.http.get<DocumentosObra>(`${environment.apiURL}/obra/getFilesObra/${id}/${type}/${idUser}`).subscribe(
       (documento: DocumentosObra) => {
         this.archivoObra = documento;
         this.refreshArchivos();
@@ -84,10 +84,13 @@ export class ObraService {
     );
   }
 
-  deleteDocument(id: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}`);
+  deleteDocument(id: number, idUser: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}/${idUser}`);
   }
 
+  getPresupuestosParaMontosObra(): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiURL}/obra/getBudgetType`); 
+  }
 
   getDataMontosObra(): Observable<MontoProgramado> {
     return this.montosObraSubject.asObservable();
@@ -112,11 +115,29 @@ export class ObraService {
     return this.http.post<any>(`${environment.apiURL}/obra/updateBudget`, JSON.stringify(monto), { headers: headerss});
   }
 
- 
-
   deleteMontoObra(monto: Partial<MontoProgramado>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/obra/deleteBudget`, JSON.stringify(monto), { headers: headerss});
+  }
+
+
+  createObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/createObservation`, JSON.stringify(observacion), { headers: headerss});
+  }
+
+  updateObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/updateObservation`, JSON.stringify(observacion), { headers: headerss});
+  }
+
+  deleteObservacionObra(observacion): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/deleteObservation`, JSON.stringify(observacion), { headers: headerss});
+  }
+
+  getExportarFicha(id: number) {
+    return this.http.get<any>(`${environment.apiURL}/obra/getFichaPlaneacion/${id}`);
   }
 
 }

@@ -11,14 +11,33 @@
       <form [formGroup]="montoForm" (submit)="addMonto()">
         <div fxLayout="row wrap">
           <div fxFlex="100" fxFlex.gt-xs="100">
+            
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input type="number" matInput placeholder="Monto"  name="monto" formControlName="monto" value="">
+                <mat-label>Tipo de Presupuesto</mat-label>
+                <mat-select formControlName="idTipoPresupuesto" required>
+                  <mat-option>--</mat-option>
+                  <mat-option *ngFor="let tipo of tipoPresupuestos" [value]="tipo.idTipoPresupuesto">
+                    {{tipo.descripcion}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+              <!-- <div class="validaciones">
+                <small *ngIf="createObraForm.controls['idDestajista'].hasError('required') && createObraForm.controls['idDestajista'].touched"
+                  class="form-error-msg">
+                  Subcontratista es un campo requerido
+                </small>
+              </div> -->
+            </div>
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Monto"  name="monto" formControlName="monto" value=""  mask="separator.2" thousandSeparator=",">
               </mat-form-field>
             </div>
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Desde"
+                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicial" name="date" placeholder="Desde"
                   (dateChange)="onFechaInicio($event)">
                 <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
                 <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
@@ -26,7 +45,7 @@
             </div>
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Hasta"
+                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Hasta"
                   (dateChange)="onFechaFin($event)">
                 <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
                 <mat-datepicker #fechaFin (selectedChange)="onFechaFin($event)"></mat-datepicker>
@@ -44,24 +63,124 @@
 </div>
 
 <div class="wrap-list-montos" *ngIf="(montosObs$ | async) as montos">
-  <mat-list>
-    <h4 mat-subheader>Períodos Programados Agregados</h4>
-    <mat-list-item *ngFor="let monto of montos" >
-      <div class="cont">
-        <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
-          <mat-icon class="">more_vert</mat-icon>
-        </button>
+  <!-- {{montos | json}} -->
+  <h4 mat-subheader>Períodos Programados Agregados</h4>
+  <mat-list *ngIf="montos.length">
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto">Presupuesto Total de Obra</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 1">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
       </div>
-      <mat-menu #montostMenu="matMenu">
-        <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-        <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
-      </mat-menu>
-      <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-      <h2 mat-line>{{monto.monto | currency}}</h2>
-      <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
-      <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-      <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
-      <mat-divider></mat-divider>
-    </mat-list-item>
+    </div>
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto">Presupuesto Total de Materiales</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 2">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto">Presupuesto de Mano de Obra</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 3">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto">Presupuesto de Subcontratos</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 4">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto">Presupuesto de Maquinaria y Equipo</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 5">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
   </mat-list>
 </div>

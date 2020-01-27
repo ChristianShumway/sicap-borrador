@@ -4,12 +4,28 @@
       <div fxFlex="100" fxFlex.gt-xs="100">
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input type="number" matInput placeholder="Monto" name="monto" formControlName="monto">
+            <mat-label>Tipo de Presupuesto</mat-label>
+            <mat-select formControlName="idTipoPresupuesto" required>
+              <mat-option *ngFor="let tipo of tipoPresupuestos" [value]="tipo.idTipoPresupuesto">
+                {{tipo.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+          <!-- <div class="validaciones">
+            <small *ngIf="createObraForm.controls['idDestajista'].hasError('required') && createObraForm.controls['idDestajista'].touched"
+              class="form-error-msg">
+              Subcontratista es un campo requerido
+            </small>
+          </div> -->
+        </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Monto" name="monto" formControlName="monto"  mask="separator.2" thousandSeparator=",">
           </mat-form-field>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Desde"
+            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicial" name="date" placeholder="Desde"
               (dateChange)="onFechaInicio($event)">
             <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
             <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
@@ -17,7 +33,7 @@
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Hasta"
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Hasta"
               (dateChange)="onFechaFin($event)">
             <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
             <mat-datepicker #fechaFin (selectedChange)="onFechaFin($event)"></mat-datepicker>

@@ -11,6 +11,9 @@ import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.compo
 import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 
+// import { viewerType } from 'modules/document-viewer.component';
+import { viewerType } from './../../../../../../node_modules/ngx-doc-viewer/document-viewer.component';
+
 @Component({
   selector: 'app-biblioteca',
   templateUrl: './biblioteca.component.html',
@@ -23,19 +26,23 @@ export class BibliotecaComponent implements OnInit {
   idObra;
   usuarioLogeado;
   private documentosObs$ : Observable<DocumentosObra>;
+  doc = '';
 
+
+ 
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
     private obraService: ObraService,
     public dialog: MatDialog,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService
-  ) { }
+    private autenticacionService: AutenticacionService,
+    // private viewerName: viewerType
+  ) {}
 
   ngOnInit() {
-    this.getDocuments();
     this.usuarioLogeado = this.autenticacionService.currentUserValue;
+    this.getDocuments();
   }
 
   getObra(){
@@ -54,11 +61,11 @@ export class BibliotecaComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        this.obraService.deleteDocument(idDocumento).subscribe(
+        this.obraService.deleteDocument(idDocumento, this.usuarioLogeado).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.obraService.getArchivoObraObservable(this.obra.idObra)
+              this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado)
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -73,7 +80,7 @@ export class BibliotecaComponent implements OnInit {
   }
 
   getDocuments(){
-    this.obraService.getArchivoObraObservable(this.obra.idObra);
+    this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado);
     this.documentosObs$ = this.obraService.getDataArchivoObra();
   }
 
@@ -98,5 +105,16 @@ export class BibliotecaComponent implements OnInit {
       panelClass: [className]
     });
   }
+
+  vistaPreviaArchivo(doc: DocumentosObra){
+    const archivo = `${doc.ruta}/${doc.nombre}`;
+    // console.log(archivo);
+    this.doc = archivo;
+  }
+
+  noVer(){
+    this.doc = '';
+  }
+
 
 }

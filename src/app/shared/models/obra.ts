@@ -10,19 +10,37 @@ export interface Obra {
   idCliente: number;
   cliente?: Cliente;
   noContrato: string;
+  noLicitacion: string;
   nombreObra: string;
-  presupuestoTotal: number;
+  lugarTrabajo: string;
+  objetivo: string;
   fechaInicio: string;
   fechaFin: string;
   plazoEjecucion?: number;
-  lugarTrabajo: string;
-  idSupervisor: number
-  supervisor?: Usuario;
-  idDestajista: number;
-  destajista?: Destajista;
+  idGerente: number;
+  gerente?: Usuario;
+  idPlaneacionPresupuesto: number;
+  planeacionPresupuesto?: Usuario;
+  idControlObra: number;
+  controlObra?: Usuario;
+  idCompras: number;
+  compras?: Usuario;
+  idSupervisor?: number
+  supervisor?: Usuario[];
+  idDestajista?: number;
+  destajista?: Destajista[];
+  cantidadPersonal?: number;
+  presupuestoTotal: number;
   presupuestoMaterial: number;
   presupuestoManoObra: number;
+  presupuestoSubcontrato: number;
   presupuestoMaquinaria: number;
-  presupuestoDestajo: number;
+  importeIndirecto: number;
+  importeFinanciamiento: number;
+  utilidadEsperada: number;
+  cargosAdicionales: number;
+  presupuestoDestajo?: number;
+  observacion?: any[];
   activo?: number;
+  idUsuarioModifico?: number;
 }

@@ -1,4 +1,4 @@
-<mat-list>
+<mat-list *ngIf="!doc">
   <mat-list-item class="wrap-button">
     <button mat-raised-button color="primary" (click)="abrirAltaDocumento()">Agregar Archivo</button>
   </mat-list-item>
@@ -6,12 +6,14 @@
   <h3 mat-subheader>Archivos</h3>
   <div *ngIf="(documentosObs$ | async) as documentos">
     <mat-list-item *ngFor="let documento of documentos">
+      <!-- {{documento | json}} -->
       <div class="cont">
         <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
           <mat-icon class="">more_vert</mat-icon>
         </button>
       </div>
       <mat-menu #documentMenu="matMenu">
+        <a mat-menu-item (click)="vistaPreviaArchivo(documento)" target="blank">Ver</a>
         <a mat-menu-item href="{{documento.ruta}}/{{documento.nombre}}" target="blank">Descargar</a>
         <button mat-menu-item (click)="openDialoAlertDelete(documento.idArchivoObra)">Eliminar</button>
       </mat-menu>
@@ -19,9 +21,20 @@
       <mat-icon mat-list-icon class="word" *ngIf="documento.extension==='docx' || documento.extension==='doc'">note</mat-icon>
       <mat-icon mat-list-icon class="pdf" *ngIf="documento.extension==='pdf'">note</mat-icon>
       <mat-icon mat-list-icon class="jpg" *ngIf="documento.extension==='jpg' || documento.extension==='png'">note</mat-icon>
-      <h4 mat-line >{{documento.nombre}}</h4>
-      <p mat-line> {{documento.fechaAgrego | date}} </p>
+      <a mat-line (click)="vistaPreviaArchivo(documento)" class="title-doc" >
+        {{documento.nombre}}
+      </a>
+      <p mat-line class="excel" *ngIf="documento.extension==='xlsx' || documento.extension==='xls'">{{documento.fechaAgrego | date}}</p>
+      <p mat-line class="word" *ngIf="documento.extension==='docx' || documento.extension==='doc'">{{documento.fechaAgrego | date}}</p>
+      <p mat-line class="pdf" *ngIf="documento.extension==='pdf'">{{documento.fechaAgrego | date}}</p>
+      <p mat-line class="jpg" *ngIf="documento.extension==='jpg' || documento.extension==='png'">{{documento.fechaAgrego | date}}</p>
+      <!-- <p mat-line mat-line> {{documento.fechaAgrego | date}} </p> -->
       <mat-divider></mat-divider>
     </mat-list-item>
   </div>
 </mat-list>
+
+<div class="container-visualizador" *ngIf="doc">
+  <button mat-mini-fab [color]="'close'" (click)="noVer()" matTooltip="Cerrar visualización previa" matTooltipPosition="left"><mat-icon class="">close</mat-icon></button>
+  <ngx-doc-viewer loaded [url]="doc" viewer="google" style="width:100%;height:70vh; margin-top: 20px"  ></ngx-doc-viewer>
+</div>

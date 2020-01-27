@@ -47,7 +47,7 @@ export class AltaDocumentoComponent implements OnInit {
     this.uploaderArchivo.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
       if(item.isSuccess){
-        this.obraService.getArchivoObraObservable(this.data.idObra)
+        this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
         this.useAlerts('Documento cargado', ' ', 'success-dialog');
       } else {
         this.useAlerts('Documento no se subió', ' ', 'error-dialog');

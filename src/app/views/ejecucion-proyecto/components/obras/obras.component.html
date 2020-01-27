@@ -24,7 +24,8 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <!-- <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a> -->
-              <button mat-menu-item [routerLink]="['/ejecucion-proyecto/crear-nota-bitacora', obra.idObra]">Reportar Avance</button>
+              <button *ngIf="accesoBitacora" mat-menu-item [routerLink]="['/ejecucion-proyecto/crear-nota-bitacora', obra.idObra]">Reportar Avance</button>
+              <button mat-menu-item (click)="abrirAltaComentario(obra.idObra)">Comentario Obra</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

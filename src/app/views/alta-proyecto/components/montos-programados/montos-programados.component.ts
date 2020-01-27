@@ -29,6 +29,7 @@ export class MontosProgramadosComponent implements OnInit {
   fechaFin;
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
+  tipoPresupuestos: any[] = [];
   
   constructor(
     private snackBar: MatSnackBar,
@@ -40,19 +41,21 @@ export class MontosProgramadosComponent implements OnInit {
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
+    this.getCatalogoP();
     this.getValidations();
     this.getMontos();
-    this.fechaInicio = new Date(this.montoForm.controls['fechaInicio'].value);
-    this.fechaFin = new Date(this.montoForm.controls['fechaFin'].value);
+    this.fechaInicio = new Date(this.montoForm.controls['fechaInicial'].value);
+    this.fechaFin = new Date(this.montoForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
     this.fechaFin.setDate(this.fechaFin.getDate());
   }
 
   getValidations() {
     this.montoForm = new FormGroup({
+      idTipoPresupuesto: new FormControl('', Validators.required),
       monto: new FormControl('', Validators.required),
-      fechaInicio: new FormControl(new Date(), Validators.required),
-      fechaFin: new FormControl(new Date(), Validators.required),
+      fechaInicial: new FormControl(new Date(), Validators.required),
+      fechaFinal: new FormControl(new Date(), Validators.required),
     })
   }
 
@@ -67,18 +70,27 @@ export class MontosProgramadosComponent implements OnInit {
   }
 
   compareTwoDates(){
-    const controlFechaInicio = new Date(this.montoForm.controls['fechaInicio'].value);
-    const controlFechaFin = new Date(this.montoForm.controls['fechaFin'].value);
+    const controlFechaInicio = new Date(this.montoForm.controls['fechaInicial'].value);
+    const controlFechaFin = new Date(this.montoForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
       this.useAlerts('Fecha inicio periodo no puede ser mayor a la fecha final', ' ', 'warning-dialog');
-      this.montoForm.controls['fechaInicio'].setValue('');
+      this.montoForm.controls['fechaInicial'].setValue('');
     } 
   }
 
   getMontos(){
     this.obraService.getMontosObraObservable(this.obra.idObra);
     this.montosObs$ = this.obraService.getDataMontosObra();
+  }
+
+  getCatalogoP(){
+    this.obraService.getPresupuestosParaMontosObra().subscribe(
+      presupuestos => {
+        this.tipoPresupuestos = presupuestos;
+      },
+      error => console.log(error)
+    );
   }
 
   addMonto(){

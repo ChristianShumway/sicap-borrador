@@ -1,4 +1,4 @@
-<div fxLayout="row wrap"  *ngIf="!(obraObs$ | async) as obra">
+<div fxLayout="row wrap" *ngIf="!(obraObs$ | async) as obra">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
       <mat-spinner></mat-spinner>
@@ -13,7 +13,7 @@
         <h1>{{obra.noContrato}}</h1>
         <p>{{obra.nombreObra}}</p>
       </div>
-  
+
       <div class="info-bitacora">
         <div class="pb-1">
           <mat-form-field class="full-width">
@@ -22,70 +22,55 @@
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input  matInput placeholder="Latitud" name="latitud" formControlName="latitud" readonly>
+            <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)" >
           </mat-form-field>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input  matInput placeholder="Longitud" name="longitud" formControlName="longitud" readonly>
+            <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
           </mat-form-field>
         </div>
+        <div class="pb-1">
+          <a (click)="getCurrentLocation()">ver</a>
+        </div>
       </div>
-  
+
       <h5>Dirección: {{address}}</h5>
-  
+
       <!-- <div class="form-group">
-        <label>Enter address</label>
-        <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
-          autocapitalize="off" spellcheck="off" type="text" #search>
-      </div> -->
-  
-      <agm-map 
-      [latitude]="latitude" 
-      [longitude]="longitude" 
-      [zoom]="zoom" 
-      [scrollwheel]="null"
-      [gestureHandling]="'cooperative'">
-        <agm-marker 
-        [latitude]="latitude" 
-        [longitude]="longitude" 
-        [markerDraggable]="true" 
-        (dragEnd)="markerDragEnd($event)">
+          <label>Enter address</label>
+          <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+            autocapitalize="off" spellcheck="off" type="text" #search>
+        </div> -->
+
+      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'" [mapTypeControl]='true'  (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
+        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
         </agm-marker>
       </agm-map>
-  
-      <div class="wrap-button" *ngIf = "catalogo.length">
-        <button mat-raised-button color="primary"  [disabled]="notaBitacoraForm.invalid" type="submit">Validar</button>
+
+      <div class="wrap-button" *ngIf="catalogo.length">
+        <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit">Validar</button>
       </div>
-  
+
     </div>
   </form>
 
 
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "catalogo.length">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf="catalogo.length">
     <mat-form-field class="margin-333" style="width: 98%">
       <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
     </mat-form-field>
 
     <div class="mat-box-shadow margin-333">
 
-      <ngx-datatable 
-      class="material fullscreen bg-white"
-      [rows]="catalogo"
-      [columnMode]="'force'"
-      [headerHeight]="50"
-      [footerHeight]="50"
-      [scrollbarH]="true"
-      [rowHeight]="'auto'"
-      [limit]="20"
-      [scrollbarH]="true"
-      [rowHeight]="50">
-        
+      <ngx-datatable class="material fullscreen bg-white" [rows]="catalogo" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+        [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50">
+
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-              <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-                {{ row?.noConcepto }}
-              </p>
+            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{ row?.noConcepto }}
+            </p>
           </ng-template>
         </ngx-datatable-column>
 

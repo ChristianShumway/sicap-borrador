@@ -137,6 +137,18 @@ export class ObrasComponent implements OnInit {
     });
   }
 
+  exportarFicha(idObra){
+    this.obraService.getExportarFicha(idObra).subscribe(
+      result => {
+        console.log(result);
+        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-obra/Ficha_planeacion_${idObra}.pdf`;
+        // location.href= urlArchivo;
+        window.open( urlArchivo, '_blank');
+      },
+      error => console.log(error)
+    );
+  }
+
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
       duration: 4000,

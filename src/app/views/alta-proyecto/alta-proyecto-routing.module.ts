@@ -10,6 +10,10 @@ import { CatalogoConceptosComponent } from './components/catalogo-conceptos/cata
 import { CatalogoMaterialesComponent } from './components/catalogo-materiales/catalogo-materiales.component';
 import { MaterialesPorConceptoComponent } from './components/materiales-por-concepto/materiales-por-concepto.component';
 import { BibliotecaComponent } from './components/biblioteca/biblioteca.component';
+import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-equipo/lista-maquinaria-equipo.component';
+import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
+import { CatalogoSubcontratoComponent } from './components/catalogo-subcontrato/catalogo-subcontrato.component';
+import { CatalogoManoObraComponent } from './components/catalogo-mano-obra/catalogo-mano-obra.component';
 
 const routes: Routes = [
   {
@@ -29,6 +33,11 @@ const routes: Routes = [
         path: 'modificar-obra/:id',
         component: ModificarObraComponent,
         data: { title: 'Modificar Obra', breadcrumb: 'Modificar Obra'}
+      },
+      {
+        path: 'materiales-concepto/:id',
+        component: MaterialesPorConceptoComponent,
+        data: { title: 'Asignación de Materiales por Concepto', breadcrumb: 'Asinación de Materiales por Concepto'},
       },
       {
         path: 'ver-obra/:id',
@@ -61,9 +70,24 @@ const routes: Routes = [
             data: { title: 'Lista de Materiales', breadcrumb: 'Lista de Materiales'},
           },
           {
-            path: 'materiales-concepto/:id',
-            component: MaterialesPorConceptoComponent,
-            data: { title: 'Asignación de Materiales por Concepto', breadcrumb: 'Asinación de Materiales por Concepto'},
+            path: 'lista-maquinaria-equipo/:id',
+            component: ListaMaquinariaEquipoComponent,
+            data: { title: 'Lista de Maquinaria y Equipo', breadcrumb: 'Lista de Maquinaria y Equipo'},
+          },
+          {
+            path: 'lista-personal/:id',
+            component: ListaPersonalComponent,
+            data: { title: 'Lista de Personal', breadcrumb: 'Lista de Personal'},
+          },
+          {
+            path: 'catalogo-subcontrato/:id',
+            component: CatalogoSubcontratoComponent,
+            data: { title: 'Catálogo Subcontrato', breadcrumb: 'Catálogo Subcontrato'},
+          },
+          {
+            path: 'catalogo-mano-obra/:id',
+            component: CatalogoManoObraComponent,
+            data: { title: 'Catálogo Mano de Obra', breadcrumb: 'Catálogo Mano de Obra'},
           },
           {
             path: 'biblioteca/:id',

@@ -1,0 +1,91 @@
+<div class="container-upload">
+  <div class="mb-1">
+    <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [uploader]="uploaderListaMaqEquipo" />
+    <div ng2FileDrop (click)="fileInput.click()" [ngClass]="{'dz-file-over': hasBaseDropZoneOver}" [uploader]="uploaderListaMaqEquipo"
+      (fileOver)="fileOverBase($event)" class="fileupload-drop-zone-logo-div">
+      <p>Lista de Maquinaria y Equipo</p>
+      <p>Arrastra o click sobre la imagen o zona punteada</p>
+
+      <div *ngIf="uploaderListaMaqEquipo.queue.length; else tableNoData">
+        <div *ngFor="let item of uploaderListaMaqEquipo.queue ">
+          <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
+            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+            <mat-progress-bar class="" color="primary" mode="determinate" [value]="item.progress">
+            </mat-progress-bar>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="loadingFile">
+        <div class="wrap-loading-catalog">
+          <mat-spinner [diameter]="40"></mat-spinner>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<div *ngIf="(ListaMaqEquipoObs$ | async) as catalogo">
+
+  <div class="container-lists" *ngFor="let lista of catalogo">
+    <div *ngIf="lista">
+      <div class="div"  *ngIf="lista.tipoDetalle === 2">
+        <div class="wrap-button">
+          <button mat-raised-button color="primary" (click)="eliminarLista(lista.idArchivoObra)">Eliminar Lista de Maquinaria y Equipo</button>
+        </div>
+
+        <div class="mat-box-shadow margin-333">
+          <ngx-datatable class="material fullscreen bg-white" [rows]="lista.details" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
+            [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50">
+
+            <ngx-datatable-column name="No." [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{ row?.noVehiculo }}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="ID" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.id}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Placas" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.placas}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Linea" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.linea}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Modelo" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.modelo}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Tipo" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.tipoVehiculo}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Equipo Adicional" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.equipoAdicional}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,166 @@
+import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { environment } from './../../../../../environments/environment';
+import { FileUploader } from 'ng2-file-upload';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CatalogoManoObra } from './../../../../shared/models/catalogo-mano-obra';
+import { CatalogoManoObraService } from './../../../../shared/services/catalogo-mano-obra.service';
+import { Observable } from 'rxjs';
+import { ActivatedRoute, Params } from '@angular/router';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import {MatDialog} from '@angular/material/dialog';
+import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+
+@Component({
+  selector: 'app-catalogo-mano-obra',
+  templateUrl: './catalogo-mano-obra.component.html',
+  styleUrls: ['./catalogo-mano-obra.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
+})
+export class CatalogoManoObraComponent implements OnInit {
+
+  public uploaderCatalogoManoObra: FileUploader = new FileUploader({ url: '' });
+  public hasBaseDropZoneOver: boolean = false;
+  private CatalogoManoObraObs$: Observable<CatalogoManoObra>;
+  catalogoManoObra: CatalogoManoObra[];
+  idObra;
+  usuarioLogeado;
+
+  rutaImg: string;
+  host: string;
+  rutaServe: string;
+  loadingFile = false;
+  materialesExistentes= false;
+  nameFile: string;
+
+  rows = [];
+  columns = [];
+  temp = [];
+
+  constructor(
+    private snackBar: MatSnackBar,
+    private activatedRoute: ActivatedRoute,
+    public dialog: MatDialog,
+    private catalogoManoObraService: CatalogoManoObraService,
+    private autenticacionService: AutenticacionService,
+  ) { }
+
+
+  ngOnInit() {
+    this.usuarioLogeado = this.autenticacionService.currentUserValue;
+    this.getObra();
+    this.verifyPersonalExist();
+    this.initUploadList();
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+      this.catalogoManoObraService.getCatalogoManoObra(this.idObra, this.usuarioLogeado).subscribe(
+        data => {
+          console.log(data);
+        },
+        error => console.log(error)
+      );
+    })
+  }
+
+  verifyPersonalExist() {
+    this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
+    this.CatalogoManoObraObs$ = this.catalogoManoObraService.getDataCatalogoManoObra();
+  }
+
+  initUploadList() {
+    this.rutaServe = environment.apiURL;
+    this.rutaImg = environment.imageServe;
+    this.host = environment.host;
+
+    const headers = [{ name: 'Accept', value: 'application/json' }];
+    this.uploaderCatalogoManoObra = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObraDetails', autoUpload: true, headers: headers });
+    this.uploaderCatalogoManoObra.onBuildItemForm = (fileItem: any, form: any) => {
+      form.append('idObra', this.idObra);
+      form.append('typeFile', 4)
+      form.append('idUserAdd ', this.usuarioLogeado);
+      this.loadingFile = true;
+    };
+    this.uploaderCatalogoManoObra.uploadAll();
+    this.uploaderCatalogoManoObra.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
+      this.loadingFile = false;
+      const result = JSON.parse(response);
+      console.log(result);
+      if(result.estatus == "05"){
+        this.catalogoManoObra = result.response;
+        this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
+        // this.columns = this.catalogoManoObraService.getDataColumns();
+        this.rows = this.temp = this.catalogoManoObra;
+        this.useAlerts(result.mensaje, ' ', 'success-dialog');
+      } else {
+        this.useAlerts(result.mensaje, ' ', 'error-dialog');
+      }
+    };
+  }
+
+  public fileOverBase(e: any): void {
+    this.hasBaseDropZoneOver = e;
+  }
+
+  updateFilter(event, cat) {
+    this.temp = cat;
+    const val = event.target.value.toLowerCase();
+    var columns = Object.keys(this.temp[0]);
+    // Removes last "$$index" from "column"
+    columns.splice(columns.length - 1);
+
+    // console.log(columns);
+    if (!columns.length)
+      return;
+
+    const rows = this.temp.filter(function(d) {
+      for (let i = 0; i <= columns.length; i++) {
+        let column = columns[i];
+        // console.log(d[column]);
+        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
+          return true;
+        }
+      }
+    });
+
+    this.rows = rows;
+  }
+
+  eliminarCatalogo(idArchivo) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      data: this.idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.catalogoManoObraService.removeCatalogoManoObra(idArchivo, this.usuarioLogeado).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.catalogoManoObraService.getCatalogObservable(this.idObra, this.usuarioLogeado);
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
+  useAlerts(message, action, className) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
+  }
+
+}
