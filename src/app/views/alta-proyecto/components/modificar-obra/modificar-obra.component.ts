@@ -187,7 +187,11 @@ export class ModificarObraComponent implements OnInit {
 
     if( controlFechaFin < controlFechaInicio){
         this.error={isError:true,errorMessage:'Fecha inicio de la obra no puede ser mayor a la fecha final de la obra'};
-        this.updateObraForm.controls['fechaInicio'].setValue('');
+        // this.updateObraForm.controls['fechaInicio'].setValue('');
+        this.updateObraForm.controls['fechaInicio'].setValue(this.fechaFinObra);
+        const controlFechaInicio = new Date(this.updateObraForm.controls['fechaInicio'].value);
+        const controlFechaFin = this.fechaFinObra;
+        this.getPlazoEjecucion(controlFechaInicio, controlFechaFin);
     } else {
       this.error={isError:false};
     }
@@ -226,7 +230,7 @@ export class ModificarObraComponent implements OnInit {
         // idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
       if(obra.presupuestoTotal < sumaPresupuestos){
         this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       } else {
@@ -313,28 +317,31 @@ export class ModificarObraComponent implements OnInit {
   }
 
   addObservation(observacion){
-    // this.observacionesGenerales.push(observacion);
-    const observacionGeneral = {
-      comentario: observacion,
-      idUsuarioModifico: this.idUsuarioLogeado,
-      idObra: this.obraId
+    // this.observacionesGenerales.push(observacion)
+    if(!observacion){
+      this.useAlerts('No se puede agregar observación sin contenido', ' ', 'error-dialog');
+    } else {
+      const observacionGeneral = {
+        comentario: observacion,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        idObra: this.obraId
+      }
+      this.obraService.createObservacionObra(observacionGeneral).subscribe(
+        (response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getObservacionesObra();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        }),
+        (error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        })
+      );
+      this.observacionText="";
     }
-    this.obraService.createObservacionObra(observacionGeneral).subscribe(
-      (response => {
-        if(response.estatus === '05'){
-          this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          this.getObservacionesObra();
-        } else {
-          this.useAlerts(response.mensaje, ' ', 'error-dialog');
-        }
-      }),
-      (error => {
-        console.log(error);
-        this.useAlerts(error.message, ' ', 'error-dialog');
-      })
-    );
-    this.observacionText="";
-    console.log(observacionGeneral);
   }
 
   deleteObservation(observacion){

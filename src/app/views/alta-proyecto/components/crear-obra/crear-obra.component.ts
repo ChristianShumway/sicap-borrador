@@ -161,7 +161,10 @@ export class CrearObraComponent implements OnInit {
 
     if( controlFechaFin < controlFechaInicio){
         this.error={isError:true,errorMessage:'Fecha inicio de la obra no puede ser mayor a la fecha final de la obra'};
-        this.createObraForm.controls['fechaInicio'].setValue('');
+        this.createObraForm.controls['fechaInicio'].setValue(new Date(this.createObraForm.controls['fechaFin'].value));
+        const controlFechaInicio = new Date(this.createObraForm.controls['fechaInicio'].value);
+        const controlFechaFin = new Date(this.createObraForm.controls['fechaFin'].value);
+        this.getPlazoEjecucion(controlFechaInicio, controlFechaFin);
     } else {
       this.error={isError:false};
     }
@@ -200,7 +203,7 @@ export class CrearObraComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.presupuestoSubcontrato + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
+      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra  + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
       console.log(sumaPresupuestos);
       if(obra.presupuestoTotal < sumaPresupuestos){
         this.useAlerts('Presupuesto total de la obra no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');

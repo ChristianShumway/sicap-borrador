@@ -105,11 +105,6 @@
           </div>
 
           <div class="pb-1">
-            <div class="validaciones">
-              <small *ngIf="error.isError" class="form-error-msg">
-                {{ error.errorMessage }}
-              </small>
-            </div>
             <mat-form-field class="full-width">
               <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
                 (dateChange)="onFechaInicioObra($event)">
@@ -120,6 +115,11 @@
               <small *ngIf="updateObraForm.controls['fechaInicio'].hasError('required') && updateObraForm.controls['fechaInicio'].touched"
                 class="form-error-msg">
                 Fecha Inicio de la obra es un campo requerido
+              </small>
+            </div>
+            <div class="validaciones">
+              <small *ngIf="error.isError" class="form-error-msg">
+                {{ error.errorMessage }}
               </small>
             </div>
           </div>

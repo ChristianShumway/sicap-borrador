@@ -49,6 +49,10 @@
   cursor: pointer;
 }
 
+.wrap-observaciones-generales li{
+  list-style-type: decimal;
+}
+
 .wrap-observaciones-generales li:hover{
   background: lightgrey;
 }
