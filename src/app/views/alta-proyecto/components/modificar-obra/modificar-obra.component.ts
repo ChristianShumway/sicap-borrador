@@ -237,7 +237,7 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.updateObra(obra).subscribe(
           (response => {
             if(response.estatus === '05'){
-              this.router.navigate(['/alta-proyecto/obras']);
+              this.router.navigate(['/alta-proyecto/obras/registro']);
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');

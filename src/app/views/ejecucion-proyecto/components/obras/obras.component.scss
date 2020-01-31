@@ -32,6 +32,12 @@
   background: red;
 }
 
+.text-supervisor-obra{
+  display: block;
+  font-weight: 400;
+  padding-left: 10px;
+}
+
 @media screen and (max-width:599px){
   .wrap-detalles-obra{
     grid-template-columns: 1fr;

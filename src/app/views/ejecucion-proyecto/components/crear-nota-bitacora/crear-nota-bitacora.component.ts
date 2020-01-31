@@ -109,16 +109,16 @@ export class CrearNotaBitacoraComponent implements OnInit {
 
   validateAccessObra(supervisores) {
     console.log(supervisores);
-    // let idSupervisores = [];
-    // supervisores.map(supervisor => {
-    //   idSupervisores.push(supervisor.idUsuario);
-    // });
-    // console.log(idSupervisores);
-    // const idExistente = idSupervisores.filter( id => id === this.idUsuarioLogeado);
-    // console.log(idExistente.length);
-    // if(!idExistente){
-    //   this.router.navigate(['/dashboard']);
-    // }
+    let idSupervisores = [];
+    supervisores.map(supervisor => {
+      idSupervisores.push(supervisor.idUsuario);
+    });
+    console.log(idSupervisores);
+    const idExistente = idSupervisores.find( id => id === this.idUsuarioLogeado);
+    console.log(idExistente);
+    if(!idExistente){
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   // Get Current Location Coordinates

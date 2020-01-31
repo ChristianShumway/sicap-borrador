@@ -66,7 +66,7 @@ export class VerObraComponent implements OnInit {
     this.usuariosService.getUsuario(this.usuarioLogeado).subscribe(
       (user: Usuario) => {
         this.usuario = user;
-        if(this.usuario.idPerfil !== 1 && this.usuario.idPerfil !== 2){
+        if(this.usuario.idPerfil !== 1 && this.usuario.idPerfil !== 2  && this.usuario.idPerfil !== 10){
           this.useAlerts('Usuario no tiene acceso a esta obra', ' ', 'error-dialog');
           this.router.navigate(['/dashboard']);
         }

@@ -3,7 +3,7 @@ import { ObraService } from '../../../../shared/services/obra.service';
 import {MatDialog} from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
@@ -26,6 +26,7 @@ export class ObrasComponent implements OnInit {
   estatusObraPeriodo: number;
   diasFaltantesObra: number;
   idUsuarioLogeado;
+  option: string;
   
   @ViewChild(MatPaginator, {static: false}) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -39,7 +40,8 @@ export class ObrasComponent implements OnInit {
     private changeDetectorRef: ChangeDetectorRef,
     private router: Router,
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -51,6 +53,10 @@ export class ObrasComponent implements OnInit {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
+    this.activatedRoute.params.subscribe( (option: Params) => {
+       console.log(option);
+       this.option = option.tipo;
+    });
   }
   
   ngOnDestroy(){

@@ -21,10 +21,30 @@ h4{
 }
 
 .tipo-presupuesto .titulo-tipo-presupuesto{
-  color: #4caf50;
+  color: gray;
   border-bottom: 1px solid;
   text-align: right;
   padding: 5px;
   font-size: 12px;
   text-transform: uppercase;
+}
+
+.tipo-presupuesto .titulo-tipo-presupuesto.pto{
+  color: #4caf50;
+}
+
+.tipo-presupuesto .titulo-tipo-presupuesto.ptm{
+  color: tomato;
+}
+
+.tipo-presupuesto .titulo-tipo-presupuesto.pmo{
+  color: cadetblue;
+}
+
+.tipo-presupuesto .titulo-tipo-presupuesto.ps{
+  color: orange;
+}
+
+.tipo-presupuesto .titulo-tipo-presupuesto.pme{
+  color: slategrey;
 }

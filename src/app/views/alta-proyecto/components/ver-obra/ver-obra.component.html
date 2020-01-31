@@ -74,10 +74,6 @@
     <mat-card>
       <div class="profile-nav">
         <mat-nav-list>
-          <mat-list-item routerLink="cronograma/{{obra.idObra}}" routerLinkActive="list-item-active">
-            <mat-icon class="mr-1">assignment</mat-icon>
-            Cronograma
-          </mat-list-item>
           <mat-divider></mat-divider>
           <mat-list-item routerLink="ficha-planeacion/{{obra.idObra}}" routerLinkActive="list-item-active">
             <mat-icon class="mr-1">folder</mat-icon>
@@ -118,8 +114,12 @@
             <mat-icon class="mr-1">beenhere</mat-icon>
             Materiales por Concepto
           </mat-list-item> -->
+          <mat-list-item routerLink="cronograma/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">assignment</mat-icon>
+            Cronograma
+          </mat-list-item>
           <mat-divider></mat-divider>
-          <mat-list-item routerLink="../../obras" routerLinkActive="list-item-active">
+          <mat-list-item routerLink="../../obras/registro" routerLinkActive="list-item-active">
             <mat-icon class="mr-1">arrow_back</mat-icon>
             Regresar Obras
           </mat-list-item>

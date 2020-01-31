@@ -68,7 +68,7 @@
   <mat-list *ngIf="montos.length">
 
     <div class="tipo-presupuesto">
-      <p class="titulo-tipo-presupuesto">Presupuesto Total de Obra</p>
+      <p class="titulo-tipo-presupuesto pto">Presupuesto Total de Obra</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 1">
           <div class="cont">
@@ -84,14 +84,17 @@
           <h2 mat-line>{{monto.monto | currency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <p mat-line>
+            Monto No. {{monto.noPresupuesto}}
+            <span>Presupuesto Total de Obra</span>
+          </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
     </div>
 
     <div class="tipo-presupuesto">
-      <p class="titulo-tipo-presupuesto">Presupuesto Total de Materiales</p>
+      <p class="titulo-tipo-presupuesto ptm">Presupuesto Total de Materiales</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 2">
           <div class="cont">
@@ -107,14 +110,17 @@
           <h2 mat-line>{{monto.monto | currency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <p mat-line> 
+            Monto No. {{monto.noPresupuesto}} 
+            <span>Presupuesto Total de Materiales</span>
+          </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
     </div>
 
     <div class="tipo-presupuesto">
-      <p class="titulo-tipo-presupuesto">Presupuesto de Mano de Obra</p>
+      <p class="titulo-tipo-presupuesto pmo">Presupuesto de Mano de Obra</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 3">
           <div class="cont">
@@ -130,14 +136,17 @@
           <h2 mat-line>{{monto.monto | currency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <p mat-line> 
+            Monto No. {{monto.noPresupuesto}} 
+            <span>Presupuesto de Mano de Obra</span>
+          </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
     </div>
 
     <div class="tipo-presupuesto">
-      <p class="titulo-tipo-presupuesto">Presupuesto de Subcontratos</p>
+      <p class="titulo-tipo-presupuesto ps">Presupuesto de Subcontratos</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 4">
           <div class="cont">
@@ -153,14 +162,17 @@
           <h2 mat-line>{{monto.monto | currency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <p mat-line> 
+            Monto No. {{monto.noPresupuesto}} 
+            <span>Presupuesto de Subcontratos</span>
+          </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
     </div>
 
     <div class="tipo-presupuesto">
-      <p class="titulo-tipo-presupuesto">Presupuesto de Maquinaria y Equipo</p>
+      <p class="titulo-tipo-presupuesto pme">Presupuesto de Maquinaria y Equipo</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 5">
           <div class="cont">
@@ -176,7 +188,10 @@
           <h2 mat-line>{{monto.monto | currency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
-          <p mat-line> Monto No. {{monto.noPresupuesto}} </p>
+          <p mat-line> 
+            Monto No. {{monto.noPresupuesto}} 
+            <span>Presupuesto de Maquinaria y Equipo</span>
+          </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>

@@ -20,7 +20,7 @@ const routes: Routes = [
     path: '',
     children: [
       {
-        path: 'obras',
+        path: 'obras/:tipo',
         component: ObrasComponent,
         data: {title: 'Obras', breadcrumb: 'Obras'}
       },

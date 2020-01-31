@@ -1,4 +1,4 @@
-<div class="wrap-buttons">
+<div class="wrap-buttons" *ngIf="option === 'registro'">
   <a mat-raised-button matTooltip="Creación de una nueva obra" matTooltipPosition="left" color="primary" [routerLink]="'/alta-proyecto/crear-obra'">Crear Obra</a>
 </div>
 
@@ -20,17 +20,40 @@
             <a *ngIf="obra" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <span class="title-card-catalogs">{{obra.noContrato}}</span>
+            <span class="title-card-catalogs">{{obra.noContrato}} - <span> {{obra.nombreObra}} </span></span>
             <span fxFlex></span>
             <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #userMenu="matMenu">
-              <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">Ver</a>
-              <button mat-menu-item [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">Editar</button>
-              <button mat-menu-item (click)="openDialoAlertDelete(obra.idObra)">Eliminar</button>
-              <button mat-menu-item [routerLink]="['/alta-proyecto/materiales-concepto', obra.idObra]">Materiales por Concepto</button>
-              <button mat-menu-item (click)="exportarFicha(obra.idObra)">Exportar ficha de Planeación</button>
+              <a 
+              mat-menu-item 
+              routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/ficha-planeacion/{{obra.idObra}}"
+              *ngIf="option === 'registro'"
+              >Ver</a>
+
+              <button 
+              mat-menu-item 
+              *ngIf="option === 'registro'"
+              [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">
+              Editar</button>
+
+              <button
+               mat-menu-item 
+               *ngIf="option === 'registro'"
+               (click)="openDialoAlertDelete(obra.idObra)">
+               Eliminar</button>
+               <button 
+               mat-menu-item 
+               *ngIf="option === 'registro'"
+               (click)="exportarFicha(obra.idObra)">
+               Exportar ficha de Planeación</button>
+
+              <button 
+              mat-menu-item 
+              *ngIf="option === 'materiales-concepto'"
+              [routerLink]="['/alta-proyecto/materiales-concepto', obra.idObra]">
+              Materiales por Concepto</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>
