@@ -11,10 +11,10 @@
         <mat-card-title>
           <div class="card-title-text obra">
 
-            <a *ngIf="!obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/crear-nota-bitacora', obra.idObra]">
+            <a *ngIf="!obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
               <img src="assets/images/faces/user-temp.png" alt="">
             </a>
-            <a *ngIf="obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/crear-nota-bitacora', obra.idObra]" >
+            <a *ngIf="obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <span class="title-card-catalogs">{{obra.noContrato}}</span>
@@ -24,8 +24,47 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <!-- <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a> -->
-              <button *ngIf="accesoBitacora" mat-menu-item [routerLink]="['/ejecucion-proyecto/crear-nota-bitacora', obra.idObra]">Reportar Avance</button>
-              <button mat-menu-item (click)="abrirAltaComentario(obra.idObra)">Comentario Obra</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='plan-trabajo'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]">
+              Plan de Trabajo</button>
+              
+              <button 
+              *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
+              Reportar de Conceptos Ejecutados</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='reporte-subcontratos'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]">
+              Reporte Subcontratos</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='validacion'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/validacion-plan-trabajo', obra.idObra]">
+              Validación Plan de Trabajo</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='validacion'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]">
+              Validación de Conceptos Ejecutados</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='validacion'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]">
+              Validación de Subcontratos</button>
+              
+              <button 
+              mat-menu-item 
+              (click)="abrirAltaComentario(obra.idObra)">
+              Comentario Obra</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

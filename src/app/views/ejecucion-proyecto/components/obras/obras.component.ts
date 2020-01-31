@@ -3,7 +3,7 @@ import { ObraService } from '../../../../shared/services/obra.service';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { Obra } from './../../../../shared/models/obra';
@@ -32,6 +32,7 @@ export class ObrasComponent implements OnInit {
   idUserLogeado;
   porcentajeEjecucionFaltante: number;
   accesoBitacora = false;
+  option: string;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -45,6 +46,7 @@ export class ObrasComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private bottomSheet: MatBottomSheet,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -56,6 +58,10 @@ export class ObrasComponent implements OnInit {
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.activatedRoute.params.subscribe( (option: Params) => {
+      console.log(option);
+      this.option = option.tipo;
+   });
   }
 
   ngOnDestroy() {

@@ -16,9 +16,14 @@ import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.mod
 import { ObrasComponent } from './components/obras/obras.component';
 import { CrearNotaBitacoraComponent } from './components/crear-nota-bitacora/crear-nota-bitacora.component';
 import { ObservacionObraGeneralComponent } from './components/observacion-obra-general/observacion-obra-general.component';
+import { PlanTrabajoComponent } from './components/plan-trabajo/plan-trabajo.component';
+import { ReporteSubcontratosComponent } from './components/reporte-subcontratos/reporte-subcontratos.component';
+import { ValidacionPlanTrabajoComponent } from './components/validacion-plan-trabajo/validacion-plan-trabajo.component';
+import { ValidacionReporteConceptosEjecutadosComponent } from './components/validacion-reporte-conceptos-ejecutados/validacion-reporte-conceptos-ejecutados.component';
+import { ValidacionReporteSubcontratosComponent } from './components/validacion-reporte-subcontratos/validacion-reporte-subcontratos.component';
 
 @NgModule({
-  declarations: [ObrasComponent, CrearNotaBitacoraComponent, ObservacionObraGeneralComponent],
+  declarations: [ObrasComponent, CrearNotaBitacoraComponent, ObservacionObraGeneralComponent, PlanTrabajoComponent, ReporteSubcontratosComponent, ValidacionPlanTrabajoComponent, ValidacionReporteConceptosEjecutadosComponent, ValidacionReporteSubcontratosComponent],
   imports: [
   CommonModule,
     RouterModule,
