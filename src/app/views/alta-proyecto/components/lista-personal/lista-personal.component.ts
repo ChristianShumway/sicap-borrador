@@ -79,7 +79,7 @@ export class ListaPersonalComponent implements OnInit {
     this.uploaderListaPersonal.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.idObra);
       form.append('typeFile', 1)
-      form.append('idUserAdd ', this.usuarioLogeado);
+      form.append('idUserAdd', this.usuarioLogeado);
       this.loadingFile = true;
     };
     this.uploaderListaPersonal.uploadAll();

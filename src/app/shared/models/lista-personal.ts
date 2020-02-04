@@ -1,11 +1,12 @@
 export interface ListaPersonal {
   idPersonal?: number;
   noPersonal: number;
-  nombre: string;
   categoria: string;
+  nombre: string;
   ciudadOrigen: string;
   telefono: string;
   numeroImss: string;
+  sueldo: number;
   idArchivoObra?: number;
   tipo?: number;
 }

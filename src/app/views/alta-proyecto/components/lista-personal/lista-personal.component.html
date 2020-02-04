@@ -74,6 +74,12 @@
                 <p>{{row?.numeroImms}}</p>
               </ng-template>
             </ngx-datatable-column>
+
+            <ngx-datatable-column name="Sueldo" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p>{{row?.sueldo | currency}}</p>
+              </ng-template>
+            </ngx-datatable-column>
   
           </ngx-datatable>
         </div>

@@ -7,7 +7,7 @@ export interface ListaMaquinariaEquipo {
   modelo: string;
   linea: string;
   tipoVehiculo: string;
-  equipoAdicional: string;
-  idArchivoObra: number;
+  responsable: string;
+  idArchivoObra?: number;
   tipo?: number;
 }
