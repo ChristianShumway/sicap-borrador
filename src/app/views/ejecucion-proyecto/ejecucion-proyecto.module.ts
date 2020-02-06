@@ -24,6 +24,9 @@ import { ValidacionReporteSubcontratosComponent } from './components/validacion-
 import { ListaPlanTrabajoComponent } from './components/lista-plan-trabajo/lista-plan-trabajo.component';
 import { ModalEliminarComponent } from './components/modal-eliminar/modal-eliminar.component';
 import { ModificarPlanTrabajoComponent } from './components/modificar-plan-trabajo/modificar-plan-trabajo.component';
+import { ListaReporteConceptosEjecutadosComponent } from './components/lista-reporte-conceptos-ejecutados/lista-reporte-conceptos-ejecutados.component';
+import { SubirEvidenciasComponent } from './components/subir-evidencias/subir-evidencias.component';
+import { ModificarReporteConceptosEjecutadosComponent } from './components/modificar-reporte-conceptos-ejecutados/modificar-reporte-conceptos-ejecutados.component';
 
 @NgModule({
   declarations: [
@@ -37,7 +40,10 @@ import { ModificarPlanTrabajoComponent } from './components/modificar-plan-traba
     ValidacionReporteSubcontratosComponent, 
     ListaPlanTrabajoComponent,
     ModalEliminarComponent,
-    ModificarPlanTrabajoComponent
+    ModificarPlanTrabajoComponent,
+    ListaReporteConceptosEjecutadosComponent,
+    SubirEvidenciasComponent,
+    ModificarReporteConceptosEjecutadosComponent
   ],
   imports: [
   CommonModule,
@@ -57,7 +63,8 @@ import { ModificarPlanTrabajoComponent } from './components/modificar-plan-traba
   ],
   entryComponents: [
     ObservacionObraGeneralComponent,
-    ModalEliminarComponent
+    ModalEliminarComponent,
+    SubirEvidenciasComponent
   ]
 })
 export class EjecucionProyectoModule { }

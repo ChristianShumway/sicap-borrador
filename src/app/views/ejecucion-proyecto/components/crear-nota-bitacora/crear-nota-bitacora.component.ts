@@ -1,14 +1,22 @@
 import { Component, OnInit, ViewChild, ElementRef, NgZone, ChangeDetectionStrategy } from '@angular/core';
 import { MapsAPILoader, MouseEvent, AgmMap } from '@agm/core';
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
-import { ObraSupervisionService } from '../../../../shared/services/obra.supervision.service';
-import { Obra } from './../../../../shared/models/obra';
-import { ObraService } from 'app/shared/services/obra.service';
-import { Observable } from 'rxjs';
-import { CatalogoConceptos } from './../../../../shared/models/catalogo-conceptos';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { Observable } from 'rxjs';
+
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
+import { ObraService } from 'app/shared/services/obra.service';
+import { ReporteConceptosEjecutadosService } from '../../../../shared/services/reporte-conceptos-ejecutados.service';
+
+import { Obra } from './../../../../shared/models/obra';
+import { ReporteConceptosEjecutados } from './../../../../shared/models/reporte-conceptos-ejecutados';
+import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
+
+import { SubirEvidenciasComponent } from '../subir-evidencias/subir-evidencias.component';
 
 @Component({
   selector: 'app-crear-nota-bitacora',
@@ -16,6 +24,7 @@ import { DatePipe } from '@angular/common';
   styleUrls: ['./crear-nota-bitacora.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
+
 export class CrearNotaBitacoraComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
@@ -26,8 +35,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
   private geoCoder;
   idUsuarioLogeado;
   idObra;
-  catalogo: CatalogoConceptos[] = [];
-  temp = [];
   fechaInicio;
   fechaFinal;
   error:any={isError:false,errorMessage:''};
@@ -38,14 +45,19 @@ export class CrearNotaBitacoraComponent implements OnInit {
   public searchElementRef: ElementRef;
   @ViewChild(AgmMap, {static: true}) map: AgmMap;
 
+  catalogo: ConceptoEjecutado[] = [];
+  temp: ConceptoEjecutado[] = [];
+
   constructor(
     private mapsAPILoader: MapsAPILoader,
     private ngZone: NgZone,
     private activatedRoute: ActivatedRoute,
     private router: Router,
     private autenticacionService: AutenticacionService,
-    private obraSupervisionService: ObraSupervisionService,
-    private obraService: ObraService
+    private obraService: ObraService,
+    private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
+    private snackBar: MatSnackBar,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
   ngOnInit() {
@@ -57,6 +69,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
     this.fechaFinal = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
     this.fechaFinal.setDate(this.fechaFinal.getDate());
+    
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -65,6 +78,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
       let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
         types: ["address"]
       });
+
       autocomplete.addListener("place_changed", () => {
         this.ngZone.run(() => {
           //get the place result
@@ -74,7 +88,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
           if (place.geometry === undefined || place.geometry === null) {
             return;
           }
- 
           //set latitude, longitude and zoom
           this.latitude = place.geometry.location.lat();
           this.longitude = place.geometry.location.lng();
@@ -109,7 +122,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
     const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial del plan de trabajo no puede ser mayor a la fecha final del plan de trabajo'};
+      this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};
       this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
       const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
       const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
@@ -125,19 +138,38 @@ export class CrearNotaBitacoraComponent implements OnInit {
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
+        
         this.obraService.getDataObra().subscribe( data => {
           if(data !== null){
             this.validateAccessObra(data.supervisor);
           }
-        })
-        this.obraSupervisionService.getCatalogObservable(this.idObra);
-        this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
-          this.catalogo = catalogo;
-          this.temp = catalogo;
-          console.log(catalogo);
-        })
+        });
+
+        this.getConceptsToReport();
+        // this.obraSupervisionService.getCatalogObservable(this.idObra);
+        // this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
+        //   this.catalogo = catalogo;
+        //   this.temp = catalogo;
+        //   console.log(catalogo);
+        // })
       }
     })
+  }
+
+  getConceptsToReport(){
+    this.activatedRoute.params.subscribe((data: Params) => {
+      if (data) {
+        this.idObra = data.id;
+        this.reporteConceptosEjecutadosService.getConceptsByWorkPlan(this.idObra).subscribe(
+          (catalog: ConceptoEjecutado[]) => {
+            this.catalogo = catalog;
+            this.temp = catalog;
+            console.log(this.catalogo);
+          },
+          error => console.log(error)
+        )
+      }
+    });
   }
 
   validateAccessObra(supervisores) {
@@ -151,6 +183,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
     console.log(idExistente);
     if(!idExistente){
       this.router.navigate(['/dashboard']);
+      this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
     }
   }
 
@@ -235,58 +268,73 @@ export class CrearNotaBitacoraComponent implements OnInit {
     this.catalogo = rows;
   }
 
-  reportarAvance(){
-    if(this.notaBitacoraForm.valid){
+  subirEvidencias(idConcepto): void {
+    console.log(idConcepto);  
+
+    let sheet = this.bottomSheet.open(SubirEvidenciasComponent, {
+      data: {
+        idConcepto,
+        idObra: this.idObra,
+        idUsuario: this.idUsuarioLogeado,
+      }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked'+this.idObra);
+    });  
+
+  }
+
+  reportarAvance() {
+    if (this.notaBitacoraForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
-      const avance = {
+      const newCatalog: ConceptoEjecutado[] = []
+  
+      this.catalogo.map( (concepto: ConceptoEjecutado) => {
+        if(concepto.cantidadPlaneada > 0){
+          const conceptoModificado = {
+            ...concepto,
+            precioUnitarioPlaneado: concepto.precioUnitario,
+            importePlaneado: concepto.precioUnitario * concepto.cantidadPlaneada
+          };
+
+          newCatalog.push(conceptoModificado);
+        }
+      });
+
+      const reporte: ReporteConceptosEjecutados = {
         ...this.notaBitacoraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
+        idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.idObra,
-      }
-      console.log(avance);
+        viewConceptWorkPlan: newCatalog,
+      };
+      console.log(reporte);
+
+      // this.planTrabajoService.addWorkPlan(planTrabajo).subscribe(
+      //   response => {
+      //     if(response.estatus === '05'){
+      //       this.router.navigate(['/ejecucion-proyecto/proyectos/plan-trabajo']);
+      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
+      //     } else {
+      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
+      //     }
+      //   },
+      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
+      // );
     }
   }
 
-//   function initialize() {
-//     var  infowindow = new google.maps.InfoWindow();
-//   var mapOptions = {
-//     zoom: 13,
-//     center: new google.maps.LatLng(21.874649,-102.280334)
-//   }
- 
-//   var map = new google.maps.Map(document.getElementById('map-canvas'),
-//                                 mapOptions);
- 
-//   setMarkers(map, sucursales,infowindow);
-//  }
-//  function setMarkers(map, locations,infowindow) {
- 
-//   for (var i = 0; i < locations.length; i++) {
-//     var sucursal = locations[i];
-//     var myLatLng = new google.maps.LatLng(sucursal[1], sucursal[2]);
-//     var marker = new google.maps.Marker({
-//         position: myLatLng,
-//         map: map,
-//         icon: 'marcador.png',
-//         title: sucursal[0],
-//         zIndex: sucursal[4],
-//  clickable: true
-//     });
-//  agregarLeyenda(marker,sucursal[3],infowindow,map);
- 
-//   }
-//   }
- 
-//   function agregarLeyenda(marker,leyenda,infowindow,map){
- 
-//   google.maps.event.addListener(marker, 'click', function() {
-//                 infowindow.setContent("<div class='textoMenu' style='width: 250px; height:70px;'>"+leyenda+"</div>");
-//                 infowindow.open(map, marker);
-//             });
-//  }
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
+  }
 
 }

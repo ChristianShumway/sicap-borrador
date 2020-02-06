@@ -1,0 +1,54 @@
+.wrap-button{
+  text-align: right;
+  margin: 20px 5px 8px;
+}
+
+
+.wrap-detalles-tarea{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 10px;
+}
+
+.wrap-detalles-tarea p{
+  margin-bottom: 0;
+}
+
+.wrap-detalles-tarea p span{
+  font-weight: bold;
+}
+
+.mat-card-title.status-perfecto{
+  background: green;
+}
+
+.mat-card-title.status-estable{
+  background: greenyellow;
+}
+
+.mat-card-title.status-alerta{
+  background: orange;
+}
+
+.mat-card-title.status-peligro{
+  background: red;
+}
+
+.text-supervisor-obra{
+  display: block;
+  font-weight: 400;
+  padding-left: 10px;
+}
+
+.wrap-observacion .tit-observacion{
+  font-weight: bold;
+  margin: 3px;
+}
+
+@media screen and (max-width:599px){
+  .wrap-detalles-obra{
+    grid-template-columns: 1fr;
+    grid-gap: 10px 0;
+  }
+}

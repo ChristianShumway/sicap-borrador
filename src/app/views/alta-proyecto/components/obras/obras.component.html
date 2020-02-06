@@ -14,10 +14,13 @@
         <mat-card-title>
           <div class="card-title-text obra">
 
-            <a *ngIf="!obra" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">
-              <img src="./../../../../../assets/images/faces/user-temp.png" alt="">
+            <a *ngIf="!obra" class="toolbar-avatar md mr-1">
+              <img src="assets/images/faces/user-temp.png" alt="">
             </a>
-            <a *ngIf="obra" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/cronograma/{{obra.idObra}}">
+            <a *ngIf="obra && option === 'registro'" class="toolbar-avatar md mr-1" routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/ficha-planeacion/{{obra.idObra}}">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <a *ngIf="obra && option === 'materiales-concepto'" class="toolbar-avatar md mr-1" [routerLink]="['/alta-proyecto/materiales-concepto', obra.idObra]">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <span class="title-card-catalogs">{{obra.noContrato}} - <span> {{obra.nombreObra}} </span></span>

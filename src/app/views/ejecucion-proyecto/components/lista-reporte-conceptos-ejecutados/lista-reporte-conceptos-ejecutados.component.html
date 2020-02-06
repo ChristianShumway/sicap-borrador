@@ -1,0 +1,52 @@
+<!-- <mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Plan de Trabajo" value="" (keyup)='updateFilter($event)'>
+</mat-form-field> -->
+
+<div class="wrap-button">
+  <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados'">Regresar</button>
+</div>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as reporteConceptos">
+  <ng-container *ngIf="reporteConceptos.length; else loading">
+    <div *ngFor="let reporte of reporteConceptos" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text obra">
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="reporteMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #reporteMenu="matMenu">
+              <a mat-menu-item routerLink="modificar-reporte-conceptos-ejecutados/{{reporte.idPlanTrabajo}}">Modificar Reporte de Conceptos Ejecutados</a>
+              <button mat-menu-item (click)="openDialoAlertDelete(reporte)">Eliminar Reporte</button>
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <div class="wrap-detalles-tarea">
+              <p class="p-info-catalogs">
+                <span>Fecha de Inicio:</span> {{reporte.fechaInicio | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Fecha de Termino:</span> {{reporte.fechaFinal | date}}</p>
+            </div>
+            <div class="wrap-observacion">
+              <p class="tit-observacion">Observación:</p>
+              <p>{{reporte.observacion}}</p>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

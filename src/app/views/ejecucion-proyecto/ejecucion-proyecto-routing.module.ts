@@ -9,6 +9,8 @@ import { ValidacionReporteConceptosEjecutadosComponent } from './components/vali
 import { ValidacionReporteSubcontratosComponent } from './components/validacion-reporte-subcontratos/validacion-reporte-subcontratos.component';
 import { ListaPlanTrabajoComponent } from './components/lista-plan-trabajo/lista-plan-trabajo.component';
 import { ModificarPlanTrabajoComponent } from './components/modificar-plan-trabajo/modificar-plan-trabajo.component';
+import { ListaReporteConceptosEjecutadosComponent } from './components/lista-reporte-conceptos-ejecutados/lista-reporte-conceptos-ejecutados.component';
+import { ModificarReporteConceptosEjecutadosComponent } from './components/modificar-reporte-conceptos-ejecutados/modificar-reporte-conceptos-ejecutados.component';
 
 const routes: Routes = [
   {
@@ -38,6 +40,16 @@ const routes: Routes = [
         path: 'reporte-conceptos-ejecutados/:id',
         component: CrearNotaBitacoraComponent,
         data: {title: 'Reporte de Conceptos Ejecutados', breadcrumb: 'Reporte de Conceptos Ejecutados'}
+      },
+      {
+        path: 'lista-reportes-conceptos-ejecutados/:id',
+        component: ListaReporteConceptosEjecutadosComponent,
+        data: {title: 'Lista de Reportes de Conceptos Ejecutados', breadcrumb: 'Lista de Reportes de Conceptos Ejecutados'}
+      },
+      {
+        path: 'lista-reportes-conceptos-ejecutados/:idObra/modificar-reporte-conceptos-ejecutados/:idPlanTrabajo',
+        component: ModificarReporteConceptosEjecutadosComponent,
+        data: {title: 'Modificar Reporte de Conceptos Ejecutados', breadcrumb: 'Modificar Reporte de Conceptos Ejecutados'}
       },
       {
         path: 'reporte-subcontratos/:id',
