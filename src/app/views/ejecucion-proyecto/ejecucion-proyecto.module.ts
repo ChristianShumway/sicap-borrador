@@ -21,9 +21,24 @@ import { ReporteSubcontratosComponent } from './components/reporte-subcontratos/
 import { ValidacionPlanTrabajoComponent } from './components/validacion-plan-trabajo/validacion-plan-trabajo.component';
 import { ValidacionReporteConceptosEjecutadosComponent } from './components/validacion-reporte-conceptos-ejecutados/validacion-reporte-conceptos-ejecutados.component';
 import { ValidacionReporteSubcontratosComponent } from './components/validacion-reporte-subcontratos/validacion-reporte-subcontratos.component';
+import { ListaPlanTrabajoComponent } from './components/lista-plan-trabajo/lista-plan-trabajo.component';
+import { ModalEliminarComponent } from './components/modal-eliminar/modal-eliminar.component';
+import { ModificarPlanTrabajoComponent } from './components/modificar-plan-trabajo/modificar-plan-trabajo.component';
 
 @NgModule({
-  declarations: [ObrasComponent, CrearNotaBitacoraComponent, ObservacionObraGeneralComponent, PlanTrabajoComponent, ReporteSubcontratosComponent, ValidacionPlanTrabajoComponent, ValidacionReporteConceptosEjecutadosComponent, ValidacionReporteSubcontratosComponent],
+  declarations: [
+    ObrasComponent, 
+    CrearNotaBitacoraComponent, 
+    ObservacionObraGeneralComponent, 
+    PlanTrabajoComponent, 
+    ReporteSubcontratosComponent, 
+    ValidacionPlanTrabajoComponent, 
+    ValidacionReporteConceptosEjecutadosComponent, 
+    ValidacionReporteSubcontratosComponent, 
+    ListaPlanTrabajoComponent,
+    ModalEliminarComponent,
+    ModificarPlanTrabajoComponent
+  ],
   imports: [
   CommonModule,
     RouterModule,
@@ -38,10 +53,11 @@ import { ValidacionReporteSubcontratosComponent } from './components/validacion-
     QuillModule,
     SharedPipesModule,
     EjecucionProyectoRoutingModule,
-    AgmCoreModule
+    AgmCoreModule,
   ],
   entryComponents: [
     ObservacionObraGeneralComponent,
+    ModalEliminarComponent
   ]
 })
 export class EjecucionProyectoModule { }

@@ -7,6 +7,8 @@ import { ReporteSubcontratosComponent } from './components/reporte-subcontratos/
 import { ValidacionPlanTrabajoComponent } from './components/validacion-plan-trabajo/validacion-plan-trabajo.component';
 import { ValidacionReporteConceptosEjecutadosComponent } from './components/validacion-reporte-conceptos-ejecutados/validacion-reporte-conceptos-ejecutados.component';
 import { ValidacionReporteSubcontratosComponent } from './components/validacion-reporte-subcontratos/validacion-reporte-subcontratos.component';
+import { ListaPlanTrabajoComponent } from './components/lista-plan-trabajo/lista-plan-trabajo.component';
+import { ModificarPlanTrabajoComponent } from './components/modificar-plan-trabajo/modificar-plan-trabajo.component';
 
 const routes: Routes = [
   {
@@ -21,6 +23,16 @@ const routes: Routes = [
         path: 'plan-trabajo/:id',
         component: PlanTrabajoComponent,
         data: {title: 'Plan de trabajo', breadcrumb: 'Plan de trabajo'}
+      },
+      {
+        path: 'lista-plan-trabajo/:id',
+        component: ListaPlanTrabajoComponent,
+        data: {title: 'Lista de Plan de trabajo', breadcrumb: 'Lista de Plan de trabajo'}
+      },
+      {
+        path: 'lista-plan-trabajo/:idObra/modificar-plan-trabajo/:idPlanTrabajo',
+        component: ModificarPlanTrabajoComponent,
+        data: {title: 'Modificar Plan de trabajo', breadcrumb: 'Modificar Plan de trabajo'}
       },
       {
         path: 'reporte-conceptos-ejecutados/:id',

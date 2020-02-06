@@ -11,25 +11,39 @@
         <mat-card-title>
           <div class="card-title-text obra">
 
-            <a *ngIf="!obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
-              <img src="assets/images/faces/user-temp.png" alt="">
-            </a>
-            <a *ngIf="obra" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
+            
+            <a *ngIf="obra && accesoBitacora && option==='plan-trabajo'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <span class="title-card-catalogs">{{obra.noContrato}}</span>
+            <a *ngIf="obra && accesoBitacora && option==='reporte-conceptos-ejecutados'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <a *ngIf="obra && accesoBitacora && option==='reporte-subcontratos'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]" >
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <a *ngIf="obra && accesoBitacora && option==='validacion'" class="toolbar-avatar md mr-1">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <span class="title-card-catalogs">{{obra.noContrato}} - <span> {{obra.nombreObra}} </span></span>
             <span fxFlex></span>
             <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #userMenu="matMenu">
               <!-- <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a> -->
+  
 
               <button 
               *ngIf="accesoBitacora && option==='plan-trabajo'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]">
               Plan de Trabajo</button>
+
+              <button 
+              *ngIf="accesoBitacora && option==='plan-trabajo'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/lista-plan-trabajo', obra.idObra]">
+              Ver Lista de Plan de Trabajo</button>
               
               <button 
               *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 

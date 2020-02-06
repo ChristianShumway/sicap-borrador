@@ -10,18 +10,20 @@ import { DatePipe } from '@angular/common';
 import { ConceptoPlanTrabajo } from '../../../../shared/models/concepto-plan-trabajo';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { PlanTrabajo } from '../../../../shared/models/plan-trabajo';
+import { filter } from 'rxjs/operators';
 
 @Component({
-  selector: 'app-plan-trabajo',
-  templateUrl: './plan-trabajo.component.html',
-  styleUrls: ['./plan-trabajo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  selector: 'app-modificar-plan-trabajo',
+  templateUrl: './modificar-plan-trabajo.component.html',
+  styleUrls: ['./modificar-plan-trabajo.component.scss']
 })
-export class PlanTrabajoComponent implements OnInit {
+export class ModificarPlanTrabajoComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
   idUsuarioLogeado;
   idObra;
+  idPlanTrabajo;
+  planTrabajoModif: PlanTrabajo[];
   catalogo: ConceptoPlanTrabajo[] = [];
   temp: ConceptoPlanTrabajo[] = [];
   fecha = new Date();
@@ -40,7 +42,6 @@ export class PlanTrabajoComponent implements OnInit {
     private obraService: ObraService,
     private planTrabajoService: PlanTrabajoService,
     private snackBar: MatSnackBar,
-
   ) { }
 
   ngOnInit() {
@@ -48,17 +49,13 @@ export class PlanTrabajoComponent implements OnInit {
     this.getObra();
     this.getValidations();
     this.compareTwoDates();
-    this.fechaInicio = new Date(this.planTrabajoForm.controls['fechaInicio'].value);
-    this.fechaFinal = new Date(this.planTrabajoForm.controls['fechaFinal'].value);
-    this.fechaInicio.setDate(this.fechaInicio.getDate());
-    this.fechaFinal.setDate(this.fechaFinal.getDate());
   }
 
   getValidations() {
     this.planTrabajoForm = new FormGroup({
       observacion: new FormControl('', Validators.required),
-      fechaInicio: new FormControl(new Date(), Validators.required),
-      fechaFinal: new FormControl(new Date(), Validators.required),
+      fechaInicio: new FormControl(this.fechaInicio, Validators.required),
+      fechaFinal: new FormControl(this.fechaFinal, Validators.required),
     })
   }
 
@@ -78,9 +75,9 @@ export class PlanTrabajoComponent implements OnInit {
 
     if( controlFechaFin < controlFechaInicio){
       this.error={isError:true,errorMessage:'Fecha inicial del plan de trabajo no puede ser mayor a la fecha final del plan de trabajo'};
-      this.planTrabajoForm.controls['fechaInicio'].setValue(new Date(this.planTrabajoForm.controls['fechaFinal'].value));
+      this.planTrabajoForm.controls['fechaInicio'].setValue(this.fechaFinal);
       const controlFechaInicio = new Date(this.planTrabajoForm.controls['fechaInicio'].value);
-      const controlFechaFin = new Date(this.planTrabajoForm.controls['fechaFinal'].value);
+      const controlFechaFin = this.fechaFinal;
     } else {
       this.error={isError:false};
     }
@@ -88,9 +85,10 @@ export class PlanTrabajoComponent implements OnInit {
 
   getObra() {
     this.activatedRoute.params.subscribe((data: Params) => {
-      console.log(data);
       if (data) {
-        this.idObra = data.id;
+        this.idObra = data.idObra;
+        this.idPlanTrabajo = data.idPlanTrabajo;
+       
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
@@ -100,31 +98,36 @@ export class PlanTrabajoComponent implements OnInit {
           }
         });
 
-        this.getConceptsToPlan();
-        // this.obraSupervisionService.getCatalogObservable(this.idObra);
-        // this.obraSupervisionService.getDataCatalogo().subscribe((catalogo: CatalogoConceptos[]) => {
-          // this.catalogo = catalogo;
-          // this.temp = catalogo;
-        // })
-      }
-    })
-  }
-
-  getConceptsToPlan(){
-    this.activatedRoute.params.subscribe((data: Params) => {
-      if (data) {
-        this.idObra = data.id;
-        this.planTrabajoService.getConceptsByWorkPlan(this.idObra).subscribe(
-          (catalog: ConceptoPlanTrabajo[]) => {
-            this.catalogo = catalog;
-            this.temp = catalog;
-            console.log(this.catalogo);
-          },
-          error => console.log(error)
-        )
+        // this.getConceptsToPlan();
+        this.getWorkPlanById();
+    
       }
     });
   }
+
+  getWorkPlanById(){
+    this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
+      (planTrabajo: PlanTrabajo[]) => {
+        // console.log(planTrabajo);
+        const planWorkModif = planTrabajo.filter( (plan: PlanTrabajo) => plan.idPlanTrabajo == this.idPlanTrabajo);
+        // console.log(planWorkModif);
+        planWorkModif.map( (plan: PlanTrabajo) => {
+          let inicioString = plan.fechaInicio;
+          let finString = plan.fechaFinal;
+          this.fechaInicio = new Date(inicioString);
+          this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
+          this.fechaFinal = new Date(finString);
+          this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
+          this.planTrabajoForm.patchValue(plan);
+          console.log(plan);
+          this.catalogo = plan.viewConceptWorkPlan;
+          this.temp = this.catalogo;
+          // console.log(this.catalogo);
+        })
+      }
+    );
+  }
+
 
   validateAccessObra(supervisores) {
     console.log(supervisores);
@@ -211,5 +214,6 @@ export class PlanTrabajoComponent implements OnInit {
       panelClass: [className]
     });
   }
+
 
 }

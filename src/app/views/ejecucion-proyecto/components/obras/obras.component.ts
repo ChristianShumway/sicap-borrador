@@ -10,7 +10,6 @@ import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import { DatePipe } from '@angular/common';
-import { Usuario } from '../../../../shared/models/usuario';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ObservacionObraGeneralComponent } from '../observacion-obra-general/observacion-obra-general.component';
 
@@ -46,7 +45,7 @@ export class ObrasComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private bottomSheet: MatBottomSheet,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
   ) { }
 
   ngOnInit() {
@@ -70,7 +69,6 @@ export class ObrasComponent implements OnInit {
     }
   }
 
-
   getObras() {
     this.obraService.getObras().subscribe(
       ((obras: Obra[]) => {
@@ -90,7 +88,6 @@ export class ObrasComponent implements OnInit {
             this.obras.push(obra);
           }
           obra.supervisor.map( (supervisor) => {
-            // console.log(supervisor);
             
             if (supervisor.idUsuario === this.idUserLogeado){
               this.accesoBitacora = true;
@@ -98,7 +95,6 @@ export class ObrasComponent implements OnInit {
             }
           });
         });
-        // console.log(this.obras);
 
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
@@ -119,7 +115,7 @@ export class ObrasComponent implements OnInit {
       const diasFaltantes = Math.ceil(plazoEjecucion/(1000*60*60*24));
 
       this.porcentajeEjecucionFaltante = (diasFaltantes/obra.plazoEjecucion) * 100;
-      console.log(this.porcentajeEjecucionFaltante);
+      // console.log(this.porcentajeEjecucionFaltante);
     })
   }
 

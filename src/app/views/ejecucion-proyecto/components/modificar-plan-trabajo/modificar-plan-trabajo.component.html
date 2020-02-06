@@ -7,8 +7,9 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()">
+  <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+      
       <div class="info-obra">
         <h1>{{obra.noContrato}}</h1>
         <p>{{obra.nombreObra}}</p>
@@ -20,16 +21,7 @@
             <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
           </mat-form-field>
         </div>
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)" >
-          </mat-form-field>
-        </div>
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
-          </mat-form-field>
-        </div>
+
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
@@ -38,7 +30,8 @@
             <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
           </mat-form-field>
           <div class="validaciones">
-            <small *ngIf="notaBitacoraForm.controls['fechaInicio'].hasError('required') && notaBitacoraForm.controls['fechaInicio'].touched" class="form-error-msg">
+            <small *ngIf="planTrabajoForm.controls['fechaInicio'].hasError('required') && planTrabajoForm.controls['fechaInicio'].touched"
+              class="form-error-msg">
               Fecha Inicio del plan de trabajo es un campo requerido
             </small>
           </div>
@@ -51,35 +44,22 @@
 
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin de Obra"
-              (dateChange)="onFechaFinal($event)">
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin de Obra" (dateChange)="onFechaFinal($event)">
             <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
             <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
           </mat-form-field>
           <div class="validaciones">
-            <small *ngIf="notaBitacoraForm.controls['fechaFinal'].hasError('required') && notaBitacoraForm.controls['fechaFinal'].touched" class="form-error-msg">
+            <small *ngIf="planTrabajoForm.controls['fechaFinal'].hasError('required') && planTrabajoForm.controls['fechaFinal'].touched"
+              class="form-error-msg">
               Fecha Final del plan de trabajo es un campo requerido
             </small>
           </div>
         </div>
-       
+
       </div>
 
-      <h5>Dirección: {{address}}</h5>
-
-      <!-- <div class="form-group">
-          <label>Enter address</label>
-          <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
-            autocapitalize="off" spellcheck="off" type="text" #search>
-        </div> -->
-
-      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'" [mapTypeControl]='true'  (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
-        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-        </agm-marker>
-      </agm-map>
-
       <div class="wrap-button" *ngIf="catalogo.length">
-        <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit">Validar</button>
+        <button mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit">Modificar</button>
       </div>
 
     </div>
@@ -93,20 +73,8 @@
 
     <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
 
-      <!-- <ngx-datatable class="material fullscreen bg-white" [rows]="catalogo" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
-        [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50"> -->
-      <ngx-datatable 
-      class="material fullscreen bg-white"
-      style="height: 500px; overflow-y: auto;" 
-      [rows]="catalogo" 
-      [columnMode]="'force'" 
-      [headerHeight]="50" 
-      [footerHeight]="50"
-      [scrollbarH]="true" 
-      [rowHeight]="'auto'" 
-      [scrollbarH]="true" 
-      [rowHeight]="50">
-
+      <ngx-datatable class="material fullscreen bg-white" style="height: 500px; overflow-y: auto;" [rows]="catalogo" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
@@ -134,7 +102,7 @@
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.cantidad}}
+              {{row?.cantidadOriginal}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -147,19 +115,38 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Importe" [flexGrow]="1">
+        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.importe | currency}}
+            <mat-form-field class="cantidad-seleccionada">
+              <!-- <mat-label>Materiales Necesitados</mat-label> -->
+              <input matInput type="number" [(ngModel)]="row.cantidadPlaneada">
+            </mat-form-field>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p>
+              {{ row?.cantidadPlaneada * row?.precioUnitario | currency }}
             </p>
           </ng-template>
         </ngx-datatable-column>
+
       </ngx-datatable>
     </div>
+
     <ng-template #noconceptos>
-      <div class="wrap-loading-catalog">
-        <mat-spinner [diameter]="60"></mat-spinner>
-      </div>
+      <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+        [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+        <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1"></ngx-datatable-column>
+      </ngx-datatable>
     </ng-template>
+
   </div>
 </div>

@@ -28,7 +28,9 @@ export class CrearNotaBitacoraComponent implements OnInit {
   idObra;
   catalogo: CatalogoConceptos[] = [];
   temp = [];
-  fecha = new Date();
+  fechaInicio;
+  fechaFinal;
+  error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
  
@@ -50,6 +52,11 @@ export class CrearNotaBitacoraComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObra();
     this.getValidations();
+    this.compareTwoDates();
+    this.fechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+    this.fechaFinal = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+    this.fechaInicio.setDate(this.fechaInicio.getDate());
+    this.fechaFinal.setDate(this.fechaFinal.getDate());
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
@@ -79,10 +86,36 @@ export class CrearNotaBitacoraComponent implements OnInit {
 
   getValidations(){
     this.notaBitacoraForm = new FormGroup({
-      notaBitacora: new FormControl('', Validators.required),
+      observacion: new FormControl('', Validators.required),
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
+      fechaInicio: new FormControl(new Date(), Validators.required),
+      fechaFinal: new FormControl(new Date(), Validators.required),
     })
+  }
+
+  public onFechaInicio(event): void {
+    this.fechaInicio = event.value;
+    this.compareTwoDates();
+  }
+
+  public onFechaFinal(event): void {
+    this.fechaFinal = event.value;
+    this.compareTwoDates();
+  }
+
+  compareTwoDates(){
+    const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+    const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+
+    if( controlFechaFin < controlFechaInicio){
+      this.error={isError:true,errorMessage:'Fecha inicial del plan de trabajo no puede ser mayor a la fecha final del plan de trabajo'};
+      this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
+      const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+      const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+    } else {
+      this.error={isError:false};
+    }
   }
 
   getObra(){
@@ -205,12 +238,16 @@ export class CrearNotaBitacoraComponent implements OnInit {
   reportarAvance(){
     if(this.notaBitacoraForm.valid){
       const format = 'yyyy/MM/dd';
-      const nuevaFecha = this.pipe.transform(this.fecha, format);
+      const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
+      const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
       const avance = {
         ...this.notaBitacoraForm.value,
-        usuarioRegista: this.idUsuarioLogeado,
-        fecha: nuevaFecha
+        fechaInicio: nuevaFechaInicio,
+        fechaFinal: nuevaFechaFin,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        idObra: this.idObra,
       }
+      console.log(avance);
     }
   }
 

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { PlanTrabajo } from './../models/plan-trabajo';
+import { ConceptoPlanTrabajo} from './../models/concepto-plan-trabajo';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs';
@@ -14,12 +15,26 @@ export class PlanTrabajoService {
     private http: HttpClient,
   ) { }
 
-  getUsuario(id: number): Observable<PlanTrabajo>{
-    return this.http.get<PlanTrabajo>(`${environment.apiURL}/projectExecution/getWorkPlanById/${id}`);
+  getWorkPlanByObra(id: number): Observable<PlanTrabajo[]>{
+    return this.http.get<PlanTrabajo[]>(`${environment.apiURL}/projectExecution/getWorkPlanByIdObra/${id}`);
   }
 
-  createUsuario(newPlan): Observable<any>{
+  addWorkPlan(plan): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/projectExecution/addWorkplan`, JSON.stringify(newPlan), { headers: headerss});
+    return this.http.post<PlanTrabajo>(`${environment.apiURL}/projectExecution/addWorkplan`, JSON.stringify(plan), { headers: headerss});
+  }
+
+  getConceptsByWorkPlan(id: number): Observable<ConceptoPlanTrabajo[]>{
+    return this.http.get<ConceptoPlanTrabajo[]>(`${environment.apiURL}/projectExecution/getConceptWorkPlanEmpty/${id}`);
+  }
+
+  deleteWorkPlan(plan: Partial<PlanTrabajo>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteWorkplan`, JSON.stringify(plan), { headers: headerss});
+  }
+
+  deleteConceptOfWorkPlan(concept: Partial<ConceptoPlanTrabajo>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteConceptWorkplan `, JSON.stringify(concept), { headers: headerss});
   }
 }
