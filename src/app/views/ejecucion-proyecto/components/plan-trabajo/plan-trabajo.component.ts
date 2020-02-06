@@ -137,6 +137,7 @@ export class PlanTrabajoComponent implements OnInit {
     console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
+      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
     }
   }
 
@@ -183,7 +184,7 @@ export class PlanTrabajoComponent implements OnInit {
         ...this.planTrabajoForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
-        idObra: this.idObra,
+        idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptWorkPlan: newCatalog,
       };

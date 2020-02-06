@@ -2,6 +2,10 @@
   <input matInput placeholder="Filtrar Plan de Trabajo" value="" (keyup)='updateFilter($event)'>
 </mat-form-field> -->
 
+<div class="wrap-button">
+  <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Regresar</button>
+</div>
+
 <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
   <ng-container *ngIf="worksPlan.length; else loading">
     <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">

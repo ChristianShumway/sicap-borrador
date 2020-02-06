@@ -56,8 +56,9 @@
 
       </div>
 
-      <div class="wrap-button" *ngIf="catalogo.length">
-        <button mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit">Registrar</button>
+      <div class="wrap-button">
+        <button *ngIf="catalogo.length" mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit" class="btn-accept">Registrar</button>
+        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Cancelar</button>
       </div>
 
     </div>
@@ -125,8 +126,7 @@
         <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada">
-              <!-- <mat-label>Materiales Necesitados</mat-label> -->
-              <input matInput type="number" [(ngModel)] = "row.cantidadPlaneada">
+              <input matInput type="number" min="0" [(ngModel)] = "row.cantidadPlaneada">
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>

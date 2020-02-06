@@ -58,7 +58,6 @@ export class ObrasComponent implements OnInit {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.activatedRoute.params.subscribe( (option: Params) => {
-      console.log(option);
       this.option = option.tipo;
    });
   }
@@ -137,7 +136,7 @@ export class ObrasComponent implements OnInit {
     })
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   abrirAltaComentario(idObra): void {

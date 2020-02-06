@@ -184,9 +184,10 @@ export class ModificarPlanTrabajoComponent implements OnInit {
 
       const planTrabajo: PlanTrabajo = {
         ...this.planTrabajoForm.value,
+        idPlanTrabajo: parseInt(this.idPlanTrabajo),
         fechaInicio: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
-        idObra: this.idObra,
+        idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptWorkPlan: newCatalog,
       };

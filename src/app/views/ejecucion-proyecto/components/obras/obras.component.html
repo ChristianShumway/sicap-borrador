@@ -52,6 +52,12 @@
               Reportar de Conceptos Ejecutados</button>
 
               <button 
+              *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/lista-reportes-conceptos-ejecutados', obra.idObra]">
+              Ver Lista de Reportes</button>
+
+              <button 
               *ngIf="accesoBitacora && option==='reporte-subcontratos'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]">

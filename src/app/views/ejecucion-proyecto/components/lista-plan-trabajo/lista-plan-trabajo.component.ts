@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
@@ -11,13 +11,17 @@ import { DatePipe } from '@angular/common';
 import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
 import { PlanTrabajo } from './../../../../shared/models/plan-trabajo';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
+import { ObraService } from '../../../../shared/services/obra.service';
+import { Obra } from '../../../../shared/models/obra';
 
 @Component({
   selector: 'app-lista-plan-trabajo',
   templateUrl: './lista-plan-trabajo.component.html',
-  styleUrls: ['./lista-plan-trabajo.component.scss']
+  styleUrls: ['./lista-plan-trabajo.component.scss'],
+  changeDetection: ChangeDetectionStrategy.Default
 })
 export class ListaPlanTrabajoComponent implements OnInit {
+  private obraObs$: Observable<Obra>;
   rutaImg: string;
   host: string;
   fechaActual = new Date();
@@ -39,16 +43,14 @@ export class ListaPlanTrabajoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private planTrabajoService: PlanTrabajoService
+    private planTrabajoService: PlanTrabajoService,
+    private obraService: ObraService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
-      this.idObra = data.id;
-      this.getWorkPlans();
-   });
     this.idUserLogeado = this.autenticacionService.currentUserValue;
+    this.getObra();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -57,12 +59,46 @@ export class ListaPlanTrabajoComponent implements OnInit {
     this.host = environment.host;
   }
 
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      console.log(data);
+      this.idObra = data.id;
+
+      this.obraService.getObraObservable(this.idObra);
+        this.obraObs$ = this.obraService.getDataObra();
+        
+        this.obraService.getDataObra().subscribe(data => {
+          console.log(data);
+          if (data !== null) {
+            this.validateAccessObra(data.supervisor);
+          }
+        });
+    });
+  }
+
+  validateAccessObra(supervisores) {
+    console.log(supervisores);
+    let idSupervisores = [];
+    supervisores.map(supervisor => {
+      idSupervisores.push(supervisor.idUsuario);
+    });
+    console.log(idSupervisores);
+    const idExistente = idSupervisores.find(id => id === this.idUserLogeado);
+    console.log(idExistente);
+    // debugger;
+    if (!idExistente) {
+      this.router.navigate(['/dashboard']);
+      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
+    } else {
+      this.getWorkPlans();
+    }
+  }
+
   getWorkPlans(){
     this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
       (list: PlanTrabajo[]) => {
         this.workPlans = list;
         this.workPlansTemp =  this.workPlans;
-        // this.obrasTemp = this.obras;
         this.dataSource.data = this.workPlans;
         console.log(this.workPlans);
       }
@@ -97,7 +133,6 @@ export class ListaPlanTrabajoComponent implements OnInit {
     this.dataSource.data = rows;
     console.log(this.dataSource.data);
   }
-
 
   openDialoAlertDelete(plan) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
@@ -134,8 +169,6 @@ export class ListaPlanTrabajoComponent implements OnInit {
       }
     });
   }
-
-
 
   useAlerts(message, action, className) {
     this.snackBar.open(message, action, {
