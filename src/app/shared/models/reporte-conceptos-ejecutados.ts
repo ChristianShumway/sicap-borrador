@@ -1,13 +1,13 @@
 import { ConceptoEjecutado } from './concepto-ejecutado';
 
 export interface ReporteConceptosEjecutados {
-  idReporteConceptoEjecutado?: number;
-  fechaInicio: string;
-  fechaFinal: string;
+  idConceptoEjecutado?: number;
+  idObra: number;
   latitud: number;
   longitud: number;
-  idObra: number;
-  observacion: string;
-  viewConceptWorkPlan?: ConceptoEjecutado[];
+  fechaInicio: string;
+  fechaFinal: string;
   idUsuarioModifico?: number;
+  observacion: string;
+  viewConceptExecuted?: ConceptoEjecutado[];
 }

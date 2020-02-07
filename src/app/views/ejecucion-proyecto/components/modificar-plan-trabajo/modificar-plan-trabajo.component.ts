@@ -76,6 +76,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
     if( controlFechaFin < controlFechaInicio){
       this.error={isError:true,errorMessage:'Fecha inicial del plan de trabajo no puede ser mayor a la fecha final del plan de trabajo'};
       this.planTrabajoForm.controls['fechaInicio'].setValue(this.fechaFinal);
+      this.fechaInicio =  new Date(this.planTrabajoForm.controls['fechaInicio'].value);
       const controlFechaInicio = new Date(this.planTrabajoForm.controls['fechaInicio'].value);
       const controlFechaFin = this.fechaFinal;
     } else {

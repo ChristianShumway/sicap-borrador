@@ -8,10 +8,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
 
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
-import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
+import { ReporteConceptosEjecutadosService } from '../../../../shared/services/reporte-conceptos-ejecutados.service';
 import { ObraService } from '../../../../shared/services/obra.service';
 
-import { PlanTrabajo } from './../../../../shared/models/plan-trabajo';
+import { ReporteConceptosEjecutados } from './../../../../shared/models/reporte-conceptos-ejecutados';
 import { Obra } from '../../../../shared/models/obra';
 
 import { environment } from './../../../../../environments/environment';
@@ -33,13 +33,13 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   
   idUserLogeado;
   accesoBitacora = false;
-  reporte: PlanTrabajo[] = [];
-  reporteTemp: PlanTrabajo[] = [];
+  reporte: ReporteConceptosEjecutados[] = [];
+  reporteTemp: ReporteConceptosEjecutados[] = [];
   idObra;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<PlanTrabajo> = new MatTableDataSource<PlanTrabajo>();
+  dataSource: MatTableDataSource<ReporteConceptosEjecutados> = new MatTableDataSource<ReporteConceptosEjecutados>();
 
   constructor(
     public dialog: MatDialog,
@@ -47,7 +47,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private planTrabajoService: PlanTrabajoService,
+    private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private obraService: ObraService,
     private router: Router
   ) { }
@@ -99,8 +99,8 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   }
 
   getReporte(){
-    this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
-      (list: PlanTrabajo[]) => {
+    this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
+      (list: ReporteConceptosEjecutados[]) => {
         this.reporte = list;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
@@ -149,7 +149,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       if(result){
         console.log(plan);
 
-        this.planTrabajoService.deleteWorkPlan(plan).subscribe(
+        this.reporteConceptosEjecutadosService.deleteReportConceptExecuted(plan).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');

@@ -124,6 +124,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
     if( controlFechaFin < controlFechaInicio){
       this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};
       this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
+      this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
       const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
       const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
     } else {
@@ -160,7 +161,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
     this.activatedRoute.params.subscribe((data: Params) => {
       if (data) {
         this.idObra = data.id;
-        this.reporteConceptosEjecutadosService.getConceptsByWorkPlan(this.idObra).subscribe(
+        this.reporteConceptosEjecutadosService.getConceptsByReport(this.idObra).subscribe(
           (catalog: ConceptoEjecutado[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
@@ -173,14 +174,14 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   validateAccessObra(supervisores) {
-    console.log(supervisores);
+    // console.log(supervisores);
     let idSupervisores = [];
     supervisores.map(supervisor => {
       idSupervisores.push(supervisor.idUsuario);
     });
-    console.log(idSupervisores);
+    // console.log(idSupervisores);
     const idExistente = idSupervisores.find( id => id === this.idUsuarioLogeado);
-    console.log(idExistente);
+    // console.log(idExistente);
     if(!idExistente){
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
@@ -191,7 +192,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+        // console.log(position);
         this.latitude = position.coords.latitude;
         this.longitude = position.coords.longitude;
         this.zoom = 8;
@@ -213,8 +214,8 @@ export class CrearNotaBitacoraComponent implements OnInit {
  
   getAddress(latitude, longitude) {
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      console.log(results);
-      console.log(status);
+      // console.log(results);
+      // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 16;
@@ -286,6 +287,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   reportarAvance() {
+    alert(this.fechaInicio);
     if (this.notaBitacoraForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
@@ -293,11 +295,11 @@ export class CrearNotaBitacoraComponent implements OnInit {
       const newCatalog: ConceptoEjecutado[] = []
   
       this.catalogo.map( (concepto: ConceptoEjecutado) => {
-        if(concepto.cantidadPlaneada > 0){
-          const conceptoModificado = {
+        if(concepto.cantidadEjecutada > 0){
+          const conceptoModificado: ConceptoEjecutado = {
             ...concepto,
-            precioUnitarioPlaneado: concepto.precioUnitario,
-            importePlaneado: concepto.precioUnitario * concepto.cantidadPlaneada
+            precioUnitarioEjecutado: concepto.precioUnitario,
+            importeEjecutado: concepto.precioUnitario * concepto.cantidadEjecutada
           };
 
           newCatalog.push(conceptoModificado);
@@ -310,21 +312,21 @@ export class CrearNotaBitacoraComponent implements OnInit {
         fechaFinal: nuevaFechaFin,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
-        viewConceptWorkPlan: newCatalog,
+        viewConceptExecuted: newCatalog,
       };
       console.log(reporte);
 
-      // this.planTrabajoService.addWorkPlan(planTrabajo).subscribe(
-      //   response => {
-      //     if(response.estatus === '05'){
-      //       this.router.navigate(['/ejecucion-proyecto/proyectos/plan-trabajo']);
-      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-      //     } else {
-      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-      //     }
-      //   },
-      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
-      // );
+      this.reporteConceptosEjecutadosService.addConceptExecuted(reporte).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados']);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
     }
   }
 

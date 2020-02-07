@@ -8,9 +8,9 @@ export interface ConceptoEjecutado {
   tipo?: number;
   idObra: number;
   cantidadOriginal: number;
-  idConceptoPlanTrabajo: number;
-  cantidadPlaneada: number;
-  precioUnitarioPlaneado: number;
-  importePlaneado: number;
+  idDetConceptoEjecutado: number;
+  cantidadEjecutada: number;
+  precioUnitarioEjecutado: number;
+  importeEjecutado: number;
 }
 

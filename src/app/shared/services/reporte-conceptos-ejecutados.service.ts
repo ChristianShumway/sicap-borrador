@@ -15,26 +15,22 @@ export class ReporteConceptosEjecutadosService {
     private http: HttpClient
   ) { }
 
-  getWorkPlanByObra(id: number): Observable<ReporteConceptosEjecutados[]>{
-    return this.http.get<ReporteConceptosEjecutados[]>(`${environment.apiURL}/projectExecution/getWorkPlanByIdObra/${id}`);
+  getConceptExecutedByObra(id: number): Observable<ReporteConceptosEjecutados[]>{
+    return this.http.get<ReporteConceptosEjecutados[]>(`${environment.apiURL}/projectExecution/getConceptExecutedByIdObra/${id}`);
   }
 
-  addWorkPlan(report): Observable<any>{
+  addConceptExecuted(report): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<ReporteConceptosEjecutados>(`${environment.apiURL}/projectExecution/addWorkplan`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<ReporteConceptosEjecutados>(`${environment.apiURL}/projectExecution/addConceptExecuted`, JSON.stringify(report), { headers: headerss});
   }
 
-  getConceptsByWorkPlan(id: number): Observable<ConceptoEjecutado[]>{
-    return this.http.get<ConceptoEjecutado[]>(`${environment.apiURL}/projectExecution/getConceptWorkPlanEmpty/${id}`);
+  getConceptsByReport(id: number): Observable<ConceptoEjecutado[]>{
+    return this.http.get<ConceptoEjecutado[]>(`${environment.apiURL}/projectExecution/getConceptExecutedEmpty/${id}`);
   }
 
-  deleteWorkPlan(report: Partial<ReporteConceptosEjecutados>): Observable<any>{
+  deleteReportConceptExecuted(report: Partial<ReporteConceptosEjecutados>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteWorkplan`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteConceptExecuted`, JSON.stringify(report), { headers: headerss});
   }
 
-  deleteConceptOfWorkPlan(concept: Partial<ReporteConceptosEjecutados>): Observable<any>{
-    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteConceptWorkplan `, JSON.stringify(concept), { headers: headerss});
-  }
 }
