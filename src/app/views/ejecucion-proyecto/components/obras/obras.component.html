@@ -40,22 +40,22 @@
               Plan de Trabajo</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='plan-trabajo'" 
+              *ngIf="option==='plan-trabajo'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-plan-trabajo', obra.idObra]">
-              Ver Lista de Plan de Trabajo</button>
+              Ver Plan de Trabajo</button>
               
               <button 
               *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
-              Reportar de Conceptos Ejecutados</button>
+              Reporte de Conceptos Ejecutados</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
+              *ngIf="option==='reporte-conceptos-ejecutados'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-reportes-conceptos-ejecutados', obra.idObra]">
-              Ver Lista de Reportes</button>
+              Ver Reportes</button>
 
               <button 
               *ngIf="accesoBitacora && option==='reporte-subcontratos'" 
