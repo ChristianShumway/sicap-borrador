@@ -46,6 +46,25 @@
   margin: 3px;
 }
 
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.list-concepts li{
+  border-bottom: 1px solid lightgrey;
+  margin-bottom: 15px;
+}
+
+.list-concepts li p{
+  margin: 0 0 10px;
+}
+
+.wrap-cantidad-total{
+  text-align: right;
+  margin: 20px 0;
+  color: #4caf50;
+}
+
 @media screen and (max-width:599px){
   .wrap-detalles-obra{
     grid-template-columns: 1fr;
