@@ -75,7 +75,7 @@
         </div> -->
 
       <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
-        [mapTypeControl]='true' (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
+        [mapTypeControl]='true' >
         <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
         </agm-marker>
       </agm-map>
