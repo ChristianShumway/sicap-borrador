@@ -69,10 +69,10 @@
       <h5>Dirección: {{address}}</h5>
 
       <!-- <div class="form-group">
-          <label>Enter address</label>
-          <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
-            autocapitalize="off" spellcheck="off" type="text" #search>
-        </div> -->
+              <label>Enter address</label>
+              <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+                autocapitalize="off" spellcheck="off" type="text" #search>
+            </div> -->
 
       <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
         [mapTypeControl]='true' (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
@@ -81,8 +81,8 @@
       </agm-map>
 
       <div class="wrap-button">
-        <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit" class="btn-accept" *ngIf="catalogo.length">Registrar</button>
-        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-subcontratos'">Cancelar</button>
+        <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit" class="btn-accept" *ngIf="catalogo.length">Modificar</button>
+        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados'">Cancelar</button>
       </div>
 
     </div>
@@ -110,7 +110,7 @@
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{ row?.noSubcontrato }}
+              {{ row?.noConcepto }}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -134,7 +134,7 @@
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.cantidad}}
+              {{row?.cantidadOriginal}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -142,7 +142,7 @@
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.precio | currency}}
+              {{row?.precioUnitario | currency}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -150,7 +150,7 @@
         <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada">
-              <input matInput type="number" min="0" [(ngModel)]="row.cantidadSubContrato">
+              <input matInput type="number" min="0" [(ngModel)]="row.cantidadEjecutada">
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>
@@ -158,7 +158,7 @@
         <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p>
-              {{ row?.cantidadSubContrato * row?.precio | currency }}
+              {{ row?.cantidadEjecutada * row?.precioUnitario | currency }}
             </p>
           </ng-template>
         </ngx-datatable-column>

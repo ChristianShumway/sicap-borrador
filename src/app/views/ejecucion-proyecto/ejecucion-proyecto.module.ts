@@ -27,6 +27,8 @@ import { ModificarPlanTrabajoComponent } from './components/modificar-plan-traba
 import { ListaReporteConceptosEjecutadosComponent } from './components/lista-reporte-conceptos-ejecutados/lista-reporte-conceptos-ejecutados.component';
 import { SubirEvidenciasComponent } from './components/subir-evidencias/subir-evidencias.component';
 import { ModificarReporteConceptosEjecutadosComponent } from './components/modificar-reporte-conceptos-ejecutados/modificar-reporte-conceptos-ejecutados.component';
+import { ListaReporteSubcontratosComponent } from './components/lista-reporte-subcontratos/lista-reporte-subcontratos.component';
+import { ModificarReporteSubcontratosComponent } from './components/modificar-reporte-subcontratos/modificar-reporte-subcontratos.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +45,9 @@ import { ModificarReporteConceptosEjecutadosComponent } from './components/modif
     ModificarPlanTrabajoComponent,
     ListaReporteConceptosEjecutadosComponent,
     SubirEvidenciasComponent,
-    ModificarReporteConceptosEjecutadosComponent
+    ModificarReporteConceptosEjecutadosComponent,
+    ListaReporteSubcontratosComponent,
+    ModificarReporteSubcontratosComponent
   ],
   imports: [
   CommonModule,

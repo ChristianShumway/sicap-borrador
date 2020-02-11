@@ -11,6 +11,8 @@ import { ListaPlanTrabajoComponent } from './components/lista-plan-trabajo/lista
 import { ModificarPlanTrabajoComponent } from './components/modificar-plan-trabajo/modificar-plan-trabajo.component';
 import { ListaReporteConceptosEjecutadosComponent } from './components/lista-reporte-conceptos-ejecutados/lista-reporte-conceptos-ejecutados.component';
 import { ModificarReporteConceptosEjecutadosComponent } from './components/modificar-reporte-conceptos-ejecutados/modificar-reporte-conceptos-ejecutados.component';
+import { ListaReporteSubcontratosComponent } from './components/lista-reporte-subcontratos/lista-reporte-subcontratos.component';
+import { ModificarReporteSubcontratosComponent } from './components/modificar-reporte-subcontratos/modificar-reporte-subcontratos.component';
 
 const routes: Routes = [
   {
@@ -55,6 +57,16 @@ const routes: Routes = [
         path: 'reporte-subcontratos/:id',
         component: ReporteSubcontratosComponent,
         data: {title: 'Reporte de Subcontratos', breadcrumb: 'Reporte de Subcontratos'}
+      },
+      {
+        path: 'lista-reportes-subcontratos/:idObra',
+        component: ListaReporteSubcontratosComponent,
+        data: {title: 'Lista de Reportes Subcontratos', breadcrumb: 'Lista de Reportes Subcontratos'}
+      },
+      {
+        path: 'lista-reportes-subcontratos/:idObra/modificar-reporte-subcontrato/:idReporte',
+        component: ModificarReporteSubcontratosComponent,
+        data: {title: 'Modificar Reporte de Subcontratos', breadcrumb: 'Modificar Reporte de Subcontratos'}
       },
       {
         path: 'validacion-plan-trabajo/:id',

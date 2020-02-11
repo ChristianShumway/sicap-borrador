@@ -65,6 +65,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.getReporte();
   }
 
   getObra(){
@@ -102,7 +103,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a generar reporte para esta obra', ' ', 'error-dialog');
     } else {
-      this.getReporte();
+      // this.getReporte();
     }
   }
 

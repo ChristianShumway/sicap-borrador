@@ -10,21 +10,21 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 import { ObraService } from 'app/shared/services/obra.service';
-import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service'
+import { ReporteConceptosEjecutadosService } from '../../../../shared/services/reporte-conceptos-ejecutados.service';
 
 import { Obra } from './../../../../shared/models/obra';
-import { ReporteSubcontrato } from './../../../../shared/models/reporte-subcontrato';
-import { ConceptoSubcontrato } from './../../../../shared/models/concepto-subcontrato';
+import { ReporteConceptosEjecutados } from './../../../../shared/models/reporte-conceptos-ejecutados';
+import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
 
 import { SubirEvidenciasComponent } from '../subir-evidencias/subir-evidencias.component';
 
 @Component({
-  selector: 'app-reporte-subcontratos',
-  templateUrl: './reporte-subcontratos.component.html',
-  styleUrls: ['./reporte-subcontratos.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  selector: 'app-modificar-reporte-subcontratos',
+  templateUrl: './modificar-reporte-subcontratos.component.html',
+  styleUrls: ['./modificar-reporte-subcontratos.component.scss']
 })
-export class ReporteSubcontratosComponent implements OnInit {
+export class ModificarReporteSubcontratosComponent implements OnInit {
+
   private obraObs$: Observable<Obra>;
   latitude: number;
   longitude: number;
@@ -33,6 +33,7 @@ export class ReporteSubcontratosComponent implements OnInit {
   private geoCoder;
   idUsuarioLogeado;
   idObra;
+  idReporteConceptos
   fechaInicio;
   fechaFinal;
   error:any={isError:false,errorMessage:''};
@@ -43,8 +44,8 @@ export class ReporteSubcontratosComponent implements OnInit {
   public searchElementRef: ElementRef;
   @ViewChild(AgmMap, {static: true}) map: AgmMap;
 
-  catalogo: ConceptoSubcontrato[] = [];
-  temp: ConceptoSubcontrato[] = [];
+  catalogo: ConceptoEjecutado[] = [];
+  temp: ConceptoEjecutado[] = [];
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -53,7 +54,7 @@ export class ReporteSubcontratosComponent implements OnInit {
     private router: Router,
     private autenticacionService: AutenticacionService,
     private obraService: ObraService,
-    private reporteSubcontratoService: ReporteSubcontratoService,
+    private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
   ) { }
@@ -63,10 +64,6 @@ export class ReporteSubcontratosComponent implements OnInit {
     this.getObra();
     this.getValidations();
     this.compareTwoDates();
-    this.fechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-    this.fechaFinal = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
-    this.fechaInicio.setDate(this.fechaInicio.getDate());
-    this.fechaFinal.setDate(this.fechaFinal.getDate());
     
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -100,8 +97,8 @@ export class ReporteSubcontratosComponent implements OnInit {
       observacion: new FormControl('', Validators.required),
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
-      fechaInicio: new FormControl(new Date(), Validators.required),
-      fechaFinal: new FormControl(new Date(), Validators.required),
+      fechaInicio: new FormControl(this.fechaInicio, Validators.required),
+      fechaFinal: new FormControl(this.fechaFinal, Validators.required),
     })
   }
 
@@ -120,8 +117,8 @@ export class ReporteSubcontratosComponent implements OnInit {
     const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};
-      this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
+      this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};      
+      this.notaBitacoraForm.controls['fechaInicio'].setValue(this.fechaFinal);
       this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
       const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
       const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
@@ -134,7 +131,9 @@ export class ReporteSubcontratosComponent implements OnInit {
     this.activatedRoute.params.subscribe( (data: Params) => {
       console.log(data);
       if(data){
-        this.idObra = data.id;
+        this.idObra = data.idObra;
+        this.idReporteConceptos  = data.idPlanTrabajo;
+
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
@@ -144,7 +143,8 @@ export class ReporteSubcontratosComponent implements OnInit {
           }
         });
 
-        this.getConceptsToReport();
+        // this.getConceptsToReport();
+        this.getWorkPlanById();
         // this.obraSupervisionService.getCatalogObservable(this.idObra);
         // this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
         //   this.catalogo = catalogo;
@@ -155,21 +155,40 @@ export class ReporteSubcontratosComponent implements OnInit {
     })
   }
 
-  getConceptsToReport(){
-    this.activatedRoute.params.subscribe((data: Params) => {
-      if (data) {
-        this.idObra = data.id;
-        this.reporteSubcontratoService.getConceptsByReport(this.idObra).subscribe(
-          (catalog: ConceptoSubcontrato[]) => {
-            this.catalogo = catalog;
-            this.temp = catalog;
-            console.log(this.catalogo);
-          },
-          error => console.log(error)
-        )
+  getWorkPlanById(){
+    this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
+      (reporteConceptos: ReporteConceptosEjecutados[]) => {
+        // console.log(reporteConceptos);
+        const reporteModif = reporteConceptos.filter( (reporte: ReporteConceptosEjecutados) => reporte.idConceptoEjecutado == this.idReporteConceptos);
+        // console.log(reporteModif);
+        reporteModif.map( (reporte: ReporteConceptosEjecutados) => {
+          let inicioString = reporte.fechaInicio;
+          let finString = reporte.fechaFinal;
+          this.fechaInicio = new Date(inicioString);
+          this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
+          this.fechaFinal = new Date(finString);
+          this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
+          this.notaBitacoraForm.patchValue(reporte);
+          console.log(reporte);
+          this.catalogo = reporte.viewConceptExecuted;
+          this.temp = this.catalogo;
+          // console.log(this.catalogo);
+        })
       }
-    });
+    );
   }
+
+  // getConceptsToReport(){
+  //   this.reporteConceptosEjecutadosService.getConceptsByReport(this.idObra).subscribe(
+  //     (catalog: ConceptoEjecutado[]) => {
+  //       this.catalogo = catalog;
+  //       this.temp = catalog;
+  //       console.log(this.catalogo);
+  //     },
+  //     error => console.log(error)
+  //   );
+    
+  // }
 
   validateAccessObra(supervisores) {
     // console.log(supervisores);
@@ -289,23 +308,23 @@ export class ReporteSubcontratosComponent implements OnInit {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
-      const newCatalog: ConceptoSubcontrato[] = []
+      const newCatalog: ConceptoEjecutado[] = []
   
-      this.catalogo.map( (concepto: ConceptoSubcontrato) => {
-        if(concepto.cantidadSubContrato > 0){
-          const conceptoModificado: ConceptoSubcontrato = {
+      this.catalogo.map( (concepto: ConceptoEjecutado) => {
+        if(concepto.cantidadEjecutada > 0){
+          const conceptoModificado: ConceptoEjecutado = {
             ...concepto,
-            precioUnitarioSubContrato: concepto.precio,
-            importeSubContrato: concepto.precio * concepto.cantidadSubContrato
+            precioUnitarioEjecutado: concepto.precioUnitario,
+            importeEjecutado: concepto.precioUnitario * concepto.cantidadEjecutada
           };
-
 
           newCatalog.push(conceptoModificado);
         }
       });
 
-      const reporte: ReporteSubcontrato = {
+      const reporte: ReporteConceptosEjecutados = {
         ...this.notaBitacoraForm.value,
+        idConceptoEjecutado: parseInt(this.idReporteConceptos),
         fechaInicio: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
         idObra: parseInt(this.idObra),
@@ -314,10 +333,10 @@ export class ReporteSubcontratosComponent implements OnInit {
       };
       console.log(reporte);
 
-      this.reporteSubcontratoService.addReportSubcontract(reporte).subscribe(
+      this.reporteConceptosEjecutadosService.addConceptExecuted(reporte).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-subcontratos']);
+            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');

@@ -78,6 +78,12 @@
   }
 }
 
+@media screen and (max-width: 599px){
+  .list-supervisores{
+    height: auto !important;
+  }
+}
+
 @media screen and (max-width: 480px){
   .wrap-message[_ngcontent-sqp-c11] {
     padding: 30px 10px;

@@ -1,27 +1,31 @@
 import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { DatePipe } from '@angular/common';
+import { Router, ActivatedRoute, Params } from '@angular/router';
+import { Observable } from 'rxjs';
+
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource, MatPaginator } from '@angular/material';
-import { Observable } from 'rxjs';
-import { Router, ActivatedRoute, Params } from '@angular/router';
-import { MatSnackBar } from '@angular/material/snack-bar';
+
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service';
+import { ObraService } from '../../../../shared/services/obra.service';
+
+import { ReporteSubcontrato } from './../../../../shared/models/reporte-subcontrato';
+import { Obra } from '../../../../shared/models/obra';
+import { ConceptoSubcontrato } from './../../../../shared/models/concepto-subcontrato';
 
 import { environment } from './../../../../../environments/environment';
-import { AutenticacionService } from 'app/shared/services/autenticacion.service';
-import { DatePipe } from '@angular/common';
-import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
-import { PlanTrabajo } from './../../../../shared/models/plan-trabajo';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
-import { ObraService } from '../../../../shared/services/obra.service';
-import { Obra } from '../../../../shared/models/obra';
-import { ConceptoPlanTrabajo } from '../../../../shared/models/concepto-plan-trabajo';
 
 @Component({
-  selector: 'app-lista-plan-trabajo',
-  templateUrl: './lista-plan-trabajo.component.html',
-  styleUrls: ['./lista-plan-trabajo.component.scss'],
+  selector: 'app-lista-reporte-subcontratos',
+  templateUrl: './lista-reporte-subcontratos.component.html',
+  styleUrls: ['./lista-reporte-subcontratos.component.scss'],
   changeDetection: ChangeDetectionStrategy.Default
 })
-export class ListaPlanTrabajoComponent implements OnInit {
+export class ListaReporteSubcontratosComponent implements OnInit {
+
   private obraObs$: Observable<Obra>;
   rutaImg: string;
   host: string;
@@ -30,16 +34,16 @@ export class ListaPlanTrabajoComponent implements OnInit {
   
   idUserLogeado;
   accesoBitacora = false;
-  workPlans: PlanTrabajo[] = [];
-  workPlansTemp: PlanTrabajo[] = [];
+  reporte: ReporteSubcontrato[] = [];
+  reporteTemp: ReporteSubcontrato[] = [];
   idObra;
-  conceptosSeleccionados: ConceptoPlanTrabajo[] = [];
+  conceptosSeleccionados: ConceptoSubcontrato[] = [];
   panelOpenState = false;
   montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<PlanTrabajo> = new MatTableDataSource<PlanTrabajo>();
+  dataSource: MatTableDataSource<ReporteSubcontrato> = new MatTableDataSource<ReporteSubcontrato>();
 
   constructor(
     public dialog: MatDialog,
@@ -47,7 +51,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private planTrabajoService: PlanTrabajoService,
+    private reporteSubcontratoService: ReporteSubcontratoService,
     private obraService: ObraService,
     private router: Router
   ) { }
@@ -61,20 +65,20 @@ export class ListaPlanTrabajoComponent implements OnInit {
     this.obs$ = this.dataSource.connect();
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
-    this.getWorkPlans();
+    this.getReporte();
   }
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
       console.log(data);
-      this.idObra = data.id;
+      this.idObra = data.idObra;
 
       this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
-        this.obraService.getDataObra().subscribe((data:Obra) => {
+        this.obraService.getDataObra().subscribe((data: Obra) => {
+          console.log(data);
           if (data !== null) {
-            console.log(data);
             this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
         });
@@ -82,8 +86,8 @@ export class ListaPlanTrabajoComponent implements OnInit {
   }
 
   validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
-    let idUsuariosConPermiso = [];
     console.log(supervisores);
+    let idUsuariosConPermiso = [];
     supervisores.map(supervisor => {
       idUsuariosConPermiso.push(supervisor.idUsuario);
     });
@@ -97,25 +101,25 @@ export class ListaPlanTrabajoComponent implements OnInit {
     // debugger;
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a generar reporte para esta obra', ' ', 'error-dialog');
     } else {
-      // this.getWorkPlans();
+      // this.getReporte();
     }
   }
 
-  getWorkPlans(){
-    this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
-      (list: PlanTrabajo[]) => {
-        this.workPlans = list;
-        this.workPlansTemp =  this.workPlans;
-        this.dataSource.data = this.workPlans;
-        // console.log(this.workPlans);
-        console.log(list);
-        list.map( (plan: PlanTrabajo) => {
-          plan.viewConceptWorkPlan.map( (concepto: ConceptoPlanTrabajo) => {
-            if(concepto.cantidadPlaneada > 0)
+  getReporte(){
+    this.reporteSubcontratoService.getReportSubContractdByObra(this.idObra).subscribe(
+      (list: ReporteSubcontrato[]) => {
+        this.reporte = list;
+        this.reporteTemp =  this.reporte;
+        this.dataSource.data = this.reporte;
+        console.log(this.reporte);
+
+        list.map( (reporte: ReporteSubcontrato) => {
+          reporte.viewReportSubContract.map( (concepto: ConceptoSubcontrato) => {
+            if(concepto.cantidadSubContrato > 0)
             this.conceptosSeleccionados.push(concepto);
-            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importePlaneado;
+            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeSubContrato;
           });
         });
       }
@@ -130,13 +134,13 @@ export class ListaPlanTrabajoComponent implements OnInit {
 
   updateFilter(event) {
     const val = event.target.value.toLowerCase();
-    var columns = Object.keys(this.workPlansTemp[0]);
+    var columns = Object.keys(this.reporteTemp[0]);
     columns.splice(columns.length - 1);
 
     if (!columns.length)
       return;
 
-    const rows = this.workPlansTemp.filter(function (d) {
+    const rows = this.reporteTemp.filter(function (d) {
       for (let i = 0; i <= columns.length; i++) {
         let column = columns[i];
         if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
@@ -161,19 +165,12 @@ export class ListaPlanTrabajoComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         console.log(plan);
-        
-        // const obraBaja = {
-        //   idObra: idObra,
-        //   activo: 0,
-        //   // usuarioModifico: this.idUsuarioLogeado
-        // };
-        // console.log(obraBaja);
 
-        this.planTrabajoService.deleteWorkPlan(plan).subscribe(
+        this.reporteSubcontratoService.deleteReportSubcontract(plan).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getWorkPlans();
+              this.getReporte();
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }

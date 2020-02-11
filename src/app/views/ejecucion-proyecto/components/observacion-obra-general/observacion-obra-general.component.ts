@@ -28,6 +28,9 @@ export class ObservacionObraGeneralComponent implements OnInit {
 
   getValidations() {
     this.observacionGeneralForm = new FormGroup({
+      tipo: new FormControl('', [
+        Validators.required,
+      ]),
       observacion: new FormControl('', [
         Validators.required,
       ]),
@@ -45,6 +48,7 @@ export class ObservacionObraGeneralComponent implements OnInit {
         fecha: nuevaFechaInicio
       }
       console.log(comentario);
+      this.bottomSheetRef.dismiss();
     }
   }
 

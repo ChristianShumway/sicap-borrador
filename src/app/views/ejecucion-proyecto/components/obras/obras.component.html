@@ -64,6 +64,12 @@
               Reporte Subcontratos</button>
 
               <button 
+              *ngIf="option==='reporte-subcontratos'" 
+              mat-menu-item 
+              [routerLink]="['/ejecucion-proyecto/lista-reportes-subcontratos', obra.idObra]">
+              Ver Reportes</button>
+
+              <button 
               *ngIf="accesoBitacora && option==='validacion'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/validacion-plan-trabajo', obra.idObra]">
