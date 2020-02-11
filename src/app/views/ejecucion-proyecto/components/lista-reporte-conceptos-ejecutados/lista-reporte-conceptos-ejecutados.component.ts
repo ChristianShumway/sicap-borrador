@@ -16,6 +16,7 @@ import { Obra } from '../../../../shared/models/obra';
 
 import { environment } from './../../../../../environments/environment';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
+import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
 
 @Component({
   selector: 'app-lista-reporte-conceptos-ejecutados',
@@ -36,6 +37,9 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   reporte: ReporteConceptosEjecutados[] = [];
   reporteTemp: ReporteConceptosEjecutados[] = [];
   idObra;
+  conceptosSeleccionados: ConceptoEjecutado[] = [];
+  panelOpenState = false;
+  montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -71,28 +75,32 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
-        this.obraService.getDataObra().subscribe(data => {
+        this.obraService.getDataObra().subscribe((data: Obra) => {
           console.log(data);
           if (data !== null) {
-            this.validateAccessObra(data.supervisor);
+            this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
         });
     });
   }
 
-  validateAccessObra(supervisores) {
+  validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
     console.log(supervisores);
-    let idSupervisores = [];
+    let idUsuariosConPermiso = [];
     supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
+      idUsuariosConPermiso.push(supervisor.idUsuario);
     });
-    console.log(idSupervisores);
-    const idExistente = idSupervisores.find(id => id === this.idUserLogeado);
+    idUsuariosConPermiso.push(idGerente);
+    idUsuariosConPermiso.push(idPP);
+    idUsuariosConPermiso.push(idControlObra);
+    idUsuariosConPermiso.push(idCompras);
+    console.log(idUsuariosConPermiso);
+    const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
     console.log(idExistente);
     // debugger;
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a generar reporte para esta obra', ' ', 'error-dialog');
     } else {
       this.getReporte();
     }
@@ -105,6 +113,14 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
         console.log(this.reporte);
+
+        list.map( (reporte: ReporteConceptosEjecutados) => {
+          reporte.viewConceptExecuted.map( (concepto: ConceptoEjecutado) => {
+            if(concepto.cantidadEjecutada > 0)
+            this.conceptosSeleccionados.push(concepto);
+            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeEjecutado;
+          });
+        });
       }
     );
   }

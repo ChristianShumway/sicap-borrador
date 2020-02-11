@@ -13,6 +13,7 @@ import { PlanTrabajo } from './../../../../shared/models/plan-trabajo';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { ObraService } from '../../../../shared/services/obra.service';
 import { Obra } from '../../../../shared/models/obra';
+import { ConceptoPlanTrabajo } from '../../../../shared/models/concepto-plan-trabajo';
 
 @Component({
   selector: 'app-lista-plan-trabajo',
@@ -32,6 +33,9 @@ export class ListaPlanTrabajoComponent implements OnInit {
   workPlans: PlanTrabajo[] = [];
   workPlansTemp: PlanTrabajo[] = [];
   idObra;
+  conceptosSeleccionados: ConceptoPlanTrabajo[] = [];
+  panelOpenState = false;
+  montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -67,23 +71,27 @@ export class ListaPlanTrabajoComponent implements OnInit {
       this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
-        this.obraService.getDataObra().subscribe(data => {
-          console.log(data);
+        this.obraService.getDataObra().subscribe((data:Obra) => {
           if (data !== null) {
-            this.validateAccessObra(data.supervisor);
+            console.log(data);
+            this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
         });
     });
   }
 
-  validateAccessObra(supervisores) {
+  validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
+    let idUsuariosConPermiso = [];
     console.log(supervisores);
-    let idSupervisores = [];
     supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
+      idUsuariosConPermiso.push(supervisor.idUsuario);
     });
-    console.log(idSupervisores);
-    const idExistente = idSupervisores.find(id => id === this.idUserLogeado);
+    idUsuariosConPermiso.push(idGerente);
+    idUsuariosConPermiso.push(idPP);
+    idUsuariosConPermiso.push(idControlObra);
+    idUsuariosConPermiso.push(idCompras);
+    console.log(idUsuariosConPermiso);
+    const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
     console.log(idExistente);
     // debugger;
     if (!idExistente) {
@@ -100,7 +108,15 @@ export class ListaPlanTrabajoComponent implements OnInit {
         this.workPlans = list;
         this.workPlansTemp =  this.workPlans;
         this.dataSource.data = this.workPlans;
-        console.log(this.workPlans);
+        // console.log(this.workPlans);
+        
+        list.map( (plan: PlanTrabajo) => {
+          plan.viewConceptWorkPlan.map( (concepto: ConceptoPlanTrabajo) => {
+            if(concepto.cantidadPlaneada > 0)
+            this.conceptosSeleccionados.push(concepto);
+            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importePlaneado;
+          });
+        });
       }
     );
   }
