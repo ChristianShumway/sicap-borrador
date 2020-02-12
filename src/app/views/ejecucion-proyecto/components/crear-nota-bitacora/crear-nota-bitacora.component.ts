@@ -17,6 +17,7 @@ import { ReporteConceptosEjecutados } from './../../../../shared/models/reporte-
 import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
 
 import { SubirEvidenciasComponent } from '../subir-evidencias/subir-evidencias.component';
+import { now } from 'moment';
 
 @Component({
   selector: 'app-crear-nota-bitacora',
@@ -37,6 +38,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   idObra;
   fechaInicio;
   fechaFinal;
+  fechaHoy = new Date();
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
@@ -309,12 +311,15 @@ export class CrearNotaBitacoraComponent implements OnInit {
 
   subirEvidencias(idConcepto): void {
     console.log(idConcepto);  
+    const format = 'yyyy-MM-dd';
+    const hoy = this.pipe.transform(this.fechaHoy, format);
 
     let sheet = this.bottomSheet.open(SubirEvidenciasComponent, {
       data: {
         idConcepto,
         idObra: this.idObra,
         idUsuario: this.idUsuarioLogeado,
+        fechaHoy: hoy
       }
     });
 

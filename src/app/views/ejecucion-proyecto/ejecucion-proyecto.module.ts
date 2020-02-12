@@ -11,6 +11,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { AgmCoreModule } from '@agm/core';
+import { OwlModule } from 'ngx-owl-carousel';
 
 import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
@@ -30,6 +31,7 @@ import { ModificarReporteConceptosEjecutadosComponent } from './components/modif
 import { ListaReporteSubcontratosComponent } from './components/lista-reporte-subcontratos/lista-reporte-subcontratos.component';
 import { ModificarReporteSubcontratosComponent } from './components/modificar-reporte-subcontratos/modificar-reporte-subcontratos.component';
 import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-lista.component';
+import { CarouselEvidenciasComponent } from './components/carousel-evidencias/carousel-evidencias.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +51,8 @@ import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-
     ModificarReporteConceptosEjecutadosComponent,
     ListaReporteSubcontratosComponent,
     ModificarReporteSubcontratosComponent,
-    ConceptosListaComponent
+    ConceptosListaComponent,
+    CarouselEvidenciasComponent
   ],
   imports: [
   CommonModule,
@@ -66,6 +69,7 @@ import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-
     SharedPipesModule,
     EjecucionProyectoRoutingModule,
     AgmCoreModule,
+    OwlModule
   ],
   entryComponents: [
     ObservacionObraGeneralComponent,

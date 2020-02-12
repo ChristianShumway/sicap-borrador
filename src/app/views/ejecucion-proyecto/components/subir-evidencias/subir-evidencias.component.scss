@@ -8,12 +8,23 @@
   
 .fileupload-drop-zone-logo-div{
   text-align: center;
-  padding-left: 5%;
-  padding-right: 5%;
   border: 1px dashed rgba(0, 0, 0, .15);
   margin: 10px;
   cursor: pointer;
-  padding-top: 10px;
+  padding: 5%;
+}
+
+.fileupload-drop-zone-logo-div .icon-upload{
+  max-width: 130px;
+  filter: opacity(0.5);
+}
+
+.fileupload-drop-zone-logo-div .indication{
+  font-size: 20px;
+}
+
+.fileupload-drop-zone-logo-div .o{
+  font-size: 18px;
 }
 
 .cont-btns{
@@ -67,4 +78,39 @@ table {
 .wrap-button{
   margin: 10px 7px;
   text-align: right;
+}
+
+.container-upload{
+  display: grid;
+  grid-template-columns: 60px 1fr;
+  // border: 1px solid red;
+  align-items: center;
+  grid-gap: 5px;
+  padding: 10px 0;
+}
+
+.wrap-img img{
+  max-width: 40px;
+  vertical-align: top;
+}
+
+.wrap-uploader {
+  // border: 1px solid blue;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.wrap-uploader .progress .mat-progress-bar {
+  height: 6px !important;
+}
+
+.wrap-uploader .filename, .wrap-uploader .size{
+  text-align: left;
+  margin-bottom: 5px;
+  font-size: 12px;
+}
+
+.wrap-uploader .size{
+  margin-top: 5px;
 }

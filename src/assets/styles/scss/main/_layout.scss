@@ -303,6 +303,41 @@ input[type=number] { -moz-appearance:textfield; }
   overflow-x: auto !important;
 }
 
+.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
+  font-size: 35px !important;
+}
+
+.owl-theme .owl-nav {
+  display: flex;
+  justify-content: space-evenly;
+  width: 80%;
+  padding: 5px;
+  margin: 10px auto;
+}
+
+.owl-theme .owl-dots .owl-dot.active span{
+  background: #869791 !important;
+}
+
+.owl-theme .owl-dots .owl-dot span {
+  background: rgba(139, 195, 74, 0.4) !important;
+}
+
+.owl-carousel .owl-stage {
+  position: relative;
+  touch-action: manipulation;
+  display: flex !important;
+}
+
+.owl-carousel.owl-drag .owl-item {
+  touch-action: pan-y;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  width: 480px !important;
+}
+
 @media (max-width: 959px) {
   .app-admin-container.sidebar-full {
     .main-content-wrap {

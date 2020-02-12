@@ -3,28 +3,30 @@
     <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [multiple]="true" [uploader]="uploaderEvidence" />
     <div ng2FileDrop (click)="fileInput.click()" [ngClass]="{'dz-file-over': hasBaseDropZoneOver}" [uploader]="uploaderEvidence"
       (fileOver)="fileOverBase($event)" class="fileupload-drop-zone-logo-div">
-      <p>Evidencias del concepto en formato png ó jpg</p>
-      <p>Arrastra o click sobre la imagen o zona punteada</p>
+      <!-- <p>Evidencias del concepto en formato png ó jpg</p> -->
+      <img class="icon-upload" src="assets/images/icons/cloud-computing.png" alt="upload icon" />
+      <p class="indication">Arrastra y suelta tus archivos aquí</p>
+      <p class="o">o</p>
+      <a mat-raised-button color="primary">Buscar archivos</a>
 
       <div>
-        <div *ngFor="let item of uploaderEvidence.queue ">
-          <table>
-
-          <tr>
-            <td>
-          <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
-            <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
-            <mat-progress-bar class="" color="primary" mode="determinate" [value]="item.progress">
-            </mat-progress-bar>
+        <div *ngFor="let item of uploaderEvidence.queue " class="container-upload">
+          <div class="wrap-img">
+            <img src="assets/images/icons/upload.png" alt="upload" />
           </div>
-        </td>
-          </tr>
-          <tr>
-        <td>
-          <div><span>{{ item?.file?.name }}</span></div>
-        </td>
-        </tr> 
-        </table>
+          <div class="wrap-uploader">
+            <div class="filename">
+              <span>{{ item?.file?.name }}</span>
+            </div>
+            <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
+              <div class="progress-bar" role="progressbar" [ngStyle]="{ 'width': item.progress + '%' }"></div>
+              <mat-progress-bar class="" color="primary" mode="determinate" [value]="item.progress">
+              </mat-progress-bar>
+            </div>
+            <div class="size">
+              <span>{{ item?.file?.size /1000 }} Kb</span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -34,6 +36,12 @@
         </div>
       </div>
 
+    </div>
+  </div>
+
+  <div class="mb-1">
+    <div *ngIf="(EvidenciasObs$ | async) as evidencias">
+        <app-carousel-evidencias [evidencias]="evidencias"> </app-carousel-evidencias>
     </div>
   </div>
 

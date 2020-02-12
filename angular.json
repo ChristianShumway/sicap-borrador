@@ -21,10 +21,14 @@
               "src/favicon.ico"
             ],
             "styles": [
-              "src/assets/styles/app.scss"
+              "src/assets/styles/app.scss",
+              "node_modules/owl.carousel/dist/assets/owl.carousel.min.css",
+              "node_modules/owl.carousel/dist/assets/owl.theme.default.min.css"
             ],
             "scripts": [
-              "node_modules/mammoth/mammoth.browser.min.js"
+              "node_modules/mammoth/mammoth.browser.min.js",
+              "node_modules/jquery/dist/jquery.min.js",
+              "node_modules/owl.carousel/dist/owl.carousel.min.js"
             ]
           },
           "configurations": {

@@ -5,11 +5,15 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { EvidenciaReporte } from './../models/evidencia-reporte';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ReporteConceptosEjecutadosService {
+
+  private evidencia: EvidenciaReporte[];
+  private evidenciasubject = new BehaviorSubject<EvidenciaReporte[]>(null);
 
   constructor(
     private http: HttpClient
@@ -31,6 +35,24 @@ export class ReporteConceptosEjecutadosService {
   deleteReportConceptExecuted(report: Partial<ReporteConceptosEjecutados>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteConceptExecuted`, JSON.stringify(report), { headers: headerss});
+  }
+
+  getDataEvidence(): Observable<EvidenciaReporte[]> {
+    return this.evidenciasubject.asObservable();
+  }
+
+  private refreshEvidence() {
+    this.evidenciasubject.next(this.evidencia);
+  }
+  
+  getEvidenceObservable(idConcept:number, idUser:number, fecha){
+    return this.http.get<EvidenciaReporte[]>(`${environment.apiURL}/projectExecution/getEvidenciaByConcept/${idConcept}/${idUser}/${fecha}`).subscribe(
+      (evidencia: EvidenciaReporte[]) => {
+        this.evidencia = evidencia;
+        this.refreshEvidence();
+      },
+      error => console.log(error)
+    );
   }
 
 }
