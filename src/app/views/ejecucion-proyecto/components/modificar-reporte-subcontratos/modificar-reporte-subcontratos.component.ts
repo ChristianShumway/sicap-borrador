@@ -303,7 +303,7 @@ export class ModificarReporteSubcontratosComponent implements OnInit {
 
       const reporte: ReporteSubcontrato = {
         ...this.notaBitacoraForm.value,
-        idReporteSubcontrato: parseInt(this.idReporteSubcontrato),
+        idReporteSubContrato: parseInt(this.idReporteSubcontrato),
         fechaInicio: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
         idObra: parseInt(this.idObra),

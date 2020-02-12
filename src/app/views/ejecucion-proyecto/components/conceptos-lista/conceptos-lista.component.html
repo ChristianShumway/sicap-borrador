@@ -1,6 +1,7 @@
 <ul class="list-concepts">
   <li *ngFor="let concepto of conceptosSeleccionados">
-    <p><b>No. Concepto:</b> {{concepto.noConcepto}}</p>
+    <p *ngIf = "tipoReporte === 'plan-trabajo' || tipoReporte === 'reporte-ejecutados'"><b>No. Concepto:</b> {{concepto.noConcepto}}</p>
+    <p  *ngIf = "tipoReporte === 'reporte-subcontrato'"><b>No. Concepto:</b> {{concepto.noSubcontrato}}</p>
     <p><b>Descripción:</b> {{concepto.descripcion}}</p>
     <p *ngIf = "tipoReporte === 'plan-trabajo'"><b>Cantidad Planeada:</b> {{concepto.cantidadPlaneada}}</p>
     <p *ngIf = "tipoReporte === 'reporte-ejecutados'"><b>Cantidad Ejecutada:</b> {{concepto.cantidadEjecutada}}</p>
