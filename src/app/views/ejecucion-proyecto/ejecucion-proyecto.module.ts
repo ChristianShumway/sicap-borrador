@@ -29,6 +29,7 @@ import { SubirEvidenciasComponent } from './components/subir-evidencias/subir-ev
 import { ModificarReporteConceptosEjecutadosComponent } from './components/modificar-reporte-conceptos-ejecutados/modificar-reporte-conceptos-ejecutados.component';
 import { ListaReporteSubcontratosComponent } from './components/lista-reporte-subcontratos/lista-reporte-subcontratos.component';
 import { ModificarReporteSubcontratosComponent } from './components/modificar-reporte-subcontratos/modificar-reporte-subcontratos.component';
+import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-lista.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { ModificarReporteSubcontratosComponent } from './components/modificar-re
     SubirEvidenciasComponent,
     ModificarReporteConceptosEjecutadosComponent,
     ListaReporteSubcontratosComponent,
-    ModificarReporteSubcontratosComponent
+    ModificarReporteSubcontratosComponent,
+    ConceptosListaComponent
   ],
   imports: [
   CommonModule,

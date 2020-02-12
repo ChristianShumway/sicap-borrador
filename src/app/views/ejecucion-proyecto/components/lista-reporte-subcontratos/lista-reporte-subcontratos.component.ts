@@ -37,9 +37,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   reporte: ReporteSubcontrato[] = [];
   reporteTemp: ReporteSubcontrato[] = [];
   idObra;
-  conceptosSeleccionados: ConceptoSubcontrato[] = [];
   panelOpenState = false;
-  montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -114,14 +112,6 @@ export class ListaReporteSubcontratosComponent implements OnInit {
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
         console.log(this.reporte);
-
-        list.map( (reporte: ReporteSubcontrato) => {
-          reporte.viewReportSubContract.map( (concepto: ConceptoSubcontrato) => {
-            if(concepto.cantidadSubContrato > 0)
-            this.conceptosSeleccionados.push(concepto);
-            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeSubContrato;
-          });
-        });
       }
     );
   }

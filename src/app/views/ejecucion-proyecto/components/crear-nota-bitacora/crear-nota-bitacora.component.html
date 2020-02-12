@@ -5,7 +5,6 @@
     </div>
   </div>
 </div>
-
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
   <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
@@ -73,7 +72,6 @@
           <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
             autocapitalize="off" spellcheck="off" type="text" #search>
         </div> -->
-
       <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
         [mapTypeControl]='true' >
         <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">

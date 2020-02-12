@@ -18,8 +18,8 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #reporteMenu="matMenu">
-              <!-- <a mat-menu-item routerLink="modificar-reporte-conceptos-ejecutados/{{reporte.idConceptoEjecutado}}">Modificar Reporte de Conceptos Ejecutados</a>
-              <button mat-menu-item (click)="openDialoAlertDelete(reporte)">Eliminar Reporte</button> -->
+              <a mat-menu-item routerLink="modificar-reporte-conceptos-ejecutados/{{reporte.idConceptoEjecutado}}">Modificar Reporte de Conceptos Ejecutados</a>
+              <button mat-menu-item (click)="openDialoAlertDelete(reporte)">Eliminar Reporte</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>
@@ -52,17 +52,7 @@
                   Conceptos ejecutados agregados al reporte
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <ul class="list-concepts">
-                <li *ngFor="let concepto of conceptosSeleccionados">
-                  <p><b>No. Concepto:</b> {{concepto.noConcepto}}</p>
-                  <p><b>Descripción:</b> {{concepto.descripcion}}</p>
-                  <p><b>Cantidad Ejecutada:</b> {{concepto.cantidadEjecutada}}</p>
-                  <p><b>Importe Ejecutado:</b> {{concepto.importeEjecutado |currency}}</p>
-                </li>
-              </ul>
-              <div class="wrap-cantidad-total">
-                <p>El importe total ejecutado de los conceptos agregados al reporte de conceptos ejecutados es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
-              </div>
+              <app-conceptos-lista [conceptos]="reporte.viewConceptExecuted" [tipoReporte]="'reporte-ejecutados'"></app-conceptos-lista>
             </mat-expansion-panel>
           </mat-accordion>
         </mat-card-content>

@@ -18,8 +18,8 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #planMenu="matMenu">
-              <!-- <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}">Modificar Plan de Trabajo</a>
-              <button mat-menu-item (click)="openDialoAlertDelete(plan)">Eliminar Plan</button> -->
+              <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}">Modificar Plan de Trabajo</a>
+              <button mat-menu-item (click)="openDialoAlertDelete(plan)">Eliminar Plan</button>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>
@@ -49,17 +49,7 @@
                   Conceptos agregados al plan de trabajo
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <ul class="list-concepts">
-                <li *ngFor="let concepto of conceptosSeleccionados">
-                  <p><b>No. Concepto:</b> {{concepto.noConcepto}}</p>
-                  <p><b>Descripción:</b> {{concepto.descripcion}}</p>
-                  <p><b>Cantidad Planeada:</b> {{concepto.cantidadPlaneada}}</p>
-                  <p><b>Importe Planeado:</b> {{concepto.importePlaneado |currency}}</p>
-                </li>
-              </ul>
-              <div class="wrap-cantidad-total">
-                <p>El importe total planeado de los conceptos agregados al plan de trabajo es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
-              </div>
+              <app-conceptos-lista [conceptos]="plan.viewConceptWorkPlan" [tipoReporte]="'plan-trabajo'"></app-conceptos-lista>             
             </mat-expansion-panel>
           </mat-accordion>
           

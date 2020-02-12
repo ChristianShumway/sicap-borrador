@@ -33,9 +33,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   workPlans: PlanTrabajo[] = [];
   workPlansTemp: PlanTrabajo[] = [];
   idObra;
-  conceptosSeleccionados: ConceptoPlanTrabajo[] = [];
   panelOpenState = false;
-  montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -109,15 +107,6 @@ export class ListaPlanTrabajoComponent implements OnInit {
         this.workPlans = list;
         this.workPlansTemp =  this.workPlans;
         this.dataSource.data = this.workPlans;
-        // console.log(this.workPlans);
-        console.log(list);
-        list.map( (plan: PlanTrabajo) => {
-          plan.viewConceptWorkPlan.map( (concepto: ConceptoPlanTrabajo) => {
-            if(concepto.cantidadPlaneada > 0)
-            this.conceptosSeleccionados.push(concepto);
-            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importePlaneado;
-          });
-        });
       }
     );
   }

@@ -37,9 +37,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   reporte: ReporteConceptosEjecutados[] = [];
   reporteTemp: ReporteConceptosEjecutados[] = [];
   idObra;
-  conceptosSeleccionados: ConceptoEjecutado[] = [];
   panelOpenState = false;
-  montoImporteConceptosSeleccionados: number = 0;
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -113,15 +111,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         this.reporte = list;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        console.log(this.reporte);
-
-        list.map( (reporte: ReporteConceptosEjecutados) => {
-          reporte.viewConceptExecuted.map( (concepto: ConceptoEjecutado) => {
-            if(concepto.cantidadEjecutada > 0)
-            this.conceptosSeleccionados.push(concepto);
-            this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeEjecutado;
-          });
-        });
+        console.log(list);
       }
     );
   }

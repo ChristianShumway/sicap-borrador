@@ -19,16 +19,34 @@
           <mat-form-field class="full-width">
             <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
           </mat-form-field>
+          <div class="validaciones">
+            <small *ngIf="notaBitacoraForm.controls['observacion'].hasError('required') && notaBitacoraForm.controls['observacion'].touched"
+              class="form-error-msg">
+              Nota del reporte es un campo requerido
+            </small>
+          </div>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)">
           </mat-form-field>
+          <div class="validaciones">
+            <small *ngIf="notaBitacoraForm.controls['latitud'].hasError('required') && notaBitacoraForm.controls['latitud'].touched"
+              class="form-error-msg">
+              Latitud es un campo requerido
+            </small>
+          </div>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
           </mat-form-field>
+          <div class="validaciones">
+            <small *ngIf="notaBitacoraForm.controls['longitud'].hasError('required') && notaBitacoraForm.controls['longitud'].touched"
+              class="form-error-msg">
+              Longitud es un campo requerido
+            </small>
+          </div>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
@@ -40,7 +58,7 @@
           <div class="validaciones">
             <small *ngIf="notaBitacoraForm.controls['fechaInicio'].hasError('required') && notaBitacoraForm.controls['fechaInicio'].touched"
               class="form-error-msg">
-              Fecha Inicio del plan de trabajo es un campo requerido
+              Fecha Inicial del subcontrato es un campo requerido
             </small>
           </div>
           <div class="validaciones">
@@ -59,7 +77,7 @@
           <div class="validaciones">
             <small *ngIf="notaBitacoraForm.controls['fechaFinal'].hasError('required') && notaBitacoraForm.controls['fechaFinal'].touched"
               class="form-error-msg">
-              Fecha Final del plan de trabajo es un campo requerido
+              Fecha Final del subcontrato es un campo requerido
             </small>
           </div>
         </div>
@@ -75,14 +93,14 @@
             </div> -->
 
       <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
-        [mapTypeControl]='true' (mapReady)="mapReady($event)" (centerChange)="centerChange($event)">
+        [mapTypeControl]='true'>
         <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
         </agm-marker>
       </agm-map>
 
       <div class="wrap-button">
         <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit" class="btn-accept" *ngIf="catalogo.length">Modificar</button>
-        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados'">Cancelar</button>
+        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-subcontratos'">Cancelar</button>
       </div>
 
     </div>
@@ -109,57 +127,45 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{ row?.noConcepto }}
-            </p>
+            <p>{{ row?.noSubcontrato }}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Descripción" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.descripcion}}
-            </p>
+            <p>{{row?.descripcion}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Unidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.unidad}}
-            </p>
+            <p>{{row?.unidad}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.cantidadOriginal}}
-            </p>
+            <p>{{row?.cantidad}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.precioUnitario | currency}}
-            </p>
+            <p>{{row?.precio | currency}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada">
-              <input matInput type="number" min="0" [(ngModel)]="row.cantidadEjecutada">
+              <input matInput type="number" min="0" [(ngModel)]="row.cantidadSubContrato">
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>
-              {{ row?.cantidadEjecutada * row?.precioUnitario | currency }}
-            </p>
+            <p>{{ row?.cantidadSubContrato * row?.precio | currency }}</p>
           </ng-template>
         </ngx-datatable-column>
 

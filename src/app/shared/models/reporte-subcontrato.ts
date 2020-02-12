@@ -1,7 +1,7 @@
 import { ConceptoSubcontrato } from "./concepto-subcontrato";
 
 export interface ReporteSubcontrato {
-  idReporteSubcontrato?: number;
+  idReporteSubContrato?: number;
   idObra: number;
   latitud: number;
   longitud: number;

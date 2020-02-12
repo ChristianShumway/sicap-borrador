@@ -148,12 +148,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
         });
 
         this.getConceptsToReport();
-        // this.obraSupervisionService.getCatalogObservable(this.idObra);
-        // this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
-        //   this.catalogo = catalogo;
-        //   this.temp = catalogo;
-        //   console.log(catalogo);
-        // })
       }
     })
   }
@@ -188,55 +182,61 @@ export class CrearNotaBitacoraComponent implements OnInit {
       this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
     }
   }
+
   private defaultPos(){
-    this.latitude =21.8733072;// position.coords.latitude;
-    this.longitude =-102.3008317; //position.coords.longitude;
+    this.latitude =21.862058500142656;// position.coords.latitude;
+    this.longitude =-102.29690491288909; //position.coords.longitude;
+    this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
+    this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
   }
+
+  jarcorea(){
+    this.latitude = 22.778572606109794;
+    this.longitude = -102.57191180318603;
+  }
+
   // Get Current Location Coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        this.latitude =position.coords.latitude;
-        this.longitude =position.coords.longitude;
+        console.log(position);
+        // this.latitude =position.coords.latitude;
+        // this.longitude =position.coords.longitude;
+        this.defaultPos();
       }, function(objPositionError){
-        switch (objPositionError.code)
-        {
-          case objPositionError.PERMISSION_DENIED:
-            
-            alert("No se ha permitido el acceso a la posición del usuario.");
-           
-          break;
-          case objPositionError.POSITION_UNAVAILABLE:
-            
-            alert("No se ha podido acceder a la información de su posición.");
-           
-          break;
-          case objPositionError.TIMEOUT:
-            
-            alert("El servicio ha tardado demasiado tiempo en responder.");
+        
+        switch (objPositionError.code){
           
-          break;
+          case objPositionError.PERMISSION_DENIED:
+            this.useAlerts('No se ha permitido el acceso a la posición del usuario', ' ', 'error-dialog');
+            break;
+
+          case objPositionError.POSITION_UNAVAILABLE:
+            this.useAlerts('No se ha podido acceder a la información de su posición', ' ', 'error-dialog');
+            break;
+
+          case objPositionError.TIMEOUT:
+            this.useAlerts('El servicio ha tardado demasiado tiempo en responder', ' ', 'error-dialog');
+            break;
+          
           default:
-            alert("Error desconocido.");
+            this.useAlerts('Error desconocido', ' ', 'error-dialog');
         }
       }, {
         timeout: 50000
       });
       
-    }else{ 
+    } else { 
       this.defaultPos();
-        alert("Su navegador no soporta la API de geolocalización."); 
-       
+      this.useAlerts('Su navegador no soporta la API de geolocalización', ' ', 'error-dialog');
     }
     
-      this.defaultPos();
-      this.zoom = 20;
+    this.defaultPos();
+    this.getAddress(this.latitude, this.longitude);
+    this.zoom = 20;
         
-      this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
-      this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
-      this.getAddress(this.latitude, this.longitude);
-      //});
-    //}
+    // this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
+    // this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
   }
 
   markerDragEnd($event: MouseEvent) {
@@ -250,39 +250,39 @@ export class CrearNotaBitacoraComponent implements OnInit {
  
   getAddress(latitude, longitude) {
     this.geoCoder = new google.maps.Geocoder();
-    console.log(this.geoCoder);
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-       console.log(results);
+      //  console.log(results);
       // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 16;
           this.address = results[0].formatted_address;
         } else {
-          window.alert('No results found');
+          this.useAlerts('Resultados no encontrados', ' ', 'error-dialog');
+          
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        // window.alert('Geocoder fall debido a: ' + status);
+        this.useAlerts(`Geocoder falló debido a ${status}`, ' ', 'error-dialog');
       }
  
     });
   }
 
   obtenerUbicacionCoord(event){
-    var lat;
-    var lon;
+    let lat;
+    let lon;
     
     if(event.target.name === 'latitud'){
       lat = parseFloat(event.target.value);
       lon = this.longitude;
     } else if(event.target.name === 'longitud'){
-      lat = this.longitude;
+      lat = this.latitude;
       lon = parseFloat(event.target.value);
     }
 
-    var myLatLng = new google.maps.LatLng(lat, lon);
-    console.log(myLatLng);
-
+    this.latitude=lat;
+    this.longitude=lon;
     this.getAddress(lat, lon);
 
   }
@@ -325,7 +325,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   reportarAvance() {
-    alert(this.fechaInicio);
     if (this.notaBitacoraForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);

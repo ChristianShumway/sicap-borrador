@@ -69,27 +69,27 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
-      this.geoCoder = new google.maps.Geocoder;
+      // this.geoCoder = new google.maps.Geocoder;
  
-      let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-        types: ["address"]
-      });
+      // let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
+      //   types: ["address"]
+      // });
 
-      autocomplete.addListener("place_changed", () => {
-        this.ngZone.run(() => {
-          //get the place result
-          let place: google.maps.places.PlaceResult = autocomplete.getPlace();
+      // autocomplete.addListener("place_changed", () => {
+      //   this.ngZone.run(() => {
+      //     //get the place result
+      //     let place: google.maps.places.PlaceResult = autocomplete.getPlace();
  
-          //verify result
-          if (place.geometry === undefined || place.geometry === null) {
-            return;
-          }
-          //set latitude, longitude and zoom
-          this.latitude = place.geometry.location.lat();
-          this.longitude = place.geometry.location.lng();
-          this.zoom = 12;
-        });
-      });
+      //     //verify result
+      //     if (place.geometry === undefined || place.geometry === null) {
+      //       return;
+      //     }
+      //     //set latitude, longitude and zoom
+      //     this.latitude = place.geometry.location.lat();
+      //     this.longitude = place.geometry.location.lng();
+      //     this.zoom = 12;
+      //   });
+      // });
     });
   }
 
@@ -171,6 +171,8 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
           this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
           this.notaBitacoraForm.patchValue(reporte);
           console.log(reporte);
+          this.latitude = reporte.latitud;
+          this.longitude = reporte.longitud;
           this.catalogo = reporte.viewConceptExecuted;
           this.temp = this.catalogo;
           // console.log(this.catalogo);
@@ -178,18 +180,6 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
       }
     );
   }
-
-  // getConceptsToReport(){
-  //   this.reporteConceptosEjecutadosService.getConceptsByReport(this.idObra).subscribe(
-  //     (catalog: ConceptoEjecutado[]) => {
-  //       this.catalogo = catalog;
-  //       this.temp = catalog;
-  //       console.log(this.catalogo);
-  //     },
-  //     error => console.log(error)
-  //   );
-    
-  // }
 
   validateAccessObra(supervisores) {
     // console.log(supervisores);
@@ -210,15 +200,42 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        // console.log(position);
-        this.latitude = position.coords.latitude;
-        this.longitude = position.coords.longitude;
-        this.zoom = 8;
-        this.getAddress(this.latitude, this.longitude);
-        this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
-        this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
+        console.log(position);
+        // this.latitude = position.coords.latitude;
+        // this.longitude = position.coords.longitude;
+      }, function(objPositionError){
+        switch (objPositionError.code){
+          
+          case objPositionError.PERMISSION_DENIED:
+            this.useAlerts('No se ha permitido el acceso a la posición del usuario', ' ', 'error-dialog');
+            break;
+
+          case objPositionError.POSITION_UNAVAILABLE:
+            this.useAlerts('No se ha podido acceder a la información de su posición', ' ', 'error-dialog');
+            break;
+
+          case objPositionError.TIMEOUT:
+            this.useAlerts('El servicio ha tardado demasiado tiempo en responder', ' ', 'error-dialog');
+            break;
+          
+          default:
+            this.useAlerts('Error desconocido', ' ', 'error-dialog');
+        }
+      }, {
+        timeout: 50000
       });
+      
+    } else { 
+      // this.defaultPos();
+      this.useAlerts('Su navegador no soporta la API de geolocalización', ' ', 'error-dialog');
     }
+    
+    this.getAddress(this.latitude, this.longitude);
+    this.zoom = 16;
+    this.notaBitacoraForm.controls['latitud'].setValue(this.latitude);
+    this.notaBitacoraForm.controls['longitud'].setValue(this.longitude);
+    this.getAddress(this.latitude, this.longitude);
+
   }
 
   markerDragEnd($event: MouseEvent) {
@@ -231,38 +248,40 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   }
  
   getAddress(latitude, longitude) {
+    this.geoCoder = new google.maps.Geocoder();
     this.geoCoder.geocode({ 'location': { lat: latitude, lng: longitude } }, (results, status) => {
-      // console.log(results);
+      //  console.log(results);
       // console.log(status);
       if (status === 'OK') {
         if (results[0]) {
           this.zoom = 16;
           this.address = results[0].formatted_address;
         } else {
-          window.alert('No results found');
+          this.useAlerts('Resultados no encontrados', ' ', 'error-dialog');
+          
         }
       } else {
-        window.alert('Geocoder failed due to: ' + status);
+        // window.alert('Geocoder fall debido a: ' + status);
+        this.useAlerts(`Geocoder falló debido a ${status}`, ' ', 'error-dialog');
       }
  
     });
   }
 
   obtenerUbicacionCoord(event){
-    var lat;
-    var lon;
+    let lat;
+    let lon;
     
     if(event.target.name === 'latitud'){
       lat = parseFloat(event.target.value);
       lon = this.longitude;
     } else if(event.target.name === 'longitud'){
-      lat = this.longitude;
+      lat = this.latitude;
       lon = parseFloat(event.target.value);
     }
 
-    var myLatLng = new google.maps.LatLng(lat, lon);
-    console.log(myLatLng);
-
+    this.latitude=lat;
+    this.longitude=lon;
     this.getAddress(lat, lon);
 
   }
