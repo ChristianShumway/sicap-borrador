@@ -20,7 +20,9 @@ export class SubirEvidenciasComponent implements OnInit {
   host: string;
   rutaServe: string;
   loadingFile = false;
-
+  countFiles =1;
+  countFileSucces=0;
+  countFileError=0;
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheetRef: MatBottomSheetRef<SubirEvidenciasComponent>,
@@ -40,23 +42,36 @@ export class SubirEvidenciasComponent implements OnInit {
     this.host = environment.host;
 
     const headers = [{ name: 'Accept', value: 'application/json' }];
-    this.uploaderEvidence = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObra', autoUpload: true, headers: headers });
+    this.uploaderEvidence = new FileUploader({ url: this.rutaServe + '/projectExecution/uploadEvidence', autoUpload: true,headers: headers });
+    
     this.uploaderEvidence.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idObra', this.data.idObra);
-      form.append('idUserAdd', this.data.idUsuario);
+      form.append('idConcept', this.data.idObra);
+      form.append('idUsuario', this.data.idUsuario);
       this.loadingFile = true;
+      
       console.log(this.loadingFile);
     };
     this.uploaderEvidence.uploadAll();
     this.uploaderEvidence.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
       if(item.isSuccess){
-        // this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
-        this.useAlerts('Documento cargado', ' ', 'success-dialog');
-      } else {
-        this.useAlerts('Documento no se subió', ' ', 'error-dialog');
+        this.countFileSucces++;
+      }else{
+        this.countFileError ++;
       }
-      this.bottomSheetRef.dismiss(); 
+      console.log(this.countFiles + ' -- ' + this.uploaderEvidence.queue.length);
+      if(this.uploaderEvidence.queue.length==this.countFiles){
+        
+          // this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
+          this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s)'
+          + " " +this.countFileError+ 'Documento(s) no se subieron', ' ', 'success-dialog');
+        
+          //this.useAlerts(this.countFileError+ 'Documento(s) no se subieron', ' ', 'error-dialog');
+          this.countFiles=1;
+        this.bottomSheetRef.dismiss(); 
+
+      }
+      this.countFiles++;
     };
   }
 
