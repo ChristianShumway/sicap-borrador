@@ -68,14 +68,13 @@ export class ListaReporteSubcontratosComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       this.idObra = data.idObra;
 
       this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
         this.obraService.getDataObra().subscribe((data: Obra) => {
-          console.log(data);
+          // console.log(data);
           if (data !== null) {
             this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
@@ -84,7 +83,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   }
 
   validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
-    console.log(supervisores);
+    // console.log(supervisores);
     let idUsuariosConPermiso = [];
     supervisores.map(supervisor => {
       idUsuariosConPermiso.push(supervisor.idUsuario);
@@ -93,10 +92,9 @@ export class ListaReporteSubcontratosComponent implements OnInit {
     idUsuariosConPermiso.push(idPP);
     idUsuariosConPermiso.push(idControlObra);
     idUsuariosConPermiso.push(idCompras);
-    console.log(idUsuariosConPermiso);
+    // console.log(idUsuariosConPermiso);
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
-    console.log(idExistente);
-    // debugger;
+    // console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a generar reporte para esta obra', ' ', 'error-dialog');
@@ -111,7 +109,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
         this.reporte = list;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        console.log(this.reporte);
+        // console.log(this.reporte);
       }
     );
   }
@@ -139,10 +137,10 @@ export class ListaReporteSubcontratosComponent implements OnInit {
       }
     })
 
-    console.log(rows);
+    // console.log(rows);
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   openDialoAlertDelete(plan) {

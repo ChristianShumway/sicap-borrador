@@ -133,7 +133,6 @@ export class ReporteSubcontratosComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       if(data){
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
@@ -146,12 +145,6 @@ export class ReporteSubcontratosComponent implements OnInit {
         });
 
         this.getConceptsToReport();
-        // this.obraSupervisionService.getCatalogObservable(this.idObra);
-        // this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
-        //   this.catalogo = catalogo;
-        //   this.temp = catalogo;
-        //   console.log(catalogo);
-        // })
       }
     })
   }
@@ -164,7 +157,7 @@ export class ReporteSubcontratosComponent implements OnInit {
           (catalog: ConceptoSubcontrato[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
-            console.log(this.catalogo);
+            // console.log(this.catalogo);
           },
           error => console.log(error)
         )
@@ -198,7 +191,7 @@ export class ReporteSubcontratosComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+        // console.log(position);
         // this.latitude =position.coords.latitude;
         // this.longitude =position.coords.longitude;
         this.defaultPos();

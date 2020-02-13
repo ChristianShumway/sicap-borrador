@@ -131,7 +131,6 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       if(data){
         this.idObra = data.idObra;
         this.idReporteConceptos  = data.idPlanTrabajo;
@@ -147,39 +146,9 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
 
         // this.getConceptsToReport();
         this.getWorkPlanById();
-        // this.obraSupervisionService.getCatalogObservable(this.idObra);
-        // this.obraSupervisionService.getDataCatalogo().subscribe( (catalogo: CatalogoConceptos[]) => {
-        //   this.catalogo = catalogo;
-        //   this.temp = catalogo;
-        //   console.log(catalogo);
-        // })
+       
       }
     })
-  }
-
-  getWorkPlanById(){
-    this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
-      (reporteConceptos: ReporteConceptosEjecutados[]) => {
-        // console.log(reporteConceptos);
-        const reporteModif = reporteConceptos.filter( (reporte: ReporteConceptosEjecutados) => reporte.idConceptoEjecutado == this.idReporteConceptos);
-        // console.log(reporteModif);
-        reporteModif.map( (reporte: ReporteConceptosEjecutados) => {
-          let inicioString = reporte.fechaInicio;
-          let finString = reporte.fechaFinal;
-          this.fechaInicio = new Date(inicioString);
-          this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
-          this.fechaFinal = new Date(finString);
-          this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
-          this.notaBitacoraForm.patchValue(reporte);
-          console.log(reporte);
-          this.latitude = reporte.latitud;
-          this.longitude = reporte.longitud;
-          this.catalogo = reporte.viewConceptExecuted;
-          this.temp = this.catalogo;
-          // console.log(this.catalogo);
-        })
-      }
-    );
   }
 
   validateAccessObra(supervisores) {
@@ -197,11 +166,36 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     }
   }
 
+  getWorkPlanById(){
+    this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
+      (reporteConceptos: ReporteConceptosEjecutados[]) => {
+        // console.log(reporteConceptos);
+        const reporteModif = reporteConceptos.filter( (reporte: ReporteConceptosEjecutados) => reporte.idConceptoEjecutado == this.idReporteConceptos);
+        // console.log(reporteModif);
+        reporteModif.map( (reporte: ReporteConceptosEjecutados) => {
+          let inicioString = reporte.fechaInicio;
+          let finString = reporte.fechaFinal;
+          this.fechaInicio = new Date(inicioString);
+          this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
+          this.fechaFinal = new Date(finString);
+          this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
+          this.notaBitacoraForm.patchValue(reporte);
+          // console.log(reporte);
+          this.latitude = reporte.latitud;
+          this.longitude = reporte.longitud;
+          this.catalogo = reporte.viewConceptExecuted;
+          this.temp = this.catalogo;
+          // console.log(this.catalogo);
+        })
+      }
+    );
+  }
+
   // Get Current Location Coordinates
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+        // console.log(position);
         // this.latitude = position.coords.latitude;
         // this.longitude = position.coords.longitude;
       }, function(objPositionError){
@@ -240,7 +234,6 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   }
 
   markerDragEnd($event: MouseEvent) {
-    console.log($event);
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
@@ -322,7 +315,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     });
 
     sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.idObra);
+      // console.log('clicked'+this.idObra);
     });  
 
   }

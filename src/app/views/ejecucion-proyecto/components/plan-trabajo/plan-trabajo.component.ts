@@ -89,7 +89,6 @@ export class PlanTrabajoComponent implements OnInit {
 
   getObra() {
     this.activatedRoute.params.subscribe((data: Params) => {
-      console.log(data);
       if (data) {
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
@@ -102,11 +101,6 @@ export class PlanTrabajoComponent implements OnInit {
         });
 
         this.getConceptsToPlan();
-        // this.obraSupervisionService.getCatalogObservable(this.idObra);
-        // this.obraSupervisionService.getDataCatalogo().subscribe((catalogo: CatalogoConceptos[]) => {
-          // this.catalogo = catalogo;
-          // this.temp = catalogo;
-        // })
       }
     })
   }
@@ -119,7 +113,7 @@ export class PlanTrabajoComponent implements OnInit {
           (catalog: ConceptoPlanTrabajo[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
-            console.log(this.catalogo);
+            // console.log(this.catalogo);
           },
           error => console.log(error)
         )
@@ -128,14 +122,14 @@ export class PlanTrabajoComponent implements OnInit {
   }
 
   validateAccessObra(supervisores) {
-    console.log(supervisores);
+    // console.log(supervisores);
     let idSupervisores = [];
     supervisores.map(supervisor => {
       idSupervisores.push(supervisor.idUsuario);
     });
-    console.log(idSupervisores);
+    // console.log(idSupervisores);
     const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
-    console.log(idExistente);
+    // console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');

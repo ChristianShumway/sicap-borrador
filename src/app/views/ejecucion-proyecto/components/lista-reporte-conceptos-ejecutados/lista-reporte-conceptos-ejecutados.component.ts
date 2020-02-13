@@ -68,14 +68,13 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       this.idObra = data.id;
 
       this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
         
         this.obraService.getDataObra().subscribe((data: Obra) => {
-          console.log(data);
+          // console.log(data);
           if (data !== null) {
             this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
@@ -84,7 +83,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   }
 
   validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
-    console.log(supervisores);
+    // console.log(supervisores);
     let idUsuariosConPermiso = [];
     supervisores.map(supervisor => {
       idUsuariosConPermiso.push(supervisor.idUsuario);
@@ -93,9 +92,9 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     idUsuariosConPermiso.push(idPP);
     idUsuariosConPermiso.push(idControlObra);
     idUsuariosConPermiso.push(idCompras);
-    console.log(idUsuariosConPermiso);
+    // console.log(idUsuariosConPermiso);
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
-    console.log(idExistente);
+    // console.log(idExistente);
     // debugger;
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
@@ -111,7 +110,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         this.reporte = list;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        console.log(list);
+        // console.log(list);
       }
     );
   }
@@ -139,10 +138,10 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       }
     })
 
-    console.log(rows);
+    // console.log(rows);
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   openDialoAlertDelete(plan) {

@@ -99,11 +99,24 @@ export class ModificarPlanTrabajoComponent implements OnInit {
           }
         });
 
-        // this.getConceptsToPlan();
         this.getWorkPlanById();
     
       }
     });
+  }
+
+  validateAccessObra(supervisores) {
+    // console.log(supervisores);
+    let idSupervisores = [];
+    supervisores.map(supervisor => {
+      idSupervisores.push(supervisor.idUsuario);
+    });
+    console.log(idSupervisores);
+    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
+    console.log(idExistente);
+    if (!idExistente) {
+      this.router.navigate(['/dashboard']);
+    }
   }
 
   getWorkPlanById(){
@@ -120,28 +133,13 @@ export class ModificarPlanTrabajoComponent implements OnInit {
           this.fechaFinal = new Date(finString);
           this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
           this.planTrabajoForm.patchValue(plan);
-          console.log(plan);
+          // console.log(plan);
           this.catalogo = plan.viewConceptWorkPlan;
           this.temp = this.catalogo;
           // console.log(this.catalogo);
         })
       }
     );
-  }
-
-
-  validateAccessObra(supervisores) {
-    console.log(supervisores);
-    let idSupervisores = [];
-    supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
-    });
-    console.log(idSupervisores);
-    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
-    console.log(idExistente);
-    if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-    }
   }
 
 

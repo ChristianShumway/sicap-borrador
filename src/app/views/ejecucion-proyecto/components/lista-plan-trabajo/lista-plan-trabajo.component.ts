@@ -64,7 +64,6 @@ export class ListaPlanTrabajoComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       this.idObra = data.id;
 
       this.obraService.getObraObservable(this.idObra);
@@ -72,7 +71,6 @@ export class ListaPlanTrabajoComponent implements OnInit {
         
         this.obraService.getDataObra().subscribe((data:Obra) => {
           if (data !== null) {
-            console.log(data);
             this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
           }
         });
@@ -81,7 +79,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
 
   validateAccessObra(supervisores, idGerente, idPP, idControlObra, idCompras) {
     let idUsuariosConPermiso = [];
-    console.log(supervisores);
+    // console.log(supervisores);
     supervisores.map(supervisor => {
       idUsuariosConPermiso.push(supervisor.idUsuario);
     });
@@ -89,10 +87,8 @@ export class ListaPlanTrabajoComponent implements OnInit {
     idUsuariosConPermiso.push(idPP);
     idUsuariosConPermiso.push(idControlObra);
     idUsuariosConPermiso.push(idCompras);
-    console.log(idUsuariosConPermiso);
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
-    console.log(idExistente);
-    // debugger;
+    // console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
@@ -134,10 +130,10 @@ export class ListaPlanTrabajoComponent implements OnInit {
       }
     })
 
-    console.log(rows);
+    // console.log(rows);
 
     this.dataSource.data = rows;
-    console.log(this.dataSource.data);
+    // console.log(this.dataSource.data);
   }
 
   openDialoAlertDelete(plan) {
@@ -149,14 +145,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        console.log(plan);
-        
-        // const obraBaja = {
-        //   idObra: idObra,
-        //   activo: 0,
-        //   // usuarioModifico: this.idUsuarioLogeado
-        // };
-        // console.log(obraBaja);
+        // console.log(plan);
 
         this.planTrabajoService.deleteWorkPlan(plan).subscribe(
           response => {

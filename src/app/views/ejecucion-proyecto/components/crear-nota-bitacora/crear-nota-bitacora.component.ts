@@ -137,7 +137,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
-      console.log(data);
       if(data){
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
@@ -162,7 +161,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
           (catalog: ConceptoEjecutado[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
-            console.log(this.catalogo);
+            // console.log(this.catalogo);
           },
           error => console.log(error)
         )
@@ -201,7 +200,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
   private setCurrentLocation() {
     if ('geolocation' in navigator) {
       navigator.geolocation.getCurrentPosition((position) => {
-        console.log(position);
+        // console.log(position);
         // this.latitude =position.coords.latitude;
         // this.longitude =position.coords.longitude;
         this.defaultPos();
@@ -242,7 +241,6 @@ export class CrearNotaBitacoraComponent implements OnInit {
   }
 
   markerDragEnd($event: MouseEvent) {
-    console.log($event);
     this.latitude = $event.coords.lat;
     this.longitude = $event.coords.lng;
     this.getAddress(this.latitude, this.longitude);
