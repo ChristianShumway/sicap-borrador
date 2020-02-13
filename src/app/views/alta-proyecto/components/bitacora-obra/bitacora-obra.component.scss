@@ -4,3 +4,41 @@
   height: 452px;
   align-items: center;
 }
+
+.step-header{
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-gap: 15px;
+  align-items: center;
+  padding: 2px;
+  margin-bottom: 10px;
+}
+
+.step-header img{
+  max-width: 60px;
+  max-height: 60px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.step-header .name-date p{
+  margin: 0;
+}
+
+.step-header .name-date span{
+  margin: 0;
+  font-weight: 400;
+}
+
+.step-body{
+  margin-top: 15px;
+}
+
+.step-body .type-observation{
+  font-weight: 500;
+  color: #3b9a4a;
+}
+
+.step-body .observation{
+  color: dimgray;
+}

@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 
+import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+
 @Component({
   selector: 'app-bitacora-obra',
   templateUrl: './bitacora-obra.component.html',
@@ -8,8 +10,13 @@ import { ActivatedRoute, Params } from '@angular/router';
 })
 export class BitacoraObraComponent implements OnInit {
 
+  isLinear = false;
+  firstFormGroup: FormGroup;
+  secondFormGroup: FormGroup;
+
   constructor(
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private _formBuilder: FormBuilder
   ) { }
 
   ngOnInit() {
@@ -17,6 +24,8 @@ export class BitacoraObraComponent implements OnInit {
     .subscribe( (data: Params) => {
       console.log(data);
     });
+
+   
   }
 
 }

@@ -374,3 +374,49 @@ input[type=number] { -moz-appearance:textfield; }
     width: 100% !important;
   }
 }
+
+mat-step-header .mat-step-label {
+  overflow: visible;
+}
+
+mat-step-header .mat-step-icon-not-touched span,
+mat-step-header .mat-step-icon span,
+mat-step-header .mat-step-icon-not-touched .mat-icon,
+mat-step-header .mat-step-icon .mat-icon {
+display: none;
+background: red;
+}
+
+mat-step-header:nth-of-type(1) .mat-step-icon-not-touched:after,
+mat-step-header:nth-of-type(1) .mat-step-icon:after {
+  content: 'notification_important';
+  font-family: 'Material Icons' !important;
+}
+
+.active-step-1 mat-step-header:nth-of-type(1) .mat-step-icon-not-touched::after,
+.active-step-1 mat-step-header:nth-of-type(1) .mat-step-icon::after {
+content: 'add_circle' !important; /* name of the material icon */
+font-family: 'Material Icons' !important;
+font-feature-settings: 'liga' 1;
+}
+
+// .basic-container .mat-step-header .mat-step-icon-selected {
+//   background-color: #6cb73a !important;
+//   color: #fff;
+// }
+
+.mat-step-header .mat-step-icon{
+  background: rgba(0, 0, 0, 0.54) !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-step-header .mat-step-icon-selected{
+  background: #3b9a4a !important;
+}
+
+
+.mat-step-header .mat-step-icon-state-edit{
+  background: rgba(0, 0, 0, 0.54) !important;
+}
