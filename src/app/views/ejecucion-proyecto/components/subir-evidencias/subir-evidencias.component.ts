@@ -51,16 +51,17 @@ export class SubirEvidenciasComponent implements OnInit {
     this.uploaderEvidence = new FileUploader({ url: this.rutaServe + '/projectExecution/uploadEvidence', autoUpload: true,headers: headers });
     
     this.uploaderEvidence.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idConcept', this.data.idConcepto);
+      form.append('idCatalog', this.data.idConcepto);
       form.append('idUsuario', this.data.idUsuario);
+      form.append('tipo', this.data.tipo);
       this.loadingFile = true;
-      console.log(this.loadingFile);
+      // console.log(this.loadingFile);
     };
 
     this.uploaderEvidence.uploadAll();
     this.uploaderEvidence.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
-      console.log(item);
+      // console.log(item);
       if(item.isSuccess) {
         this.countFileSucces++;
       } else {
@@ -72,10 +73,11 @@ export class SubirEvidenciasComponent implements OnInit {
       if(this.uploaderEvidence.queue.length==this.countFiles){
           // debugger;
           // this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
-          this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
+        this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
           + " " +this.countFileError+ ' Documento(s) no se subieron ', ' ', 'success-dialog');
           //this.useAlerts(this.countFileError+ 'Documento(s) no se subieron', ' ', 'error-dialog');
-          this.countFiles=1;
+        this.countFiles=1;
+        this.getEvidence();
         this.bottomSheetRef.dismiss(); 
       }
       this.countFiles++;
@@ -87,7 +89,7 @@ export class SubirEvidenciasComponent implements OnInit {
   }
 
   getEvidence(){
-    this.reporteConceptosEjecutadosService.getEvidenceObservable(this.data.idConcepto, this.data.idUsuario, this.data.fechaHoy);
+    this.reporteConceptosEjecutadosService.getEvidenceObservable(this.data.idConcepto, this.data.idUsuario, this.data.fechaHoy, this.data.tipo);
     this.EvidenciasObs$ = this.reporteConceptosEjecutadosService.getDataEvidence();
   }
 

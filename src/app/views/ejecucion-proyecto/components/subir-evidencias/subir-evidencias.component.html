@@ -39,9 +39,11 @@
     </div>
   </div>
 
-  <div class="mb-1">
-    <div *ngIf="(EvidenciasObs$ | async) as evidencias">
+  <div class="mb-1 container-evidence">
+    <div *ngIf="(EvidenciasObs$ | async) as evidencias" class="wrap-evidence">
+      <div *ngIf = "evidencias.length">
         <app-carousel-evidencias [evidencias]="evidencias"> </app-carousel-evidencias>
+      </div>
     </div>
   </div>
 

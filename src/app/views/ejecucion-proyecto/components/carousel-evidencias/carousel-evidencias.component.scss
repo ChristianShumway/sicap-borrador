@@ -1,8 +1,9 @@
-.owl-carousel .owl-nav button.owl-next, .owl-carousel .owl-nav button.owl-prev, .owl-carousel button.owl-dot {
-  background: 0 0;
-  color: inherit;
-  border: none;
-  padding: 0!important;
-  font: inherit;
-  font-size: 33px !important;
+.mat-form-field + .mat-form-field {
+  margin-left: 8px;
+}
+
+.title-option{
+  font-weight: 500;
+  text-transform: uppercase;
+  color: darkgray;
 }

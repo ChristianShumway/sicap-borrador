@@ -315,7 +315,8 @@ export class ReporteSubcontratosComponent implements OnInit {
         idConcepto,
         idObra: this.idObra,
         idUsuario: this.idUsuarioLogeado,
-        fechaHoy: hoy
+        fechaHoy: hoy,
+        tipo: 2
       }
     });
 

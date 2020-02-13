@@ -5,4 +5,6 @@ export interface EvidenciaReporte {
   extension: string;
   idUsuarioAgrego: number;
   ruta: string;
+  url: string;
+  tipo: number;
 }

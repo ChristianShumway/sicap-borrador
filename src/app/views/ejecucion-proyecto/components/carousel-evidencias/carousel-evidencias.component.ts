@@ -7,12 +7,13 @@ import { EvidenciaReporte } from '../../../../shared/models/evidencia-reporte';
   styleUrls: ['./carousel-evidencias.component.scss']
 })
 export class CarouselEvidenciasComponent implements OnInit {
+  panelOpenState = false;
  
-  mySlideImages = ['./../../../../../assets/images/faces/10.jpg','./../../../../../assets/images/faces/13.jpg','./../../../../../assets/images/faces/12.jpg'];
-  // myCarouselImages =['./../../../../../assets/images/faces/10.jpg','./../../../../../assets/images/faces/13.jpg','./../../../../../assets/images/faces/12.jpg'];
+  mySlideImages = [];
+  myCarouselImages =[];
  
   mySlideOptions={items: 1, dots: true, nav: true};
-  // myCarouselOptions={items: 4, dots: true, nav: true};
+  myCarouselOptions={items: 3, dots: true, nav: true};
 
 
   @Input() evidencias: EvidenciaReporte[];
@@ -20,11 +21,12 @@ export class CarouselEvidenciasComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    console.log(this.evidencias);
+    // console.log(this.evidencias);
     this.evidencias.map( (evidencia:EvidenciaReporte) => {
-      console.log(evidencia.ruta);
-      this.mySlideImages.push(evidencia.ruta);
-      // this.myCarouselImages.push(evidencia.ruta);
+      // console.log(evidencia);
+      const urlImg = `${evidencia.url}/${evidencia.nombre}`;
+      this.mySlideImages.push(urlImg);
+      this.myCarouselImages.push(urlImg);
     })
 
     

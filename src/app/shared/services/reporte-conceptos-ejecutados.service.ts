@@ -45,8 +45,8 @@ export class ReporteConceptosEjecutadosService {
     this.evidenciasubject.next(this.evidencia);
   }
   
-  getEvidenceObservable(idConcept:number, idUser:number, fecha){
-    return this.http.get<EvidenciaReporte[]>(`${environment.apiURL}/projectExecution/getEvidenciaByConcept/${idConcept}/${idUser}/${fecha}`).subscribe(
+  getEvidenceObservable(idConcept:number, idUser:number, fecha, tipo: number){
+    return this.http.get<EvidenciaReporte[]>(`${environment.apiURL}/projectExecution/getEvidenciaByConcept/${idConcept}/${idUser}/${fecha}/${tipo}`).subscribe(
       (evidencia: EvidenciaReporte[]) => {
         this.evidencia = evidencia;
         this.refreshEvidence();

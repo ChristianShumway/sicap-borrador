@@ -335,7 +335,16 @@ input[type=number] { -moz-appearance:textfield; }
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  width: 480px !important;
+  // width: 480px !important;
+  margin: 0 5px !important;
+}
+
+.owl-carousel .owl-item img {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: 40vh;
+  object-fit: cover;
 }
 
 @media (max-width: 959px) {
@@ -349,6 +358,10 @@ input[type=number] { -moz-appearance:textfield; }
 @media screen and (max-width: 599px){
   .breadcrumb-bar .breadcrumb {
     visibility: hidden !important;
+  }
+
+  .owl-carousel .owl-item img {
+    height: 25vh;
   }
 }
 

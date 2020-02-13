@@ -1,7 +1,21 @@
-<owl-carousel [options]="mySlideOptions" [items]="images" [carouselClasses]="['owl-theme', 'sliding']">
-  <div class="item" *ngFor="let image of mySlideImages;let i = index">
-    <div>
-      <img src={{image}}/>
-    </div>
-  </div>
-</owl-carousel>
+<mat-card>
+  <mat-accordion>
+    <mat-expansion-panel>
+      
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          <span class="title-option"> Evidencias Cargadas </span>
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+  
+      <owl-carousel [options]="mySlideOptions" [items]="images" [carouselClasses]="['owl-theme', 'sliding']">
+        <div class="item" *ngFor="let image of mySlideImages;let i = index">
+          <div>
+            <img src={{image}}/>
+          </div>
+        </div>
+      </owl-carousel>
+  
+    </mat-expansion-panel>
+  </mat-accordion>
+</mat-card>

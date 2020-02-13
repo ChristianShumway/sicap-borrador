@@ -316,7 +316,8 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
         idConcepto,
         idObra: this.idObra,
         idUsuario: this.idUsuarioLogeado,
-        fechaHoy: hoy
+        fechaHoy: hoy,
+        tipo: 1
       }
     });
 
