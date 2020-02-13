@@ -97,7 +97,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
     // console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar reporte para esta obra', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
     } else {
       // this.getReporte();
     }

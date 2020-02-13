@@ -162,7 +162,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     // console.log(idExistente);
     if(!idExistente){
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a modificar reporte de conceptos ejecutados', ' ', 'error-dialog');
     }
   }
 
@@ -328,7 +328,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
       const newCatalog: ConceptoEjecutado[] = []
   
       this.catalogo.map( (concepto: ConceptoEjecutado) => {
-        if(concepto.cantidadEjecutada > 0){
+        if(concepto.cantidadEjecutada > 0 || concepto.idDetConceptoEjecutado !== 0){
           const conceptoModificado: ConceptoEjecutado = {
             ...concepto,
             precioUnitarioEjecutado: concepto.precioUnitario,

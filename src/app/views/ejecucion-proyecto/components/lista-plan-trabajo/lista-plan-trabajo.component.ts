@@ -91,7 +91,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
     // console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a ver lista de plan de trabajo de esta obra', ' ', 'error-dialog');
     } else {
       // this.getWorkPlans();
     }

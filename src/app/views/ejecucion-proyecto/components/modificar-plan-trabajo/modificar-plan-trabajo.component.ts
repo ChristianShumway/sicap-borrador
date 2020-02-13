@@ -116,6 +116,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
     console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
+      this.useAlerts('No tienes acceso a modificar plan de trabajo', ' ', 'error-dialog');
     }
   }
 
@@ -171,7 +172,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
       const newCatalog: ConceptoPlanTrabajo[] = []
   
       this.catalogo.map( (concepto: ConceptoPlanTrabajo) => {
-        if(concepto.cantidadPlaneada > 0){
+        if(concepto.cantidadPlaneada > 0 || concepto.idConceptoPlanTrabajo !== 0){
           const conceptoModificado = {
             ...concepto,
             precioUnitarioPlaneado: concepto.precioUnitario,
@@ -179,6 +180,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
           };
           newCatalog.push(conceptoModificado);
         }
+
       });
 
       const planTrabajo: PlanTrabajo = {

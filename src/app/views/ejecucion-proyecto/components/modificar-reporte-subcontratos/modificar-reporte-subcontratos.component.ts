@@ -159,7 +159,7 @@ export class ModificarReporteSubcontratosComponent implements OnInit {
     // console.log(idExistente);
     if(!idExistente){
       this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
+      this.useAlerts('No tienes acceso a modificar reporte de subcontratos', ' ', 'error-dialog');
     }
   }
 
@@ -295,7 +295,7 @@ export class ModificarReporteSubcontratosComponent implements OnInit {
       const newCatalog: ConceptoSubcontrato[] = []
   
       this.catalogo.map( (concepto: ConceptoSubcontrato) => {
-        if(concepto.cantidadSubContrato > 0){
+        if(concepto.cantidadSubContrato > 0 || concepto.idDetReporteSubContrato !== 0){
           const conceptoModificado: ConceptoSubcontrato = {
             ...concepto,
             precioUnitarioSubContrato: concepto.precio,

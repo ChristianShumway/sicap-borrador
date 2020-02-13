@@ -15,10 +15,19 @@
             <a *ngIf="obra && accesoBitacora && option==='plan-trabajo'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
+            <a *ngIf="obra && !accesoBitacora && option==='plan-trabajo'" class="toolbar-avatar md mr-1">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
             <a *ngIf="obra && accesoBitacora && option==='reporte-conceptos-ejecutados'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
+            <a *ngIf="obra && !accesoBitacora && option==='reporte-conceptos-ejecutados'" class="toolbar-avatar md mr-1">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
             <a *ngIf="obra && accesoBitacora && option==='reporte-subcontratos'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]" >
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <a *ngIf="obra && !accesoBitacora && option==='reporte-subcontratos'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && accesoBitacora && option==='validacion'" class="toolbar-avatar md mr-1">
