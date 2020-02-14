@@ -67,6 +67,7 @@ export class ObservacionObraGeneralComponent implements OnInit {
         (response => {
           if(response.estatus === '05'){
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.obraService.getObservacionesObraObservable(this.data.idObra);
             this.bottomSheetRef.dismiss();
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
