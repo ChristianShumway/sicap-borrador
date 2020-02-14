@@ -16,6 +16,7 @@ import { Obra } from '../../../../shared/models/obra';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
+import { Observacion } from '../../../../shared/models/observacion';
 
 @Component({
   selector: 'app-obra-data',
@@ -39,6 +40,7 @@ export class ObraDataComponent implements OnInit {
   destajistas: Destajista[];
   fechaInicioObra;
   fechaFinObra;
+  fechaHoy = new Date();
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
   obraId;
@@ -315,10 +317,15 @@ export class ObraDataComponent implements OnInit {
     if(!observacion){
       this.useAlerts('No se puede agregar observación sin contenido', ' ', 'error-dialog');
     } else {
-      const observacionGeneral = {
-        comentario: observacion,
+      const format = 'yyyy/MM/dd';
+      const fechaHoy = this.pipe.transform(this.fechaHoy, format);
+      const observacionGeneral: Observacion = {
+        idObra: this.obra.idObra,
+        idTipoPresupuesto: 7,
         idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.obra.idObra
+        tipo: 1,
+        fechaCreo: fechaHoy,
+        comentario: observacion,
       }
       // console.log(observacionGeneral);
       this.obraService.createObservacionObra(observacionGeneral).subscribe(

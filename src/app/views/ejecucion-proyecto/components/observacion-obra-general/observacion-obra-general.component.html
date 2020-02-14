@@ -11,16 +11,15 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Tipo</mat-label>
-              <mat-select formControlName="tipo" required>
-                <mat-option>--</mat-option>
-                <mat-option value="1">Tipo de comentario que se hara</mat-option>
-                <!-- <mat-option *ngFor="let tipo of tipoPresupuestos" [value]="tipo.idTipoPresupuesto">
+              <mat-select formControlName="idTipoPresupuesto" required>
+                <mat-option></mat-option>
+                <mat-option *ngFor="let tipo of tipoPresupuestos" [value]="tipo.idTipoPresupuesto">
                   {{tipo.descripcion}}
-                </mat-option> -->
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="observacionGeneralForm.controls['tipo'].hasError('required') && observacionGeneralForm.controls['tipo'].touched"
+              <small *ngIf="observacionGeneralForm.controls['idTipoPresupuesto'].hasError('required') && observacionGeneralForm.controls['idTipoPresupuesto'].touched"
                 class="form-error-msg">
                 El tipo es un campo requerido
               </small>
@@ -28,10 +27,10 @@
           </div>   
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <textarea matInput placeholder="Observación" formControlName="observacion"></textarea>
+              <textarea matInput placeholder="Observación" formControlName="comentario"></textarea>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="observacionGeneralForm.controls['observacion'].hasError('required') && observacionGeneralForm.controls['observacion'].touched"
+              <small *ngIf="observacionGeneralForm.controls['comentario'].hasError('required') && observacionGeneralForm.controls['comentario'].touched"
                 class="form-error-msg">
                 La observación de la obra es un campo requerido
               </small>

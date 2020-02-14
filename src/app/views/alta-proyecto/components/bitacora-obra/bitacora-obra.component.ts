@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
-
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
+import { ObraService } from '../../../../shared/services/obra.service';
+import { Observable } from 'rxjs';
+import { Observacion } from '../../../../shared/models/observacion';
 
 @Component({
   selector: 'app-bitacora-obra',
@@ -9,23 +10,25 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
   styleUrls: ['./bitacora-obra.component.scss']
 })
 export class BitacoraObraComponent implements OnInit {
-
-  isLinear = false;
-  firstFormGroup: FormGroup;
-  secondFormGroup: FormGroup;
+  private observacionesObs$ : Observable<Observacion[]>;
+  idObra;
 
   constructor(
     private activatedRoute: ActivatedRoute,
-    private _formBuilder: FormBuilder
+    private obraService: ObraService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params
     .subscribe( (data: Params) => {
-      console.log(data);
-    });
+      this.idObra = data.id;
+      this.getObservationsByObra();
+    }); 
+  }
 
-   
+  getObservationsByObra(){
+    this.obraService.getObservacionesObraObservable(this.idObra);
+    this.observacionesObs$ = this.obraService.getObservacionesObra();
   }
 
 }

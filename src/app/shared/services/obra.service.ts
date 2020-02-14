@@ -6,6 +6,7 @@ import { environment } from 'environments/environment';
 import { BehaviorSubject } from 'rxjs';
 import { DocumentosObra } from './../models/documentos-obra';
 import { MontoProgramado } from '../models/monto-programado';
+import { Observacion } from '../models/observacion';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +19,9 @@ export class ObraService {
   private archivosObraSubject = new BehaviorSubject<DocumentosObra>(null);
   private montosObra: MontoProgramado;
   private montosObraSubject = new BehaviorSubject<MontoProgramado>(null);
+
+  private observacionesObra: Observacion[];
+  private observacionesObraSubject = new BehaviorSubject<Observacion[]>(null);
   
 
   constructor(
@@ -138,6 +142,26 @@ export class ObraService {
 
   getExportarFicha(id: number) {
     return this.http.get<any>(`${environment.apiURL}/obra/getFichaPlaneacion/${id}`);
+  }
+
+
+
+  getObservacionesObra(): Observable<Observacion[]> {
+    return this.observacionesObraSubject.asObservable();
+  }
+
+  private refreshObservaciones() {
+    this.observacionesObraSubject.next(this.observacionesObra);
+  }
+  
+  getObservacionesObraObservable(idObra:number){
+    return this.http.get<Observacion[]>(`${environment.apiURL}/projectExecution/getObservationByObra/${idObra}/2`).subscribe(
+      (observaciones: Observacion[]) => {
+        this.observacionesObra = observaciones;
+        this.refreshObservaciones();
+      },
+      error => console.log(error)
+    );
   }
 
 }

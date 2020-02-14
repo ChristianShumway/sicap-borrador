@@ -36,6 +36,9 @@ import { ListaMaquinariaEquipoComponent } from './components/lista-maquinaria-eq
 import { ListaPersonalComponent } from './components/lista-personal/lista-personal.component';
 import { CatalogoSubcontratoComponent } from './components/catalogo-subcontrato/catalogo-subcontrato.component';
 import { CatalogoManoObraComponent } from './components/catalogo-mano-obra/catalogo-mano-obra.component';
+import { TimeLineObservacionesObraComponent } from './components/time-line-observaciones-obra/time-line-observaciones-obra.component';
+import { ObservacionHeaderComponent } from './components/observacion-header/observacion-header.component';
+import { ObservacionBodyComponent } from './components/observacion-body/observacion-body.component';
 // import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -63,7 +66,10 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ListaMaquinariaEquipoComponent,
     ListaPersonalComponent,
     CatalogoSubcontratoComponent,
-    CatalogoManoObraComponent
+    CatalogoManoObraComponent,
+    TimeLineObservacionesObraComponent,
+    ObservacionHeaderComponent,
+    ObservacionBodyComponent
   ],
   imports: [
     CommonModule,

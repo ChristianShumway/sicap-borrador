@@ -3,60 +3,8 @@
     <!-- Time line -->
     <mat-card class="default">
       <mat-card-title>Timeline</mat-card-title>
-      <mat-card-content>
-
-        <mat-vertical-stepper [linear]="isLinear" #stepper>
-            
-          <mat-step>
-            <ng-template matStepLabel>
-              <div class="step-header">
-                <img src="./../../../../../assets/images/faces/10.jpg" alt="">
-                <div class="name-date">
-                  <p class="name">Christian Torres</p>
-                  <span class="date">12 Feb 2020</span>
-                </div>
-              </div>
-            </ng-template>
-            <div class="step-body">
-              <p class="type-observation">Tipo de Observación</p>
-              <p class="observation">Esta observación es para x usuario diciendole x cosa</p>
-            </div>
-          </mat-step>
-
-          <mat-step>
-            <ng-template matStepLabel>
-              <div class="step-header">
-                <img src="./../../../../../assets/images/faces/13.jpg" alt="">
-                <div class="name-date">
-                  <p class="name">Victor Marin</p>
-                  <span class="date">12 Feb 2020</span>
-                </div>
-              </div>
-            </ng-template>
-            <div class="step-body">
-              <p class="type-observation">Tipo de Observación</p>
-              <p class="observation">Esta observación es para x usuario diciendole x cosa</p>
-            </div>
-          </mat-step>
-
-          <mat-step>
-            <ng-template matStepLabel>
-              <div class="step-header">
-                <img src="./../../../../../assets/images/faces/12.jpg" alt="">
-                <div class="name-date">
-                  <p class="name">Manuel Ochoa</p>
-                  <span class="date">12 Feb 2020</span>
-                </div>
-              </div>
-            </ng-template>
-            <div class="step-body">
-              <p class="type-observation">Tipo de Observación</p>
-              <p class="observation">Esta observación es para x usuario diciendole x cosa</p>
-            </div>
-          </mat-step>
-
-        </mat-vertical-stepper>
-
+      <mat-card-content *ngIf="(observacionesObs$ | async) as observaciones">
+        <app-time-line-observaciones-obra [observacionesList] = "observaciones"></app-time-line-observaciones-obra>
       </mat-card-content>
     </mat-card>
     <!-- End Time line -->
