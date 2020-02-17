@@ -3,8 +3,8 @@ import { NavigationService } from './../../../../shared/services/navigation.serv
 import {MatDialog} from '@angular/material/dialog';
 import { ModalPerfilesComponent } from './../modal-perfiles/modal-perfiles.component';
 import { PerfilesService } from '../../../../shared/services/perfiles.service';
-import { filter } from 'rxjs/operators';
-import { Perfil } from '../../../../shared/models/perfil';
+import {MatSnackBar} from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-permisos',
@@ -16,6 +16,7 @@ export class PermisosComponent implements OnInit {
   permisos = [];
   perfiles = [];
   arbol = [];
+  listaPermisosEspeciales = [];
   panelOpenState = false;
   firstSubPanelOpenState = false;
   secondSubPanelOpenState = false;
@@ -23,16 +24,17 @@ export class PermisosComponent implements OnInit {
   constructor(
     private navigationService: NavigationService,
     public dialog: MatDialog,
-    private perfilesService: PerfilesService
+    private perfilesService: PerfilesService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
     this.navigation();
+    this.getOptionsToPermisosEspeciales();
+
   }
 
-
   navigation() {
-    // const menu = this.navigationService.iconMenu;
     this.navigationService.getMenu(1).subscribe(
       menu => {
         this.menu = menu.filter( opcion => opcion.type == 'dropDown' || opcion.type == 'link' || opcion.type == 'icon');
@@ -48,32 +50,30 @@ export class PermisosComponent implements OnInit {
         // OBTENEMOS CATALOGO DE MODULOS CON PERMISOS
         this.navigationService.getPermisosMenu().subscribe(
           modulosPermisos => {
-            console.log(modulosPermisos);
             this.permisos = modulosPermisos;
-            console.log(this.permisos);
+            // console.log(this.permisos);
           },
           error => console.log(error)
         );
-        // const permisos = this.navigationService.permisosMenu;
         
       },
       error => {
         console.log(error);
       }
     );
-    // console.log(this.menu);
-    // console.log(this.perfiles);
-    // console.log(this.permisos);
   }
 
-  openModalPerfiles(idModulo) {
+  getOptionsToPermisosEspeciales(){
+    this.navigationService.getOptionsToPermisosEspeciales(1, 2).subscribe(
+      options => this.listaPermisosEspeciales = options,
+      error => console.log(error)
+    );
+  }
+
+  openModalPermisos(idModulo) {
     this.perfilesService.getAuthorizedProfiles(idModulo).subscribe(
-      ((perfiles) => {
-        console.log(perfiles);
-        const profile = perfiles;
-        this.loadModal(profile);
-      }),
-      (error => console.log(error))
+      perfiles => this.loadModal(perfiles),
+      error => console.log(error)
     );
   }
 
@@ -84,18 +84,29 @@ export class PermisosComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
       if(result){
         this.perfilesService.updateAuthorizedProfile(result).subscribe(
-          (perfiles => {
-            console.log(perfiles);
-            
-          }),
-          (error => console.log(error))
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            }
+          },
+          error => console.log(error)
         );
-        // console.log(data);
       }
     });
   }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
+  }
+  
   generaArbolModulo(obj){
     if(obj.sub) {
       obj.sub.find( modulo => {

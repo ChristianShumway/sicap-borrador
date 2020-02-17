@@ -16,8 +16,9 @@
 
           <!-- DATA FIRST SUBMENU HERE -->
           <div *ngIf = "!opcion.type || opcion.type !== 'dropDown'">
-            <button mat-raised-button color="primary" (click)="openModalPerfiles(opcion.id)"> Permisos</button>
+            <button mat-raised-button color="primary" (click)="openModalPermisos(opcion.id)"> Permisos</button>
           </div>
+
           <div *ngIf= "opcion.type === 'dropDown'">
             <mat-accordion>
               <mat-expansion-panel (opened)="firstSubPanelOpenState = true" (closed)="firstSubPanelOpenState = false" *ngFor="let primerSubOpcion of opcion.sub">
@@ -31,7 +32,7 @@
                 </mat-expansion-panel-header>
                 <!-- DATA SECOND SUBMENU HERE -->
                 <div *ngIf = "!primerSubOpcion.type || primerSubOpcion.type !== 'dropDown'">
-                  <button mat-raised-button color="primary" (click)="openModalPerfiles(primerSubOpcion.id)">Permisos</button>
+                  <button mat-raised-button color="primary" (click)="openModalPermisos(primerSubOpcion.id)">Permisos</button>
                 </div>
                 <div *ngIf= "primerSubOpcion.type === 'dropDown'">
                   <mat-accordion>
@@ -45,7 +46,7 @@
                         </mat-panel-description>
                       </mat-expansion-panel-header>
                       <div *ngIf = "!segundoSubOpcion.type || segundoSubOpcion.type !== 'dropDown'">
-                        <button mat-raised-button color="primary" (click)="openModalPerfiles(segundoSubOpcion.id)">Permisos</button>
+                        <button mat-raised-button color="primary" (click)="openModalPermisos(segundoSubOpcion.id)">Permisos</button>
                       </div>
 
                     </mat-expansion-panel>
@@ -62,7 +63,28 @@
       </mat-accordion>
       <!-- /acordion -->
     </mat-tab>
-    <!-- <mat-tab label="Second"> Content 2 </mat-tab>
-    <mat-tab label="Third"> Content 3 </mat-tab> -->
+   
+    <mat-tab label="Permisos Especiales">
+      <!--acordion-->
+      <mat-accordion>
+        <mat-expansion-panel class="panel-uno" (opened)="panelOpenState = true" (closed)="panelOpenState = false" *ngFor="let opcion of listaPermisosEspeciales">
+          
+          <mat-expansion-panel-header>
+            <mat-panel-title class="opcion-principal">
+              {{opcion.name}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+
+          <!-- DATA FIRST SUBMENU HERE -->
+          <div>
+            <button mat-raised-button color="primary" (click)="openModalPermisos(opcion.id)"> Permisos</button>
+          </div>
+
+        </mat-expansion-panel>
+
+      </mat-accordion>
+      <!-- /acordion -->
+    </mat-tab>
+    
   </mat-tab-group>
 </mat-card>

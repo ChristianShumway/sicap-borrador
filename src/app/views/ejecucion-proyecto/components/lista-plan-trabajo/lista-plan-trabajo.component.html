@@ -9,7 +9,7 @@
 <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
   <ng-container *ngIf="worksPlan.length; else loading">
     <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-
+      
       <mat-card class="user-card p-0">
         <mat-card-title>
           <div class="card-title-text obra">
@@ -18,8 +18,12 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #planMenu="matMenu">
-              <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}">Modificar Plan de Trabajo</a>
-              <button mat-menu-item (click)="openDialoAlertDelete(plan)">Eliminar Plan</button>
+              <div id="modificar-reporte" #myIdM>
+                <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Plan de Trabajo</a>
+              </div>
+              <div id="eliminar-reporte" #myIdE>
+                <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Plan</button>
+              </div>
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

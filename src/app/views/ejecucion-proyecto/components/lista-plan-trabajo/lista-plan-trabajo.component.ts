@@ -14,6 +14,9 @@ import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.compo
 import { ObraService } from '../../../../shared/services/obra.service';
 import { Obra } from '../../../../shared/models/obra';
 import { ConceptoPlanTrabajo } from '../../../../shared/models/concepto-plan-trabajo';
+import { NavigationService } from './../../../../shared/services/navigation.service';
+import { UsuariosService } from './../../../../shared/services/usuarios.service';
+import { Usuario } from './../../../../shared/models/usuario';
 
 @Component({
   selector: 'app-lista-plan-trabajo',
@@ -35,6 +38,11 @@ export class ListaPlanTrabajoComponent implements OnInit {
   idObra;
   panelOpenState = false;
 
+  nombreComponente = 'lista-plan-trabajo';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
+
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
   dataSource: MatTableDataSource<PlanTrabajo> = new MatTableDataSource<PlanTrabajo>();
@@ -47,7 +55,9 @@ export class ListaPlanTrabajoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private planTrabajoService: PlanTrabajoService,
     private obraService: ObraService,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -60,6 +70,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.getWorkPlans();
+    this.getDataUser();
   }
 
   getObra(){
@@ -106,6 +117,39 @@ export class ListaPlanTrabajoComponent implements OnInit {
       }
     );
   }
+
+  getDataUser(){
+    this.usuariosService.getUsuario(this.idUserLogeado).subscribe(
+      (usuario: Usuario) => this.validateEspecialPermissions(usuario.idPerfil),
+      error => console.log(error)
+    );
+  }
+
+  validateEspecialPermissions(idPerfil){
+    this.permisosEspeciales = environment.permisosEspeciales;
+
+    this.permisosEspeciales.map ( permiso => {
+      if( permiso.component === this.nombreComponente){
+        this.permisosEspecialesComponente.push(permiso);
+      }
+    });
+
+    console.log(this.permisosEspecialesComponente);
+
+    this.permisosEspecialesComponente.map( permisoExistente => {
+      this.navigationService.validatePermissions(idPerfil, permisoExistente.idOpcion).subscribe(
+        (result:any) => {
+          if(result.estatus === '05'){
+            this.permisosEspecialesPermitidos.push(permisoExistente.tooltip);
+          }
+        },
+        error => console.log(error)
+      );
+    });
+
+    console.log(this.permisosEspecialesPermitidos);
+  }
+
 
   ngOnDestroy() {
     if (this.dataSource) {

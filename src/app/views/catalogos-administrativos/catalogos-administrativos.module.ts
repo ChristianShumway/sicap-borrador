@@ -42,6 +42,7 @@ import { ModificarProveedorComponent } from './components/modificar-proveedor/mo
 import { EmpleadosComponent } from './components/empleados/empleados.component';
 import { CrearEmpleadoComponent } from './components/crear-empleado/crear-empleado.component';
 import { ModificarEmpleadoComponent } from './components/modificar-empleado/modificar-empleado.component';
+
 @NgModule({
   declarations: [
     UsuariosComponent,

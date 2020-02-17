@@ -55,7 +55,7 @@ export class PerfilesService {
     return this.http.get<AuthorizedProfile>(`${environment.apiURL}/config/getAuthorizedProfiles/${idOPtion}`);
   }
 
-  updateAuthorizedProfile(authorizedProfile: Partial<AuthorizedProfile[]>): Observable<Perfil>{
+  updateAuthorizedProfile(authorizedProfile: Partial<AuthorizedProfile[]>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<Perfil>(`${environment.apiURL}/config/saveAuthorizedProfiles`, JSON.stringify(authorizedProfile), { headers: headerss});
   }

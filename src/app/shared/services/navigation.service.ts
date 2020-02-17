@@ -39,6 +39,14 @@ export class NavigationService {
     return this.http.get<any[]>(`${environment.apiURL}/config//getAuthorizedProfiles/7`);
   }
 
+  getOptionsToPermisosEspeciales(idPerfil, tipo) {
+    return this.http.get<IMenuItem[]>(`${environment.apiURL}/dashboard/getConfiguration/${idPerfil}/${tipo}`);
+  }
+
+  validatePermissions(idPerfil: number, idOpcion: number) {
+    return this.http.get<any[]>(`${environment.apiURL}/config/isAuthenticated/${idPerfil}/${idOpcion}`);
+  }
+
   permisosMenu: Permisos[] = [
     { id: '1', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '5', autorizado: true },
     { id: '2', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '30', autorizado: true },
