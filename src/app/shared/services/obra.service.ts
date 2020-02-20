@@ -96,6 +96,10 @@ export class ObraService {
     return this.http.get<any[]>(`${environment.apiURL}/obra/getBudgetType`); 
   }
 
+  geTiposObservacionParaMontosObra(): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getObservationType`); 
+  }
+
   getDataMontosObra(): Observable<MontoProgramado> {
     return this.montosObraSubject.asObservable();
   }

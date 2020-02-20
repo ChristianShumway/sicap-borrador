@@ -66,7 +66,7 @@
 
       </div>
 
-      <h5>Dirección: {{address}}</h5>
+      <!-- <h5>Dirección: {{address}}</h5> -->
 
       <!-- <div class="form-group">
           <label>Enter address</label>
@@ -74,11 +74,20 @@
             autocapitalize="off" spellcheck="off" type="text" #search>
         </div> -->
 
-      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
-        [mapTypeControl]='true'>
-        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-        </agm-marker>
-      </agm-map>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Dirección: {{address}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
+            [mapTypeControl]='true' >
+            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+            </agm-marker>
+          </agm-map>
+        </mat-expansion-panel>
+      </mat-accordion>
 
       <div class="wrap-button">
         <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit" class="btn-accept" *ngIf="catalogo.length">Registrar</button>

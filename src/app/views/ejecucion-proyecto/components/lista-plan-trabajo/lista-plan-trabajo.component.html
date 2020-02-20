@@ -6,10 +6,15 @@
   <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Regresar</button>
 </div>
 
+
 <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
   <ng-container *ngIf="worksPlan.length; else loading">
+    
+    <div class="monto-total">
+      <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p>
+    </div>
+
     <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-      
       <mat-card class="user-card p-0">
         <mat-card-title>
           <div class="card-title-text obra">
@@ -53,7 +58,11 @@
                   Conceptos agregados al plan de trabajo
                 </mat-panel-description>
               </mat-expansion-panel-header>
-              <app-conceptos-lista [conceptos]="plan.viewConceptWorkPlan" [tipoReporte]="'plan-trabajo'"></app-conceptos-lista>             
+              <app-conceptos-lista 
+                [conceptos]="plan.viewConceptWorkPlan" 
+                [tipoReporte]="'plan-trabajo'"
+                (montosCaptured) = "onMontosTotal($event)" >
+              </app-conceptos-lista>             
             </mat-expansion-panel>
           </mat-accordion>
           

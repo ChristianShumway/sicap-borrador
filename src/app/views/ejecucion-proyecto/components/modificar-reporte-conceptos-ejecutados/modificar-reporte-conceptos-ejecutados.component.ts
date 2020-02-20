@@ -18,6 +18,11 @@ import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutad
 
 import { SubirEvidenciasComponent } from '../subir-evidencias/subir-evidencias.component';
 
+import { environment } from './../../../../../environments/environment';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { Usuario } from '../../../../shared/models/usuario';
+
 @Component({
   selector: 'app-modificar-reporte-conceptos-ejecutados',
   templateUrl: './modificar-reporte-conceptos-ejecutados.component.html',
@@ -41,6 +46,13 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
+
+  nombreComponente = 'reporte-conceptos-ejecutados';
+  tooltip = 'modificar-reporte';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
+  opcionesPermitidas = true;
  
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
@@ -59,6 +71,8 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -140,7 +154,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
         
         this.obraService.getDataObra().subscribe( data => {
           if(data !== null){
-            this.validateAccessObra(data.supervisor);
+            this.validateAccessObra();
           }
         });
 
@@ -151,19 +165,19 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     })
   }
 
-  validateAccessObra(supervisores) {
-    // console.log(supervisores);
-    let idSupervisores = [];
-    supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
-    });
-    // console.log(idSupervisores);
-    const idExistente = idSupervisores.find( id => id === this.idUsuarioLogeado);
-    // console.log(idExistente);
-    if(!idExistente){
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a modificar reporte de conceptos ejecutados', ' ', 'error-dialog');
-    }
+  validateAccessObra() {
+    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
+    const idModulo = moduloActual.idOpcion;
+
+    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
+      (usuario: Usuario) => {
+        this.navigationService.validatePermissions(usuario.idPerfil, idModulo).subscribe(
+          (result:any) => result.estatus !== '05' ? this.opcionesPermitidas = false : this.opcionesPermitidas = true,
+          error => console.log(error)
+        );
+      },
+      error => console.log(error)
+    );
   }
 
   getWorkPlanById(){

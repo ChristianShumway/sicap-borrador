@@ -65,6 +65,18 @@
   color: #4caf50;
 }
 
+.monto-total{
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 10px;
+}
+
+.monto-total p{
+  margin: 0;
+}
+
+
 @media screen and (max-width:599px){
   .wrap-detalles-obra{
     grid-template-columns: 1fr;

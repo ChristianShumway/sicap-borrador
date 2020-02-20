@@ -16,7 +16,7 @@ export class ObservacionObraGeneralComponent implements OnInit {
   observacionGeneralForm: FormGroup;
   fecha = new Date();
   pipe = new DatePipe('en-US');
-  tipoPresupuestos;
+  tipoObservaciones;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -28,12 +28,12 @@ export class ObservacionObraGeneralComponent implements OnInit {
   ngOnInit() {
     this.getValidations();
     console.log(this.data);
-    this.getCatalogoP();
+    this.getCatalogoObservaciones();
   }
 
   getValidations() {
     this.observacionGeneralForm = new FormGroup({
-      idTipoPresupuesto: new FormControl('', [
+      idTipoObservacion: new FormControl('', [
         Validators.required,
       ]),
       comentario: new FormControl('', [
@@ -42,10 +42,10 @@ export class ObservacionObraGeneralComponent implements OnInit {
     })
   }
 
-  getCatalogoP(){
-    this.obraService.getPresupuestosParaMontosObra().subscribe(
-      presupuestos => {
-        this.tipoPresupuestos = presupuestos;
+  getCatalogoObservaciones(){
+    this.obraService.geTiposObservacionParaMontosObra().subscribe(
+      observaciones => {
+        this.tipoObservaciones = observaciones;
       },
       error => console.log(error)
     );

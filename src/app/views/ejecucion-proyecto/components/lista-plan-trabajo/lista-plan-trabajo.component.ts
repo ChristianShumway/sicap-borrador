@@ -37,8 +37,9 @@ export class ListaPlanTrabajoComponent implements OnInit {
   workPlansTemp: PlanTrabajo[] = [];
   idObra;
   panelOpenState = false;
+  montoTotal: number = 0;
 
-  nombreComponente = 'lista-plan-trabajo';
+  nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
@@ -98,8 +99,10 @@ export class ListaPlanTrabajoComponent implements OnInit {
     idUsuariosConPermiso.push(idPP);
     idUsuariosConPermiso.push(idControlObra);
     idUsuariosConPermiso.push(idCompras);
+    console.log(idUsuariosConPermiso);
+    console.log(this.idUserLogeado)
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
-    // console.log(idExistente);
+    console.log(idExistente);
     if (!idExistente) {
       this.router.navigate(['/dashboard']);
       this.useAlerts('No tienes acceso a ver lista de plan de trabajo de esta obra', ' ', 'error-dialog');
@@ -134,11 +137,12 @@ export class ListaPlanTrabajoComponent implements OnInit {
       }
     });
 
-    console.log(this.permisosEspecialesComponente);
+    // console.log(this.permisosEspecialesComponente);
 
     this.permisosEspecialesComponente.map( permisoExistente => {
       this.navigationService.validatePermissions(idPerfil, permisoExistente.idOpcion).subscribe(
         (result:any) => {
+          // console.log(result);
           if(result.estatus === '05'){
             this.permisosEspecialesPermitidos.push(permisoExistente.tooltip);
           }
@@ -196,6 +200,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
               this.getWorkPlans();
+              this.montoTotal = 0;
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -207,6 +212,13 @@ export class ListaPlanTrabajoComponent implements OnInit {
         );
       }
     });
+  }
+
+  onMontosTotal(monto){
+    setTimeout(() => { 
+      this.montoTotal+= monto;
+    },0);
+    console.log(this.montoTotal);
   }
 
   useAlerts(message, action, className) {

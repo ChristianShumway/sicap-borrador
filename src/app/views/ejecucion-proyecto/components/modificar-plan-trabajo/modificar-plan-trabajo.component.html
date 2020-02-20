@@ -7,7 +7,7 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()">
+  <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()" *ngIf = "opcionesPermitidas">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
       
       <div class="info-obra">
@@ -67,7 +67,7 @@
   </form>
 
 
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "opcionesPermitidas">
     <mat-form-field class="margin-333" style="width: 98%">
       <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
     </mat-form-field>

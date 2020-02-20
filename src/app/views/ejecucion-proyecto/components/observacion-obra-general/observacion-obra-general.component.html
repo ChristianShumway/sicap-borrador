@@ -11,15 +11,15 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Tipo</mat-label>
-              <mat-select formControlName="idTipoPresupuesto" required>
+              <mat-select formControlName="idTipoObservacion" required>
                 <mat-option></mat-option>
-                <mat-option *ngFor="let tipo of tipoPresupuestos" [value]="tipo.idTipoPresupuesto">
+                <mat-option *ngFor="let tipo of tipoObservaciones" [value]="tipo.idTipoObservacion">
                   {{tipo.descripcion}}
                 </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="observacionGeneralForm.controls['idTipoPresupuesto'].hasError('required') && observacionGeneralForm.controls['idTipoPresupuesto'].touched"
+              <small *ngIf="observacionGeneralForm.controls['idTipoObservacion'].hasError('required') && observacionGeneralForm.controls['idTipoObservacion'].touched"
                 class="form-error-msg">
                 El tipo es un campo requerido
               </small>

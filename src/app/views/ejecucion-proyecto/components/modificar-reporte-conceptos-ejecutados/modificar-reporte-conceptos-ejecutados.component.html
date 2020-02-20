@@ -7,7 +7,7 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()">
+  <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()" *ngIf = "opcionesPermitidas">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
       <div class="info-obra">
         <h1>{{obra.noContrato}}</h1>
@@ -66,19 +66,28 @@
 
       </div>
 
-      <h5>Dirección: {{address}}</h5>
+      <!-- <h5>Dirección: {{address}}</h5> -->
 
       <!-- <div class="form-group">
             <label>Enter address</label>
             <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
               autocapitalize="off" spellcheck="off" type="text" #search>
           </div> -->
-
-      <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
-        [mapTypeControl]='true' >
-        <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-        </agm-marker>
-      </agm-map>
+      <mat-accordion>
+        <mat-expansion-panel>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              Dirección: {{address}}
+            </mat-panel-title>
+          </mat-expansion-panel-header>
+          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
+            [mapTypeControl]='true' >
+            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+            </agm-marker>
+          </agm-map>
+        </mat-expansion-panel>
+      </mat-accordion>
+      
 
       <div class="wrap-button">
         <button mat-raised-button color="primary" [disabled]="notaBitacoraForm.invalid" type="submit" class="btn-accept" *ngIf="catalogo.length">Modificar</button>
@@ -89,7 +98,7 @@
   </form>
 
 
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" *ngIf = "opcionesPermitidas">
     <mat-form-field class="margin-333" style="width: 98%">
       <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
     </mat-form-field>

@@ -1,3 +1,9 @@
+<div class="wrap-cantidad-total">
+  <p *ngIf = "tipoReporte === 'plan-trabajo'">El importe total planeado de los conceptos agregados al plan de trabajo es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
+  <p *ngIf = "tipoReporte === 'reporte-ejecutados'">El importe total ejecutado de los conceptos agregados al reporte es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
+  <p *ngIf = "tipoReporte === 'reporte-subcontrato'">El importe total  de los conceptos agregados al reporte de subcontrato es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
+</div>
+  
 <ul class="list-concepts">
   <li *ngFor="let concepto of conceptosSeleccionados">
     <p *ngIf = "tipoReporte === 'plan-trabajo' || tipoReporte === 'reporte-ejecutados'"><b>No. Concepto:</b> {{concepto.noConcepto}}</p>
@@ -9,10 +15,46 @@
     <p *ngIf = "tipoReporte === 'plan-trabajo'"><b>Importe Planeado:</b> {{concepto.importePlaneado |currency}}</p>
     <p *ngIf = "tipoReporte === 'reporte-ejecutados'"><b>Importe Ejecutado:</b> {{concepto.importeEjecutado |currency}}</p>
     <p *ngIf = "tipoReporte === 'reporte-subcontrato'"><b>Importe Subcontrato:</b> {{concepto.importeSubContrato |currency}}</p>
+    <!-- {{concepto | json}} -->
+    <div class="wrap-buttons-evidence">
+      <button 
+      mat-mini-fab color="primary" 
+      *ngIf="conceptoEvidencias !== concepto.idConcepto && tipoReporte === 'reporte-ejecutados'" 
+      (click)="showEvidences(concepto.idConcepto)" 
+      matTooltip="Ver Evidencias" 
+      matTooltipPosition="left">
+        <mat-icon>panorama </mat-icon>
+      </button>
+      <button 
+      mat-mini-fab color="primary" 
+      *ngIf="conceptoEvidencias === concepto.idConcepto && tipoReporte === 'reporte-ejecutados'" 
+      (click)="hiddenEvidences()" 
+      matTooltip="Ocultar Evidencias" 
+      matTooltipPosition="left" >
+        <mat-icon>visibility_off </mat-icon>
+      </button>
+
+      <button 
+      mat-mini-fab color="primary" 
+      *ngIf="conceptoEvidencias !== concepto.idSubcontrato && tipoReporte === 'reporte-subcontrato'" 
+      (click)="showEvidences(concepto.idSubcontrato)" 
+      matTooltip="Ver Evidencias" 
+      matTooltipPosition="left">
+        <mat-icon>panorama </mat-icon>
+      </button>
+      <button 
+      mat-mini-fab color="primary" 
+      *ngIf="conceptoEvidencias === concepto.idSubcontrato && tipoReporte === 'reporte-subcontrato'" 
+      (click)="hiddenEvidences()" 
+      matTooltip="Ocultar Evidencias" 
+      matTooltipPosition="left" >
+        <mat-icon>visibility_off </mat-icon>
+      </button>
+    </div>
+
+    <div class="mb-1 container-evidence" *ngIf="conceptoEvidencias === concepto.idConcepto || conceptoEvidencias === concepto.idSubcontrato">
+      <app-gallery [listaEvidencias] = "listaEvidencias" (deleteEvidenceClicked)="onDeleteEvidence($event)"></app-gallery>
+    </div>
+
   </li>
 </ul>
-<div class="wrap-cantidad-total">
-  <p *ngIf = "tipoReporte === 'plan-trabajo'">El importe total planeado de los conceptos agregados al plan de trabajo es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
-  <p *ngIf = "tipoReporte === 'reporte-ejecutados'">El importe total ejecutado de los conceptos agregados al reporte es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
-  <p *ngIf = "tipoReporte === 'reporte-subcontrato'">El importe total  de los conceptos agregados al reporte de subcontrato es de <b>{{montoImporteConceptosSeleccionados | currency}}</b> </p>
-</div>

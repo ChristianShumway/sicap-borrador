@@ -61,11 +61,15 @@ export class SubirEvidenciasComponent implements OnInit {
     this.uploaderEvidence.uploadAll();
     this.uploaderEvidence.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
-      // console.log(item);
+      console.log(item);
       if(item.isSuccess) {
         this.countFileSucces++;
+        this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
+        + " " +this.countFileError+ ' Documento(s) no se subieron ', ' ', 'success-dialog');
       } else {
         this.countFileError ++;
+        this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
+        + " " +this.countFileError+ ' Documento(s) no se subieron ', ' ', 'success-dialog');
       }
       
       console.log(this.countFiles + ' -- ' + this.uploaderEvidence.queue.length);
@@ -73,8 +77,8 @@ export class SubirEvidenciasComponent implements OnInit {
       if(this.uploaderEvidence.queue.length==this.countFiles){
           // debugger;
           // this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
-        this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
-          + " " +this.countFileError+ ' Documento(s) no se subieron ', ' ', 'success-dialog');
+        // this.useAlerts(this.countFileSucces + ' Documento(s) cargado(s) '
+        //   + " " +this.countFileError+ ' Documento(s) no se subieron ', ' ', 'success-dialog');
           //this.useAlerts(this.countFileError+ 'Documento(s) no se subieron', ' ', 'error-dialog');
         this.countFiles=1;
         this.getEvidence();

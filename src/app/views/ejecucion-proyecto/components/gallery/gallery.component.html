@@ -1,0 +1,20 @@
+<span>Evidencias Registradas: {{listaEvidencias.length}}</span>
+<div class="wrap-evidence">
+  <div class="item-evidence" *ngFor="let evidence of listaEvidencias">
+    <img src="{{evidence.url}}/{{evidence.nombre}}" alt="{{evidence.nombre}}" />
+    <div class="options-btn">
+      <a class="btn-evidence show" matTooltip="Ver" matTooltipPosition="below" (click)="showImageZoom(evidence.url,evidence.nombre)">
+        <mat-icon>visibility </mat-icon>
+      </a>
+      <a class="btn-evidence delete" matTooltip="Eliminar" matTooltipPosition="below" (click)="deleteEvidence(evidence)">
+        <mat-icon>delete </mat-icon>
+      </a>
+    </div>
+  </div>
+</div>
+
+
+<div class="modal-img-zoom" *ngIf="showEvidenceZoom">
+  <img src="assets/images/icons/close.png" class="close-modal" (click)="closeModal()">
+  <img [src]="urlImageShow" alt="imagen zoom">
+</div>

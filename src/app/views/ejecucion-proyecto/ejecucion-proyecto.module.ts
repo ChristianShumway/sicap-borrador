@@ -32,6 +32,7 @@ import { ListaReporteSubcontratosComponent } from './components/lista-reporte-su
 import { ModificarReporteSubcontratosComponent } from './components/modificar-reporte-subcontratos/modificar-reporte-subcontratos.component';
 import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-lista.component';
 import { CarouselEvidenciasComponent } from './components/carousel-evidencias/carousel-evidencias.component';
+import { GalleryComponent } from './components/gallery/gallery.component';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { CarouselEvidenciasComponent } from './components/carousel-evidencias/ca
     ListaReporteSubcontratosComponent,
     ModificarReporteSubcontratosComponent,
     ConceptosListaComponent,
-    CarouselEvidenciasComponent
+    CarouselEvidenciasComponent,
+    GalleryComponent
   ],
   imports: [
   CommonModule,

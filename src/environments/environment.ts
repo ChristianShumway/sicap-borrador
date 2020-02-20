@@ -18,7 +18,7 @@ export const environment = {
       nombre: 'Eliminar Reportes',
       descripcion: 'eliminar reportes del modulo ejecución de proyectos',
       tooltip: 'eliminar-reporte',
-      component: 'lista-plan-trabajo',
+      component: 'plan-trabajo',
       activo: 1
     },
     {
@@ -26,7 +26,39 @@ export const environment = {
       nombre: 'Modificar Reportes',
       descripcion: 'Modificar reportes del modulo ejecución de proyectos',
       tooltip: 'modificar-reporte',
-      component: 'lista-plan-trabajo',
+      component: 'plan-trabajo',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-conceptos-ejecutados',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-conceptos-ejecutados',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-subcontratos',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-subcontratos',
       activo: 1
     },
   ]

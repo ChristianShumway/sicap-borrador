@@ -326,7 +326,7 @@ export class ModificarObraComponent implements OnInit {
       const fechaHoy = this.pipe.transform(this.fechaHoy, format);
       const observacionGeneral: Observacion = {
         idObra: this.obraId,
-        idTipoPresupuesto: 7,
+        idTipoObservacion: 5,
         idUsuarioModifico: this.idUsuarioLogeado,
         tipo: 1,
         fechaCreo: fechaHoy,

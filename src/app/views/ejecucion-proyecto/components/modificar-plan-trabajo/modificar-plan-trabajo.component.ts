@@ -10,7 +10,10 @@ import { DatePipe } from '@angular/common';
 import { ConceptoPlanTrabajo } from '../../../../shared/models/concepto-plan-trabajo';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { PlanTrabajo } from '../../../../shared/models/plan-trabajo';
-import { filter } from 'rxjs/operators';
+import { environment } from './../../../../../environments/environment';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
   selector: 'app-modificar-plan-trabajo',
@@ -33,6 +36,13 @@ export class ModificarPlanTrabajoComponent implements OnInit {
   pipe = new DatePipe('en-US');
   planTrabajoForm: FormGroup;
 
+  nombreComponente = 'plan-trabajo';
+  tooltip = 'modificar-reporte';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
+  opcionesPermitidas = true;
+
   public searchElementRef: ElementRef;
 
   constructor(
@@ -42,6 +52,8 @@ export class ModificarPlanTrabajoComponent implements OnInit {
     private obraService: ObraService,
     private planTrabajoService: PlanTrabajoService,
     private snackBar: MatSnackBar,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -95,7 +107,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
         
         this.obraService.getDataObra().subscribe(data => {
           if (data !== null) {
-            this.validateAccessObra(data.supervisor);
+            this.validateAccessObra();
           }
         });
 
@@ -105,19 +117,19 @@ export class ModificarPlanTrabajoComponent implements OnInit {
     });
   }
 
-  validateAccessObra(supervisores) {
-    // console.log(supervisores);
-    let idSupervisores = [];
-    supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
-    });
-    console.log(idSupervisores);
-    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
-    console.log(idExistente);
-    if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a modificar plan de trabajo', ' ', 'error-dialog');
-    }
+  validateAccessObra() {
+    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
+    const idModulo = moduloActual.idOpcion;
+
+    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
+      (usuario: Usuario) => {
+        this.navigationService.validatePermissions(usuario.idPerfil, idModulo).subscribe(
+          (result:any) => result.estatus !== '05' ? this.opcionesPermitidas = false : this.opcionesPermitidas = true,
+          error => console.log(error)
+        );
+      },
+      error => console.log(error)
+    );
   }
 
   getWorkPlanById(){
@@ -178,6 +190,7 @@ export class ModificarPlanTrabajoComponent implements OnInit {
             precioUnitarioPlaneado: concepto.precioUnitario,
             importePlaneado: concepto.precioUnitario * concepto.cantidadPlaneada
           };
+
           newCatalog.push(conceptoModificado);
         }
 

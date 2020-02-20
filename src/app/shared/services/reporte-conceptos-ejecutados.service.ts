@@ -55,4 +55,14 @@ export class ReporteConceptosEjecutadosService {
     );
   }
 
+  getEvidenceNormal(idConcept:number, idUser:number, fecha, tipo: number){
+    return this.http.get<EvidenciaReporte[]>(`${environment.apiURL}/projectExecution/getEvidenciaByConcept/${idConcept}/${idUser}/${fecha}/${tipo}`);
+  }
+
+  deleteEvidenceConcept(evidence: Partial<EvidenciaReporte>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteEvidenceConcept`, JSON.stringify(evidence), { headers: headerss});
+  }
+
+
 }

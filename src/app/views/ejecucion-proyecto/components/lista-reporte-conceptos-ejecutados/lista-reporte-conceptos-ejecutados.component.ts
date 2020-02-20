@@ -18,6 +18,10 @@ import { environment } from './../../../../../environments/environment';
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
 
+import { NavigationService } from './../../../../shared/services/navigation.service';
+import { UsuariosService } from './../../../../shared/services/usuarios.service';
+import { Usuario } from './../../../../shared/models/usuario';
+
 @Component({
   selector: 'app-lista-reporte-conceptos-ejecutados',
   templateUrl: './lista-reporte-conceptos-ejecutados.component.html',
@@ -38,6 +42,12 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   reporteTemp: ReporteConceptosEjecutados[] = [];
   idObra;
   panelOpenState = false;
+  montoTotal: number = 0;
+
+  nombreComponente = 'plan-trabajo';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
@@ -51,7 +61,9 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private obraService: ObraService,
-    private router: Router
+    private router: Router,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
@@ -64,6 +76,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.getReporte();
+    this.getDataUser();
   }
 
   getObra(){
@@ -115,6 +128,39 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     );
   }
 
+  getDataUser(){
+    this.usuariosService.getUsuario(this.idUserLogeado).subscribe(
+      (usuario: Usuario) => this.validateEspecialPermissions(usuario.idPerfil),
+      error => console.log(error)
+    );
+  }
+
+  validateEspecialPermissions(idPerfil){
+    this.permisosEspeciales = environment.permisosEspeciales;
+
+    this.permisosEspeciales.map ( permiso => {
+      if( permiso.component === this.nombreComponente){
+        this.permisosEspecialesComponente.push(permiso);
+      }
+    });
+
+    // console.log(this.permisosEspecialesComponente);
+
+    this.permisosEspecialesComponente.map( permisoExistente => {
+      this.navigationService.validatePermissions(idPerfil, permisoExistente.idOpcion).subscribe(
+        (result:any) => {
+          // console.log(result);
+          if(result.estatus === '05'){
+            this.permisosEspecialesPermitidos.push(permisoExistente.tooltip);
+          }
+        },
+        error => console.log(error)
+      );
+    });
+
+    console.log(this.permisosEspecialesPermitidos);
+  }
+
   ngOnDestroy() {
     if (this.dataSource) {
       this.dataSource.disconnect();
@@ -160,6 +206,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
               this.getReporte();
+              this.montoTotal = 0;
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -171,6 +218,13 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         );
       }
     });
+  }
+
+  onMontosTotal(monto){
+    setTimeout(() => { 
+      this.montoTotal+= monto;
+    },0);
+    console.log(this.montoTotal);
   }
 
   useAlerts(message, action, className) {
