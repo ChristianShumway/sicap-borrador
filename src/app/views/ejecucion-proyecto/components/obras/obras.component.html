@@ -79,19 +79,13 @@
               Ver Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='validacion'" 
-              mat-menu-item 
-              [routerLink]="['/ejecucion-proyecto/validacion-plan-trabajo', obra.idObra]">
-              Validación Plan de Trabajo</button>
-
-              <button 
-              *ngIf="accesoBitacora && option==='validacion'" 
+              *ngIf="option==='validacion'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]">
               Validación de Conceptos Ejecutados</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='validacion'" 
+              *ngIf="option==='validacion'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]">
               Validación de Subcontratos</button>

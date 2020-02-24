@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
 import { ReporteConceptosEjecutadosService } from './../../../../shared/services/reporte-conceptos-ejecutados.service';
+import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service';
 import { EvidenciaReporte } from './../../../../shared/models/evidencia-reporte';
 import { Observable } from 'rxjs';
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
@@ -38,6 +39,7 @@ export class ConceptosListaComponent implements OnInit {
     private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private autenticacionService: AutenticacionService,
     private snackBar: MatSnackBar,
+    private reporteSubcontratoService: ReporteSubcontratoService
   ) { }
 
   ngOnInit() {
@@ -96,9 +98,17 @@ export class ConceptosListaComponent implements OnInit {
 
   onDeleteEvidence(evidence){
     console.log(evidence);
-    this.reporteConceptosEjecutadosService.deleteEvidenceConcept(evidence).subscribe(
-      result => {
-        this.showEvidences(this.conceptoEvidencias);
+    let servicio;
+    
+    if(this.tipoReporte === 'reporte-ejecutados'){
+      servicio = this.reporteConceptosEjecutadosService.deleteEvidenceConcept(evidence);
+    } else if(this.tipoReporte === 'reporte-subcontrato'){
+      servicio = this.reporteSubcontratoService.deleteEvidenceSubcontrat(evidence);
+    }
+
+    servicio.subscribe( result => {
+      this.showEvidences(this.conceptoEvidencias);
+        console.log(result);
         if(result.estatus === '05'){
           this.useAlerts(result.mensaje, ' ', 'success-dialog');
         } else {

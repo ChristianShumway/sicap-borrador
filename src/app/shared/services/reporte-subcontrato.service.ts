@@ -5,6 +5,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
+import { EvidenciaReporte } from './../models/evidencia-reporte';
 
 @Injectable({
   providedIn: 'root'
@@ -32,5 +33,11 @@ export class ReporteSubcontratoService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteReportSubcontract`, JSON.stringify(report), { headers: headerss});
   }
+
+  deleteEvidenceSubcontrat(evidence: Partial<EvidenciaReporte>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteEvidenceSubcontract`, JSON.stringify(evidence), { headers: headerss});
+  }
+
 
 }

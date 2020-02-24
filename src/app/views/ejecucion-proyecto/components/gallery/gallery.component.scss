@@ -37,13 +37,14 @@ span{
 .item-evidence .options-btn{
   position: absolute;
   top: 0;
-  bottom: -160px;
+  bottom: 0;
   left: 0;
   right: 0;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  transition: .6s;
+  transition: 1s;
+  opacity: 0;
 }
 
 .item-evidence:hover img{
@@ -51,14 +52,7 @@ span{
 }
 
 .item-evidence:hover .options-btn{
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  display: flex;
-  justify-content: space-evenly;
-  align-items: center;
+  opacity: 1;
 }
 
 .options-btn .btn-evidence{

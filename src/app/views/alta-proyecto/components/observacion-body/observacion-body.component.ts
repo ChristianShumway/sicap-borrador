@@ -10,18 +10,18 @@ import { ObraService } from '../../../../shared/services/obra.service';
 export class ObservacionBodyComponent implements OnInit {
 
   @Input() observacion: Observacion;
-  nombrePresupuesto: string;
+  nombreObservacion: string;
 
   constructor(
     private obraService: ObraService,
   ) { }
 
   ngOnInit() {
-    this.obraService.getPresupuestosParaMontosObra().subscribe(
-      presupuestos => {
-        presupuestos.map ( presupuesto => {
-          if(presupuesto.idTipoPresupuesto === this.observacion.idTipoPresupuesto){
-            this.nombrePresupuesto = presupuesto.descripcion;
+    this.obraService.geTiposObservacionParaMontosObra().subscribe(
+      observaciones => {
+        observaciones.map ( observacion => {
+          if(observacion.idTipoObservacion === this.observacion.idTipoObservacion){
+            this.nombreObservacion = observacion.descripcion;
           }
         })
       },

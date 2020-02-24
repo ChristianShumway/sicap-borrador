@@ -420,3 +420,9 @@ font-feature-settings: 'liga' 1;
 .mat-step-header .mat-step-icon-state-edit{
   background: rgba(0, 0, 0, 0.54) !important;
 }
+
+
+.ngx-datatable .datatable-header .datatable-header-cell .datatable-header-cell-template-wrap {
+  height: inherit;
+  text-align: center;
+}

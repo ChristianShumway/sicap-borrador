@@ -33,6 +33,7 @@ import { ModificarReporteSubcontratosComponent } from './components/modificar-re
 import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-lista.component';
 import { CarouselEvidenciasComponent } from './components/carousel-evidencias/carousel-evidencias.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
+import { ObservacionValidacionConceptoComponent } from './components/observacion-validacion-concepto/observacion-validacion-concepto.component';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { GalleryComponent } from './components/gallery/gallery.component';
     ModificarReporteSubcontratosComponent,
     ConceptosListaComponent,
     CarouselEvidenciasComponent,
-    GalleryComponent
+    GalleryComponent,
+    ObservacionValidacionConceptoComponent
   ],
   imports: [
   CommonModule,
@@ -76,7 +78,8 @@ import { GalleryComponent } from './components/gallery/gallery.component';
   entryComponents: [
     ObservacionObraGeneralComponent,
     ModalEliminarComponent,
-    SubirEvidenciasComponent
+    SubirEvidenciasComponent,
+    ObservacionValidacionConceptoComponent
   ]
 })
 export class EjecucionProyectoModule { }
