@@ -61,5 +61,21 @@ export const environment = {
       component: 'reporte-subcontratos',
       activo: 1
     },
+    {
+      idOpcion: 32,
+      nombre: 'Validar Reportes',
+      descripcion: 'Opción para el usuario poder validar conceptos ejecutados por un supervisor',
+      tooltip: 'validar-reporte-conceptos',
+      component: 'validacion-reportes',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Validar Reportes',
+      descripcion: 'Opción para el usuario poder validar subcontratos por un supervisor',
+      tooltip: 'validar-reporte-subcontratos',
+      component: 'validacion-reportes',
+      activo: 1
+    },
   ]
 };

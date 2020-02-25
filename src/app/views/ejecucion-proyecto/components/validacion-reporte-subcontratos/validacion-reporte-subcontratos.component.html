@@ -1,3 +1,206 @@
-<p>
-  validacion-reporte-subcontratos works!
-</p>
+<div fxLayout="row wrap" *ngIf="!obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div fxLayout="row wrap" *ngIf="obra && opcionesPermitidas">
+  <form [formGroup]="validacionForm" (submit)="buscarConceptosEjecutados()">
+
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+      <div class="info-obra">
+        <h1>{{obra.noContrato}}</h1>
+        <p>{{obra.nombreObra}}</p>
+      </div>
+
+      <div class="info-bitacora" *ngIf="!hayConceptos">
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+            <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+          </mat-form-field>
+          <div class="validaciones">
+            <small *ngIf="validacionForm.controls['fechaInicio'].hasError('required') && validacionForm.controls['fechaInicio'].touched"
+              class="form-error-msg">
+              Fecha Inicial del periodo de validación es un campo requerido
+            </small>
+          </div>
+          <div class="validaciones">
+            <small *ngIf="error.isError" class="form-error-msg">
+              {{ error.errorMessage }}
+            </small>
+          </div>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
+            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+            <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
+          </mat-form-field>
+          <div class="validaciones">
+            <small *ngIf="validacionForm.controls['fechaFinal'].hasError('required') && validacionForm.controls['fechaFinal'].touched"
+              class="form-error-msg">
+              Fecha Final del periodo de validación es un campo requerido
+            </small>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="wrap-button" *ngIf="!hayConceptos">
+        <button mat-raised-button color="primary" [disabled]="validacionForm.invalid" type="submit" class="btn-accept">Buscar</button>
+        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/validacion'">Cancelar</button>
+      </div>
+
+    </div>
+  </form>
+
+
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo">
+
+    <div class="container-info-search" *ngIf="catalogo.length || hayConceptos">
+      <div class="wrap-date-cost">
+        <p>
+          <b>Fecha Inicio:</b> {{fechaInicioShow | date}}</p>
+        <p>
+          <b>Fecha Final:</b> {{fechaFinalShow | date}}</p>
+        <p>
+          <b>Total Ejecutado:</b>
+          <span [ngStyle]="{'color': montoTotalEjecutado === montoTotalValidado ? 'green' : 'red' }">
+          {{montoTotalEjecutado | currency}} </span>
+        </p>
+        <p>
+          <b>Total Validado:</b> {{montoTotalValidado | currency}}</p>
+      </div>
+      <div class="wrap-buttons">
+        <button mat-raised-button color="primary" (click)="validarConceptos()" class="btn-accept" *ngIf="catalogo.length">Validar</button>
+        <button mat-raised-button color="primary" (click)="buscarNuevoPeriodo()" class="btn-accept" *ngIf="catalogo.length">Nueva Busqueda</button>
+        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/validacion'">Cancelar</button>
+      </div>
+    </div>
+
+    <!-- FILTRO -->
+    <mat-form-field class="margin-333" style="width: 98%" *ngIf="hayConceptos">
+      <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
+    </mat-form-field>
+    <!-- END FILTRO -->
+
+    <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
+
+      <ngx-datatable class="material fullscreen bg-white" style="height: 600px; overflow-y: auto;" [rows]="catalogo" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+        <ngx-datatable-column name="No." [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{ row?.idConcepto }}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Descripción" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{row?.descripcion}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Unidad" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{row?.unidad}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <!-- <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center"  [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.cantidadOriginal}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column> -->
+
+        <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{row?.precioUnitarioEjecutado | currency}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Cantidad Ejecutada" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.cantidadEjecutada === row?.cantidadValidada ? 'green' : 'red' }">
+              {{row?.cantidadEjecutada}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+              {{row?.importeEjecutado | currency}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Cantidad Validada" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <mat-form-field class="cantidad-seleccionada">
+              <input matInput type="number" min="0" max="row?.cantidadValidada" (change)="getNewMontoTotal()" [(ngModel)]="row.cantidadValidada">
+            </mat-form-field>
+            <!-- <div class="observation-button">
+                <button mat-stroked-button color="warn" (click)="addObservation(row?.idConcepto)">Observación</button>
+              </div> -->
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Importe Validado" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{ row?.cantidadValidada * row?.precioUnitarioEjecutado | currency }}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Observación" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <div class="observation-button">
+              <button mat-stroked-button color="warn" (click)="addObservation(row?.idConcepto)">Observación</button>
+            </div>
+          </ng-template>
+        </ngx-datatable-column>
+
+      </ngx-datatable>
+
+    </div>
+
+    <ng-template #noconceptos>
+      <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+        [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+        <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Original" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Ejecutada" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Validada" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Importe Validado" [flexGrow]="1"></ngx-datatable-column>
+      </ngx-datatable>
+    </ng-template>
+
+  </div>
+
+  <div class="wrap-button" *ngIf="catalogo.length">
+    <button mat-raised-button color="primary" (click)="validarConceptos()" class="btn-accept">Validar</button>
+  </div>
+
+</div>

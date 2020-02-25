@@ -12,6 +12,9 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 import { DatePipe } from '@angular/common';
 import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { ObservacionObraGeneralComponent } from '../observacion-obra-general/observacion-obra-general.component';
+import { Usuario } from '../../../../shared/models/usuario';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
 
 @Component({
   selector: 'app-obras',
@@ -33,6 +36,11 @@ export class ObrasComponent implements OnInit {
   accesoBitacora = false;
   option: string;
 
+  nombreComponente = 'validacion-reportes';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
+
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
   dataSource: MatTableDataSource<Obra> = new MatTableDataSource<Obra>();
@@ -46,11 +54,14 @@ export class ObrasComponent implements OnInit {
     private autenticacionService: AutenticacionService,
     private bottomSheet: MatBottomSheet,
     private activatedRoute: ActivatedRoute,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
     this.idUserLogeado = this.autenticacionService.currentUserValue;
     this.getObras();
+    this.getDataUser();
     //paginator
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
@@ -58,7 +69,7 @@ export class ObrasComponent implements OnInit {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.activatedRoute.params.subscribe( (option: Params) => {
-      this.option = option.tipo;
+    this.option = option.tipo;
    });
   }
 
@@ -101,6 +112,39 @@ export class ObrasComponent implements OnInit {
       }),
       (error => console.log(error.message))
     );
+  }
+
+  getDataUser(){
+    this.usuariosService.getUsuario(this.idUserLogeado).subscribe(
+      (usuario: Usuario) => this.validateEspecialPermissions(usuario.idPerfil),
+      error => console.log(error)
+    );
+  }
+
+  validateEspecialPermissions(idPerfil){
+    this.permisosEspeciales = environment.permisosEspeciales;
+
+    this.permisosEspeciales.map ( permiso => {
+      if( permiso.component === this.nombreComponente){
+        this.permisosEspecialesComponente.push(permiso);
+      }
+    });
+
+    // console.log(this.permisosEspecialesComponente);
+
+    this.permisosEspecialesComponente.map( permisoExistente => {
+      this.navigationService.validatePermissions(idPerfil, permisoExistente.idOpcion).subscribe(
+        (result:any) => {
+          // console.log(result);
+          if(result.estatus === '05'){
+            this.permisosEspecialesPermitidos.push(permisoExistente.tooltip);
+          }
+        },
+        error => console.log(error)
+      );
+    });
+
+    console.log(this.permisosEspecialesPermitidos);
   }
 
   vadilateStatus(obras){

@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<div fxLayout="row wrap" *ngIf="obra">
+<div fxLayout="row wrap" *ngIf="obra && opcionesPermitidas">
   <form [formGroup]="validacionForm" (submit)="buscarConceptosEjecutados()" >
     
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">

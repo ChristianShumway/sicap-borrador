@@ -78,17 +78,33 @@
               [routerLink]="['/ejecucion-proyecto/lista-reportes-subcontratos', obra.idObra]">
               Ver Reportes</button>
 
-              <button 
+              <!-- <button 
               *ngIf="option==='validacion'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]">
-              Validación de Conceptos Ejecutados</button>
+              Validación de Conceptos Ejecutados</button> -->
 
-              <button 
+              <div id="validar-reporte-conceptos" #myIdVC>
+                <button 
+                mat-menu-item 
+                [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]"
+                *ngIf= "permisosEspecialesPermitidos.includes(myIdVC?.id)">
+                Validación de Conceptos Ejecutados</button>
+              </div>
+
+              <!-- <button 
               *ngIf="option==='validacion'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]">
-              Validación de Subcontratos</button>
+              Validación de Subcontratos</button> -->
+
+              <div id="validar-reporte-subcontratos" #myIdVS>
+                <button 
+                mat-menu-item 
+                [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]"
+                *ngIf= "permisosEspecialesPermitidos.includes(myIdVS?.id)">
+                Validación de Subcontratos</button>
+              </div>
               
               <button 
               *ngIf="option==='bitacora-obra'" 

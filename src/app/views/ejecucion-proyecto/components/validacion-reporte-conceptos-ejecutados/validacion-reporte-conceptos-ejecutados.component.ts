@@ -6,12 +6,17 @@ import { DatePipe } from '@angular/common';
 import { ObraService } from '../../../../shared/services/obra.service';
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 import { ValidacionReporteService } from '../../../../shared/services/validacion-reporte.service';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
+
+import { ObservacionValidacionConceptoComponent } from '../observacion-validacion-concepto/observacion-validacion-concepto.component';
+import { environment } from './../../../../../environments/environment';
 
 import { Obra } from './../../../../shared/models/obra';
 import { ConceptoValidado } from './../../../../shared/models/concepto-validado';
+import { Usuario } from '../../../../shared/models/usuario';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
-import { ObservacionValidacionConceptoComponent } from '../observacion-validacion-concepto/observacion-validacion-concepto.component';
 import { MatBottomSheet } from '@angular/material';
 
 interface Observacion {
@@ -44,6 +49,13 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
   montoTotalEjecutado: number = 0;
   montoTotalValidado: number = 0;
 
+  nombreComponente = 'validacion-reportes';
+  tooltip = 'validar-reporte-conceptos';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
+  opcionesPermitidas = true;
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private obraService: ObraService,
@@ -51,17 +63,42 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     private validacionReporteService: ValidacionReporteService,
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
+    private navigationService: NavigationService,
+    private usuariosService: UsuariosService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe( (data: Params) => {
       this.idObra = parseInt(data.id);
-      this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-      this.getObra();
-      this.getValidations();
-      this.compareTwoDates();
-      this.setDates();
+      this.validateAccessValidation();   
     });
+  }
+  
+  validateAccessValidation() {
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
+    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
+    const idModulo = moduloActual.idOpcion;
+    console.log(idModulo);
+
+    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
+      (usuario: Usuario) => {
+        this.navigationService.validatePermissions(usuario.idPerfil, idModulo).subscribe(
+          (result:any) => {
+            if ( result.estatus !== '05'){
+              this.opcionesPermitidas = false;
+            }  else {
+              this.opcionesPermitidas = true;
+              this.getObra();
+              this.getValidations();
+              this.compareTwoDates();
+              this.setDates();
+            } 
+          },
+          error => console.log(error)
+        );
+      },
+      error => console.log(error)
+    );
   }
 
   getObra(){
@@ -99,6 +136,8 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     this.catalogo = [];
     this.hayConceptos = false;
     this.objObservaciones = [];
+    this.montoTotalEjecutado = 0;
+    this.montoTotalValidado = 0;
     // this.useAlerts('Ahora puedes realizar una nueba busqueda', ' ', 'success-dialog');
   }
 
@@ -130,20 +169,19 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     }
 
     console.log(newCatalog);
-    // this.validacionReporteService.saveValidation(newCatalog).subscribe(
-    //   response =>  {
-    //     console.log(response);
-    //     if(response.estatus === '05'){
-    //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-    //       this.catalogo = [];
-    //       this.hayConceptos = false;
-    //       this.setDates();
-    //     } else {
-    //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-    //     }
-    //   },
-    //   error => this.useAlerts(error.message, ' ', 'error-dialog')
-    // );
+    this.validacionReporteService.saveValidation(newCatalog).subscribe(
+      response =>  {
+        console.log(response);
+        if(response.estatus === '05'){
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.buscarNuevoPeriodo();
+          this.setDates();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      },
+      error => this.useAlerts(error.message, ' ', 'error-dialog')
+    );
   }
 
   addObservation(idConcepto): void {
@@ -240,17 +278,17 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     });
 
     if(!rows.length){
-      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog');
+      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog', 500);
     } else {
-      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog');
+      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog', 500);
     }
 
     this.catalogo = rows;
   }
 
-  useAlerts(message, action, className){
+  useAlerts(message, action, className, time = 4000){
     this.snackBar.open(message, action, {
-      duration: 4000,
+      duration: time,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]
