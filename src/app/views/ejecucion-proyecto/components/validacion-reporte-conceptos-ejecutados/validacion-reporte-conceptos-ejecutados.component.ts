@@ -99,7 +99,7 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     this.catalogo = [];
     this.hayConceptos = false;
     this.objObservaciones = [];
-    this.useAlerts('Ahora puedes realizar una nueba busqueda', ' ', 'success-dialog');
+    // this.useAlerts('Ahora puedes realizar una nueba busqueda', ' ', 'success-dialog');
   }
 
   validarConceptos(){
@@ -119,10 +119,9 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     // console.log(newCatalog);
     
     if(this.objObservaciones.length > 0){
-      console.log(this.objObservaciones);
+      // console.log(this.objObservaciones);
       this.objObservaciones.map( observacion => {
         newCatalog.map( (concepto:ConceptoValidado) => {
-          // console.log(concepto);
           if(observacion.idConcepto === concepto.idConcepto){
             concepto.observacion = observacion.observacion
           }
@@ -242,6 +241,8 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
 
     if(!rows.length){
       this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog');
+    } else {
+      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog');
     }
 
     this.catalogo = rows;

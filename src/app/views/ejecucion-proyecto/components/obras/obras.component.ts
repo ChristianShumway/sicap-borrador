@@ -133,7 +133,13 @@ export class ObrasComponent implements OnInit {
           return true;
         }
       }
-    })
+    });
+
+    if(!rows.length){
+      this.useAlerts('No se encontraron obras con esta referencia', ' ', 'error-dialog');
+    } else {
+      this.useAlerts(`Fueron encontradas ${rows.length} obras con esta referencia`, ' ', 'success-dialog');
+    }
 
     this.dataSource.data = rows;
     // console.log(this.dataSource.data);

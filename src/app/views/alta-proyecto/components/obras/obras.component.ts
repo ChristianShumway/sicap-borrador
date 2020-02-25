@@ -105,6 +105,12 @@ export class ObrasComponent implements OnInit {
       }
     })
 
+    if(!rows.length){
+      this.useAlerts('No se encontraron obras con esta referencia', ' ', 'error-dialog');
+    } else {
+      this.useAlerts(`Fueron encontradas ${rows.length} obras con esta referencia`, ' ', 'success-dialog');
+    }
+
     this.dataSource.data = rows;
     console.log(this.dataSource.data);
   }
@@ -157,7 +163,7 @@ export class ObrasComponent implements OnInit {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 4000,
+      duration: 3000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]

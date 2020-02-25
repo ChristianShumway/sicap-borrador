@@ -304,6 +304,12 @@ export class CrearNotaBitacoraComponent implements OnInit {
       }
     });
 
+    if(!rows.length){
+      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog');
+    } else {
+      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog');
+    }
+
     this.catalogo = rows;
   }
 
@@ -373,7 +379,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
 
   useAlerts(message, action, className){
     this.snackBar.open(message, action, {
-      duration: 4000,
+      duration: 3000,
       verticalPosition: 'bottom',
       horizontalPosition: 'right',
       panelClass: [className]
