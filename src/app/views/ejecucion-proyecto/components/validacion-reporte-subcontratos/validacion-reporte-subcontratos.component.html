@@ -7,7 +7,7 @@
 </div>
 
 <div fxLayout="row wrap" *ngIf="obra && opcionesPermitidas">
-  <form [formGroup]="validacionForm" (submit)="buscarConceptosEjecutados()">
+  <form [formGroup]="validacionForm" (submit)="buscarConceptosSubcontrato()">
 
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
       <div class="info-obra">
@@ -98,7 +98,7 @@
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{ row?.idConcepto }}
+              {{ row?.idSubContrato }}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -130,15 +130,15 @@
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.precioUnitarioEjecutado | currency}}
+              {{row?.precioUnitarioReportado | currency}}
             </p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Cantidad Ejecutada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.cantidadEjecutada === row?.cantidadValidada ? 'green' : 'red' }">
-              {{row?.cantidadEjecutada}}
+            <p class="content-center" [ngStyle]="{'color':row?.cantidadReportada === row?.cantidadValidada ? 'green' : 'red' }">
+              {{row?.cantidadReportada}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -146,7 +146,7 @@
         <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.importeEjecutado | currency}}
+              {{row?.importeReportado | currency}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -165,7 +165,7 @@
         <ngx-datatable-column name="Importe Validado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
-              {{ row?.cantidadValidada * row?.precioUnitarioEjecutado | currency }}
+              {{ row?.cantidadValidada * row?.precioUnitarioReportado | currency }}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -173,7 +173,7 @@
         <ngx-datatable-column name="Observación" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <div class="observation-button">
-              <button mat-stroked-button color="warn" (click)="addObservation(row?.idConcepto)">Observación</button>
+              <button mat-stroked-button color="warn" (click)="addObservation(row?.idSubContrato)">Observación</button>
             </div>
           </ng-template>
         </ngx-datatable-column>

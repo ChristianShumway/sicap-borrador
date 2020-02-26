@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { ConceptoValidado } from './../models/concepto-validado';
-import { environment } from 'environments/environment';
 import { Observable } from 'rxjs/Rx';
+import { environment } from 'environments/environment';
+import { ConceptoValidado } from './../models/concepto-validado';
+import { SubcontratoValidado } from '../models/subcontrato-validado';
 
 
 @Injectable({
@@ -21,6 +22,15 @@ export class ValidacionReporteService {
   saveValidation(conceptsValidation): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/projectExecution/saveValidationConcepts`, JSON.stringify(conceptsValidation), { headers: headerss});
+  }
+
+  getValidationSubcontract(idObra: number, fechaInicio, fechaFin){
+    return this.http.get<SubcontratoValidado[]>(`${environment.apiURL}/projectExecution/getValidationReportSubContract/${idObra}/${fechaInicio}/${fechaFin}`);
+  }
+
+  saveValidationSubcontract(conceptsValidation): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/saveReportSubContract`, JSON.stringify(conceptsValidation), { headers: headerss});
   }
   
 }

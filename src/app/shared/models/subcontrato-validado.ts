@@ -1,20 +1,19 @@
-export interface ConceptoValidado {
-  idConcepto: number;
+export interface SubcontratoValidado {
+  idSubContrato: number;
   descripcion: string;
   unidad: string;
   cantidadOriginal: number;
-  cantidadEjecutada: number;
-  precioUnitarioEjecutado: number;
-  importeEjecutado: number;
+  cantidadReportada: number;
+  precioUnitarioReportado: number;
+  importeReportado: number;
   cantidadValidada: number;
   idDetConceptoEjecutado?: number;
   precioUnitarioValidado: number;
   importeValidado: number;
-  idValidacionConcepto?: number;
+  idValidacionReporte?: number;
   observacion: string;
   idUsuarioModifico: number;
   idObra: number;
   fechaInicial?: string;
   fechaFinal?: string;
 }
-

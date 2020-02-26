@@ -75,6 +75,9 @@ import { ObservacionValidacionConceptoComponent } from './components/observacion
     AgmCoreModule,
     OwlModule
   ],
+  exports: [
+    ModalEliminarComponent
+  ],
   entryComponents: [
     ObservacionObraGeneralComponent,
     ModalEliminarComponent,

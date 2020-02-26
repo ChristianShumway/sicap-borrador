@@ -13,7 +13,7 @@ import { ObservacionValidacionConceptoComponent } from '../observacion-validacio
 import { environment } from './../../../../../environments/environment';
 
 import { Obra } from './../../../../shared/models/obra';
-import { ConceptoValidado } from './../../../../shared/models/concepto-validado';
+import { SubcontratoValidado } from './../../../../shared/models/subcontrato-validado';
 import { Usuario } from '../../../../shared/models/usuario';
 
 import {MatSnackBar} from '@angular/material/snack-bar';
@@ -42,15 +42,15 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   validacionForm: FormGroup;
-  catalogo: ConceptoValidado[] = [];
-  temp: ConceptoValidado[] = [];
+  catalogo: SubcontratoValidado[] = [];
+  temp: SubcontratoValidado[] = [];
   hayConceptos = false;
   objObservaciones: Observacion[] = [];
   montoTotalEjecutado: number = 0;
   montoTotalValidado: number = 0;
 
   nombreComponente = 'validacion-reportes';
-  tooltip = 'validar-reporte-conceptos';
+  tooltip = 'validar-reporte-subcontratos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
@@ -108,20 +108,20 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
     );
   }
 
-  buscarConceptosEjecutados(){
+  buscarConceptosSubcontrato(){
     if (this.validacionForm.valid) {
       const format = 'yyyy-MM-dd';
       this.fechaInicioShow =  this.pipe.transform(this.fechaInicio, format);
       this.fechaFinalShow = this.pipe.transform(this.fechaFinal, format);
-      this.validacionReporteService.getValidationConceptExecuted(this.idObra, this.fechaInicioShow, this.fechaFinalShow).subscribe(
-        (conceptos: ConceptoValidado[]) => {
+      this.validacionReporteService.getValidationSubcontract(this.idObra, this.fechaInicioShow, this.fechaFinalShow).subscribe(
+        (conceptos: SubcontratoValidado[]) => {
           console.log(conceptos);
           if (conceptos.length > 0) {
             this.hayConceptos = true;
             this.catalogo = conceptos;
             this.temp = this.catalogo;
-            this.catalogo.map( (concepto: ConceptoValidado) => {
-              this.montoTotalEjecutado = this.montoTotalEjecutado + concepto.importeEjecutado;
+            this.catalogo.map( (concepto: SubcontratoValidado) => {
+              this.montoTotalEjecutado = this.montoTotalEjecutado + concepto.importeReportado;
               this.montoTotalValidado = this.montoTotalValidado + concepto.importeValidado;
             });
           } else {
@@ -142,13 +142,13 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
   }
 
   validarConceptos(){
-    const newCatalog: ConceptoValidado[] = [];
+    const newCatalog: SubcontratoValidado[] = [];
 
-    this.catalogo.map( (concepto:ConceptoValidado) => {
-      const conceptoModificado:ConceptoValidado = {
+    this.catalogo.map( (concepto:SubcontratoValidado) => {
+      const conceptoModificado:SubcontratoValidado = {
         ...concepto,
-        precioUnitarioValidado: concepto.precioUnitarioEjecutado,
-        importeValidado: concepto.precioUnitarioEjecutado * concepto.cantidadValidada,
+        precioUnitarioValidado: concepto.precioUnitarioReportado,
+        importeValidado: concepto.precioUnitarioReportado * concepto.cantidadValidada,
         idUsuarioModifico: this.idUsuarioLogeado,
         idObra: this.idObra
       };
@@ -160,8 +160,8 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
     if(this.objObservaciones.length > 0){
       // console.log(this.objObservaciones);
       this.objObservaciones.map( observacion => {
-        newCatalog.map( (concepto:ConceptoValidado) => {
-          if(observacion.idConcepto === concepto.idConcepto){
+        newCatalog.map( (concepto:SubcontratoValidado) => {
+          if(observacion.idConcepto === concepto.idSubContrato){
             concepto.observacion = observacion.observacion
           }
         })
@@ -169,7 +169,7 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
     }
 
     console.log(newCatalog);
-    this.validacionReporteService.saveValidation(newCatalog).subscribe(
+    this.validacionReporteService.saveValidationSubcontract(newCatalog).subscribe(
       response =>  {
         console.log(response);
         if(response.estatus === '05'){
@@ -191,28 +191,21 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
 
     sheet.afterDismissed().subscribe( (data: Observacion) => {
       if(data){
-        if (this.objObservaciones.length === 0){
+        const found = this.objObservaciones.filter( (observacion:Observacion) => observacion.idConcepto === data.idConcepto);
+        if(found.length > 0){
+          this.useAlerts('Ya fue agregada una observación para este concepto', ' ', 'error-dialog');
+        } else {
           this.objObservaciones.push(data);
           this.useAlerts('Observación agregada', ' ', 'success-dialog');
-        } else {
-          this.objObservaciones.map( (observacion: Observacion) => {
-            if (observacion.idConcepto === data.idConcepto){
-              this.useAlerts('Ya fue agregado una observación para este concepto', ' ', 'error-dialog');
-            } else {
-              this.objObservaciones.push(data);
-              this.useAlerts('Observación agregada', ' ', 'success-dialog');
-            }
-          });
         }
-        console.log(this.objObservaciones);
       }
     });
   }
 
   getNewMontoTotal(){
     let total = 0;
-    this.catalogo.map( (concepto: ConceptoValidado) => {
-      let importe = concepto.precioUnitarioEjecutado * concepto.cantidadValidada;
+    this.catalogo.map( (concepto: SubcontratoValidado) => {
+      let importe = concepto.precioUnitarioReportado * concepto.cantidadValidada;
       total = total + importe;
       this.montoTotalValidado = total;
     });
@@ -229,13 +222,13 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
   public onFechaInicio(event): void {
     this.fechaInicio = event.value;
     this.compareTwoDates();
-    this.buscarConceptosEjecutados();
+    this.buscarConceptosSubcontrato();
   }
 
   public onFechaFinal(event): void {
     this.fechaFinal = event.value;
     this.compareTwoDates();
-    this.buscarConceptosEjecutados();
+    this.buscarConceptosSubcontrato();
   }
 
   compareTwoDates(){

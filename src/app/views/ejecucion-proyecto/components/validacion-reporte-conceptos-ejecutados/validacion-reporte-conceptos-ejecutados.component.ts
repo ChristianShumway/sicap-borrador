@@ -115,7 +115,7 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
       this.fechaFinalShow = this.pipe.transform(this.fechaFinal, format);
       this.validacionReporteService.getValidationConceptExecuted(this.idObra, this.fechaInicioShow, this.fechaFinalShow).subscribe(
         (conceptos: ConceptoValidado[]) => {
-          console.log(conceptos);
+          // console.log(conceptos);
           if (conceptos.length > 0) {
             this.hayConceptos = true;
             this.catalogo = conceptos;
@@ -191,20 +191,13 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
 
     sheet.afterDismissed().subscribe( (data: Observacion) => {
       if(data){
-        if (this.objObservaciones.length === 0){
+        const found = this.objObservaciones.filter( (observacion:Observacion) => observacion.idConcepto === data.idConcepto);
+        if(found.length > 0){
+          this.useAlerts('Ya fue agregada una observación para este concepto', ' ', 'error-dialog');
+        } else {
           this.objObservaciones.push(data);
           this.useAlerts('Observación agregada', ' ', 'success-dialog');
-        } else {
-          this.objObservaciones.map( (observacion: Observacion) => {
-            if (observacion.idConcepto === data.idConcepto){
-              this.useAlerts('Ya fue agregado una observación para este concepto', ' ', 'error-dialog');
-            } else {
-              this.objObservaciones.push(data);
-              this.useAlerts('Observación agregada', ' ', 'success-dialog');
-            }
-          });
         }
-        console.log(this.objObservaciones);
       }
     });
   }
