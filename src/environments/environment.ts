@@ -62,7 +62,7 @@ export const environment = {
       activo: 1
     },
     {
-      idOpcion: 32,
+      idOpcion: 34,
       nombre: 'Validar Reportes',
       descripcion: 'Opción para el usuario poder validar conceptos ejecutados por un supervisor',
       tooltip: 'validar-reporte-conceptos',
@@ -70,7 +70,7 @@ export const environment = {
       activo: 1
     },
     {
-      idOpcion: 32,
+      idOpcion: 35,
       nombre: 'Validar Reportes',
       descripcion: 'Opción para el usuario poder validar subcontratos por un supervisor',
       tooltip: 'validar-reporte-subcontratos',

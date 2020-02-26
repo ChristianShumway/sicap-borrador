@@ -83,6 +83,7 @@ export class ObrasComponent implements OnInit {
     this.obraService.getObras().subscribe(
       ((obras: Obra[]) => {
         // this.obras = obras.filter(obra => obra.activo === 1 && obra.idSupervisor === this.idUserLogeado);
+        console.log(obras);
         const obrasActivas = obras.filter(obra => obra.activo === 1);
         obrasActivas.map( (obra: Obra) => {
           if(obra.idGerente === this.idUserLogeado){

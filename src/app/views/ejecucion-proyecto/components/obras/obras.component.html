@@ -88,7 +88,7 @@
                 <button 
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]"
-                *ngIf= "permisosEspecialesPermitidos.includes(myIdVC?.id)">
+                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id)">
                 Validación de Conceptos Ejecutados</button>
               </div>
 
@@ -102,7 +102,7 @@
                 <button 
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]"
-                *ngIf= "permisosEspecialesPermitidos.includes(myIdVS?.id)">
+                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVS?.id)">
                 Validación de Subcontratos</button>
               </div>
               
