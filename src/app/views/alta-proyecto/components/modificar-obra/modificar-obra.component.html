@@ -31,7 +31,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Cliente</mat-label>
-              <mat-select formControlName="idCliente" required>
+              <mat-select formControlName="idCliente" (selectionChange) = "getUsuariosCliente($event.value)" required>
                 <mat-option>--</mat-option>
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
                   {{cliente.nombre}}
@@ -42,6 +42,22 @@
               <small *ngIf="updateObraForm.controls['idCliente'].hasError('required') && updateObraForm.controls['idCliente'].touched"
                 class="form-error-msg">
                 Cliente es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Usuarios Cliente</mat-label>
+              <mat-select formControlName="usuarioCliente" multiple>
+                <mat-option *ngFor="let usuarioCl of usuarioCliente" [value]="usuarioCl">
+                  {{usuarioCl.nombre}} {{usuarioCl.apellidoPaterno}} {{usuarioCl.apellidoMaterno}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateObraForm.controls['usuarioCliente'].hasError('required') && updateObraForm.controls['usuarioCliente'].touched" class="form-error-msg">
+                Usuarios del cliente es un campo requerido
               </small>
             </div>
           </div>

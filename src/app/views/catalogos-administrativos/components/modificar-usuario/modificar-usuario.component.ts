@@ -11,6 +11,8 @@ import { Usuario } from '../../../../shared/models/usuario';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
+import { Cliente } from '../../../../shared/models/cliente';
+import { ClientesService } from '../../../../shared/services/clientes.service';
 
 @Component({
   selector: 'app-modificar-usuario',
@@ -23,10 +25,13 @@ export class ModificarUsuarioComponent implements OnInit {
   updateUserForm: FormGroup; 
   empresas: Empresa[];
   perfiles: Perfil[];
+  clientes: Cliente[];
+  usuario: Usuario;
   idUser;
   fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
   idUsuarioLogeado;
+  esCliente = false;
   
   constructor(
     private router: Router,
@@ -35,13 +40,14 @@ export class ModificarUsuarioComponent implements OnInit {
     private empresasService: EmpresasService,
     private perfilesService: PerfilesService,
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private clientesService: ClientesService,
   ) { }
 
   ngOnInit() {
     this.getValidations();
     this.getUser();
-    this.getCatalogos();
+    // this.getCatalogos();
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
@@ -50,16 +56,19 @@ export class ModificarUsuarioComponent implements OnInit {
       this.idUser = data.id;
       if(this.idUser) {
         this.usuarioService.getUsuario(this.idUser).subscribe(
-          ( (user: Usuario) => {
+          (user: Usuario) => {
             console.log(user);
-            console.log(user.fechaNacimiento);
+            this.usuario = user;
+            this.getCatalogos();
+            this.getClientesOrEmpresas(this.usuario.idPerfil);
+
+            
             let fechaString = user.fechaNacimiento;
             this.fechaNacimientoFinal = new Date(fechaString);
             this.fechaNacimientoFinal.setDate(this.fechaNacimientoFinal.getDate()+1);
-            console.log(this.fechaNacimientoFinal);
             this.updateUserForm.patchValue(user);
-          }),
-          (error => console.log(error))
+          },
+          error => console.log(error)
         );
       }
     });
@@ -85,10 +94,13 @@ export class ModificarUsuarioComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
+      idPerfil: new FormControl('', [
+        Validators.required
+      ]),
       idEmpresa: new FormControl('', [
         Validators.required
       ]),
-      idPerfil: new FormControl('', [
+      idCliente: new FormControl('', [
         Validators.required
       ]),
       telefono: new FormControl('', Validators.required),
@@ -135,18 +147,36 @@ export class ModificarUsuarioComponent implements OnInit {
   }
 
   getCatalogos() {
-    this.empresasService.getAllEmpresas().subscribe(
-      ( (empresas: Empresa[]) => {
-        this.empresas = empresas.filter( empresa => empresa.activo === 1);
-      }),
-      (error => console.log(error))
-    );
     this.perfilesService.getAllPerfiles().subscribe(
-      ( (perfiles: Perfil[]) => {
-        this.perfiles = perfiles.filter( perfil => perfil.activo === 1 && perfil.nombre !== 'Bajas');
-      }),
-      (error => console.log(error))
+      (perfiles: Perfil[]) => this.perfiles = perfiles.filter( perfil => perfil.activo === 1 && perfil.nombre !== 'Bajas'),
+      error => console.log(error)
     );
+  }
+
+  getClientesOrEmpresas(idPerfil){
+    // console.log(idPerfil);
+    if (idPerfil === 11) {
+      this.esCliente = true;
+      this.clientesService.getClientes().subscribe(
+        (clientes: Cliente[]) => {
+          this.clientes = clientes.filter( (cliente:Cliente) => cliente.activo === 1);
+          this.updateUserForm.controls['idEmpresa'].setValue(0);
+          // console.log(this.clientes);
+        },
+        error => console.log(error)
+      );
+
+    } else {
+      this.esCliente = false;
+      this.empresasService.getAllEmpresas().subscribe(
+        (empresas: Empresa[]) => {
+          this.empresas = empresas.filter( empresa => empresa.activo === 1);
+          this.updateUserForm.controls['idCliente'].setValue(0);
+        },
+        error => console.log(error)
+      );
+    }
+    // console.log(this.esCliente);
   }
 
   useAlerts(message, action, className){

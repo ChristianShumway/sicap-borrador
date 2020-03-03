@@ -31,6 +31,7 @@ export class ModificarObraComponent implements OnInit {
   supervisores: Usuario[];
   gerenteProyecto: Usuario[];
   planeacionPresupuestos: Usuario[];
+  usuarioCliente: Usuario[];
   controlObra: Usuario[];
   compras: Usuario[];
   destajistas: Destajista[];
@@ -41,10 +42,12 @@ export class ModificarObraComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   obraId;
   idUsuarioLogeado;
+  idClienteObra;
   observacionText: string;
   observacionesGenerales = [];
-  supervisoresSeleccionados;
-  destajistasSeleccionados;
+  supervisoresSeleccionados: Usuario[];
+  destajistasSeleccionados: Destajista[];
+  clientesSeleccionados: Usuario[];
   
   constructor(
     private router: Router,
@@ -72,8 +75,8 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.getObra(this.obraId).subscribe(
           (obra: Obra) => {
             console.log(obra);
+            this.idClienteObra = obra.idCliente;
             this.observacionesGenerales = obra.observacion;
-            console.log(this.observacionesGenerales);
             let inicioString = obra.fechaInicio;
             let finString = obra.fechaFin;
             this.fechaInicioObra = new Date(inicioString);
@@ -83,6 +86,7 @@ export class ModificarObraComponent implements OnInit {
             this.updateObraForm.patchValue(obra);
             this.supervisoresSeleccionados = obra.supervisor;
             this.destajistasSeleccionados = obra.destajista;
+            this.clientesSeleccionados = obra.usuarioCliente;
             this.getCatalogos();
           },
           error => console.log(error)
@@ -97,6 +101,9 @@ export class ModificarObraComponent implements OnInit {
         Validators.required,
       ]),
       idCliente: new FormControl('', [
+        Validators.required,
+      ]),
+      usuarioCliente: new FormControl('', [
         Validators.required,
       ]),
       noContrato: new FormControl('', [
@@ -270,13 +277,16 @@ export class ModificarObraComponent implements OnInit {
     );
 
     this.usuariosService.getUsuarios().subscribe(
-      (supervisores: Usuario[]) => {
-        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
-        this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
-        this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
-        this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
-        this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
+      (usuarios: Usuario[]) => {
+        this.supervisores = usuarios.filter( usuario => usuario.idPerfil === 9);
+        this.gerenteProyecto = usuarios.filter( usuario => usuario.idPerfil === 10);
+        this.planeacionPresupuestos = usuarios.filter( usuario => usuario.idPerfil === 2);
+        this.controlObra = usuarios.filter( usuario => usuario.idPerfil === 3);
+        this.compras = usuarios.filter( usuario => usuario.idPerfil === 8);
+        this.usuarioCliente = usuarios.filter( usuario => usuario.idPerfil === 11 && usuario.idCliente === this.idClienteObra);
         const listSupervisoresCheck=[];
+        const listCustomersCheck=[];
+
         this.supervisores.map( supervisor => {
           this.supervisoresSeleccionados.map( ss => {
             if(supervisor.idUsuario === ss.idUsuario){
@@ -284,7 +294,19 @@ export class ModificarObraComponent implements OnInit {
             }
           });
         });
-        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck);   
+
+        console.log(this.usuarioCliente);
+
+        this.usuarioCliente.map( (cliente: Usuario) => {
+          this.clientesSeleccionados.map( (cs: Usuario) => {
+            if( cliente.idUsuario === cs.idUsuario ){
+              listCustomersCheck.push(cliente);
+            }
+          });
+        });
+
+        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck); 
+        this.updateObraForm.get('usuarioCliente').setValue(listCustomersCheck);  
       },
       error => console.log(error)
     );
@@ -305,8 +327,22 @@ export class ModificarObraComponent implements OnInit {
       error => console.log(error)
     );
 
-    // this.clientes = this.clientesService.clientesTemp;
+  }
 
+  getUsuariosCliente(idCliente){
+    console.log(idCliente);
+    this.usuariosService.getUsuariosCliente(idCliente).subscribe(
+      (usuarios: Usuario[]) => {
+        this.updateObraForm.controls['usuarioCliente'].setValue('');
+        if(usuarios.length > 0){
+          this.usuarioCliente = usuarios;
+        } else {
+          this.usuarioCliente = [];
+        }
+      },
+      error => console.log(error)
+    );
+    // console.log(this.usuariosCliente);
   }
 
   getObservacionesObra(){

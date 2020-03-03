@@ -9,6 +9,7 @@ export interface Obra {
   empresa?: Empresa;
   idCliente: number;
   cliente?: Cliente;
+  usuarioCliente?: Usuario[];
   noContrato: string;
   noLicitacion: string;
   nombreObra: string;

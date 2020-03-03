@@ -28,6 +28,7 @@ export class CrearObraComponent implements OnInit {
   createObraForm: FormGroup;
   empresas: Empresa[];
   clientes: Cliente[];
+  usuariosCliente: Usuario[];
   supervisores: Usuario[];
   gerenteProyecto: Usuario[];
   planeacionPresupuestos: Usuario[];
@@ -71,6 +72,9 @@ export class CrearObraComponent implements OnInit {
         Validators.required,
       ]),
       idCliente: new FormControl('', [
+        Validators.required,
+      ]),
+      usuarioCliente: new FormControl('', [
         Validators.required,
       ]),
       noContrato: new FormControl('', [
@@ -228,20 +232,14 @@ export class CrearObraComponent implements OnInit {
 
   getCatalogos() {
     this.empresasService.getAllEmpresas().subscribe(
-      ( (empresas: Empresa[]) => {
-        this.empresas = empresas.filter( empresa => empresa.activo === 1);
-      }),
-      (error => console.log(error))
-    );
-
-    this.clientesService.getClientes().subscribe(
-      (clientes: Cliente[]) => {
-        this.clientes = clientes.filter( cliente => cliente.activo === 1);
-      },
+      (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
 
-    // this.clientes = this.clientesService.clientesTemp;
+    this.clientesService.getClientes().subscribe(
+      (clientes: Cliente[]) => this.clientes = clientes.filter( cliente => cliente.activo === 1),
+      error => console.log(error)
+    );
 
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
@@ -255,13 +253,26 @@ export class CrearObraComponent implements OnInit {
     );
 
     this.destajistasService.getDestajistas().subscribe(
-      (destajistas: Destajista[]) => {
-        this.destajistas = destajistas.filter( destajista => destajista.activo === 1);
-      },
+      (destajistas: Destajista[]) => this.destajistas = destajistas.filter( destajista => destajista.activo === 1),
       error => console.log(error)
     );
 
-    // this.destajistas = this.destajistasService.destajistasTemp;
+  }
+
+  getUsuariosCliente(idCliente){
+    console.log(idCliente);
+    this.usuariosService.getUsuariosCliente(idCliente).subscribe(
+      (usuarios: Usuario[]) => {
+        this.createObraForm.controls['usuarioCliente'].setValue('');
+        if(usuarios.length > 0){
+          this.usuariosCliente = usuarios;
+        } else {
+          this.usuariosCliente = [];
+        }
+      },
+      error => console.log(error)
+    );
+    // console.log(this.usuariosCliente);
   }
 
   addObservation(observacion){

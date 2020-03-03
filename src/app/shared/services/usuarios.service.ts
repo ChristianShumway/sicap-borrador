@@ -54,4 +54,8 @@ export class UsuariosService {
     return this.http.post<any>(`${environment.apiURL}/user/updateUser`, JSON.stringify(user), { headers: headerss});
   }
 
+  getUsuariosCliente(idCliente: number): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuariosByCustomer/${idCliente}`);
+  }
+
 }

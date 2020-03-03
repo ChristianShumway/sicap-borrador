@@ -10,6 +10,10 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
 import { DatePipe } from '@angular/common';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { Cliente } from './../../../../shared/models/cliente';
+import { ClientesService } from '../../../../shared/services/clientes.service';
+import { filter } from 'rxjs/operators';
+import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
   selector: 'app-crear-usuario',
@@ -26,6 +30,8 @@ export class CrearUsuarioComponent implements OnInit {
   fechaNacimientoFinal;
   pipe = new DatePipe('en-US');
   idUsuarioLogeado;
+  esCliente: boolean = false;
+  clientes: Cliente[];
   
   constructor(
     private router: Router,
@@ -33,7 +39,8 @@ export class CrearUsuarioComponent implements OnInit {
     private perfilesService: PerfilesService,
     private snackBar: MatSnackBar,
     private usuariosService: UsuariosService,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private clientesService: ClientesService,
   ) { }
 
   ngOnInit() {
@@ -67,12 +74,11 @@ export class CrearUsuarioComponent implements OnInit {
         Validators.minLength(4),
         Validators.maxLength(20)
       ]),
-      idEmpresa: new FormControl('', [
-        Validators.required
-      ]),
       idPerfil: new FormControl('', [
         Validators.required
       ]),
+      idCliente: new FormControl('', Validators.required),
+      idEmpresa: new FormControl('', Validators.required),
       telefono: new FormControl('', Validators.required),
       direccion: new FormControl('', [
         Validators.required,
@@ -92,28 +98,24 @@ export class CrearUsuarioComponent implements OnInit {
     if(this.createUserForm.valid){
       const format = 'yyyy/MM/dd';
       const myFormatedDate = this.pipe.transform(this.fechaNacimientoFinal, format);
-      const usuario = {
+      const usuario:Usuario = {
         ...this.createUserForm.value,
         imagen: 'user-temp.png',
         fechaNacimiento: myFormatedDate,
         cambiarContrasena: 0,
-        // usuarioCreo: this.idUsuarioLogeado
+        // idUsuarioModifico: this.idUsuarioLogeado
       };
-      // console.log(usuario);
+      console.log(usuario);
       this.usuariosService.createUsuario(usuario).subscribe(
-        (response => {
-          // console.log(response);
+        response => {
           if(response.estatus === '05'){
             this.router.navigate(['/configuracion/usuarios']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }
-        }),
-        (error => {
-          console.log(error);
-          this.useAlerts(error.message, ' ', 'error-dialog');
-        })
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
       );
     }
   }
@@ -131,6 +133,24 @@ export class CrearUsuarioComponent implements OnInit {
       }),
       (error => console.log(error))
     );
+  }
+
+  getClientes(idPerfil){
+    if (idPerfil === 11) {
+      // console.log(idPerfil);
+      this.esCliente = true;
+      this.clientesService.getClientes().subscribe(
+        (clientes: Cliente[]) => {
+          this.clientes = clientes.filter( (cliente:Cliente) => cliente.activo === 1);
+          this.createUserForm.controls['idEmpresa'].setValue(0);
+          // console.log(this.clientes);
+        },
+        error => console.log(error)
+      );
+    } else {
+      this.esCliente = false;
+      this.createUserForm.controls['idCliente'].setValue(0);
+    }
   }
 
   useAlerts(message, action, className){

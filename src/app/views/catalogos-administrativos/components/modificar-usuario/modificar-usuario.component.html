@@ -85,7 +85,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Perfil</mat-label>
-              <mat-select formControlName="idPerfil" required >
+              <mat-select formControlName="idPerfil" required (selectionChange)="getClientesOrEmpresas($event.value)">
                 <mat-option *ngFor="let perfil of perfiles" [value]="perfil.idPerfil">
                   {{perfil.nombre}}
                 </mat-option>
@@ -98,7 +98,23 @@
             </div>
           </div>
 
-          <div class="pb-1">
+          <div class="pb-1" *ngIf="esCliente">
+            <mat-form-field class="full-width">
+              <mat-label>Cliente</mat-label>
+              <mat-select formControlName="idCliente" required>
+                <mat-option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
+                  {{cliente.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="updateUserForm.controls['idCliente'].hasError('required') && updateUserForm.controls['idCliente'].touched" class="form-error-msg">
+                Cliente es un campo requerido 
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1"  *ngIf="!esCliente">
             <mat-form-field class="full-width">
               <mat-label>Empresa</mat-label>
               <mat-select formControlName="idEmpresa" required>

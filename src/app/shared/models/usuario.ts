@@ -10,7 +10,8 @@ export interface Usuario {
   usuario: string;
   idPerfil: number;
   perfil?: Perfil;
-  idEmpresa: number;
+  idEmpresa?: number;
+  idCliente?: number;
   empresa?: Empresa;
   telefono: string;
   direccion: string;
