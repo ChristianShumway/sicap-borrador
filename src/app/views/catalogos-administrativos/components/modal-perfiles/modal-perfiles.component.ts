@@ -26,7 +26,6 @@ export class ModalPerfilesComponent implements OnInit {
 
   onProfileChange(list){
     this.authorizedProfileListSelected = list.selectedOptions.selected.map(item => item.value);
-    console.log(this.authorizedProfileListSelected);
   }
 
 

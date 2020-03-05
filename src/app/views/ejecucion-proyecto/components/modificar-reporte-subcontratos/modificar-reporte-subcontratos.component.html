@@ -50,7 +50,7 @@
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
               (dateChange)="onFechaInicio($event)">
             <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
             <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
@@ -70,7 +70,7 @@
 
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin de Obra" (dateChange)="onFechaFinal($event)">
+            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
             <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
             <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
           </mat-form-field>
@@ -136,7 +136,7 @@
         </ngx-datatable-column>
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>{{ row?.noSubcontrato }}</p>
+            <p class="content-center">{{ row?.noSubcontrato }}</p>
           </ng-template>
         </ngx-datatable-column>
 
@@ -148,19 +148,19 @@
 
         <ngx-datatable-column name="Unidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>{{row?.unidad}}</p>
+            <p class="content-center">{{row?.unidad}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>{{row?.cantidad}}</p>
+            <p class="content-center">{{row?.cantidad}}</p>
           </ng-template>
         </ngx-datatable-column>
 
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>{{row?.precio | currency}}</p>
+            <p class="content-center">{{row?.precio | currency}}</p>
           </ng-template>
         </ngx-datatable-column>
 
@@ -174,7 +174,7 @@
 
         <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p>{{ row?.cantidadSubContrato * row?.precio | currency }}</p>
+            <p class="content-center">{{ row?.cantidadSubContrato * row?.precio | currency }}</p>
           </ng-template>
         </ngx-datatable-column>
 

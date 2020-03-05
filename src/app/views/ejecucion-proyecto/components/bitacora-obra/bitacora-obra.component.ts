@@ -1,5 +1,5 @@
-import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import { Component, OnInit, Input, ChangeDetectionStrategy, Inject } from '@angular/core';
+import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { ObraService } from '../../../../shared/services/obra.service';
 import { Observable } from 'rxjs';
 import { Observacion } from '../../../../shared/models/observacion';
@@ -11,25 +11,26 @@ import { Observacion } from '../../../../shared/models/observacion';
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class BitacoraObraComponent implements OnInit {
+
+  // @Input() idObra: number;
   private observacionesObs$ : Observable<Observacion[]>;
-  idObra;
+  observaciones: Observacion[];
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private obraService: ObraService
+    private obraService: ObraService,
+    public dialogRef: MatDialogRef<BitacoraObraComponent>,
+    @Inject(MAT_DIALOG_DATA) public idObra
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params
-    .subscribe( (data: Params) => {
-      this.idObra = data.id;
-      this.getObservationsByObra();
-    }); 
+    this.getObservationsByObra();
   }
 
   getObservationsByObra(){
+    console.log(this.idObra);
     this.obraService.getObservacionesObraObservable(this.idObra);
     this.observacionesObs$ = this.obraService.getObservacionesObra();
+    // this.obraService.getObservacionesObra().subscribe( result => this.observaciones = result);
   }
 
 }

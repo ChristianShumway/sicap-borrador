@@ -16,7 +16,6 @@ export class TimeLineObservacionesObraComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.observacionesList);
-    // this.observacionesList.map( result => console.log(result));
   }
 
 }

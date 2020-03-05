@@ -15,6 +15,7 @@ import { ObservacionObraGeneralComponent } from '../observacion-obra-general/obs
 import { Usuario } from '../../../../shared/models/usuario';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { BitacoraObraComponent } from './../bitacora-obra/bitacora-obra.component';
 
 @Component({
   selector: 'app-obras',
@@ -98,13 +99,20 @@ export class ObrasComponent implements OnInit {
           if(obra.idCompras === this.idUserLogeado){
             this.obras.push(obra);
           }
-          obra.supervisor.map( (supervisor) => {
+          obra.supervisor.map( (supervisor: Usuario) => {
             
             if (supervisor.idUsuario === this.idUserLogeado){
               this.accesoBitacora = true;
               this.obras.push(obra);
             }
           });
+
+          obra.usuarioCliente.map( (usuario: Usuario) => {
+            if(usuario.idUsuario === this.idUserLogeado) {
+              this.obras.push(obra);
+            }
+          });
+
         });
 
         this.obrasTemp = this.obras;
@@ -202,6 +210,18 @@ export class ObrasComponent implements OnInit {
       console.log('clicked' + idObra);
     });  
   }
+
+  viewComments(idObra): void{
+    const dialogRef = this.dialog.open(BitacoraObraComponent, {
+      panelClass: 'custom-dialog-container-bitacora',
+      data: idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log(result);
+    });
+  }
+
 
   useAlerts(message, action, className) {
     this.snackBar.open(message, action, {

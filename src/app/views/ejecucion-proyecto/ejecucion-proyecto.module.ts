@@ -12,6 +12,7 @@ import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { AgmCoreModule } from '@agm/core';
 import { OwlModule } from 'ngx-owl-carousel';
+import { AltaProyectoModule } from '../alta-proyecto/alta-proyecto.module';
 
 import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
@@ -34,6 +35,7 @@ import { ConceptosListaComponent } from './components/conceptos-lista/conceptos-
 import { CarouselEvidenciasComponent } from './components/carousel-evidencias/carousel-evidencias.component';
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ObservacionValidacionConceptoComponent } from './components/observacion-validacion-concepto/observacion-validacion-concepto.component';
+import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +58,8 @@ import { ObservacionValidacionConceptoComponent } from './components/observacion
     ConceptosListaComponent,
     CarouselEvidenciasComponent,
     GalleryComponent,
-    ObservacionValidacionConceptoComponent
+    ObservacionValidacionConceptoComponent,
+    BitacoraObraComponent
   ],
   imports: [
   CommonModule,
@@ -73,7 +76,8 @@ import { ObservacionValidacionConceptoComponent } from './components/observacion
     SharedPipesModule,
     EjecucionProyectoRoutingModule,
     AgmCoreModule,
-    OwlModule
+    OwlModule,
+    AltaProyectoModule
   ],
   exports: [
     ModalEliminarComponent
@@ -82,7 +86,8 @@ import { ObservacionValidacionConceptoComponent } from './components/observacion
     ObservacionObraGeneralComponent,
     ModalEliminarComponent,
     SubirEvidenciasComponent,
-    ObservacionValidacionConceptoComponent
+    ObservacionValidacionConceptoComponent,
+    BitacoraObraComponent
   ]
 })
 export class EjecucionProyectoModule { }

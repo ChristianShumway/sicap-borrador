@@ -206,13 +206,20 @@
 }
 
 
-.custom-dialog-container-user .mat-dialog-container {
+.custom-dialog-container-user .mat-dialog-container,
+.custom-dialog-container-bitacora .mat-dialog-container {
   padding: 24px 0 !important;
 }
 
 .custom-dialog-container-delete .mat-dialog-container {
   padding: 0 !important;
   overflow: hidden;
+}
+
+.custom-dialog-container-bitacora{
+  overflow: auto !important;
+  max-height: 80vh;
+  width: 50vw !important;
 }
 
 .error-dialog {
@@ -353,6 +360,10 @@ input[type=number] { -moz-appearance:textfield; }
       width: 100% !important;
     }
   }
+
+  .custom-dialog-container-bitacora {
+    width: 55vw !important;
+  }
 }
 
 @media screen and (max-width: 599px){
@@ -363,6 +374,12 @@ input[type=number] { -moz-appearance:textfield; }
   .owl-carousel .owl-item img {
     height: 25vh;
   }
+
+  .custom-dialog-container-bitacora {
+    width: 95vw !important;
+    max-width: 100vw !important;
+  }
+
 }
 
 @media screen and (max-width:480px){
@@ -419,6 +436,13 @@ font-feature-settings: 'liga' 1;
 
 .mat-step-header .mat-step-icon-state-edit{
   background: rgba(0, 0, 0, 0.54) !important;
+}
+
+.mat-vertical-stepper-content {
+  overflow: hidden;
+  outline: 0;
+  height: auto !important;
+  visibility: visible !important;
 }
 
 

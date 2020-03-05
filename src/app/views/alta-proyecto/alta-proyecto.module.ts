@@ -88,6 +88,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NgxMaskModule.forRoot(options),
     NgxDocViewerModule
   ],
+  exports:[
+    TimeLineObservacionesObraComponent
+  ],
   entryComponents: [
     ModalEliminarComponent,
     AgregarConceptoExtraordinarioComponent,
