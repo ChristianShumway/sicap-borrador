@@ -145,6 +145,7 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     const newCatalog: ConceptoValidado[] = [];
 
     this.catalogo.map( (concepto:ConceptoValidado) => {
+   
       const conceptoModificado:ConceptoValidado = {
         ...concepto,
         precioUnitarioValidado: concepto.precioUnitarioEjecutado,
@@ -152,13 +153,14 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado,
         idObra: this.idObra
       };
+
       newCatalog.push(conceptoModificado);
+      
     });
 
-    // console.log(newCatalog);
+    console.log(newCatalog);
     
     if(this.objObservaciones.length > 0){
-      // console.log(this.objObservaciones);
       this.objObservaciones.map( observacion => {
         newCatalog.map( (concepto:ConceptoValidado) => {
           if(observacion.idConcepto === concepto.idConcepto){
@@ -182,6 +184,7 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
       },
       error => this.useAlerts(error.message, ' ', 'error-dialog')
     );
+
   }
 
   addObservation(idConcepto): void {
@@ -202,24 +205,24 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     });
   }
 
-  getNewMontoTotal(cantEjecutada, cantValidada, event){
+  getNewMontoTotal(cantEjecutada, cantValidada, cantValidadaAnterior, event) {
     let total = 0;
+    console.log(event);
+    
+    if(cantValidada < cantValidadaAnterior){
+      event.target.valueAsNumber = '';
+      // document.querySelector('.importe-validado').innerHTML = cantValidadaAnterior;
+    } else if(cantValidada > cantEjecutada) {
+      event.target.valueAsNumber = '';
+    }
+    
     this.catalogo.map( (concepto: ConceptoValidado) => {
       let importe = concepto.precioUnitarioEjecutado * concepto.cantidadValidada;
       total = total + importe;
       this.montoTotalValidado = total;
     });
-
-    console.log(event);
-
-    if(cantValidada < 0){
-      event.target.value = 0;
-    } else if(cantValidada > cantEjecutada) {
-      event.target.value = cantEjecutada;
-    }
-
-    }
-    
+  }
+  
   minMax(cantEjecutada, cantValidada, event){
     console.log(cantEjecutada);
     console.log(cantValidada);

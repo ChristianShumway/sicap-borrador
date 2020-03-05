@@ -16,5 +16,6 @@ export interface ConceptoValidado {
   idObra: number;
   fechaInicial?: string;
   fechaFinal?: string;
+  cantidadValidadaAnterior?: number;
 }
 

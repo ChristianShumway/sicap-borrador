@@ -85,7 +85,7 @@
     <!-- END FILTRO -->
 
     <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
-
+      <!-- {{catalogo | json}} -->
       <ngx-datatable class="material fullscreen bg-white" style="height: 600px; overflow-y: auto;" [rows]="catalogo" [columnMode]="'force'"
         [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
 
@@ -152,8 +152,9 @@
               <input 
               matInput 
               type="number" 
+              [min]="row?.cantidadValidadaAnterior"
               [max]="row?.cantidadEjecutada" 
-              (change) = "getNewMontoTotal(row?.cantidadEjecutada, row?.cantidadValidada, $event)" 
+              (change) = "getNewMontoTotal(row?.cantidadEjecutada, row?.cantidadValidada, row?.cantidadValidadaAnterior,  $event)" 
               [(ngModel)]="row.cantidadValidada" />
             </mat-form-field>
             <!-- <div class="observation-button">
@@ -164,7 +165,7 @@
 
         <ngx-datatable-column name="Importe Validado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" >
+            <p class="content-center importe-validado" >
               {{ row?.cantidadValidada * row?.precioUnitarioEjecutado | currency }}
             </p>
           </ng-template>
