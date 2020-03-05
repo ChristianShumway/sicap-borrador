@@ -39,6 +39,7 @@ import { CatalogoManoObraComponent } from './components/catalogo-mano-obra/catal
 import { TimeLineObservacionesObraComponent } from './components/time-line-observaciones-obra/time-line-observaciones-obra.component';
 import { ObservacionHeaderComponent } from './components/observacion-header/observacion-header.component';
 import { ObservacionBodyComponent } from './components/observacion-body/observacion-body.component';
+import { LoadingImageComponent } from './components/loading-image/loading-image.component';
 // import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -69,7 +70,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     CatalogoManoObraComponent,
     TimeLineObservacionesObraComponent,
     ObservacionHeaderComponent,
-    ObservacionBodyComponent
+    ObservacionBodyComponent,
+    LoadingImageComponent
   ],
   imports: [
     CommonModule,

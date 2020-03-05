@@ -1,7 +1,10 @@
 <div class="step-header">
-  <img src="{{imgUser}}" alt="usuario">
+  <!-- <img src="{{imgUser}}" alt="usuario"> -->
+  <div class="wrap-image">
+    <app-loading-image [url]="imgUser"></app-loading-image>
+  </div>
   <div class="name-date">
     <p class="name">{{nombre}}</p>
-    <span class="date">{{observacion.fechaCreo | date}}</span>
+    <span class="date">{{observacion.fechaCreo | date:'medium'}}</span>
   </div>
 </div>

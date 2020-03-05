@@ -7,12 +7,17 @@
   margin-bottom: 10px;
 }
 
-.step-header img{
+.step-header .wrap-image{
   max-width: 50px;
   max-height: 50px;
-  object-fit: cover;
-  border-radius: 50%;
 }
+
+// .step-header img{
+//   max-width: 50px;
+//   max-height: 50px;
+//   object-fit: cover;
+//   border-radius: 50%;
+// }
 
 .step-header .name-date p{
   margin: 0;
@@ -24,7 +29,7 @@
 }
 
 @media screen and (max-width: 599px){
-  .step-header img{
+  .step-header .wrap-image{
     display: none;
   }
 }
