@@ -207,7 +207,7 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
 
   getNewMontoTotal(cantEjecutada, cantValidada, cantValidadaAnterior, event) {
     let total = 0;
-    console.log(event);
+    // console.log(event);
     
     if(cantValidada < cantValidadaAnterior){
       event.target.valueAsNumber = '';
@@ -221,18 +221,6 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
       total = total + importe;
       this.montoTotalValidado = total;
     });
-  }
-  
-  minMax(cantEjecutada, cantValidada, event){
-    console.log(cantEjecutada);
-    console.log(cantValidada);
-    console.log(event);
-
-    if(cantValidada < 0){
-      event.target.value = 0;
-    } else if(cantValidada > cantEjecutada) {
-      event.target.value = cantEjecutada;
-    }
   }
 
 

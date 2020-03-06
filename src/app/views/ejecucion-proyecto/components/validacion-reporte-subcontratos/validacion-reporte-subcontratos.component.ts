@@ -202,8 +202,15 @@ export class ValidacionReporteSubcontratosComponent implements OnInit {
     });
   }
 
-  getNewMontoTotal(){
+  getNewMontoTotal(cantReportada, cantValidada, cantValidadaAnterior, event){
     let total = 0;
+
+    if(cantValidada < cantValidadaAnterior){
+      event.target.valueAsNumber = '';
+    } else if(cantValidada > cantReportada) {
+      event.target.valueAsNumber = '';
+    }
+
     this.catalogo.map( (concepto: SubcontratoValidado) => {
       let importe = concepto.precioUnitarioReportado * concepto.cantidadValidada;
       total = total + importe;

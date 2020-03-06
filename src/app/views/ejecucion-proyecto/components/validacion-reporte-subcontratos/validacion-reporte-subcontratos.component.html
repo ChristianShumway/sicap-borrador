@@ -119,13 +119,13 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <!-- <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+        <ngx-datatable-column name="Cantidad Original" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p class="content-center"  [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
                 {{row?.cantidadOriginal}}
               </p>
             </ng-template>
-          </ngx-datatable-column> -->
+          </ngx-datatable-column>
 
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
@@ -154,7 +154,13 @@
         <ngx-datatable-column name="Cantidad Validada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada">
-              <input matInput type="number" min="0" max="row?.cantidadValidada" (change)="getNewMontoTotal()" [(ngModel)]="row.cantidadValidada">
+              <input 
+              matInput 
+              type="number" 
+              [min]="row?.cantidadValidadaAnterior"
+              [max]="row?.cantidadEjecutada" 
+              (change)="getNewMontoTotal(row?.cantidadReportada, row?.cantidadValidada, row?.cantidadValidadaAnterior,  $event)" 
+              [(ngModel)]="row.cantidadValidada">
             </mat-form-field>
             <!-- <div class="observation-button">
                 <button mat-stroked-button color="warn" (click)="addObservation(row?.idConcepto)">Observación</button>
