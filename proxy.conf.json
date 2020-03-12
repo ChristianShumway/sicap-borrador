@@ -28,5 +28,10 @@
     "target": "http://108.175.5.160:8080/Sicap/",
     "secure": false,
     "logLevel": "debug"
+  },
+  "/requestAndSupplies/*": {
+    "target": "http://108.175.5.160:8080/Sicap/",
+    "secure": false,
+    "logLevel": "debug"
   }
 }

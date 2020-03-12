@@ -6,25 +6,34 @@ import { Empresa } from "./empresa";
 // SOLICITUD RECURSO
 
 export interface PeticionSolicitudRecurso {
-  noPeticion?: number;
-  categoria: string;
-  desgloseSolicitud: string;
+  idDetSolicitudRecurso?: number;
+  idCategoriaSolicitudRecurso: number;
+  desglose: string;
   importeSolicitado: number;
   importeAutorizado?: number;
-  comentarioRevisio?: string
+  comentario?: string,
+  idUsuarioModifico: number;
+  idSolicitudRecurso: number;
+  categoriaSolicitudRecurso: any;
 }
 
+
 export interface SolicitudRecurso {
-  idSolicitud?: number;
+  idSolicitudRecurso?: number;
   idEmpresa: number;
   empresa?: Empresa;
   idObra: number;
   obra?: Obra;
   fechaSolicitud: string;
   descripcion: string;
-  idUsuariosolicito: number;
-  usuarioSolicito?: Usuario;
-  peticiones: PeticionSolicitudRecurso[];
+  // idUsuariosolicito: number;
+  // usuarioSolicito?: Usuario;
+  idAdministrador: number;
+  administrador?: Usuario;
+  idJefeImediato: number;
+  jefeInmediato?: Usuario;
+  idUsuarioModifico: number;
+  detSolicitudRecurso: PeticionSolicitudRecurso[];
 }
 
 // SOLICITUD MATERIAL

@@ -10,6 +10,7 @@ import { FileUploadModule } from 'ng2-file-upload/ng2-file-upload';
 import { SharedModule } from './../../shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { SolicitudesSuministrosRoutingModule } from './solicitudes-suministros-routing.module';
 import { EjecucionProyectoModule } from '../ejecucion-proyecto/ejecucion-proyecto.module';
@@ -18,6 +19,8 @@ import { ModalEliminarComponent } from './../ejecucion-proyecto//components/moda
 import { SolicitarRecursosComponent } from './components/solicitar-recursos/solicitar-recursos.component';
 import { SolicitarMaterialesHerramientasComponent } from './components/solicitar-materiales-herramientas/solicitar-materiales-herramientas.component';
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/so
     SharedModule,
     QuillModule,
     SharedPipesModule,
-    EjecucionProyectoModule
+    EjecucionProyectoModule,
+    NgxMaskModule.forRoot(options),
   ],
   entryComponents:[
     // ModalEliminarComponent

@@ -58,4 +58,8 @@ export class UsuariosService {
     return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuariosByCustomer/${idCliente}`);
   }
 
+  getUsuariosByIdProfile(idProfile: number): Observable<Usuario[]>{
+    return this.http.get<Usuario[]>(`${environment.apiURL}/user/getUsuariosByPerfil/${idProfile}`);
+  }
+
 }

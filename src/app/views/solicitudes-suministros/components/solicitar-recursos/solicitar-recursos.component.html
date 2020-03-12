@@ -51,15 +51,14 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Usuario Administración</mat-label>
-              <mat-select formControlName="idUsuarioAdministracion" required>
-                <mat-option value="4">Otros</mat-option>
-                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                    {{empresa.nombre}}
-                  </mat-option> -->
+              <mat-select formControlName="idAdministrador" required>
+                <mat-option *ngFor="let usuario of listaUsuariosAdministracionCentral" [value]="usuario.idUsuario">
+                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idUsuarioAdministracion'].hasError('required') && solicitudForm.controls['idUsuarioAdministracion'].touched"
+              <small *ngIf="solicitudForm.controls['idAdministrador'].hasError('required') && solicitudForm.controls['idAdministrador'].touched"
                 class="form-error-msg">
                 Usuario de adminitración es un campo requerido
               </small>
@@ -70,10 +69,9 @@
             <mat-form-field class="full-width">
               <mat-label>Jefe Inmediato</mat-label>
               <mat-select formControlName="idJefeInmediato" required>
-                <mat-option value="4">Otros</mat-option>
-                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                    {{empresa.nombre}}
-                  </mat-option> -->
+                <mat-option *ngFor="let usuario of listaUsuariosJefeInmediato" [value]="usuario.idUsuario">
+                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
@@ -100,10 +98,9 @@
         <mat-form-field class="full-width">
           <mat-label>Categoría</mat-label>
           <mat-select required [(ngModel)]="categoriaPeticion">
-            <mat-option value="4">Otros</mat-option>
-            <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                {{empresa.nombre}}
-              </mat-option> -->
+            <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
+              {{categoria.descripcion}}
+            </mat-option>
           </mat-select>
         </mat-form-field>  
       </div>
@@ -144,7 +141,7 @@
       <ngx-datatable-column name="Categoría" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.categoria}}
+            {{row?.categoriaSolicitudRecurso[0].descripcion}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -152,7 +149,7 @@
       <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.desgloseSolicitud}}
+            {{row?.desglose}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -175,27 +172,13 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <!-- <ngx-datatable-column name="Cantidad Validada" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <mat-form-field class="cantidad-seleccionada">
-            <input 
-            matInput 
-            type="number" 
-            [min]="row?.cantidadValidadaAnterior"
-            [max]="row?.cantidadEjecutada" 
-            (change) = "getNewMontoTotal(row?.cantidadEjecutada, row?.cantidadValidada, row?.cantidadValidadaAnterior,  $event)" 
-            [(ngModel)]="row.cantidadValidada" />
-          </mat-form-field>
-        </ng-template>
-      </ngx-datatable-column> -->
-
     </ngx-datatable>
 
   </div>
 
-  <ng-template #nopeticiones *ngIf="obra">
+  <ng-template #nopeticiones >
     <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
-      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
       <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1"></ngx-datatable-column>

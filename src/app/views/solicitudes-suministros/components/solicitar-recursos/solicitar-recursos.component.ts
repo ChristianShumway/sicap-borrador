@@ -16,6 +16,7 @@ import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudRecurso, PeticionSolicitudRecurso } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
+import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 @Component({
   selector: 'app-solicitar-recursos',
@@ -33,7 +34,10 @@ export class SolicitarRecursosComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   peticionesSolicitadas: PeticionSolicitudRecurso[] = [];
-  categoriaPeticion;
+  listaCategoriasPeticion: any[] = [];
+  listaUsuariosAdministracionCentral: Usuario[] = [];
+  listaUsuariosJefeInmediato: Usuario[] = [];
+  categoriaPeticion: number;
   desgloseSolicitud: string;
   importeSolicitadoPeticion;
   countPeticion:number = 0;
@@ -49,7 +53,8 @@ export class SolicitarRecursosComponent implements OnInit {
     private snackBar: MatSnackBar,
     private empresasService: EmpresasService,
     private navigationService: NavigationService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private solicitudesService: SolicitudesService
   ) { }
 
   ngOnInit() {
@@ -75,10 +80,10 @@ export class SolicitarRecursosComponent implements OnInit {
               this.getObra();
             } 
           },
-          error => console.log(error)
+          error => this.useAlerts( error.message, ' ', 'error-dialog')
         );
       },
-      error => console.log(error)
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
   }
   
@@ -91,7 +96,7 @@ export class SolicitarRecursosComponent implements OnInit {
           this.getCatalogos();
         }
       },
-      error => this.useAlerts( error.message, ' ', 'success-dialog')
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
   }
 
@@ -99,7 +104,7 @@ export class SolicitarRecursosComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       idEmpresa: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
-      idUsuarioAdministracion: new FormControl(''),
+      idAdministrador: new FormControl(''),
       idJefeInmediato: new FormControl('')
     });
   }
@@ -109,8 +114,19 @@ export class SolicitarRecursosComponent implements OnInit {
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
+    this.solicitudesService.getCategoriasSolicitudRecursos().subscribe(
+      (categorias: any[]) => this.listaCategoriasPeticion = categorias,
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
+    );
+    this.usuariosService.getUsuariosByIdProfile(2).subscribe(
+     ( usuarios: Usuario[]) => this.listaUsuariosAdministracionCentral = usuarios,
+     error => console.log(error)
+    );
+    this.usuariosService.getUsuariosByIdProfile(1).subscribe(
+      ( usuarios: Usuario[]) => this.listaUsuariosJefeInmediato = usuarios,
+      error => console.log(error)
+     );
   }
-
 
   crearSolicitud(){
     if (this.solicitudForm.valid){
@@ -122,12 +138,16 @@ export class SolicitarRecursosComponent implements OnInit {
       } else{
         const solicitud: SolicitudRecurso = {
           ...this.solicitudForm.value,
-          fechaSolicitud: hoy,
-          idUsuarioSolicito: this.idUsuarioLogeado,
           idObra: this.idObra,
-          peticiones: this.peticionesSolicitadas
+          fechaSolicitud: hoy,
+          idUsuarioModifico: this.idUsuarioLogeado,
+          detSolicitudRecurso: this.peticionesSolicitadas
         };
         console.log(solicitud);
+        this.solicitudesService.createSolicitudRecurso(solicitud).subscribe(
+          response => console.log(response),
+          error => console.log(error)
+        );
       }
     }
   }
@@ -141,17 +161,21 @@ export class SolicitarRecursosComponent implements OnInit {
       this.useAlerts('Ingresa el importe solicitado para esta petición', ' ', 'error-dialog');
     } else {
       
+      const tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
       const peticion: PeticionSolicitudRecurso = {
-        noPeticion: this.countPeticion + 1,
-        categoria: this.categoriaPeticion,
-        desgloseSolicitud: this.desgloseSolicitud,
+        idDetSolicitudRecurso: this.countPeticion + 1,
+        idCategoriaSolicitudRecurso: this.categoriaPeticion,
+        desglose: this.desgloseSolicitud,
         importeSolicitado: parseFloat(this.importeSolicitadoPeticion),
+        idUsuarioModifico: this.idUsuarioLogeado,
+        idSolicitudRecurso: this.idUsuarioLogeado,
+        categoriaSolicitudRecurso: tipoCategoria
       };
-
+      
       this.peticionesSolicitadas.push(peticion);
       this.peticionesSolicitadas = [...this.peticionesSolicitadas];
       this.countPeticion += 1;
-      this.categoriaPeticion = '';
+      this.categoriaPeticion = 0;
       this.desgloseSolicitud = '';
       this.importeSolicitadoPeticion = '';
       this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
