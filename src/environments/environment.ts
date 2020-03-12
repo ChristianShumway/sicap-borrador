@@ -77,5 +77,29 @@ export const environment = {
       component: 'validacion-reportes',
       activo: 1
     },
+    {
+      idOpcion: 38,
+      nombre: 'Generar Solicitud',
+      descripcion: 'Opción para generar una solicitud de recursos',
+      tooltip: 'solicitud-recursos',
+      component: 'solicitudes-suministros-obras',
+      activo: 1
+    },
+    {
+      idOpcion: 39,
+      nombre: 'Generar Solicitud',
+      descripcion: 'Opción para generar una solicitud de materiales',
+      tooltip: 'solicitud-materiales',
+      component: 'solicitudes-suministros-obras',
+      activo: 1
+    },
+    {
+      idOpcion: 40,
+      nombre: 'Generar Solicitud',
+      descripcion: 'Opción para generar una solicitud de materiales y equipo',
+      tooltip: 'solicitud-vehiculos',
+      component: 'solicitudes-suministros-obras',
+      activo: 1
+    },
   ]
 };

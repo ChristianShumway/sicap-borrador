@@ -1,0 +1,59 @@
+.wrap-spiner{
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
+form{
+  width: 100%;
+  .info-obra{
+    padding: 15px 0 0;
+    h1{
+      color: gray;
+    }
+    p {
+      color: #4caf50;
+    }
+  }
+}
+
+.cont-btns{
+  text-align: right;
+  button {
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+
+.wrap-peticiones{
+  width: 100%;
+  margin: 10px 0 0;
+  border-top: 1px solid lightgray;
+  padding: 20px 0 0;
+  position: relative;
+  &::before{
+    content: 'Agregar Petición';
+    position: absolute;
+    top: -25px;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+}
+
+.content-center{
+  height: 42px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-btn-delete{
+  background: #ffc107;
+  color: white;
+}
+

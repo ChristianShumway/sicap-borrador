@@ -1,0 +1,206 @@
+<div fxLayout="row wrap" *ngIf="!obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="opcionesPermitidas">
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
+    <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
+      <!-- <form> -->
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-title class="info-obra">
+          <h1>{{obra.noContrato}}</h1>
+          <p>{{obra.nombreObra}}</p>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+
+        <mat-card-content class="fields-form">
+
+          <div class="pb-1" style="margin-top: 40px">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="idEmpresa" required>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idEmpresa'].hasError('required') && solicitudForm.controls['idEmpresa'].touched"
+                class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder="Descripción de la Solicitud" formControlName="descripcion"></textarea>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                class="form-error-msg">
+                Descripción de la solicitud es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Usuario Administración</mat-label>
+              <mat-select formControlName="idUsuarioAdministracion" required>
+                <mat-option value="4">Otros</mat-option>
+                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                    {{empresa.nombre}}
+                  </mat-option> -->
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idUsuarioAdministracion'].hasError('required') && solicitudForm.controls['idUsuarioAdministracion'].touched"
+                class="form-error-msg">
+                Usuario de adminitración es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Jefe Inmediato</mat-label>
+              <mat-select formControlName="idJefeInmediato" required>
+                <mat-option value="4">Otros</mat-option>
+                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                    {{empresa.nombre}}
+                  </mat-option> -->
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idJefeInmediato'].hasError('required') && solicitudForm.controls['idJefeInmediato'].touched"
+                class="form-error-msg">
+                Jefe inmediato es un campo requerido
+              </small>
+            </div>
+          </div>
+          
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </form>
+
+    <div class="wrap-peticiones">
+      
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <mat-label>Categoría</mat-label>
+          <mat-select required [(ngModel)]="categoriaPeticion">
+            <mat-option value="4">Otros</mat-option>
+            <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                {{empresa.nombre}}
+              </mat-option> -->
+          </mat-select>
+        </mat-form-field>  
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <textarea matInput placeholder="Desglose de Solicitud"  [(ngModel)]="desgloseSolicitud"></textarea>
+        </mat-form-field>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput name="importe-solicitado"  placeholder="Importe Solicitado" [(ngModel)]="importeSolicitadoPeticion" mask="separator.2" thousandSeparator=",">
+        </mat-form-field>
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" (click)="agregarPetision()" class="btn-accept">Agregar Petición</button>
+      </div>
+
+    </div>
+
+  </mat-card>
+
+  <div class="mat-box-shadow margin-333" *ngIf="peticionesSolicitadas.length; else nopeticiones">
+    <!-- {{peticionesSolicitadas | json}} -->
+    <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="peticionesSolicitadas" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+      <ngx-datatable-column name="No." [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{ rowIndex + 1 }}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Categoría" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.categoria}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.desgloseSolicitud}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Importe Solicitado" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.importeSolicitado | currency}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Acción" [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <!-- <ngx-datatable-column name="Cantidad Validada" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <mat-form-field class="cantidad-seleccionada">
+            <input 
+            matInput 
+            type="number" 
+            [min]="row?.cantidadValidadaAnterior"
+            [max]="row?.cantidadEjecutada" 
+            (change) = "getNewMontoTotal(row?.cantidadEjecutada, row?.cantidadValidada, row?.cantidadValidadaAnterior,  $event)" 
+            [(ngModel)]="row.cantidadValidada" />
+          </mat-form-field>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+    </ngx-datatable>
+
+  </div>
+
+  <ng-template #nopeticiones *ngIf="obra">
+    <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Importe Solicitado" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+  </ng-template>
+
+</div>

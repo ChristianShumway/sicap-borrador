@@ -1,0 +1,100 @@
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as obras">
+  <ng-container *ngIf="obras.length; else loading">
+    <div *ngFor="let obra of obras" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text obra">
+            <a class="toolbar-avatar md mr-1">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+            <span class="title-card-catalogs">{{obra.noContrato}} -
+              <span> {{obra.nombreObra}} </span>
+            </span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+
+              <div id="solicitud-recursos" #myIdSR>
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-recursos', obra.idObra]" *ngIf="permisosEspecialesPermitidos.includes(myIdSR?.id)">
+                  Solicitar recursos</button>
+              </div>
+
+              <div id="solicitud-materiales" #myIdSM>
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-materiales-herramientas', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSM?.id)">
+                  Solicitar materiales y herramientas</button>
+              </div>
+
+              <div id="solicitud-vehiculos" #myIdSV>
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-vehiculos', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSV?.id)">
+                  Solicitar vehículo, equipo y maquinaria</button>
+              </div>
+
+              
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <div class="wrap-detalles-obra">
+              <p class="p-info-catalogs">
+                <span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Lugar:</span> {{obra.lugarTrabajo}}</p>
+              <!-- <p class="p-info-catalogs">
+                <span>Supervisor Encargado:</span>
+                {{obra.supervisor.nombre}} {{obra.supervisor.apellidoPaterno}} {{obra.supervisor.apellidoMaterno}}
+              </p> -->
+              <p class="p-info-catalogs">
+                <span>Supervisor(es) Encargado(s):</span>
+                <b class="text-supervisor-obra" *ngFor="let supervisor of obra.supervisor">
+                  - {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
+                </b>
+              </p>
+              <p class="p-info-catalogs">
+                <span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency}}</p>
+            </div>
+
+            <div class="wrap-buttons">
+              <button mat-raised-button color="primary" (click)="viewComments(obra.idObra)" *ngIf="option==='bitacora-obra'">
+                Ver Observaciones Bitácora
+              </button>
+            </div>
+
+            <!-- <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Comentarios Bitácora
+                  </mat-panel-title>
+                </mat-expansion-panel-header>
+                <div class="wrap-container-comments">
+                  <app-bitacora-obra [idObra] = "obra.idObra"></app-bitacora-obra>
+                </div>
+              </mat-expansion-panel>
+            </mat-accordion> -->
+
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

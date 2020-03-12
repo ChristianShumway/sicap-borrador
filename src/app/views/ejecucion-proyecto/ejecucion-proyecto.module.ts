@@ -13,6 +13,7 @@ import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { AgmCoreModule } from '@agm/core';
 import { OwlModule } from 'ngx-owl-carousel';
 import { AltaProyectoModule } from '../alta-proyecto/alta-proyecto.module';
+import { NgxMaskModule, IConfig } from 'ngx-mask'
 
 import { EjecucionProyectoRoutingModule } from './ejecucion-proyecto-routing.module';
 import { ObrasComponent } from './components/obras/obras.component';
@@ -36,6 +37,8 @@ import { CarouselEvidenciasComponent } from './components/carousel-evidencias/ca
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ObservacionValidacionConceptoComponent } from './components/observacion-validacion-concepto/observacion-validacion-concepto.component';
 import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
+
+export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
 @NgModule({
   declarations: [
@@ -77,7 +80,8 @@ import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.
     EjecucionProyectoRoutingModule,
     AgmCoreModule,
     OwlModule,
-    AltaProyectoModule
+    AltaProyectoModule,
+    NgxMaskModule.forRoot(options),
   ],
   exports: [
     ModalEliminarComponent

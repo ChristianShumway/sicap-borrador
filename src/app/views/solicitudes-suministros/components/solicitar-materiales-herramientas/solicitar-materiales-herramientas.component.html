@@ -1,0 +1,186 @@
+<div fxLayout="row wrap" *ngIf="!obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="opcionesPermitidas">
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
+    <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
+      <!-- <form> -->
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-title class="info-obra">
+          <h1>{{obra.noContrato}}</h1>
+          <p>{{obra.nombreObra}}</p>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+
+        <mat-card-content class="fields-form">
+
+          <div class="pb-1" style="margin-top: 40px">
+            <mat-form-field class="full-width">
+              <mat-label>Empresa</mat-label>
+              <mat-select formControlName="idEmpresa" required>
+                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                  {{empresa.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idEmpresa'].hasError('required') && solicitudForm.controls['idEmpresa'].touched" class="form-error-msg">
+                Empresa es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" placeholder="Fecha en que se requiere en obra"
+                (dateChange)="onFechaRequiereMaterial($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaRequiere"></mat-datepicker-toggle>
+              <mat-datepicker #fechaRequiere (selectedChange)="onFechaRequiereMaterial($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['fechaRequiere'].hasError('required') && solicitudForm.controls['fechaRequiere'].touched"
+                class="form-error-msg">
+                Fecha en que se requiere el material es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+              <mat-form-field class="full-width">
+              <input matInput name="lugar" formControlName="lugar" placeholder="Lugar de recepción del material">
+            </mat-form-field>
+            <div class="validaciones"> 
+              <small *ngIf="solicitudForm.controls['lugar'].hasError('required') && solicitudForm.controls['lugar'].touched" class="form-error-msg">
+                Lugar de recepción del material es un campo requerido 
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Usuario Administración</mat-label>
+              <mat-select formControlName="idUsuarioAdministracion" required>
+                <mat-option value="4">Otros</mat-option>
+                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                      {{empresa.nombre}}
+                    </mat-option> -->
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idUsuarioAdministracion'].hasError('required') && solicitudForm.controls['idUsuarioAdministracion'].touched"
+                class="form-error-msg">
+                Usuario de adminitración es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Jefe Inmediato</mat-label>
+              <mat-select formControlName="idJefeInmediato" required>
+                <mat-option value="4">Otros</mat-option>
+                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
+                      {{empresa.nombre}}
+                    </mat-option> -->
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idJefeInmediato'].hasError('required') && solicitudForm.controls['idJefeInmediato'].touched"
+                class="form-error-msg">
+                Jefe inmediato es un campo requerido
+              </small>
+            </div>
+          </div>
+
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </form>
+
+  </mat-card>
+
+  <!-- FILTRO -->
+  <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="obra">
+    <input matInput placeholder="Filtrar Materiales" value="" (keyup)='updateFilter($event)'>
+  </mat-form-field>
+  <!-- END FILTRO -->
+
+  <div class="mat-box-shadow margin-333" *ngIf="listaMaterial.length; else noMaterial">
+    <div *ngIf= "obra">
+      <!-- {{listaMaterial | json}} -->
+      <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="listaMaterial"
+        [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true"
+        [rowHeight]="50">
+  
+        <ngx-datatable-column name="No." [flexGrow]="1">
+          <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <p class="content-center">
+                {{row?.noMaterial}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column name="Conceptos" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.conceptos}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column name="Unidad" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.unidad}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+  
+        <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <mat-form-field class="cantidad-seleccionada">
+                <input 
+                matInput 
+                type="number" 
+                [min]="0"
+                [max]="row?.cantidadEjecutada" 
+                [(ngModel)]="row.cantidad" />
+              </mat-form-field>
+            </ng-template>
+          </ngx-datatable-column>
+  
+        <ngx-datatable-column name="Comentarios" [flexGrow]="1">
+          <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <mat-form-field class="comentario">
+              <textarea matInput [(ngModel)]="row.comentarios"></textarea>
+            </mat-form-field>
+          </ng-template>
+        </ngx-datatable-column>
+  
+  
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <ng-template #noMaterial>
+    <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
+      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Conceptos" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+  </ng-template>
+
+</div>

@@ -1,0 +1,29 @@
+.wrap-spiner{
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
+form{
+  width: 100%;
+  .info-obra{
+    padding: 15px 0 0;
+    h1{
+      color: gray;
+    }
+    p {
+      color: #4caf50;
+    }
+  }
+}
+
+.cont-btns{
+  text-align: right;
+  button {
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+
