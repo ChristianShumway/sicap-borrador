@@ -138,9 +138,10 @@ export class SolicitarRecursosComponent implements OnInit {
       } else{
         const solicitud: SolicitudRecurso = {
           ...this.solicitudForm.value,
-          idObra: this.idObra,
-          fechaSolicitud: hoy,
+          idObra: 19,
+          fechaSolicito: hoy,
           idUsuarioModifico: this.idUsuarioLogeado,
+          idUsuarioSolicito: this.idUsuarioLogeado,
           detSolicitudRecurso: this.peticionesSolicitadas
         };
         console.log(solicitud);
@@ -163,7 +164,7 @@ export class SolicitarRecursosComponent implements OnInit {
       
       const tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
       const peticion: PeticionSolicitudRecurso = {
-        idDetSolicitudRecurso: this.countPeticion + 1,
+        // idDetSolicitudRecurso: this.countPeticion + 1,
         idCategoriaSolicitudRecurso: this.categoriaPeticion,
         desglose: this.desgloseSolicitud,
         importeSolicitado: parseFloat(this.importeSolicitadoPeticion),

@@ -11,6 +11,7 @@ import { ObraService } from '../../../../shared/services/obra.service';
 import { EmpresasService } from '../../../../shared/services/empresas.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { SolicitudesService } from './../../../../shared/services/solicitudes.service';
 
 import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
@@ -46,28 +47,29 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     private snackBar: MatSnackBar,
     private empresasService: EmpresasService,
     private navigationService: NavigationService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private solicitudesService: SolicitudesService
   ) { }
 
   ngOnInit() {
     this.activatedRoute.params.subscribe( (params: Params) => this.idObra = params.idObra);
     this.validateAccessValidation();
-    this.listaMaterial = [
-      {
-        noMaterial: 1,
-        conceptos: 'esto esta chido',
-        unidad: 'pza',
-        cantidad: 8,
-        comentarios: 'esto es un simulacro'
-      },
-      {
-        noMaterial: 2,
-        conceptos: 'esto no esta chido',
-        unidad: 'pza',
-        cantidad: 12,
-        comentarios: 'esto es un simulacro 2'
-      }
-    ];
+    // this.listaMaterial = [
+    //   {
+    //     noMaterial: 1,
+    //     conceptos: 'esto esta chido',
+    //     unidad: 'pza',
+    //     cantidad: 8,
+    //     comentarios: 'esto es un simulacro'
+    //   },
+    //   {
+    //     noMaterial: 2,
+    //     conceptos: 'esto no esta chido',
+    //     unidad: 'pza',
+    //     cantidad: 12,
+    //     comentarios: 'esto es un simulacro 2'
+    //   }
+    // ];
     this.listaTemp = this.listaMaterial;
   }
 
@@ -114,8 +116,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       idEmpresa: new FormControl('', Validators.required),
       fechaRequiere: new FormControl(new Date(), Validators.required),
-      lugar: new FormControl('', Validators.required),
-      idUsuarioAdministracion: new FormControl(''),
+      lugarRecepcion: new FormControl('', Validators.required),
+      idAdministrador: new FormControl(''),
       idJefeInmediato: new FormControl('')
     });
   }
@@ -124,6 +126,11 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.empresasService.getAllEmpresas().subscribe(
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
+    );
+    this.solicitudesService.getListMaterialForResource(this.idObra).subscribe(
+      (materiales: MaterialParaSolicitud[]) => this.listaMaterial = materiales,
+      error => console.log(error)
+      // error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
   }
 
@@ -139,11 +146,12 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
       
       const solicitud: SolicitudMaterial = {
         ...this.solicitudForm.value,
-        fechaSolicitud: hoy,
+        fechaSolicito: hoy,
         fechaRequiere: fechaRequiereMaterial,
         idUsuarioSolicito: this.idUsuarioLogeado,
+        idUsuarioModifico: this.idUsuarioLogeado,
         idObra: this.idObra,
-        material: this.listaMaterial
+        detSolicitudMaterial: this.listaMaterial
       };
 
       console.log(solicitud);   

@@ -52,10 +52,10 @@
 
           <div class="pb-1">
               <mat-form-field class="full-width">
-              <input matInput name="lugar" formControlName="lugar" placeholder="Lugar de recepción del material">
+              <input matInput name="lugarRecepcion" formControlName="lugarRecepcion" placeholder="Lugar de recepción del material">
             </mat-form-field>
             <div class="validaciones"> 
-              <small *ngIf="solicitudForm.controls['lugar'].hasError('required') && solicitudForm.controls['lugar'].touched" class="form-error-msg">
+              <small *ngIf="solicitudForm.controls['lugarRecepcion'].hasError('required') && solicitudForm.controls['lugarRecepcion'].touched" class="form-error-msg">
                 Lugar de recepción del material es un campo requerido 
               </small>
             </div>
@@ -64,7 +64,7 @@
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Usuario Administración</mat-label>
-              <mat-select formControlName="idUsuarioAdministracion" required>
+              <mat-select formControlName="idAdministrador" required>
                 <mat-option value="4">Otros</mat-option>
                 <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
                       {{empresa.nombre}}
@@ -72,7 +72,7 @@
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idUsuarioAdministracion'].hasError('required') && solicitudForm.controls['idUsuarioAdministracion'].touched"
+              <small *ngIf="solicitudForm.controls['idAdministrador'].hasError('required') && solicitudForm.controls['idAdministrador'].touched"
                 class="form-error-msg">
                 Usuario de adminitración es un campo requerido
               </small>
@@ -118,7 +118,7 @@
   <div class="mat-box-shadow margin-333" *ngIf="listaMaterial.length; else noMaterial">
     <div *ngIf= "obra">
       <!-- {{listaMaterial | json}} -->
-      <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="listaMaterial"
+      <ngx-datatable class="material fullscreen bg-white" style="height: 400px; overflow-y: auto;" [rows]="listaMaterial"
         [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true"
         [rowHeight]="50">
   
@@ -133,7 +133,7 @@
         <ngx-datatable-column name="Conceptos" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
-              {{row?.conceptos}}
+              {{row?.descripcion}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -154,7 +154,7 @@
                 type="number" 
                 [min]="0"
                 [max]="row?.cantidadEjecutada" 
-                [(ngModel)]="row.cantidad" />
+                [(ngModel)]="row.cantidadSolictada" />
               </mat-form-field>
             </ng-template>
           </ngx-datatable-column>
@@ -162,7 +162,7 @@
         <ngx-datatable-column name="Comentarios" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <mat-form-field class="comentario">
-              <textarea matInput [(ngModel)]="row.comentarios"></textarea>
+              <textarea matInput [(ngModel)]="row.comentario"></textarea>
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>

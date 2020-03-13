@@ -14,50 +14,61 @@ export interface PeticionSolicitudRecurso {
   comentario?: string,
   idUsuarioModifico: number;
   idSolicitudRecurso: number;
-  categoriaSolicitudRecurso: any;
+  categoriaSolicitudRecurso: any[];
 }
-
 
 export interface SolicitudRecurso {
   idSolicitudRecurso?: number;
   idEmpresa: number;
-  empresa?: Empresa;
   idObra: number;
-  obra?: Obra;
-  fechaSolicitud: string;
+  empresa?: Empresa;
   descripcion: string;
-  // idUsuariosolicito: number;
-  // usuarioSolicito?: Usuario;
   idAdministrador: number;
-  administrador?: Usuario;
   idJefeImediato: number;
+  administrdor?: Usuario;
   jefeInmediato?: Usuario;
+  obra?: Obra;
   idUsuarioModifico: number;
+  idUsuarioSolicito: number;
+  fechaSolicito: string;
+  // usuarioSolicito?: Usuario;
   detSolicitudRecurso: PeticionSolicitudRecurso[];
+  pk?: number;
 }
 
 // SOLICITUD MATERIAL
 
 export interface MaterialParaSolicitud {
+  idMaterial?: number;
   noMaterial?: number;
-  conceptos: string;
+  descripcion: string;
   unidad: string;
-  cantidad: number;
-  comentarios?: string
-}
+  idObra?: number;
+  cantidadSolictada: number;
+  comentario?: string;
+  idDetSolicitudMateral?: number;
+  idUsuarioModifico?: number;
+  idSolicitudMaterial?: number;
+  pk?: number;
+} 
 
 export interface SolicitudMaterial {
-  idSolicitud?: number;
+  idSolicitudMaterial?: number;
   idEmpresa: number;
-  empresa?: Empresa;
   idObra: number;
-  obra?: Obra;
-  fechaSolicitud: string;
   fechaRequiere: string;
-  lugar: string;
+  lugarRecepcion: string;
+  idAdministrador: number;
+  idJefeInmediato: number;
   idUsuarioSolicito: number;
-  usuarioSolicito?: Usuario;
-  material?: MaterialParaSolicitud[];
+  fechaSolicito: string;
+  idUsuarioModifico: number;
+  administrdor?: Usuario;
+  jefeInmediato?: Usuario;
+  obra?: Obra;
+  // empresa?: Empresa;
+  // usuarioSolicito?: Usuario;
+  detSolicitudMaterial?: MaterialParaSolicitud[];
 }
 
 // SOLICITUD VEHICULO
