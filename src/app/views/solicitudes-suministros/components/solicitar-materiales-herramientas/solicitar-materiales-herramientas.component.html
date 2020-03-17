@@ -65,10 +65,9 @@
             <mat-form-field class="full-width">
               <mat-label>Usuario Administración</mat-label>
               <mat-select formControlName="idAdministrador" required>
-                <mat-option value="4">Otros</mat-option>
-                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                      {{empresa.nombre}}
-                    </mat-option> -->
+                <mat-option *ngFor="let usuario of listaUsuariosAdministracionCentral" [value]="usuario.idUsuario">
+                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
@@ -84,9 +83,9 @@
               <mat-label>Jefe Inmediato</mat-label>
               <mat-select formControlName="idJefeInmediato" required>
                 <mat-option value="4">Otros</mat-option>
-                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                      {{empresa.nombre}}
-                    </mat-option> -->
+                <mat-option *ngFor="let usuario of listaUsuariosJefeInmediato" [value]="usuario.idUsuario">
+                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">

@@ -17,7 +17,7 @@ export class SolicitudesService {
 
   // SOLICITUD RECURSO
 
-  createSolicitudRecurso(solicitud): Observable<SolicitudRecurso>{
+  createSolicitudRecurso(solicitud): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<SolicitudRecurso>(`${environment.apiURL}/requestAndSupplies/createRequesResource`, JSON.stringify(solicitud), { headers: headerss});
   }
@@ -34,7 +34,7 @@ export class SolicitudesService {
 
   // SOLICITUD MATERIALES
 
-  createSolicitudMateriales(solicitud): Observable<SolicitudMaterial>{
+  createSolicitudMateriales(solicitud): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<SolicitudMaterial>(`${environment.apiURL}/requestAndSupplies/createRequestMaterial`, JSON.stringify(solicitud), { headers: headerss});
   }

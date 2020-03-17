@@ -54,12 +54,12 @@ export class SolicitarRecursosComponent implements OnInit {
     private empresasService: EmpresasService,
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
-    private solicitudesService: SolicitudesService
+    private solicitudesService: SolicitudesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
-    // this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.activatedRoute.params.subscribe( (params: Params) => this.idObra = params.idObra);
+    this.activatedRoute.params.subscribe( (params: Params) => this.idObra = parseInt(params.idObra));
     this.validateAccessValidation();
   }
 
@@ -138,7 +138,7 @@ export class SolicitarRecursosComponent implements OnInit {
       } else{
         const solicitud: SolicitudRecurso = {
           ...this.solicitudForm.value,
-          idObra: 19,
+          idObra: this.idObra,
           fechaSolicito: hoy,
           idUsuarioModifico: this.idUsuarioLogeado,
           idUsuarioSolicito: this.idUsuarioLogeado,
@@ -146,8 +146,15 @@ export class SolicitarRecursosComponent implements OnInit {
         };
         console.log(solicitud);
         this.solicitudesService.createSolicitudRecurso(solicitud).subscribe(
-          response => console.log(response),
-          error => console.log(error)
+          response => {
+            if(response.estatus === '05'){
+              this.router.navigate(['/solicitudes-suministros/obras']);
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
         );
       }
     }
@@ -162,7 +169,8 @@ export class SolicitarRecursosComponent implements OnInit {
       this.useAlerts('Ingresa el importe solicitado para esta petición', ' ', 'error-dialog');
     } else {
       
-      const tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
+      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
+      tipoCategoria = tipoCategoria[0];
       const peticion: PeticionSolicitudRecurso = {
         // idDetSolicitudRecurso: this.countPeticion + 1,
         idCategoriaSolicitudRecurso: this.categoriaPeticion,
@@ -180,7 +188,7 @@ export class SolicitarRecursosComponent implements OnInit {
       this.desgloseSolicitud = '';
       this.importeSolicitadoPeticion = '';
       this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
-      // console.log(this.peticionesSolicitadas);
+      console.log(this.peticionesSolicitadas);
     }
   }
 

@@ -141,7 +141,7 @@
       <ngx-datatable-column name="Categoría" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.categoriaSolicitudRecurso[0].descripcion}}
+            {{row?.categoriaSolicitudRecurso.descripcion}}
           </p>
         </ng-template>
       </ngx-datatable-column>
