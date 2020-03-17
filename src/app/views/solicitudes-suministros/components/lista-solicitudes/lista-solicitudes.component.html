@@ -1,0 +1,28 @@
+<mat-tab-group>
+  <mat-tab label="Recursos"> 
+    <div class="container-solicitudes recursos" fxLayout="row wrap">
+      <h1>Solicitudes Recursos</h1>
+      <div  class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+        <mat-card class="solicitud-card p-0">
+          <mat-card-content>
+            
+            <div class="card-info" *ngFor="let solicitud of solicitudesRecursos">
+              <div class="col-description">
+                {{solicitud.descripcion}}
+              </div>
+              <div class="col-actions">
+                <button mat-raised-button color="primary">Ver Estátus</button>
+                <button mat-raised-button color="primary">Eliminar</button>
+                <button mat-raised-button color="primary">Actualizar</button>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Material"> Content 2 </mat-tab>
+  <mat-tab label="Vehículos y Equipo"> Content 3 </mat-tab>
+</mat-tab-group>

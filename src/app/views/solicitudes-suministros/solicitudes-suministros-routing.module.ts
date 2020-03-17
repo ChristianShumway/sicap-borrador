@@ -5,6 +5,7 @@ import { ObrasComponent } from './components/obras/obras.component';
 import { SolicitarRecursosComponent } from './components/solicitar-recursos/solicitar-recursos.component';
 import { SolicitarMaterialesHerramientasComponent } from './components/solicitar-materiales-herramientas/solicitar-materiales-herramientas.component';
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
+import { ListaSolicitudesComponent } from './components/lista-solicitudes/lista-solicitudes.component';
 
 const routes: Routes = [
   {
@@ -26,7 +27,12 @@ const routes: Routes = [
     path:'solicitar-vehiculos/:idObra',
     component: SolicitarVehiculosComponent,
     data: {title: 'Solicitud de vehículos, equipo y maquinaria', breadcrumb: 'Solicitud de vehículos, equipo y maquinaria'}
-  }
+  },
+  {
+    path:'solicitudes-realizadas',
+    component: ListaSolicitudesComponent,
+    data: {title: 'Solicitudes Realizadas', breadcrumb: 'Solicitudes Realizadas'}
+  },
 ];
 
 @NgModule({

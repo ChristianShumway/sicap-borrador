@@ -1,0 +1,21 @@
+.mat-card-content{
+  margin-top: 1.5rem !important;
+}
+.card-info{
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  grid-gap: 5px;
+  align-items: center;
+  margin-bottom: 10px;
+  .col-description{
+
+  }
+  .col-actions{
+    display: grid;
+    grid-template-columns: repeat(3, auto);
+    grid-gap: 5px;
+    button{
+      background-origin: padding-box;
+    }
+  }
+}

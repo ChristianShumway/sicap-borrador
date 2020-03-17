@@ -53,4 +53,9 @@ export class SolicitudesService {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEstatusRequest/${idSolicitud}`);
     // http://108.175.5.160:8080/Sicap/requestAndSupplies/getEstatusRequest/1
   }
+
+  getResourcesByUser(idUser: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getRequestMaterialByUser/${idUser}`);
+  }
+
 }
