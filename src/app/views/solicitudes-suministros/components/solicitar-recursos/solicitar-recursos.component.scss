@@ -145,6 +145,10 @@ form{
           max-width: 200px;
         }
       }
+      .wrap-data-obra {
+        grid-template-columns: .5fr 1fr;
+        grid-gap: 5px 10px;
+      }
     }
   
     .fields-form{
@@ -169,7 +173,7 @@ form{
     .data-form {
       margin: 0;
       grid-template-columns: 1fr;
-      grid-gap: 10px;
+      grid-gap: 5px;
       .wrap-logo {
         img {
           max-width: 150px;

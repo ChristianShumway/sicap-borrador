@@ -11,75 +11,74 @@
     <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
       <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="info-obra">
-          <h1>{{obra.noContrato}}</h1>
-          <p>{{obra.nombreObra}}</p>
+        <mat-card-title class="title-solicitud">
+          <h1>Solicitud de Materiales y Herramienta</h1>
+          <span>Grupo Empresarial Cima</span>
+          <p>Area de Compras y Almacenes</p>
         </mat-card-title>
         <mat-divider></mat-divider>
 
-        <mat-card-content class="fields-form">
+        <mat-card-content>
 
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" placeholder="Fecha en que se requiere en obra"
-                (dateChange)="onFechaRequiereMaterial($event)">
-              <mat-datepicker-toggle matSuffix [for]="fechaRequiere"></mat-datepicker-toggle>
-              <mat-datepicker #fechaRequiere (selectedChange)="onFechaRequiereMaterial($event)"></mat-datepicker>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['fechaRequiere'].hasError('required') && solicitudForm.controls['fechaRequiere'].touched"
-                class="form-error-msg">
-                Fecha en que se requiere el material es un campo requerido
-              </small>
+          <div class="data-form">
+            
+            <div class="wrap-logo">
+              <img   class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="empresa">
+            </div>
+
+            <div class="wrap-data-obra">
+              <div class="tit">Nombre de la empresa:</div>
+              <div class="desc">{{obra.nombreObra}}</div>
+              <div class="tit">Obra / Proyecto:</div>
+              <div class="desc">Proyecto</div>
+              <div class="tit">Fecha de la Solicitud:</div>
+              <div class="desc">{{fechaHoy | date}}</div> 
+              <div class="tit">
+                Fecha en que se requiere en en obra:
+                <!-- <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['fechaRequiere'].hasError('required') && solicitudForm.controls['fechaRequiere'].touched"
+                    class="form-error-msg">
+                    Fecha en que se requiere el material es un campo requerido
+                  </small>
+                </div> -->
+              </div>
+              <div class="desc">
+                <mat-form-field class="full-width">
+                  <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" (dateChange)="onFechaRequiereMaterial($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaRequiere"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaRequiere (selectedChange)="onFechaRequiereMaterial($event)"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="tit">Lugar de recepción del material:</div>
+              <div class="desc">
+                <mat-form-field class="full-width">
+                  <input matInput name="lugarRecepcion" formControlName="lugarRecepcion" >
+                </mat-form-field>
+                <!-- <div class="validaciones"> 
+                  <small *ngIf="solicitudForm.controls['lugarRecepcion'].hasError('required') && solicitudForm.controls['lugarRecepcion'].touched" class="form-error-msg">
+                    Lugar de recepción del material es un campo requerido 
+                  </small>
+                </div> -->
+              </div>
+
             </div>
           </div>
 
-          <div class="pb-1">
-              <mat-form-field class="full-width">
-              <input matInput name="lugarRecepcion" formControlName="lugarRecepcion" placeholder="Lugar de recepción del material">
-            </mat-form-field>
-            <div class="validaciones"> 
-              <small *ngIf="solicitudForm.controls['lugarRecepcion'].hasError('required') && solicitudForm.controls['lugarRecepcion'].touched" class="form-error-msg">
-                Lugar de recepción del material es un campo requerido 
-              </small>
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                  class="form-error-msg">
+                    Descripción de la solicitud es un campo requerido
+                  </small>
+                </div>
+              </div>
             </div>
           </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <mat-label>Usuario Administración</mat-label>
-              <mat-select formControlName="idAdministrador" required>
-                <mat-option *ngFor="let usuario of listaUsuariosAdministracionCentral" [value]="usuario.idUsuario">
-                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idAdministrador'].hasError('required') && solicitudForm.controls['idAdministrador'].touched"
-                class="form-error-msg">
-                Usuario de adminitración es un campo requerido
-              </small>
-            </div>
-          </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <mat-label>Jefe Inmediato</mat-label>
-              <mat-select formControlName="idJefeInmediato" required>
-                <mat-option value="4">Otros</mat-option>
-                <mat-option *ngFor="let usuario of listaUsuariosJefeInmediato" [value]="usuario.idUsuario">
-                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idJefeInmediato'].hasError('required') && solicitudForm.controls['idJefeInmediato'].touched"
-                class="form-error-msg">
-                Jefe inmediato es un campo requerido
-              </small>
-            </div>
-          </div>
-
 
           <div class="cont-btns">
             <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>

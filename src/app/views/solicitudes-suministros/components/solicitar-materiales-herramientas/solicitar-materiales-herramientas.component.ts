@@ -107,7 +107,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
       fechaRequiere: new FormControl(new Date(), Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
       idAdministrador: new FormControl(''),
-      idJefeInmediato: new FormControl('')
+      idJefeInmediato: new FormControl(''),
+      descripcion: new FormControl('', Validators.required),
     });
   }
   

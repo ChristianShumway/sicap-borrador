@@ -60,6 +60,7 @@ export interface SolicitudMaterial {
   idObra: number;
   fechaRequiere: string;
   lugarRecepcion: string;
+  descripcion?: string;
   idAdministrador: number;
   idJefeInmediato: number;
   idUsuarioSolicito: number;
