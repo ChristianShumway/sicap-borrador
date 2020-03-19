@@ -82,23 +82,6 @@ form{
   }
 }
 
-.wrap-peticiones{
-  width: 100%;
-  margin: 10px 0 0;
-  border-top: 1px solid lightgray;
-  padding: 20px 0 0;
-  position: relative;
-  &::before{
-    content: 'Agregar Petición';
-    position: absolute;
-    top: -25px;
-    color: #4caf50;
-    font-size: 12px;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-}
-
 .content-center{
   text-align: center;
   margin: 16px 0 0 0 !important;

@@ -38,6 +38,8 @@ export class SolicitarVehiculosComponent implements OnInit {
   fechaHoy = new Date();
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
+  rutaImg: string;
+  host: string;
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
@@ -91,6 +93,8 @@ export class SolicitarVehiculosComponent implements OnInit {
           this.obra = obra;
           this.getValidations();
           this.getCatalogos();
+          this.rutaImg = environment.imgRUL;
+          this.host = environment.host;
           this.fechaInicio = new Date(this.solicitudForm.controls['fechaInicioUso'].value);
           this.fechaFinal = new Date(this.solicitudForm.controls['fechaFinalUso'].value);
           this.fechaInicio.setDate(this.fechaInicio.getDate());
@@ -103,7 +107,6 @@ export class SolicitarVehiculosComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      idEmpresaCliente: new FormControl('', Validators.required),
       telefono: new FormControl('', Validators.required),
       email: new FormControl('', [
         Validators.required,
@@ -164,6 +167,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       
       const solicitud: SolicitudVehiculo = {
         ...this.solicitudForm.value,
+        idEmpresa: this.obra.idEmpresa,
         fechaInicioUso: nuevaFechaInicio,
         fechaFinalUso: nuevaFechaFin,
         fechaSolicitud: hoy,

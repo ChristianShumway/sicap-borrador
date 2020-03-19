@@ -78,8 +78,8 @@ export interface SolicitudMaterial {
 
 export interface SolicitudVehiculo {
   folio?: number;
-  idEmpresaCliente: number;
-  empresaCliente?: Cliente;
+  idEmpresa: number;
+  empresa?: Cliente;
   idObra: number;
   obra?: Obra; 
   fechaSolicitud: string;
