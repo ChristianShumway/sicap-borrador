@@ -19,22 +19,6 @@
 
         <mat-card-content class="fields-form">
 
-          <div class="pb-1" style="margin-top: 40px">
-            <mat-form-field class="full-width">
-              <mat-label>Empresa</mat-label>
-              <mat-select formControlName="idEmpresa" required>
-                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                  {{empresa.nombre}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idEmpresa'].hasError('required') && solicitudForm.controls['idEmpresa'].touched" class="form-error-msg">
-                Empresa es un campo requerido
-              </small>
-            </div>
-          </div>
-
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" placeholder="Fecha en que se requiere en obra"

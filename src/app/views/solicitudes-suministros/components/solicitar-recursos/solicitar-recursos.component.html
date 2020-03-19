@@ -11,44 +11,57 @@
     <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
       <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="info-obra">
-          <h1>{{obra.noContrato}}</h1>
-          <p>{{obra.nombreObra}}</p>
+        <mat-card-title class="title-solicitud">
+          <h1>Solicitud de Recursos</h1>
+          <span>Grupo Empresarial Cima</span>
+          <p>Area Administrativa</p>
+          <!-- <img   class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="empresa">
+          <div class="data">
+            <h1>{{obra.noContrato}}</h1>
+            <p>{{obra.nombreObra}}</p>
+          </div> -->
         </mat-card-title>
         <mat-divider></mat-divider>
 
-        <mat-card-content class="fields-form">
+        <mat-card-content>
+          <div class="data-form">
+            
+            <div class="wrap-logo">
+              <img   class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="empresa">
+            </div>
 
-          <div class="pb-1" style="margin-top: 40px">
-            <mat-form-field class="full-width">
-              <mat-label>Empresa</mat-label>
-              <mat-select formControlName="idEmpresa" required>
-                <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                  {{empresa.nombre}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idEmpresa'].hasError('required') && solicitudForm.controls['idEmpresa'].touched"
-                class="form-error-msg">
-                Empresa es un campo requerido
-              </small>
+            <div class="wrap-data-obra">
+              <div class="tit">Nombre de la empresa:</div>
+              <div class="desc">{{obra.nombreObra}}</div>
+              <div class="tit">Obra / Proyecto:</div>
+              <div class="desc">Proyecto</div>
+              <div class="tit">Fecha de la Solicitud:</div>
+              <div class="desc">{{fechaHoy | date}}</div> 
             </div>
           </div>
 
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <textarea matInput placeholder="Descripción de la Solicitud" formControlName="descripcion"></textarea>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
-                class="form-error-msg">
-                Descripción de la solicitud es un campo requerido
-              </small>
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                  class="form-error-msg">
+                    Descripción de la solicitud es un campo requerido
+                  </small>
+                </div>
+              </div>
             </div>
           </div>
+        
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
+          </div>
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Usuario Administración</mat-label>
               <mat-select formControlName="idAdministrador" required>
@@ -80,46 +93,64 @@
                 Jefe inmediato es un campo requerido
               </small>
             </div>
-          </div>
-          
-
-          <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
-          </div>
+          </div> -->
 
         </mat-card-content>
       </div>
     </form>
 
     <div class="wrap-peticiones">
+
+      <mat-expansion-panel [(expanded)]="panelOpenState">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-peticion">
+            Agregar Petición
+          </mat-panel-title>
+          
+        </mat-expansion-panel-header>
       
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <mat-label>Categoría</mat-label>
-          <mat-select required [(ngModel)]="categoriaPeticion">
-            <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
-              {{categoria.descripcion}}
-            </mat-option>
-          </mat-select>
-        </mat-form-field>  
-      </div>
+      
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select required [(ngModel)]="categoriaPeticion">
+              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
+                {{categoria.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>  
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Desglose de Solicitud"  [(ngModel)]="desgloseSolicitud"></textarea>
+          </mat-form-field>
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput name="importe-solicitado-sin-factura"  placeholder="Importe Solicitado sin Factura" [(ngModel)]="importeSolicitadoPeticionSinFactura" mask="separator.2" thousandSeparator=",">
+          </mat-form-field>
+        </div>
 
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <textarea matInput placeholder="Desglose de Solicitud"  [(ngModel)]="desgloseSolicitud"></textarea>
-        </mat-form-field>
-      </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput name="importe-solicitado-con-factura"  placeholder="Importe Solicitado con Factura" [(ngModel)]="importeSolicitadoPeticionConFactura" mask="separator.2" thousandSeparator=",">
+          </mat-form-field>
+        </div>
 
-      <div class="pb-1">
-        <mat-form-field class="full-width">
-          <input matInput name="importe-solicitado"  placeholder="Importe Solicitado" [(ngModel)]="importeSolicitadoPeticion" mask="separator.2" thousandSeparator=",">
-        </mat-form-field>
-      </div>
-
-      <div class="cont-btns">
-        <button mat-raised-button color="primary" (click)="agregarPetision()" class="btn-accept">Agregar Petición</button>
-      </div>
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Comentario de Solicitud"  [(ngModel)]="comentarioSolicitud"></textarea>
+          </mat-form-field>
+        </div>
+  
+        <div class="cont-btns">
+          <button mat-raised-button color="primary" (click)="agregarPetision()" class="btn-accept">Agregar Petición</button>
+        </div>
+      
+      </mat-expansion-panel>
+      
 
     </div>
 
@@ -127,6 +158,15 @@
 
   <div class="mat-box-shadow margin-333" *ngIf="peticionesSolicitadas.length; else nopeticiones">
     <!-- {{peticionesSolicitadas | json}} -->
+    <div class="wrap-totales">
+      <div class="total">
+        <p>Total Importe Solicitado Sin Factura: <span>{{totalImporteSolicitadoSinFactura | currency}}</span></p>
+      </div>
+      <div class="total">
+        <p>Total Importe Solicitado Con Factura: <span>{{totalImporteSolicitadoConFactura | currency}}</span></p>
+      </div>
+    </div>
+
     <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="peticionesSolicitadas" [columnMode]="'force'"
       [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
 
@@ -154,10 +194,26 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Importe Solicitado" [flexGrow]="1">
+      <ngx-datatable-column name="Importe Solicitado S/Factura" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.importeSolicitado | currency}}
+            {{row?.importeSolicitadoSinFactura | currency}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Importe Solicitado C/Factura" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.importeSolicitadoConFactura | currency}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Comentario Solicitud" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.comentarioSolicitud}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -182,7 +238,9 @@
       <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Importe Solicitado" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Importe Solicitado S/Factura" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Importe Solicitado C/Factura" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Comentario Solicitud" [flexGrow]="1"></ngx-datatable-column>
     </ngx-datatable>
   </ng-template>
 

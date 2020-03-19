@@ -11,12 +11,12 @@ import { ObraService } from '../../../../shared/services/obra.service';
 import { EmpresasService } from '../../../../shared/services/empresas.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudRecurso, PeticionSolicitudRecurso } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
-import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 @Component({
   selector: 'app-solicitar-recursos',
@@ -39,8 +39,15 @@ export class SolicitarRecursosComponent implements OnInit {
   listaUsuariosJefeInmediato: Usuario[] = [];
   categoriaPeticion: number;
   desgloseSolicitud: string;
-  importeSolicitadoPeticion;
+  importeSolicitadoPeticionSinFactura;
+  importeSolicitadoPeticionConFactura;
+  comentarioSolicitud: string;
   countPeticion:number = 0;
+  totalImporteSolicitadoSinFactura: number;
+  totalImporteSolicitadoConFactura: number;
+  rutaImg: string;
+  host: string;
+  panelOpenState: boolean = false;
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-recursos';
@@ -67,7 +74,6 @@ export class SolicitarRecursosComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
     const idModulo = moduloActual.idOpcion;
-    console.log(idModulo);
 
     this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
       (usuario: Usuario) => {
@@ -92,8 +98,11 @@ export class SolicitarRecursosComponent implements OnInit {
       (obra: Obra) => {
         if(obra){
           this.obra = obra;
+          console.log(obra);
           this.getValidations();
           this.getCatalogos();
+          this.rutaImg = environment.imgRUL;
+          this.host = environment.host;
         }
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
@@ -102,7 +111,6 @@ export class SolicitarRecursosComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      idEmpresa: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       idAdministrador: new FormControl(''),
       idJefeInmediato: new FormControl('')
@@ -138,6 +146,7 @@ export class SolicitarRecursosComponent implements OnInit {
       } else{
         const solicitud: SolicitudRecurso = {
           ...this.solicitudForm.value,
+          idEmpresa: this.obra.idEmpresa,
           idObra: this.idObra,
           fechaSolicito: hoy,
           idUsuarioModifico: this.idUsuarioLogeado,
@@ -163,9 +172,9 @@ export class SolicitarRecursosComponent implements OnInit {
   agregarPetision(){
     if(!this.categoriaPeticion){
       this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
-    } else if (!this.desgloseSolicitud){
+    } else if (!this){
       this.useAlerts('Ingresa el desglose de la solicitud', ' ', 'error-dialog');
-    } else if (!this.importeSolicitadoPeticion){
+    } else if (!this.importeSolicitadoPeticionSinFactura || !this.importeSolicitadoPeticionConFactura){
       this.useAlerts('Ingresa el importe solicitado para esta petición', ' ', 'error-dialog');
     } else {
       
@@ -175,7 +184,9 @@ export class SolicitarRecursosComponent implements OnInit {
         // idDetSolicitudRecurso: this.countPeticion + 1,
         idCategoriaSolicitudRecurso: this.categoriaPeticion,
         desglose: this.desgloseSolicitud,
-        importeSolicitado: parseFloat(this.importeSolicitadoPeticion),
+        importeSolicitadoSinFactura: parseFloat(this.importeSolicitadoPeticionSinFactura),
+        importeSolicitadoConFactura: parseFloat(this.importeSolicitadoPeticionConFactura),
+        comentarioSolicitud: this.comentarioSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
         idSolicitudRecurso: this.idUsuarioLogeado,
         categoriaSolicitudRecurso: tipoCategoria
@@ -186,8 +197,12 @@ export class SolicitarRecursosComponent implements OnInit {
       this.countPeticion += 1;
       this.categoriaPeticion = 0;
       this.desgloseSolicitud = '';
-      this.importeSolicitadoPeticion = '';
+      this.importeSolicitadoPeticionSinFactura = '';
+      this.importeSolicitadoPeticionConFactura = '';
+      this.comentarioSolicitud = '';
       this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
+      this.getTotales();
+      this.panelOpenState = !this.panelOpenState;
       console.log(this.peticionesSolicitadas);
     }
   }
@@ -196,6 +211,16 @@ export class SolicitarRecursosComponent implements OnInit {
     this.peticionesSolicitadas.splice(index, 1);
     this.peticionesSolicitadas = [...this.peticionesSolicitadas];
     this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+    this.getTotales();
+  }
+
+  getTotales() {
+    this.totalImporteSolicitadoSinFactura = 0;
+    this.totalImporteSolicitadoConFactura = 0;
+    this.peticionesSolicitadas.map( (peticion: PeticionSolicitudRecurso) => {
+      this.totalImporteSolicitadoSinFactura += peticion.importeSolicitadoSinFactura; 
+      this.totalImporteSolicitadoConFactura += peticion.importeSolicitadoConFactura; 
+    });
   }
 
   useAlerts(message, action, className, time=4000) {

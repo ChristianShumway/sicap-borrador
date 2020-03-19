@@ -9,9 +9,11 @@ export interface PeticionSolicitudRecurso {
   idDetSolicitudRecurso?: number;
   idCategoriaSolicitudRecurso: number;
   desglose: string;
-  importeSolicitado: number;
+  importeSolicitadoSinFactura: number;
+  importeSolicitadoConFactura: number;
   importeAutorizado?: number;
-  comentario?: string,
+  comentarioSolicitud?: string
+  comentarioRevision?: string,
   idUsuarioModifico: number;
   idSolicitudRecurso: number;
   categoriaSolicitudRecurso: any[];

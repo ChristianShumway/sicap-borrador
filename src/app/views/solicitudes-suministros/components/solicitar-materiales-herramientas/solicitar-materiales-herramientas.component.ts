@@ -37,6 +37,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   fechaHoy = new Date();
   fechaRequiere;
   pipe = new DatePipe('en-US');
+  rutaImg: string;
+  host: string;
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
@@ -92,6 +94,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
           this.getCatalogos();
           this.fechaRequiere = new Date(this.solicitudForm.controls['fechaRequiere'].value);
           this.fechaRequiere.setDate(this.fechaRequiere.getDate());
+          this.rutaImg = environment.imgRUL;
+          this.host = environment.host;
         }
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
@@ -100,7 +104,6 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   
   getValidations(){
     this.solicitudForm = new FormGroup({
-      idEmpresa: new FormControl('', Validators.required),
       fechaRequiere: new FormControl(new Date(), Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
       idAdministrador: new FormControl(''),
@@ -154,6 +157,7 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
       
       const solicitud: SolicitudMaterial = {
         ...this.solicitudForm.value,
+        idEmpresa: this.obra.idEmpresa,
         fechaSolicito: hoy,
         fechaRequiere: fechaRequiereMaterial,
         idUsuarioSolicito: this.idUsuarioLogeado,
