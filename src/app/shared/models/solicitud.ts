@@ -12,7 +12,7 @@ export interface PeticionSolicitudRecurso {
   importeSolicitadoSinFactura: number;
   importeSolicitadoConFactura: number;
   importeAutorizado?: number;
-  comentarioSolicitud?: string
+  comentario?: string
   comentarioRevision?: string,
   idUsuarioModifico: number;
   idSolicitudRecurso: number;
@@ -23,18 +23,13 @@ export interface SolicitudRecurso {
   idSolicitudRecurso?: number;
   idEmpresa: number;
   idObra: number;
-  empresa?: Empresa;
   descripcion: string;
-  idAdministrador: number;
-  idJefeImediato: number;
-  administrdor?: Usuario;
-  jefeInmediato?: Usuario;
   obra?: Obra;
   idUsuarioModifico: number;
   idUsuarioSolicito: number;
   fechaSolicito: string;
-  // usuarioSolicito?: Usuario;
   detSolicitudRecurso: PeticionSolicitudRecurso[];
+  empresa?: Empresa;
   pk?: number;
 }
 
@@ -77,23 +72,24 @@ export interface SolicitudMaterial {
 // SOLICITUD VEHICULO
 
 export interface SolicitudVehiculo {
+  idSolicitudMaquinariaEquipo?: number;
+  idObra: number;
+  fechaSolicitud: string;
+  telefonoContacto: string;
+  correoElectronico: string;
+  fechaInicialUso: string;
+  fechaFinalUso: string;
+  lugar: string;
+  descripcionServicio: string;
+  idUsuarioSolicito: number;
+  idUsuarioModifico: number;
+  obra?: Obra; 
   folio?: number;
   idEmpresa: number;
   empresa?: Cliente;
-  idObra: number;
-  obra?: Obra; 
-  fechaSolicitud: string;
-  telefono: string;
-  email: string;
-  fechaInicioUso: string;
-  fechaFinalUso: string;
-  lugar: string;
-  descripcion: string;
   idServicioInteres: number;
   servicioInteres?: any;
   observacionAdicional?: string;
-  idUsuarioSolicito: number;
-  usuarioSolicito?: Usuario;
 }
 
 // •	Administración Central (idUsuarioAdministracion y usuarioAdministracion[objeto de usuario])

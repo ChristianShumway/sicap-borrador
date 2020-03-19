@@ -36,7 +36,7 @@
               <div class="tit">Teléfono de Contácto:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
-                  <input matInput name="telefono" formControlName="telefono">
+                  <input matInput name="telefono" formControlName="telefonoContacto">
                 </mat-form-field>
                 <!-- <div class="validaciones"> 
                   <small *ngIf="solicitudForm.controls['telefono'].hasError('required') && solicitudForm.controls['telefono'].touched" class="form-error-msg">
@@ -47,7 +47,7 @@
               <div class="tit">Correo Electrónico:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
-                  <input matInput type="email" name="email" formControlName="email">
+                  <input matInput type="email" name="email" formControlName="correoElectronico">
                 </mat-form-field>
                 <!-- <div class="validaciones">
                   <small *ngIf="solicitudForm.controls['email'].hasError('required') && solicitudForm.controls['email'].touched" class="form-error-msg">
@@ -61,12 +61,12 @@
               <div class="tit">Inicio Periodo uso de equipo:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
-                  <input matInput [matDatepicker]="fechaInicioUso" formControlName="fechaInicioUso" name="date" (dateChange)="onFechaInicioUso($event)">
+                  <input matInput [matDatepicker]="fechaInicioUso" formControlName="fechaInicialUso" name="date" (dateChange)="onFechaInicioUso($event)">
                   <mat-datepicker-toggle matSuffix [for]="fechaInicioUso"></mat-datepicker-toggle>
                   <mat-datepicker #fechaInicioUso (selectedChange)="onFechaInicioUso($event)"></mat-datepicker>
                 </mat-form-field>
                 <!-- <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['fechaInicioUso'].hasError('required') && solicitudForm.controls['fechaInicioUso'].touched"
+                  <small *ngIf="solicitudForm.controls['fechaInicialUso'].hasError('required') && solicitudForm.controls['fechaInicialUso'].touched"
                     class="form-error-msg">
                     Inicio periodo de uso es un campo requerido
                   </small>
@@ -145,10 +145,10 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcionServicio"></textarea>
                 </mat-form-field>
                 <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                  <small *ngIf="solicitudForm.controls['descripcionServicio'].hasError('required') && solicitudForm.controls['descripcionServicio'].touched"
                   class="form-error-msg">
                     Descripción de la solicitud es un campo requerido
                   </small>
@@ -156,19 +156,7 @@
               </div>
             </div>
           </div>
-    
-          <!-- <div class="pb-1">
-            <mat-form-field class="full-width">
-              <textarea matInput placeholder="Descripción del Servicio" formControlName="descripcion"></textarea>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
-                class="form-error-msg">
-                Descripción del servicio es un campo requerido
-              </small>
-            </div>
-          </div> -->
-  
+
           <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Servicio de Interes</mat-label>

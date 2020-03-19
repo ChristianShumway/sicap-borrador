@@ -95,7 +95,7 @@ export class SolicitarVehiculosComponent implements OnInit {
           this.getCatalogos();
           this.rutaImg = environment.imgRUL;
           this.host = environment.host;
-          this.fechaInicio = new Date(this.solicitudForm.controls['fechaInicioUso'].value);
+          this.fechaInicio = new Date(this.solicitudForm.controls['fechaInicialUso'].value);
           this.fechaFinal = new Date(this.solicitudForm.controls['fechaFinalUso'].value);
           this.fechaInicio.setDate(this.fechaInicio.getDate());
           this.fechaFinal.setDate(this.fechaFinal.getDate());
@@ -107,15 +107,15 @@ export class SolicitarVehiculosComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      telefono: new FormControl('', Validators.required),
-      email: new FormControl('', [
+      telefonoContacto: new FormControl('', Validators.required),
+      correoElectronico: new FormControl('', [
         Validators.required,
         Validators.email
       ]),
-      fechaInicioUso: new FormControl(new Date(), Validators.required),
+      fechaInicialUso: new FormControl(new Date(), Validators.required),
       fechaFinalUso: new FormControl(new Date(), Validators.required),
       lugar: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      descripcionServicio: new FormControl('', Validators.required),
       idServicioInteres: new FormControl('', Validators.required),
       observacionAdicional: new FormControl(''),
       idUsuarioAdministracion: new FormControl(''),
@@ -146,13 +146,13 @@ export class SolicitarVehiculosComponent implements OnInit {
   }
 
   compareTwoDates(){
-    const controlFechaInicio = new Date(this.solicitudForm.controls['fechaInicioUso'].value);
+    const controlFechaInicio = new Date(this.solicitudForm.controls['fechaInicialUso'].value);
     const controlFechaFin = new Date(this.solicitudForm.controls['fechaFinalUso'].value);
 
     if( controlFechaFin < controlFechaInicio){
       this.error={isError:true,errorMessage:'Fecha inicial de solicitud no puede ser mayor a la fecha final del mismo'};
-      this.solicitudForm.controls['fechaInicioUso'].setValue(new Date(this.solicitudForm.controls['fechaFinalUso'].value));
-      this.fechaInicio =  new Date(this.solicitudForm.controls['fechaInicioUso'].value);
+      this.solicitudForm.controls['fechaInicialUso'].setValue(new Date(this.solicitudForm.controls['fechaFinalUso'].value));
+      this.fechaInicio =  new Date(this.solicitudForm.controls['fechaInicialUso'].value);
     } else {
       this.error={isError:false};
     }
@@ -172,6 +172,7 @@ export class SolicitarVehiculosComponent implements OnInit {
         fechaFinalUso: nuevaFechaFin,
         fechaSolicitud: hoy,
         idUsuarioSolicito: this.idUsuarioLogeado,
+        idUsuarioModifico: this.idUsuarioLogeado,
         idObra: this.idObra
       };
       console.log(solicitud);

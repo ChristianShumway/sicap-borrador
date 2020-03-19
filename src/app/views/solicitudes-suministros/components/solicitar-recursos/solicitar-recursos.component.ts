@@ -112,8 +112,6 @@ export class SolicitarRecursosComponent implements OnInit {
   getValidations(){
     this.solicitudForm = new FormGroup({
       descripcion: new FormControl('', Validators.required),
-      idAdministrador: new FormControl(''),
-      idJefeInmediato: new FormControl('')
     });
   }
 
@@ -151,7 +149,7 @@ export class SolicitarRecursosComponent implements OnInit {
           fechaSolicito: hoy,
           idUsuarioModifico: this.idUsuarioLogeado,
           idUsuarioSolicito: this.idUsuarioLogeado,
-          detSolicitudRecurso: this.peticionesSolicitadas
+          detSolicitudRecurso: this.peticionesSolicitadas,
         };
         console.log(solicitud);
         this.solicitudesService.createSolicitudRecurso(solicitud).subscribe(
@@ -186,7 +184,7 @@ export class SolicitarRecursosComponent implements OnInit {
         desglose: this.desgloseSolicitud,
         importeSolicitadoSinFactura: parseFloat(this.importeSolicitadoPeticionSinFactura),
         importeSolicitadoConFactura: parseFloat(this.importeSolicitadoPeticionConFactura),
-        comentarioSolicitud: this.comentarioSolicitud,
+        comentario: this.comentarioSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
         idSolicitudRecurso: this.idUsuarioLogeado,
         categoriaSolicitudRecurso: tipoCategoria

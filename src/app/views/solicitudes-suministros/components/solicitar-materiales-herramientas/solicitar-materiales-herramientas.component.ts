@@ -106,8 +106,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(new Date(), Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
-      idAdministrador: new FormControl(''),
-      idJefeInmediato: new FormControl(''),
+      idAdministrador: new FormControl(0),
+      idJefeInmediato: new FormControl(0),
       descripcion: new FormControl('', Validators.required),
     });
   }
