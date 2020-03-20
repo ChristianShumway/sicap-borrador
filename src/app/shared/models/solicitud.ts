@@ -53,19 +53,13 @@ export interface SolicitudMaterial {
   idSolicitudMaterial?: number;
   idEmpresa: number;
   idObra: number;
+  descripcion: string;
   fechaRequiere: string;
   lugarRecepcion: string;
-  descripcion?: string;
-  idAdministrador: number;
-  idJefeInmediato: number;
   idUsuarioSolicito: number;
   fechaSolicito: string;
   idUsuarioModifico: number;
-  administrdor?: Usuario;
-  jefeInmediato?: Usuario;
   obra?: Obra;
-  // empresa?: Empresa;
-  // usuarioSolicito?: Usuario;
   detSolicitudMaterial?: MaterialParaSolicitud[];
 }
 
@@ -73,6 +67,8 @@ export interface SolicitudMaterial {
 
 export interface SolicitudVehiculo {
   idSolicitudMaquinariaEquipo?: number;
+  folio?: number;
+  descripcion: string;
   idObra: number;
   fechaSolicitud: string;
   telefonoContacto: string;
@@ -80,19 +76,26 @@ export interface SolicitudVehiculo {
   fechaInicialUso: string;
   fechaFinalUso: string;
   lugar: string;
-  descripcionServicio: string;
   idUsuarioSolicito: number;
   idUsuarioModifico: number;
+  fechaModificacion?: number;
   obra?: Obra; 
-  folio?: number;
-  idEmpresa: number;
-  empresa?: Cliente;
+  observacion?: string;
   idServicioInteres: number;
   servicioInteres?: any;
-  observacionAdicional?: string;
+  // idEmpresa: number;
+  // empresa?: Cliente;
 }
 
-// •	Administración Central (idUsuarioAdministracion y usuarioAdministracion[objeto de usuario])
-// •	Nombre Jefe inmediato (idUsuarioAutorizo y usuarioAutorizo[objeto de usuario])
-//       idUsuarioAdministracion: new FormControl(''),
-//       idJefeInmediato: new FormControl('')
+export interface TableroControl {
+  idSolicitud?: number;
+  folio: string;
+  descripcion: string;
+  empresa?: Empresa;
+  obra?: Obra;
+  solicitante?: Usuario;
+  fechaSolicitud?: string;
+  fechaValidacion?: string;
+  fechaOrdenTrabajo?: string;
+  fechaAutorizacionSuministro?: string;
+}

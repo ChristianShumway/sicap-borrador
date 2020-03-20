@@ -20,6 +20,7 @@ import { SolicitarRecursosComponent } from './components/solicitar-recursos/soli
 import { SolicitarMaterialesHerramientasComponent } from './components/solicitar-materiales-herramientas/solicitar-materiales-herramientas.component';
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
 import { ListaSolicitudesComponent } from './components/lista-solicitudes/lista-solicitudes.component';
+import { TableroControlComponent } from './components/tablero-control/tablero-control.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -30,6 +31,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     SolicitarMaterialesHerramientasComponent,
     SolicitarVehiculosComponent,
     ListaSolicitudesComponent,
+    TableroControlComponent,
     // ModalEliminarComponent,
   ],
   imports: [

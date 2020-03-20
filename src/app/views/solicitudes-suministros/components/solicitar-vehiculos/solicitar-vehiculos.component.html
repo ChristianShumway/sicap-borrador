@@ -61,9 +61,9 @@
               <div class="tit">Inicio Periodo uso de equipo:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
-                  <input matInput [matDatepicker]="fechaInicioUso" formControlName="fechaInicialUso" name="date" (dateChange)="onFechaInicioUso($event)">
-                  <mat-datepicker-toggle matSuffix [for]="fechaInicioUso"></mat-datepicker-toggle>
-                  <mat-datepicker #fechaInicioUso (selectedChange)="onFechaInicioUso($event)"></mat-datepicker>
+                  <input matInput [matDatepicker]="fechaInicialUso" formControlName="fechaInicialUso" name="date" (dateChange)="onFechaInicioUso($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaInicialUso"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaInicialUso (selectedChange)="onFechaInicioUso($event)"></mat-datepicker>
                 </mat-form-field>
                 <!-- <div class="validaciones">
                   <small *ngIf="solicitudForm.controls['fechaInicialUso'].hasError('required') && solicitudForm.controls['fechaInicialUso'].touched"
@@ -145,10 +145,10 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcionServicio"></textarea>
+                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
                 </mat-form-field>
                 <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['descripcionServicio'].hasError('required') && solicitudForm.controls['descripcionServicio'].touched"
+                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
                   class="form-error-msg">
                     Descripción de la solicitud es un campo requerido
                   </small>
@@ -161,13 +161,9 @@
             <mat-form-field class="full-width">
               <mat-label>Servicio de Interes</mat-label>
               <mat-select formControlName="idServicioInteres" required>
-                <mat-option value="1">Arrendamiento de Vehículo Ligero</mat-option>
-                <mat-option value="2">Arrendamiento de Vehículo de Carga y Maquinaria</mat-option>
-                <mat-option value="3">Servicio de Traslado y Logística Vehicular</mat-option>
-                <mat-option value="4">Otros</mat-option>
-                <!-- <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
-                  {{empresa.nombre}}
-                </mat-option> -->
+                <mat-option *ngFor="let interes of objServiciosInteres" [value]="interes.id">
+                  {{interes.nombre}}
+                </mat-option>
               </mat-select>
             </mat-form-field>
             <div class="validaciones">
@@ -181,7 +177,7 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacionAdicional"></textarea>
+                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacion"></textarea>
                 </mat-form-field>
               </div>
             </div>

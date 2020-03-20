@@ -1,0 +1,129 @@
+<div class="container-titulo">
+  <div class="logo">  
+    <img src="assets/images/logos/cima.png" alt="cima">
+  </div>
+  <div class="titulo">
+    <h1>Tablero de control de solicitudes de obra</h1>
+  </div>
+</div>
+
+<div fxLayout="row wrap" *ngIf="!listaSolicitudes.length">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+
+<!-- FILTRO -->
+<!-- <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="obra">
+  <input matInput placeholder="Filtrar Materiales" value="" (keyup)='updateFilter($event)'>
+</mat-form-field> -->
+<!-- END FILTRO -->
+
+<div class="mat-box-shadow margin-333" *ngIf="listaSolicitudes.length; else noSolicitudes">
+  <div>
+    <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="listaSolicitudes" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+      <ngx-datatable-column name="No." [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{rowIndex + 1}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Folio" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.folio}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descripción" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.descripcion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Empresa" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.empresa}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Obra" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.obra}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Solicitante" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.solicitante}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Solicitud" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.fechaSolicitud}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Validación" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.fechaValidacion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Orden de Trabajo" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.fechaOrdenTrabajo}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Autorización Suministro" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.fechaAutorizacionSuministro}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+
+    </ngx-datatable>
+  </div>
+</div>
+
+<ng-template #noSolicitudes>
+  <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+    [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
+    <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Folio" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Empresa" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Obra" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Solicitante" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Solicitud" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Validación" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Orden de Trabajo" [flexGrow]="1"></ngx-datatable-column>
+    <ngx-datatable-column name="Autorización Suministro" [flexGrow]="1"></ngx-datatable-column>
+  </ngx-datatable>
+</ng-template>

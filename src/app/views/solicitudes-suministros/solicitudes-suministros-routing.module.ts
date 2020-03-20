@@ -6,6 +6,7 @@ import { SolicitarRecursosComponent } from './components/solicitar-recursos/soli
 import { SolicitarMaterialesHerramientasComponent } from './components/solicitar-materiales-herramientas/solicitar-materiales-herramientas.component';
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
 import { ListaSolicitudesComponent } from './components/lista-solicitudes/lista-solicitudes.component';
+import { TableroControlComponent } from './components/tablero-control/tablero-control.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,11 @@ const routes: Routes = [
     path:'solicitudes-realizadas',
     component: ListaSolicitudesComponent,
     data: {title: 'Solicitudes Realizadas', breadcrumb: 'Solicitudes Realizadas'}
+  },
+  {
+    path:'tablero-control',
+    component: TableroControlComponent,
+    data: {title: 'Tablero de Control', breadcrumb: 'Tablero de Control'}
   },
 ];
 

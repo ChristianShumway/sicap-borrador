@@ -29,8 +29,10 @@ export class SolicitudesService {
   getCategoriasSolicitudRecursos(): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequesResources`);
   }
+  
   // updateRequesResource
   // updateRequestMaterial
+  // requestAndSupplies/updateRequestMaterialAndTeam
 
   // SOLICITUD MATERIALES
 
@@ -41,11 +43,21 @@ export class SolicitudesService {
 
   getSolicitudMaterialesById(tipoSolicitud: number, idSolicitud: number): Observable<SolicitudMaterial>{
     return this.http.get<SolicitudMaterial>(`${environment.apiURL}/requestAndSupplies/getRequestById/${tipoSolicitud}/${idSolicitud}`);
-    // http://localhost:8080/requestAndSupplies/getRequestById/2/3
   }
 
   getListMaterialForResource(idObra: number): Observable<MaterialParaSolicitud[]> {
     return this.http.get<MaterialParaSolicitud[]>(`${environment.apiURL}/requestAndSupplies/getRequestMaterialEmpty/${idObra}`);
+  }
+
+  // SOLICITUD MAQUINARIA Y EQUIPO
+
+  createSolicitudMaquinariaEquipo(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<SolicitudVehiculo>(`${environment.apiURL}/requestAndSupplies/createRequestMaterialAndTeam`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
+  getSolicitudMaquinariaEquipoById(tipoSolicitud: number, idSolicitud: number): Observable<SolicitudVehiculo>{
+    return this.http.get<SolicitudVehiculo>(`${environment.apiURL}/requestAndSupplies/getRequestById/${tipoSolicitud}/${idSolicitud}`);
   }
 
   // GENERAL

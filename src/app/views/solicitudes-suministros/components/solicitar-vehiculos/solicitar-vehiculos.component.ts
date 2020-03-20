@@ -12,6 +12,7 @@ import { EmpresasService } from '../../../../shared/services/empresas.service';
 import { ClientesService } from '../../../../shared/services/clientes.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
@@ -45,6 +46,13 @@ export class SolicitarVehiculosComponent implements OnInit {
   tooltip = 'solicitud-materiales';
   opcionesPermitidas = true;
 
+  objServiciosInteres = [
+    { id: 1, nombre: 'Arrendamiento de Vehículo Ligero' },
+    { id: 2, nombre: 'Arrendamiento de Vehículo de Carga y Maquinaria' },
+    { id: 3, nombre: 'Servicio de Traslado y Logística Vehicular' },
+    { id: 4, nombre: 'Otros' },
+  ];
+
   constructor(
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
@@ -53,7 +61,9 @@ export class SolicitarVehiculosComponent implements OnInit {
     private empresasService: EmpresasService,
     private clientesService: ClientesService,
     private navigationService: NavigationService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private solicitudesService: SolicitudesService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -115,11 +125,9 @@ export class SolicitarVehiculosComponent implements OnInit {
       fechaInicialUso: new FormControl(new Date(), Validators.required),
       fechaFinalUso: new FormControl(new Date(), Validators.required),
       lugar: new FormControl('', Validators.required),
-      descripcionServicio: new FormControl('', Validators.required),
+      descripcion: new FormControl('', Validators.required),
       idServicioInteres: new FormControl('', Validators.required),
-      observacionAdicional: new FormControl(''),
-      idUsuarioAdministracion: new FormControl(''),
-      idJefeInmediato: new FormControl('')
+      observacion: new FormControl(''),
     });
   }
 
@@ -164,18 +172,34 @@ export class SolicitarVehiculosComponent implements OnInit {
       const hoy = this.pipe.transform(this.fechaHoy, format);
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
+
+      let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
       
       const solicitud: SolicitudVehiculo = {
         ...this.solicitudForm.value,
-        idEmpresa: this.obra.idEmpresa,
-        fechaInicioUso: nuevaFechaInicio,
+        // idEmpresa: this.obra.idEmpresa,
+        fechaInicialUso: nuevaFechaInicio,
         fechaFinalUso: nuevaFechaFin,
         fechaSolicitud: hoy,
+        fechaModificacion: hoy,
         idUsuarioSolicito: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.idObra
+        idObra: this.idObra,
+        servicioInteres: tipoServicioInteres[0],
       };
       console.log(solicitud);
+
+      this.solicitudesService.createSolicitudMaquinariaEquipo(solicitud).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.router.navigate(['/solicitudes-suministros/obras']);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
     }
   }
 
