@@ -18,22 +18,20 @@ import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
 import { Cliente } from './../../../../shared/models/cliente';
-import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
-  selector: 'app-solicitar-vehiculos',
-  templateUrl: './solicitar-vehiculos.component.html',
-  styleUrls: ['./solicitar-vehiculos.component.scss']
+  selector: 'app-modificar-solicitud-vehiculos',
+  templateUrl: './modificar-solicitud-vehiculos.component.html',
+  styleUrls: ['./modificar-solicitud-vehiculos.component.scss']
 })
-export class SolicitarVehiculosComponent implements OnInit {
+export class ModificarSolicitudVehiculosComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  idObra: number;
-  obra: Obra;
-  empresas: Empresa[];
-  clientes: Cliente[];
-  ServiciosInteres: any[];
+  idSolicitud: number;
+  solicitud: SolicitudVehiculo;
   solicitudForm: FormGroup;
+
+  ServiciosInteres: any[];
   fechaInicio;
   fechaFinal;
   fechaHoy = new Date();
@@ -56,64 +54,48 @@ export class SolicitarVehiculosComponent implements OnInit {
   constructor(
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private obraService: ObraService,
     private snackBar: MatSnackBar,
     private empresasService: EmpresasService,
     private clientesService: ClientesService,
-    private navigationService: NavigationService,
-    private usuariosService: UsuariosService,
     private solicitudesService: SolicitudesService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    // this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.activatedRoute.params.subscribe( (params: Params) => this.idObra = parseInt(params.idObra));
-    this.validateAccessValidation();
+    this.activatedRoute.params.subscribe( (params: Params) => this.idSolicitud = parseInt(params.idSolicitud));
+    this.getSolicitud();
+  }
+
+  getSolicitud() {
+    this.solicitudesService.getSolicitudMaquinariaEquipoById(3, this.idSolicitud).subscribe(
+      (solicitud: SolicitudVehiculo) => {
+        console.log(solicitud);
+        this.solicitud = solicitud;
+        this.validateAccessValidation();
+      },
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
+    );
   }
 
   validateAccessValidation() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
-    const idModulo = moduloActual.idOpcion;
-    console.log(idModulo);
+    if(this.idUsuarioLogeado  === this.solicitud.idUsuarioSolicito) {
+      this.opcionesPermitidas = true;
+      this.fechaInicio = new Date(this.solicitud.fechaInicialUso);
+      this.fechaFinal = new Date(this.solicitud.fechaFinalUso);
+      this.fechaInicio.setDate(this.fechaInicio.getDate());
+      this.fechaFinal.setDate(this.fechaFinal.getDate());
+      this.getValidations();
+      this.rutaImg = environment.imgRUL;
+      this.host = environment.host;
+      this.solicitudForm.patchValue(this.solicitud);
 
-    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
-      (usuario: Usuario) => {
-        this.navigationService.validatePermissions(usuario.idPerfil, idModulo).subscribe(
-          (result:any) => {
-            if ( result.estatus !== '05'){
-              this.opcionesPermitidas = false;
-            }  else {
-              this.opcionesPermitidas = true;
-              this.getObra();
-            } 
-          },
-          error => console.log(error)
-        );
-      },
-      error => console.log(error)
-    );
+    } else {
+      this.opcionesPermitidas = false;
+    }
+
   }
-  
-  getObra(){
-    this.obraService.getObra(this.idObra).subscribe( 
-      (obra: Obra) => {
-        if(obra){
-          this.obra = obra;
-          this.getValidations();
-          this.getCatalogos();
-          this.rutaImg = environment.imgRUL;
-          this.host = environment.host;
-          this.fechaInicio = new Date(this.solicitudForm.controls['fechaInicialUso'].value);
-          this.fechaFinal = new Date(this.solicitudForm.controls['fechaFinalUso'].value);
-          this.fechaInicio.setDate(this.fechaInicio.getDate());
-          this.fechaFinal.setDate(this.fechaFinal.getDate());
-        }
-      },
-      error => this.useAlerts( error.message, ' ', 'success-dialog')
-    );
-  }
+
 
   getValidations(){
     this.solicitudForm = new FormGroup({
@@ -122,8 +104,8 @@ export class SolicitarVehiculosComponent implements OnInit {
         Validators.required,
         Validators.email
       ]),
-      fechaInicialUso: new FormControl(new Date(), Validators.required),
-      fechaFinalUso: new FormControl(new Date(), Validators.required),
+      fechaInicialUso: new FormControl(this.fechaInicio, Validators.required),
+      fechaFinalUso: new FormControl(this.fechaFinal, Validators.required),
       lugar: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
       idServicioInteres: new FormControl('', Validators.required),
@@ -131,16 +113,6 @@ export class SolicitarVehiculosComponent implements OnInit {
     });
   }
 
-  getCatalogos() {
-    this.empresasService.getAllEmpresas().subscribe(
-      (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
-      error => console.log(error)
-    );
-    this.clientesService.getClientes().subscribe(
-      (clientes: Cliente[]) => this.clientes = clientes.filter( cliente => cliente.activo === 1),
-      error => console.log(error)
-    );
-  }
 
 
   public onFechaInicioUso(event): void {
@@ -166,7 +138,7 @@ export class SolicitarVehiculosComponent implements OnInit {
     }
   }
 
-  crearSolicitud(){
+  modificarSolicitud(){
     if (this.solicitudForm.valid){
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
@@ -176,23 +148,26 @@ export class SolicitarVehiculosComponent implements OnInit {
       let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
       
       const solicitud: SolicitudVehiculo = {
+        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
+        folio: this.solicitud.folio,
+        idObra: this.solicitud.idObra,
         ...this.solicitudForm.value,
         // idEmpresa: this.obra.idEmpresa,
         fechaInicialUso: nuevaFechaInicio,
         fechaFinalUso: nuevaFechaFin,
-        fechaSolicitud: hoy,
+        fechaSolicitud: this.solicitud.fechaSolicitud,
         fechaModificacion: hoy,
         idUsuarioSolicito: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.idObra,
+        // idObra: this.idObra,
         servicioInteres: tipoServicioInteres[0],
       };
       console.log(solicitud);
 
-      this.solicitudesService.createSolicitudMaquinariaEquipo(solicitud).subscribe(
+      this.solicitudesService.updateSolicitudVehiculos(solicitud).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/solicitudes-suministros/obras']);
+            this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');

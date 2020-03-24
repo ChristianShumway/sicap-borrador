@@ -26,6 +26,7 @@ import { SolicitudesService } from '../../../../shared/services/solicitudes.serv
 export class ListaSolicitudesComponent implements OnInit {
 
   idUsuarioLogeado: any;
+  solicitudes: any[];
   solicitudesRecursos: SolicitudRecurso[] = [];
   solicitudesMateriales: SolicitudMaterial[] = [];
   solicitudesVehiculos: any[] = [];
@@ -50,6 +51,8 @@ export class ListaSolicitudesComponent implements OnInit {
   getResources(){
     this.solicitudesService.getResourcesByUser(this.idUsuarioLogeado).subscribe(
       solicitudes => {
+        this.solicitudes = solicitudes;
+        console.log(solicitudes);
         solicitudes.map( solicitud => {
           // console.log(solicitud);
           if(solicitud.idTipo === 1){

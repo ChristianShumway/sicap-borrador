@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div fxLayout="row wrap" *ngIf="!listaSolicitudes.length">
+<div fxLayout="row wrap" *ngIf="!listaSolicitudes">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
       <mat-spinner></mat-spinner>
@@ -17,28 +17,38 @@
 
 
 <!-- FILTRO -->
-<!-- <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="obra">
+<!-- <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="listaSolicitudes">
   <input matInput placeholder="Filtrar Materiales" value="" (keyup)='updateFilter($event)'>
 </mat-form-field> -->
 <!-- END FILTRO -->
 
-<div class="mat-box-shadow margin-333" *ngIf="listaSolicitudes.length; else noSolicitudes">
-  <div>
-    <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="listaSolicitudes" [columnMode]="'force'"
-      [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
 
-      <ngx-datatable-column name="No." [flexGrow]="1">
+<div class="mat-box-shadow margin-333" *ngIf="listaSolicitudes; else noSolicitudes">
+  <div>
+    <ngx-datatable 
+    class="material fullscreen bg-white" 
+    style="height: auto; overflow-y: auto;" 
+    [rows]="listaSolicitudes" 
+    [columnMode]="'force'"
+    [headerHeight]="50" 
+    [footerHeight]="50" 
+    [scrollbarH]="true" 
+    [rowHeight]="'auto'" 
+    [limit] = "4"
+    [scrollbarH]="true" >
+
+      <!-- <ngx-datatable-column name="No." [flexGrow]="1">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
           <p class="content-center">
             {{rowIndex + 1}}
           </p>
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
 
       <ngx-datatable-column name="Folio" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.folio}}
+            {{row?.solicitud.folio}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -46,7 +56,7 @@
       <ngx-datatable-column name="Descripción" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.descripcion}}
+            {{row?.solicitud.descripcion}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -54,59 +64,78 @@
       <ngx-datatable-column name="Empresa" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.empresa}}
+            {{row?.solicitud.obra.empresa.nombre}}
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Obra" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.obra}}
+          <p class="content-left">
+            {{row?.solicitud.obra.nombreObra}}
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Solicitante" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.solicitante}}
+          <p class="content-left">
+            {{row?.usuarioSolicito.nombre}}  {{row?.usuarioSolicito.apellidoPaterno}}  {{row?.usuarioSolicito.apellidoMaterno}}
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Solicitud" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.fechaSolicitud}}
+          <p class="content-center date-exist" *ngIf="row?.fechaSolicitud">
+            {{row?.fechaSolicitud | date}}
+          </p>
+          <p class="content-center no-date-exist" *ngIf="!row?.fechaSolicitud"> 
+            Sin Solicitud
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Validación" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.fechaValidacion}}
+          <p class="content-center date-exist" *ngIf="row?.fechaValidacion">
+            {{row?.fechaValidacion | date}}
+          </p>
+          <p class="content-center no-date-exist" *ngIf="!row?.fechaValidacion">
+            Sin Validar
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Orden de Trabajo" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.fechaOrdenTrabajo}}
+          <p class="content-center date-exist" *ngIf="row?.fechaOrdenTrabajo" >
+            {{row?.fechaOrdenTrabajo | date}}
+          </p>
+          <p class="content-center no-date-exist" *ngIf="!row?.fechaOrdenTrabajo" >
+            Sin Orden de Trabajo
           </p>
         </ng-template>
       </ngx-datatable-column>
 
       <ngx-datatable-column name="Autorización Suministro" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.fechaAutorizacionSuministro}}
+          <p class="content-center date-exist" *ngIf="row?.fechaAutorizacionSuministro">
+            {{row?.fechaAutorizacionSuministro | date}}
+          </p>
+          <p class="content-center no-date-exist" *ngIf="!row?.fechaAutorizacionSuministro">
+            Sin Autorización de Suministro
           </p>
         </ng-template>
       </ngx-datatable-column>
 
+      <ngx-datatable-column name="Rechazada" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center no-date-exist" *ngIf="row?.fechaRechazo">
+            {{row?.fechaRechazo | date}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
 
     </ngx-datatable>
   </div>

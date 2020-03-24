@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
 import { SolicitudRecurso, SolicitudMaterial, SolicitudVehiculo, MaterialParaSolicitud } from './../models/solicitud';
 
-
 @Injectable({
   providedIn: 'root'
 })
@@ -29,6 +28,11 @@ export class SolicitudesService {
   getCategoriasSolicitudRecursos(): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequesResources`);
   }
+
+  updateSolicitudRecurso(solicitud: Partial<SolicitudRecurso>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequesResource`, JSON.stringify(solicitud), { headers: headerss});
+  }
   
   // updateRequesResource
   // updateRequestMaterial
@@ -49,6 +53,11 @@ export class SolicitudesService {
     return this.http.get<MaterialParaSolicitud[]>(`${environment.apiURL}/requestAndSupplies/getRequestMaterialEmpty/${idObra}`);
   }
 
+  updateSolicitudMateriales(solicitud: Partial<SolicitudMaterial>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequestMaterial`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
   // SOLICITUD MAQUINARIA Y EQUIPO
 
   createSolicitudMaquinariaEquipo(solicitud): Observable<any>{
@@ -60,6 +69,11 @@ export class SolicitudesService {
     return this.http.get<SolicitudVehiculo>(`${environment.apiURL}/requestAndSupplies/getRequestById/${tipoSolicitud}/${idSolicitud}`);
   }
 
+  updateSolicitudVehiculos(solicitud: Partial<SolicitudVehiculo>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequestMaterialAndTeam`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
   // GENERAL
   showStepByStepInResource(idSolicitud: number): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEstatusRequest/${idSolicitud}`);
@@ -68,6 +82,10 @@ export class SolicitudesService {
 
   getResourcesByUser(idUser: number): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getRequestMaterialByUser/${idUser}`);
+  }
+
+  getLogRequest(): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getLogRequest`);
   }
 
 }

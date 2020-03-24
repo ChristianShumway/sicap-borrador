@@ -1,21 +1,55 @@
+.wrap-spiner{
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
 .mat-card-content{
   margin-top: 1.5rem !important;
 }
-.card-info{
-  display: grid;
-  grid-template-columns: 5fr 1fr;
-  grid-gap: 5px;
-  align-items: center;
-  margin-bottom: 10px;
-  .col-description{
 
+.container-solicitudes{
+  margin: 20px 0;
+  h1{
+    color: #4caf50;
   }
-  .col-actions{
+  .card-info{
     display: grid;
-    grid-template-columns: repeat(3, auto);
-    grid-gap: 5px;
-    button{
-      background-origin: padding-box;
+    grid-template-columns: 5fr 1fr;
+    grid-gap: 0 5px;
+    align-items: center;
+    margin-bottom: 0px;
+    padding: 5px 10px;
+    &:nth-child(even){
+      background: rgba(211, 211, 211, .3);
+      border-radius: 3px;;
+    }
+    &:nth-child(odd){
+      background: white;
+    }
+    .col-tit-descripcion{
+      border-bottom: 1px solid lightgray;
+      padding-bottom: 5px;
+      text-transform: uppercase;
+      color: gray;
+    }
+    .col-tit-actions{
+      text-align: center;
+      padding-bottom: 5px;
+      color: gray;
+      text-transform: uppercase;
+    }
+    .col-description{
+  
+    }
+    .col-actions{
+      display: grid;
+      grid-template-columns: repeat(3, auto);
+      grid-gap: 5px;
+      button{
+        background-origin: padding-box;
+      }
     }
   }
 }

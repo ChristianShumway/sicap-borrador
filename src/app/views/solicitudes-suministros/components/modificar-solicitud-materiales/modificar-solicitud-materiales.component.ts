@@ -7,124 +7,98 @@ import { MatSnackBar } from '@angular/material';
 import { environment } from './../../../../../environments/environment';
 
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
-import { ObraService } from '../../../../shared/services/obra.service';
-import { EmpresasService } from '../../../../shared/services/empresas.service';
-import { NavigationService } from '../../../../shared/services/navigation.service';
-import { UsuariosService } from '../../../../shared/services/usuarios.service';
 import { SolicitudesService } from './../../../../shared/services/solicitudes.service';
 
-import { Obra } from './../../../../shared/models/obra';
-import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudMaterial, MaterialParaSolicitud } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
-  selector: 'app-solicitar-materiales-herramientas',
-  templateUrl: './solicitar-materiales-herramientas.component.html',
-  styleUrls: ['./solicitar-materiales-herramientas.component.scss']
+  selector: 'app-modificar-solicitud-materiales',
+  templateUrl: './modificar-solicitud-materiales.component.html',
+  styleUrls: ['./modificar-solicitud-materiales.component.scss']
 })
-export class SolicitarMaterialesHerramientasComponent implements OnInit {
+export class ModificarSolicitudMaterialesComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  idObra: number;
-  obra: Obra;
-  empresas: Empresa[];
+  idSolicitud: number;
+  solicitud: SolicitudMaterial;
   solicitudForm: FormGroup;
   listaMaterial: MaterialParaSolicitud[] = [];
   listaTemp: MaterialParaSolicitud[];
-  listaUsuariosAdministracionCentral: Usuario[] = [];
-  listaUsuariosJefeInmediato: Usuario[] = [];
   fechaHoy = new Date();
   fechaRequiere;
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
 
-  nombreComponente = 'solicitudes-suministros-obras';
-  tooltip = 'solicitud-materiales';
+  listaUsuariosAdministracionCentral: Usuario[] = [];
+  listaUsuariosJefeInmediato: Usuario[] = [];
   opcionesPermitidas = true;
 
   constructor(
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private obraService: ObraService,
     private snackBar: MatSnackBar,
-    private empresasService: EmpresasService,
-    private navigationService: NavigationService,
-    private usuariosService: UsuariosService,
     private solicitudesService: SolicitudesService,
     private router: Router
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( (params: Params) => this.idObra = parseInt(params.idObra));
-    this.validateAccessValidation();
+    this.activatedRoute.params.subscribe( (params: Params) => this.idSolicitud = parseInt(params.idSolicitud));
+    this.getSolicitud();
+  }
+
+  getSolicitud() {
+    this.solicitudesService.getSolicitudMaterialesById(2, this.idSolicitud).subscribe(
+      (solicitud: SolicitudMaterial) => {
+        console.log(solicitud);
+        this.solicitud = solicitud;
+        this.validateAccessValidation();
+      },
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
+    );
   }
   
   validateAccessValidation() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente && modulo.tooltip === this.tooltip);
-    const idModulo = moduloActual.idOpcion;
-    console.log(idModulo);
-    
-    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
-      (usuario: Usuario) => {
-        this.navigationService.validatePermissions(usuario.idPerfil, idModulo).subscribe(
-          (result:any) => {
-            if ( result.estatus !== '05'){
-              this.opcionesPermitidas = false;
-            }  else {
-              this.opcionesPermitidas = true;
-              this.getObra();
-            } 
-          },
-          error => this.useAlerts( error.message, ' ', 'error-dialog')
-        );
-      },
-      error => this.useAlerts( error.message, ' ', 'error-dialog')
-    );
-  }
-  
-  getObra(){
-    this.obraService.getObra(this.idObra).subscribe( 
-      (obra: Obra) => {
-        if(obra){
-          this.obra = obra;
-          this.getValidations();
-          this.getCatalogos();
-          this.fechaRequiere = new Date(this.solicitudForm.controls['fechaRequiere'].value);
-          this.fechaRequiere.setDate(this.fechaRequiere.getDate());
-          this.rutaImg = environment.imgRUL;
-          this.host = environment.host;
-        }
-      },
-      error => this.useAlerts( error.message, ' ', 'error-dialog')
-    );
+    if(this.idUsuarioLogeado  === this.solicitud.idUsuarioSolicito) {
+      this.opcionesPermitidas = true;
+      this.fechaRequiere = new Date(this.solicitud.fechaRequiere);
+      this.fechaRequiere.setDate(this.fechaRequiere.getDate());
+      this.getValidations();
+      this.getCatalogos();
+      this.solicitudForm.patchValue(this.solicitud);
+      this.rutaImg = environment.imgRUL;
+      this.host = environment.host;
+      this.listaMaterial = this.solicitud.detSolicitudMaterial;
+      this.listaTemp = this.listaMaterial;
+      // this.fechaInicioObra = new Date(inicioString);
+      // this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
+    } else {
+      this.opcionesPermitidas = false;
+    }
+
   }
   
   getValidations(){
     this.solicitudForm = new FormGroup({
-      fechaRequiere: new FormControl(new Date(), Validators.required),
+      fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
       descripcion: new FormControl('', Validators.required),
     });
   }
   
   getCatalogos() {
-    this.empresasService.getAllEmpresas().subscribe(
-      (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
-      error => console.log(error)
-    );
-    this.solicitudesService.getListMaterialForResource(this.idObra).subscribe(
-      (materiales: MaterialParaSolicitud[]) => {
-        this.listaMaterial = materiales;
-        this.listaTemp = this.listaMaterial;
-      },
-      error => {
-        console.log(error);
-        error => this.useAlerts( error.message, ' ', 'error-dialog');
-      }
-    );
+    // this.solicitudesService.getListMaterialForResource(this.solicitud.idObra).subscribe(
+    //   (materiales: MaterialParaSolicitud[]) => {
+    //     this.listaMaterial = materiales;
+    //     this.listaTemp = this.listaMaterial;
+    //   },
+    //   error => {
+    //     console.log(error);
+    //     error => this.useAlerts( error.message, ' ', 'error-dialog');
+    //   }
+    // );
     // this.usuariosService.getUsuariosByIdProfile(2).subscribe(
     //   ( usuarios: Usuario[]) => this.listaUsuariosAdministracionCentral = usuarios,
     //   error => console.log(error)
@@ -139,7 +113,7 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.fechaRequiere = event.value;
   }
 
-  crearSolicitud(){
+  modificarSolicitud(){
     if (this.solicitudForm.valid){
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
@@ -155,23 +129,24 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
       console.log(materialSolicitado);
       
       const solicitud: SolicitudMaterial = {
+        idSolicitudMaterial: this.solicitud.idSolicitudMaterial,
+        idEmpresa: this.solicitud.idEmpresa,
+        idObra: this.solicitud.idObra,
         ...this.solicitudForm.value,
-        idEmpresa: this.obra.idEmpresa,
-        fechaSolicito: hoy,
+        fechaSolicito: this.solicitud.fechaSolicito,
         fechaRequiere: fechaRequiereMaterial,
         idUsuarioSolicito: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.idObra,
         // detSolicitudMaterial: materialSolicitado
         detSolicitudMaterial: this.listaMaterial
       };
 
       console.log(solicitud); 
       
-      this.solicitudesService.createSolicitudMateriales(solicitud).subscribe(
+      this.solicitudesService.updateSolicitudMateriales(solicitud).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/solicitudes-suministros/obras']);
+            this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');

@@ -23,8 +23,21 @@
   }
 }
 
+.date-exist{
+  color: #4caf50;
+}
+
+.no-date-exist{
+  color: #b71c1c;
+}
+
 .content-center {
   text-align: center;
+  margin: 16px 0 0 0 !important;
+}
+
+.content-left {
+  text-align: left;
   margin: 16px 0 0 0 !important;
 }
 

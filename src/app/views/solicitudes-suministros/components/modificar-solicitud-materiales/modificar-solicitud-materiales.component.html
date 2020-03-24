@@ -1,0 +1,162 @@
+<div fxLayout="row wrap" *ngIf="!solicitud">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="opcionesPermitidas">
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="solicitud">
+    <form [formGroup]="solicitudForm" (submit)="modificarSolicitud()">
+      <!-- <form> -->
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-title class="title-solicitud">
+          <h1>Solicitud de Materiales y Herramienta</h1>
+          <span>Grupo Empresarial Cima</span>
+          <p>Area de Compras y Almacenes</p>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+
+          <div class="data-form">
+
+            <div class="wrap-logo">
+              <img class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{solicitud.obra.empresa.imagen}}" alt="empresa">
+            </div>
+
+            <div class="wrap-data-obra">
+              <div class="tit">Nombre de la empresa:</div>
+              <div class="desc">{{solicitud.obra.nombreObra}}</div>
+              <div class="tit">Obra / Proyecto:</div>
+              <div class="desc">Proyecto</div>
+              <div class="tit">Fecha de la Solicitud:</div>
+              <div class="desc">{{solicitud.fechaSolicito | date}}</div>
+              <div class="tit">
+                Fecha en que se requiere en en obra:
+                <!-- <div class="validaciones">
+                    <small *ngIf="solicitudForm.controls['fechaRequiere'].hasError('required') && solicitudForm.controls['fechaRequiere'].touched"
+                      class="form-error-msg">
+                      Fecha en que se requiere el material es un campo requerido
+                    </small>
+                  </div> -->
+              </div>
+              <div class="desc">
+                <mat-form-field class="full-width">
+                  <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" (dateChange)="onFechaRequiereMaterial($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaRequiere"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaRequiere (selectedChange)="onFechaRequiereMaterial($event)"></mat-datepicker>
+                </mat-form-field>
+              </div>
+              <div class="tit">Lugar de recepción del material:</div>
+              <div class="desc">
+                <mat-form-field class="full-width">
+                  <input matInput name="lugarRecepcion" formControlName="lugarRecepcion">
+                </mat-form-field>
+                <!-- <div class="validaciones"> 
+                    <small *ngIf="solicitudForm.controls['lugarRecepcion'].hasError('required') && solicitudForm.controls['lugarRecepcion'].touched" class="form-error-msg">
+                      Lugar de recepción del material es un campo requerido 
+                    </small>
+                  </div> -->
+              </div>
+
+            </div>
+          </div>
+
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                    class="form-error-msg">
+                    Descripción de la solicitud es un campo requerido
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </form>
+
+  </mat-card>
+
+  <!-- FILTRO -->
+  <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="solicitud">
+    <input matInput placeholder="Filtrar Materiales" value="" (keyup)='updateFilter($event)'>
+  </mat-form-field>
+  <!-- END FILTRO -->
+
+  <div class="mat-box-shadow margin-333" *ngIf="listaMaterial.length; else noMaterial">
+    <div *ngIf="solicitud">
+      <!-- {{listaMaterial | json}} -->
+      <ngx-datatable class="material fullscreen bg-white" style="height: 400px; overflow-y: auto;" [rows]="listaMaterial" [columnMode]="'force'"
+        [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+        <ngx-datatable-column name="No." [flexGrow]="1">
+          <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.noMaterial}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Conceptos" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.descripcion}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Unidad" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.unidad}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <mat-form-field class="cantidad-seleccionada">
+              <input matInput type="number" [min]="0" [max]="row?.cantidadEjecutada" [(ngModel)]="row.cantidadSolictada" />
+            </mat-form-field>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Comentarios" [flexGrow]="1">
+          <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+            <mat-form-field class="comentario">
+              <textarea matInput [(ngModel)]="row.comentario"></textarea>
+            </mat-form-field>
+          </ng-template>
+        </ngx-datatable-column>
+
+
+      </ngx-datatable>
+    </div>
+  </div>
+
+  <ng-template #noMaterial>
+    <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="solicitud">
+      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Conceptos" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+  </ng-template>
+
+</div>

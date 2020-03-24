@@ -15,7 +15,7 @@ export interface PeticionSolicitudRecurso {
   comentario?: string
   comentarioRevision?: string,
   idUsuarioModifico: number;
-  idSolicitudRecurso: number;
+  idSolicitudRecurso?: number;
   categoriaSolicitudRecurso: any[];
 }
 
@@ -31,6 +31,7 @@ export interface SolicitudRecurso {
   detSolicitudRecurso: PeticionSolicitudRecurso[];
   empresa?: Empresa;
   pk?: number;
+  serieFolio?: string;
 }
 
 // SOLICITUD MATERIAL
@@ -61,6 +62,7 @@ export interface SolicitudMaterial {
   idUsuarioModifico: number;
   obra?: Obra;
   detSolicitudMaterial?: MaterialParaSolicitud[];
+  serieFolio?: string;
 }
 
 // SOLICITUD VEHICULO
@@ -83,19 +85,19 @@ export interface SolicitudVehiculo {
   observacion?: string;
   idServicioInteres: number;
   servicioInteres?: any;
+  serieFolio?: string;
   // idEmpresa: number;
   // empresa?: Cliente;
 }
 
 export interface TableroControl {
-  idSolicitud?: number;
-  folio: string;
-  descripcion: string;
-  empresa?: Empresa;
-  obra?: Obra;
-  solicitante?: Usuario;
-  fechaSolicitud?: string;
-  fechaValidacion?: string;
-  fechaOrdenTrabajo?: string;
-  fechaAutorizacionSuministro?: string;
+  idBitacoraSolicitud?: number;
+  solicitud: any;
+  fechaSolicitud: string;
+  fechaValidacion: string;
+  fechaOrdenTrabajo: string;
+  fechaAutorizacionSuministro: string;
+  usuarioSolicito: Usuario;
+  tipoSolicitud: string;
+  fechaRechazo: string;
 }

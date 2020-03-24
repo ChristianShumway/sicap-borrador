@@ -25,25 +25,63 @@ import { Usuario } from '../../../../shared/models/usuario';
 })
 export class TableroControlComponent implements OnInit {
 
-  listaSolicitudes: TableroControl[] = [];
+  listaSolicitudes: TableroControl[];
+  temp: TableroControl[]
 
-  constructor() { }
+  constructor(
+    private solicitudesService: SolicitudesService,
+    private snackBar: MatSnackBar,
+  ) { }
 
   ngOnInit() {
-    this.listaSolicitudes = [
-      {
-        idSolicitud: 1,
-        folio: 'MAT-001',
-        descripcion: 'POSTES DE MADERA PARA OBRA',
-        //empresa: 'AESA AEREA ELECTRIFICACIONES S.A. DE C.V.',
-        //obra: Obra;
-        //solicitante: Usuario;
-        fechaSolicitud: '3/17/20',
-        fechaValidacion: '',
-        fechaOrdenTrabajo: '',
-        fechaAutorizacionSuministro: '',
-      }
-    ];
+    this.getSolicitudes();
   }
+
+  getSolicitudes() {
+    this.solicitudesService.getLogRequest().subscribe(
+      (list: TableroControl[]) => {
+        this.listaSolicitudes = list;
+        this.temp = this.listaSolicitudes;
+        console.log(list);
+      }, 
+      error => console.log(error) 
+    );
+  }
+
+  updateFilter(event) {
+    const val = event.target.value.toLowerCase();
+    var columns = Object.keys(this.temp[0]);
+    columns.splice(columns.length - 1);
+
+    if (!columns.length)
+      return;
+
+    const rows = this.temp.filter(function(d) {
+      for (let i = 0; i <= columns.length; i++) {
+        let column = columns[i];
+        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
+          return true;
+        }
+      }
+    });
+
+    if(!rows.length){
+      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog', 500);
+    } else {
+      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog', 500);
+    }
+
+    this.listaSolicitudes = rows;
+  }
+
+  useAlerts(message, action, className, time = 4000){
+    this.snackBar.open(message, action, {
+      duration: time,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
+  }
+
 
 }

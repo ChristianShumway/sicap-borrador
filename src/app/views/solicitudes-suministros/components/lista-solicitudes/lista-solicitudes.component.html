@@ -1,23 +1,39 @@
-<mat-tab-group>
-  <mat-tab label="Recursos"> 
+<div fxLayout="row wrap" *ngIf="!solicitudes">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<mat-tab-group *ngIf="solicitudes">
+  <mat-tab label="Recursos">
     <div class="container-solicitudes recursos" fxLayout="row wrap">
-      <h1>Solicitudes Recursos</h1>
-      <div  class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+      <h1>Solicitudes:</h1>
+      <div class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
         <mat-card class="solicitud-card p-0">
           <mat-card-content>
-            
+            <div class="card-info">
+              <div class="col-tit-descripcion">
+                Descripción
+              </div>
+              <div class="col-tit-actions">
+                Acciones
+              </div>
+            </div>
             <div class="card-info" *ngFor="let solicitud of solicitudesRecursos">
               <div class="col-description">
                 {{solicitud.descripcion}}
               </div>
               <div class="col-actions">
-                <button  mat-icon-button color="primary" >
+                <button mat-icon-button color="primary">
                   <mat-icon>visibility</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" >
+                <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-recursos', solicitud.idSolicitudRecurso]" mat-icon-button
+                  color="accent">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn" >
+                <button mat-icon-button color="warn">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -29,6 +45,78 @@
     </div>
   </mat-tab>
 
-  <mat-tab label="Material"> Content 2 </mat-tab>
-  <mat-tab label="Vehículos y Equipo"> Content 3 </mat-tab>
+  <mat-tab label="Material">
+    <div class="container-solicitudes material" fxLayout="row wrap">
+      <h1>Solicitudes:</h1>
+      <div class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+        <mat-card class="solicitud-card p-0">
+          <mat-card-content>
+            <div class="card-info">
+              <div class="col-tit-descripcion">
+                Descripción
+              </div>
+              <div class="col-tit-actions">
+                Acciones
+              </div>
+            </div>
+            <div class="card-info" *ngFor="let solicitud of solicitudesMateriales">
+              <div class="col-description">
+                {{solicitud.descripcion}}
+              </div>
+              <div class="col-actions">
+                <button mat-icon-button color="primary">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-materiales', solicitud.idSolicitudMaterial]" mat-icon-button
+                  color="accent">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
+  <mat-tab label="Vehículos y Equipo">
+    <div class="container-solicitudes material" fxLayout="row wrap">
+      <h1>Solicitudes:</h1>
+      <div class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+        <mat-card class="solicitud-card p-0">
+          <mat-card-content>
+            <div class="card-info">
+              <div class="col-tit-descripcion">
+                Descripción
+              </div>
+              <div class="col-tit-actions">
+                Acciones
+              </div>
+            </div>
+            <div class="card-info" *ngFor="let solicitud of solicitudesVehiculos">
+              <div class="col-description">
+                {{solicitud.descripcion}}
+              </div>
+              <div class="col-actions">
+                <button mat-icon-button color="primary">
+                  <mat-icon>visibility</mat-icon>
+                </button>
+                <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-vehiculos', solicitud.idSolicitudMaquinariaEquipo]" mat-icon-button
+                  color="accent">
+                  <mat-icon>edit</mat-icon>
+                </button>
+                <button mat-icon-button color="warn">
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </div>
+
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </div>
+  </mat-tab>
 </mat-tab-group>

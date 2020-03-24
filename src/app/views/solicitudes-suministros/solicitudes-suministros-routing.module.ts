@@ -7,6 +7,9 @@ import { SolicitarMaterialesHerramientasComponent } from './components/solicitar
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
 import { ListaSolicitudesComponent } from './components/lista-solicitudes/lista-solicitudes.component';
 import { TableroControlComponent } from './components/tablero-control/tablero-control.component';
+import { ModificarSolicitudRecursoComponent } from './components/modificar-solicitud-recurso/modificar-solicitud-recurso.component';
+import { ModificarSolicitudMaterialesComponent } from './components/modificar-solicitud-materiales/modificar-solicitud-materiales.component';
+import { ModificarSolicitudVehiculosComponent } from './components/modificar-solicitud-vehiculos/modificar-solicitud-vehiculos.component';
 
 const routes: Routes = [
   {
@@ -38,6 +41,21 @@ const routes: Routes = [
     path:'tablero-control',
     component: TableroControlComponent,
     data: {title: 'Tablero de Control', breadcrumb: 'Tablero de Control'}
+  },
+  {
+    path:'modificar-solicitud-recursos/:idSolicitud',
+    component: ModificarSolicitudRecursoComponent,
+    data: {title: 'Modificar Solicitud de Recursos', breadcrumb: 'Modificar Solicitud de Recursos'}
+  },
+  {
+    path:'modificar-solicitud-materiales/:idSolicitud',
+    component: ModificarSolicitudMaterialesComponent,
+    data: {title: 'Modificar Solicitud de Materiales', breadcrumb: 'Modificar Solicitud de Materiales'}
+  },
+  {
+    path:'modificar-solicitud-vehiculos/:idSolicitud',
+    component: ModificarSolicitudVehiculosComponent,
+    data: {title: 'Modificar Solicitud de Vehículos, Equipo y Maquinaria', breadcrumb: 'Modificar Solicitud de Vehículos, Equipo y Maquinaria'}
   },
 ];
 

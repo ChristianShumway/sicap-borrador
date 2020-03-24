@@ -1,0 +1,229 @@
+.wrap-spiner{
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
+form{
+  width: 100%;
+  .title-solicitud{
+    padding: 15px 0 0;
+    text-align: center;
+    h1 {
+      text-transform: uppercase;
+      text-decoration: underline;
+      margin-bottom: 10px;
+    }
+    span {
+      font-size: 12px;
+      margin-bottom: 6px;
+      display: block;
+    }
+    p {
+      background: lightgray;
+      padding: 5px;
+      text-transform: uppercase;
+    }
+  }
+  
+  .data-form {
+    margin: 10px 0 20px;
+    display: grid;
+    grid-template-columns: .7fr 1fr;
+    justify-content: center;
+    align-items: center;
+    grid-gap: 15px;
+    .wrap-logo {
+      text-align: center;
+      img {
+        max-width: 250px;
+      }
+    }
+    .wrap-data-obra {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      grid-gap: 10px;
+      .tit{
+        font-weight: 500;
+      text-transform: uppercase;
+      font-size: 12px;
+      }
+      .desc{
+        color: steelblue;
+        text-transform: uppercase;
+        font-size: 12px;
+      }
+    }
+  }
+
+  .fields-form{
+    border: 1px solid darkgray;
+    padding: 20px 10px;
+    position: relative;
+    margin-bottom: 20px;
+    &:before {
+      content: 'Descripción de la Solicitud:';
+      position: absolute;
+      top: -25px;
+      text-transform: uppercase;
+    }
+  }
+}
+
+.cont-btns{
+  text-align: right;
+  button {
+    &:first-child {
+      margin-right: 15px;
+    }
+  }
+}
+
+.wrap-peticiones{
+  width: 100%;
+  margin: 10px 0 0;
+  border-top: 1px solid lightgray;
+  padding: 20px 0 0;
+  position: relative;
+  &::before{
+    // content: 'Agregar Petición';
+    position: absolute;
+    top: -25px;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .title-peticion {
+    color: #4caf50;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+  }
+}
+
+.wrap-totales{
+  padding: 20px 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  .total {
+    p {
+      font-weight: 500;
+    }
+    span {
+      color: #4caf50;
+    }
+  }
+}
+
+.content-center{
+  height: 42px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content-right{
+  height: 42px;
+  text-align: center;
+  display: flex;
+  justify-content: right;
+  align-items: center;
+}
+
+.mat-btn-delete{
+  background: #ffc107;
+  color: white;
+}
+
+
+.mat-card{
+  margin-bottom: 25px;
+}
+
+@media screen and (max-width:768px) {
+  form{
+    .data-form {
+      grid-template-columns: .5fr 1fr;
+      grid-gap: 10px;
+      .wrap-logo {
+        img {
+          max-width: 200px;
+        }
+      }
+      .wrap-data-obra {
+        grid-template-columns: .5fr 1fr;
+        grid-gap: 5px 10px;
+      }
+    }
+  
+    .fields-form{
+      margin-top: 25px;
+    }
+  }
+}
+
+@media screen and (max-width:599px) {
+
+  form{
+    .title-solicitud{
+      padding: 0;
+      h1 {
+        font-size: 18px;
+      }
+      p {
+        font-size: 14px;
+      }
+    }
+    
+    .data-form {
+      margin: 0;
+      grid-template-columns: 1fr;
+      grid-gap: 5px;
+      .wrap-logo {
+        img {
+          max-width: 150px;
+        }
+      }
+      .wrap-data-obra {
+        grid-template-columns: 1fr;
+        grid-gap: 5px;
+        margin-bottom: 15px;
+        .tit{
+          font-size: 11px;
+        }
+        .desc{
+          font-size: 11px;
+        }
+      }
+    }
+  
+    .fields-form{
+      padding: 5px;
+      &:before {
+        top: -20px;
+        font-size: 11px
+      }
+    }
+  }
+
+  .wrap-totales {
+    padding: 10px 10px 0;
+    grid-template-columns: 1fr;
+  }
+
+  form .info-obra {
+    padding: 0px 0 5px;
+    grid-template-columns: 1fr;
+    grid-gap: 5px;
+    align-items: center;
+    justify-content: center;
+    justify-items: center;
+  }
+
+  .wrap-peticiones{
+    margin: 20px 0 0;
+  }
+}
