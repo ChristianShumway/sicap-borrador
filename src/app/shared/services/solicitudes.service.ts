@@ -33,10 +33,10 @@ export class SolicitudesService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequesResource`, JSON.stringify(solicitud), { headers: headerss});
   }
-  
-  // updateRequesResource
-  // updateRequestMaterial
-  // requestAndSupplies/updateRequestMaterialAndTeam
+
+  deleteSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{
+    return this.http.get<SolicitudRecurso>(`${environment.apiURL}/requestAndSupplies/deleteRequest/${idSolicitud}/${tipoSolicitud}`);
+  }
 
   // SOLICITUD MATERIALES
 
@@ -77,7 +77,6 @@ export class SolicitudesService {
   // GENERAL
   showStepByStepInResource(idSolicitud: number): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEstatusRequest/${idSolicitud}`);
-    // http://108.175.5.160:8080/Sicap/requestAndSupplies/getEstatusRequest/1
   }
 
   getResourcesByUser(idUser: number): Observable<any>{
@@ -86,6 +85,10 @@ export class SolicitudesService {
 
   getLogRequest(): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getLogRequest`);
+  }
+
+  getSolicitudesParaValidar(): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getRequestPending`);
   }
 
 }

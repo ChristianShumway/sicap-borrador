@@ -1,22 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Params, ActivatedRoute, Router } from '@angular/router';
-import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
-
-import { environment } from './../../../../../environments/environment';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
-import { ObraService } from '../../../../shared/services/obra.service';
-import { EmpresasService } from '../../../../shared/services/empresas.service';
-import { NavigationService } from '../../../../shared/services/navigation.service';
-import { UsuariosService } from '../../../../shared/services/usuarios.service';
-
-import { Obra } from './../../../../shared/models/obra';
-import { Empresa } from '../../../../shared/models/empresa';
-import { SolicitudRecurso, PeticionSolicitudRecurso, SolicitudMaterial } from './../../.././../shared/models/solicitud';
-import { Usuario } from '../../../../shared/models/usuario';
 import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
+
+import { SolicitudRecurso, SolicitudVehiculo, SolicitudMaterial } from './../../.././../shared/models/solicitud';
+import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 @Component({
   selector: 'app-lista-solicitudes',
@@ -29,18 +18,13 @@ export class ListaSolicitudesComponent implements OnInit {
   solicitudes: any[];
   solicitudesRecursos: SolicitudRecurso[] = [];
   solicitudesMateriales: SolicitudMaterial[] = [];
-  solicitudesVehiculos: any[] = [];
+  solicitudesVehiculos: SolicitudVehiculo[] = [];
 
   constructor(
     private autenticacionService: AutenticacionService,
     private solicitudesService: SolicitudesService,
-    private activatedRoute: ActivatedRoute,
-    private obraService: ObraService,
     private snackBar: MatSnackBar,
-    private empresasService: EmpresasService,
-    private navigationService: NavigationService,
-    private usuariosService: UsuariosService,
-    private router: Router
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -52,9 +36,8 @@ export class ListaSolicitudesComponent implements OnInit {
     this.solicitudesService.getResourcesByUser(this.idUsuarioLogeado).subscribe(
       solicitudes => {
         this.solicitudes = solicitudes;
-        console.log(solicitudes);
+        // console.log(solicitudes);
         solicitudes.map( solicitud => {
-          // console.log(solicitud);
           if(solicitud.idTipo === 1){
             this.solicitudesRecursos = solicitud.solicitud;
           } else if (solicitud.idTipo === 2){
@@ -63,13 +46,46 @@ export class ListaSolicitudesComponent implements OnInit {
             this.solicitudesVehiculos = solicitud.solicitud;
           }
         });
-        
-        console.log(this.solicitudesRecursos);
-        console.log(this.solicitudesMateriales);
-        console.log(this.solicitudesVehiculos);
       },
       error => console.log(error)
     );
+  }
+
+  openDialoAlertDelete(idSolicitud, tipoSolicitud) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      // data: idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+        this.solicitudesService.deleteSolicitud(idSolicitud, tipoSolicitud).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
+  useAlerts(message, action, className){
+    this.snackBar.open(message, action, {
+      duration: 3000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 

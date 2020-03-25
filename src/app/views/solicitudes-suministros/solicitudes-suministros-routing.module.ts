@@ -10,6 +10,7 @@ import { TableroControlComponent } from './components/tablero-control/tablero-co
 import { ModificarSolicitudRecursoComponent } from './components/modificar-solicitud-recurso/modificar-solicitud-recurso.component';
 import { ModificarSolicitudMaterialesComponent } from './components/modificar-solicitud-materiales/modificar-solicitud-materiales.component';
 import { ModificarSolicitudVehiculosComponent } from './components/modificar-solicitud-vehiculos/modificar-solicitud-vehiculos.component';
+import { ValidarSolicitudesComponent } from './components/validar-solicitudes/validar-solicitudes.component';
 
 const routes: Routes = [
   {
@@ -56,6 +57,11 @@ const routes: Routes = [
     path:'modificar-solicitud-vehiculos/:idSolicitud',
     component: ModificarSolicitudVehiculosComponent,
     data: {title: 'Modificar Solicitud de Vehículos, Equipo y Maquinaria', breadcrumb: 'Modificar Solicitud de Vehículos, Equipo y Maquinaria'}
+  },
+  {
+    path:'validar-solicitudes',
+    component: ValidarSolicitudesComponent,
+    data: {title: 'Lista Solicitudes para Validar', breadcrumb: 'Lista Solicitudes para Validar'}
   },
 ];
 

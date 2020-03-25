@@ -1,0 +1,64 @@
+.wrap-spiner {
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
+.container-titulo {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  margin: 10px 0;
+  grid-gap: 10px;
+  align-items: center;
+  border-bottom: 1px solid gray;
+  .logo {
+    img {
+      max-width: 100%;
+      vertical-align: top;
+    }
+  }
+  .titulo {
+    text-align: center;
+    text-transform: uppercase;
+  }
+}
+
+.wrap-title{
+  padding: 5px;
+  display: grid;
+  grid-template-columns: .5fr 1fr .5fr;
+  grid-gap: 5px;
+  text-align: center;
+  background: #4caf50;
+  color: white;
+  height: 90px;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 300;
+  border-radius: 10px 10px 0 0;
+  margin-top: 20px;
+  box-shadow: 2px 2px 5px rgba(0,0,0, .4);
+}
+
+.wrap-solicitudes{
+  background: white;
+  border-radius: 0 0 10px 10px;
+  box-shadow: 2px 2px 5px rgba(0,0,0, .4);
+  max-height: 500px;
+  height: auto;
+  overflow-y: auto;
+  .solicitud{
+    display: grid;
+    grid-template-columns: .5fr 1fr .5fr;
+    padding: 10px;
+    align-items: center;
+    grid-gap: 5px;
+    .col-folio{
+      text-align: center;
+    }
+    .col-action{
+      text-align: center;
+    }
+  }
+}

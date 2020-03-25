@@ -15,7 +15,6 @@ import { NgxMaskModule, IConfig } from 'ngx-mask'
 import { SolicitudesSuministrosRoutingModule } from './solicitudes-suministros-routing.module';
 import { EjecucionProyectoModule } from '../ejecucion-proyecto/ejecucion-proyecto.module';
 import { ObrasComponent } from './components/obras/obras.component';
-import { ModalEliminarComponent } from './../ejecucion-proyecto//components/modal-eliminar/modal-eliminar.component';
 import { SolicitarRecursosComponent } from './components/solicitar-recursos/solicitar-recursos.component';
 import { SolicitarMaterialesHerramientasComponent } from './components/solicitar-materiales-herramientas/solicitar-materiales-herramientas.component';
 import { SolicitarVehiculosComponent } from './components/solicitar-vehiculos/solicitar-vehiculos.component';
@@ -24,6 +23,8 @@ import { TableroControlComponent } from './components/tablero-control/tablero-co
 import { ModificarSolicitudRecursoComponent } from './components/modificar-solicitud-recurso/modificar-solicitud-recurso.component';
 import { ModificarSolicitudMaterialesComponent } from './components/modificar-solicitud-materiales/modificar-solicitud-materiales.component';
 import { ModificarSolicitudVehiculosComponent } from './components/modificar-solicitud-vehiculos/modificar-solicitud-vehiculos.component';
+import { ValidarSolicitudesComponent } from './components/validar-solicitudes/validar-solicitudes.component';
+import { ModalDatosSolicitudComponent } from './components/modal-datos-solicitud/modal-datos-solicitud.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -38,7 +39,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ModificarSolicitudRecursoComponent,
     ModificarSolicitudMaterialesComponent,
     ModificarSolicitudVehiculosComponent,
-    // ModalEliminarComponent,
+    ValidarSolicitudesComponent,
+    ModalDatosSolicitudComponent,
   ],
   imports: [
     CommonModule,
@@ -58,7 +60,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NgxMaskModule.forRoot(options),
   ],
   entryComponents:[
-    // ModalEliminarComponent
+    ModalDatosSolicitudComponent
   ]
 
 })

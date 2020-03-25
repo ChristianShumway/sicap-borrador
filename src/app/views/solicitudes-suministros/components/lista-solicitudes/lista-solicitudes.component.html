@@ -33,7 +33,7 @@
                   color="accent">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn">
+                <button mat-icon-button color="warn" (click)="openDialoAlertDelete(solicitud.idSolicitudRecurso, 1)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -71,7 +71,7 @@
                   color="accent">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn">
+                <button mat-icon-button color="warn" (click)="openDialoAlertDelete(solicitud.idSolicitudMaterial, 2)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
@@ -108,7 +108,7 @@
                   color="accent">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-icon-button color="warn">
+                <button mat-icon-button color="warn" (click)="openDialoAlertDelete(solicitud.idSolicitudMaquinariaEquipo, 3)">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
