@@ -3,7 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from './../../../environments/environment'; 
 import { Observable } from 'rxjs';
 import { BehaviorSubject } from 'rxjs';
-import { SolicitudRecurso, SolicitudMaterial, SolicitudVehiculo, MaterialParaSolicitud } from './../models/solicitud';
+import { SolicitudRecurso, SolicitudMaterial, SolicitudVehiculo, MaterialParaSolicitud, PeticionSolicitudRecurso } from './../models/solicitud';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +36,10 @@ export class SolicitudesService {
 
   deleteSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{
     return this.http.get<SolicitudRecurso>(`${environment.apiURL}/requestAndSupplies/deleteRequest/${idSolicitud}/${tipoSolicitud}`);
+  }
+
+  deletePeticion(idPeticion: number, tipoSolicitud: number): Observable<any>{
+    return this.http.get<PeticionSolicitudRecurso>(`${environment.apiURL}/requestAndSupplies/deletedetRequest/${idPeticion}/${tipoSolicitud}`);
   }
 
   // SOLICITUD MATERIALES

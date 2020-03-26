@@ -193,11 +193,21 @@ export class ModificarSolicitudRecursoComponent implements OnInit {
     }
   }
 
-  eliminarObservacion(index){
-    this.peticionesSolicitadas.splice(index, 1);
-    this.peticionesSolicitadas = [...this.peticionesSolicitadas];
-    this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
-    this.getTotales();
+  eliminarObservacion(index, idPeticion){
+    this.solicitudesService.deletePeticion(idPeticion, 1).subscribe(
+      response => {
+        if(response.estatus === '05'){
+          this.peticionesSolicitadas.splice(index, 1);
+          this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+          this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          // this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+          this.getTotales();
+        } else {
+          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        }
+      },
+      error => this.useAlerts(error.message, ' ', 'error-dialog')
+    );
   }
 
   getTotales() {

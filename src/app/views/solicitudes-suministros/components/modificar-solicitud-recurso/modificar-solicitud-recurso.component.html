@@ -190,7 +190,7 @@
         <ngx-datatable-column name="Acción" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <p class="content-center">
-              <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex)">
+              <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex, row?.idDetSolicitudRecurso)">
                 <mat-icon>delete</mat-icon>
               </button>
             </p>
