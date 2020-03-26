@@ -24,7 +24,6 @@ export class ModalDatosSolicitudComponent implements OnInit {
   ngOnInit() {
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
-    console.log(this.data);
     if(this.data.idTipo===1){
       this.getPeticiones();
     } else if(this.data.idTipo===2){
@@ -46,9 +45,4 @@ export class ModalDatosSolicitudComponent implements OnInit {
     });
   }
 
-
-
 }
-
-
-// [mat-dialog-close]="[{'opcion':'mensaje', 'id':data.telefono}]"

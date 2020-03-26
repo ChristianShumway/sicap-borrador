@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
-import { MatDialog } from '@angular/material';
+import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalDatosSolicitudComponent } from '../modal-datos-solicitud/modal-datos-solicitud.component';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-validar-solicitudes',
@@ -13,11 +14,15 @@ export class ValidarSolicitudesComponent implements OnInit {
   listaSolicitudes: any[];
   solicitudesMostrar: any[];
   idUsuarioLogeado;
+  fechaHoy = new Date();
+  pipe = new DatePipe('en-US');
 
   constructor(
     private solicitudesService: SolicitudesService,
     private autenticacionService: AutenticacionService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private snackBar: MatSnackBar,
+
   ) { }
 
   ngOnInit() {
@@ -44,22 +49,44 @@ export class ValidarSolicitudesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log(result);
-      // const {opcion, id} = result[0];
-      // switch (opcion) {
-      //   case 'mensaje':
-      //     const urlWpp = `https://api.whatsapp.com/api/send?phone=${id}`;
-      //     window.open(urlWpp);
-      //     break;
-      //   case 'editar':
-      //     this.router.navigate([`/configuracion/modificar-usuario/${id}`])
-      //     break;
-      //   case 'eliminar':
-      //     this.openDialoAlertDelete(id);
-      //     break;
-      //   default:
-      //     break;
-      // }
+      // console.log(result);
+      const {opcion} = result[0];
+      const format = 'yyyy/MM/dd';
+      const hoy = this.pipe.transform(this.fechaHoy, format);
+      let datosValidar: any;
+
+      if(opcion === 'validar'){
+        datosValidar = {
+          idUsuarioValido: this.idUsuarioLogeado,
+          fechaValido: hoy,
+          idBitacoraSolicitud: solicitud.idBitacoraSolicitud,
+          idTipo: solicitud.idTipo,
+          tipo: solicitud.tipo
+        };
+      }
+
+      console.log(datosValidar);
+      this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getSolicitudesParaValidar();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
+      
+    });
+  }
+
+  useAlerts(message, action, className, time=4000) {
+    this.snackBar.open(message, action, {
+      duration: time,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
     });
   }
 
