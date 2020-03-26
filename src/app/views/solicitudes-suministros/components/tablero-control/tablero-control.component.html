@@ -17,9 +17,9 @@
 
 
 <!-- FILTRO -->
-<!-- <mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="listaSolicitudes">
-  <input matInput placeholder="Filtrar Materiales" value="" (keyup)='updateFilter($event)'>
-</mat-form-field> -->
+<mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="listaSolicitudes">
+  <input matInput placeholder="Filtrar Solicitudes" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
 <!-- END FILTRO -->
 
 
@@ -27,14 +27,14 @@
   <div>
     <ngx-datatable 
     class="material fullscreen bg-white" 
-    style="height: 100vh; overflow-y: auto;" 
-    [rows]="listaSolicitudes" 
+    style="height: 600px; overflow-y: auto;" 
+    [rows]="solicitudesModif" 
     [columnMode]="'force'"
     [headerHeight]="50" 
     [footerHeight]="50" 
     [scrollbarH]="true" 
     [rowHeight]="'auto'" 
-    [limit] = "5"
+    
     [scrollbarH]="true" >
 
       <!-- <ngx-datatable-column name="No." [flexGrow]="1">
@@ -48,7 +48,7 @@
       <ngx-datatable-column name="Folio" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.solicitud.folio}}
+            {{row?.folio}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -56,7 +56,7 @@
       <ngx-datatable-column name="Descripción" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.solicitud.descripcion}}
+            {{row?.descripcion}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -64,7 +64,7 @@
       <ngx-datatable-column name="Empresa" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.solicitud.obra.empresa.nombre}}
+            {{row?.empresa}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -72,7 +72,7 @@
       <ngx-datatable-column name="Obra" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-left">
-            {{row?.solicitud.obra.nombreObra}}
+            {{row?.obra}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -80,7 +80,7 @@
       <ngx-datatable-column name="Solicitante" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-left">
-            {{row?.usuarioSolicito.nombre}}  {{row?.usuarioSolicito.apellidoPaterno}}  {{row?.usuarioSolicito.apellidoMaterno}}
+            {{row?.solicitante}}
           </p>
         </ng-template>
       </ngx-datatable-column>

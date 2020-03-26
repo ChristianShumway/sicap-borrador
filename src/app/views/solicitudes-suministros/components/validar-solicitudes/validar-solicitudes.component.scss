@@ -62,3 +62,18 @@
     }
   }
 }
+
+@media screen and (max-width:599px){
+  .wrap-title {
+    height: 45px;
+    font-size: 13px;
+    margin-top: 10px;
+  }
+
+  .wrap-solicitudes {
+    .solicitud {
+      padding: 5px;
+      font-size: 12px;
+    }
+  }
+}

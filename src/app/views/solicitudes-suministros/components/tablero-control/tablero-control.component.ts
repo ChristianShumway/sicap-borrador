@@ -26,7 +26,8 @@ import { Usuario } from '../../../../shared/models/usuario';
 export class TableroControlComponent implements OnInit {
 
   listaSolicitudes: TableroControl[];
-  temp: TableroControl[]
+  solicitudesModif: any[] = [];
+  temp: any[]
 
   constructor(
     private solicitudesService: SolicitudesService,
@@ -42,7 +43,25 @@ export class TableroControlComponent implements OnInit {
       (list: TableroControl[]) => {
         this.listaSolicitudes = list;
         this.temp = this.listaSolicitudes;
-        console.log(list);
+        // console.log(list);
+        list.map( solicitud => {
+          const solicidudModificada = {
+            folio: solicitud.solicitud.folio,
+            descripcion: solicitud.solicitud.descripcion,
+            empresa: solicitud.solicitud.obra.empresa.nombre,
+            obra: solicitud.solicitud.obra.nombreObra,
+            solicitante: `${solicitud.usuarioSolicito.nombre} ${solicitud.usuarioSolicito.apellidoPaterno} ${solicitud.usuarioSolicito.apellidoMaterno}`,
+            fechaSolicitud: solicitud.fechaSolicitud,
+            fechaValidacion: solicitud.fechaValidacion,
+            fechaOrdenTrabajo: solicitud.fechaOrdenTrabajo,
+            fechaAutorizacionSuministro: solicitud.fechaAutorizacionSuministro,
+            fechaRechazo: solicitud.fechaRechazo
+          };
+
+          this.solicitudesModif.push(solicidudModificada);
+        });
+        this.temp = this.solicitudesModif;
+        console.log(this.solicitudesModif);
       }, 
       error => console.log(error) 
     );
@@ -71,7 +90,7 @@ export class TableroControlComponent implements OnInit {
       this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog', 500);
     }
 
-    this.listaSolicitudes = rows;
+    this.solicitudesModif = rows;
   }
 
   useAlerts(message, action, className, time = 4000){
