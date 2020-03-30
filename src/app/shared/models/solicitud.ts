@@ -2,6 +2,7 @@ import { Cliente } from "./cliente";
 import { Obra } from './obra';
 import { Usuario } from "./usuario";
 import { Empresa } from "./empresa";
+import { User } from "../../../../dist/assets/examples/material/display-value-autocomplete/display-value-autocomplete.component";
 
 // SOLICITUD RECURSO
 
@@ -11,9 +12,7 @@ export interface PeticionSolicitudRecurso {
   desglose: string;
   importeSolicitadoSinFactura: number;
   importeSolicitadoConFactura: number;
-  importeAutorizado?: number;
   comentario?: string
-  comentarioRevision?: string,
   idUsuarioModifico: number;
   idSolicitudRecurso?: number;
   categoriaSolicitudRecurso: any[];
@@ -32,6 +31,7 @@ export interface SolicitudRecurso {
   empresa?: Empresa;
   pk?: number;
   serieFolio?: string;
+  usuarioSolicito?: User;
 }
 
 // SOLICITUD MATERIAL
@@ -100,4 +100,18 @@ export interface TableroControl {
   usuarioSolicito: Usuario;
   tipoSolicitud: string;
   fechaRechazo: string;
+}
+
+export interface OrdenPagoRecursos {
+  solicitud: any[];
+  idUsuarioModifico: number;
+  idUsuarioGeneroOrden: number;
+  fechaRealizo: string;
+}
+
+export interface OrdenPagoMaterial {
+  solicitud: any[];
+  idUsuarioModifico: number;
+  idUsuarioGeneroOrden: number;
+  fechaRealizo: string;
 }

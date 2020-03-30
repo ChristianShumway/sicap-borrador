@@ -1,0 +1,237 @@
+<div fxLayout="row wrap" *ngIf="!solicitud">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <div class="wrap-spiner">
+      <mat-spinner></mat-spinner>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="opcionesPermitidas">
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="solicitud">
+    <div class="form">
+      <!-- <form> -->
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-title class="title-solicitud">
+          <h1>Orden de Trabajo para Maquinaria y Equipo</h1>
+          <span>Grupo Empresarial Cima</span>
+          <p>Area de Transporte y Maquinaria</p>
+        </mat-card-title>
+        <mat-divider></mat-divider>
+
+        <mat-card-content>
+
+          <div class="data-form">
+            <div class="wrap-logo">
+              <img class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{solicitud.obra.empresa.imagen}}" alt="empresa">
+            </div>
+
+            <div class="wrap-data-obra">
+              <div class="tit">Folio de Solicitud:</div>
+              <div class="desc">MAQ-{{solicitud.idSolicitudMaquinariaEquipo}}</div>
+              <div class="tit">Nombre de la empresa:</div>
+              <div class="desc">{{solicitud.obra.nombreObra}}</div>
+              <div class="tit">Obra / Proyecto:</div>
+              <div class="desc">Proyecto</div>
+              <div class="tit">Fecha Generación de Orden:</div>
+              <div class="desc">{{fechaHoy | date}}</div>
+              <div class="tit">Proveedor de Servicio:</div>
+              <div class="desc">
+                <!-- <mat-form-field class="full-width">
+                  <input matInput name="telefono" formControlName="telefonoContacto">
+                </mat-form-field> -->
+                {{solicitud.telefonoContacto}}
+              </div>
+              <div class="tit">Periodo uso de equipo:</div>
+              <div class="desc">{{solicitud.fechaInicialUso | date}} al {{solicitud.fechaFinalUso | date}}</div>
+              <div class="tit">Lugar donde se requiere el servicio:</div>
+              <div class="desc">{{solicitud.lugar}}</div>
+
+            </div>
+          </div>
+
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                {{solicitud.descripcion}}
+              </div>
+            </div>
+          </div>
+
+          <!-- <div class="pb-1">
+            <mat-form-field class="full-width">
+              <mat-label>Servicio de Interes</mat-label>
+              <mat-select formControlName="idServicioInteres" required>
+                <mat-option *ngFor="let interes of objServiciosInteres" [value]="interes.id">
+                  {{interes.nombre}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="solicitudForm.controls['idServicioInteres'].hasError('required') && solicitudForm.controls['idServicioInteres'].touched"
+                class="form-error-msg">
+                Servicio de Interes es un campo requerido
+              </small>
+            </div>
+          </div> -->
+
+          <div class="wrap-detalles-orden">
+
+            <mat-expansion-panel [(expanded)]="panelOpenState">
+              <mat-expansion-panel-header>
+                <mat-panel-title class="title-peticion">
+                  Agregar detalle 
+                </mat-panel-title>
+
+              </mat-expansion-panel-header>
+
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <mat-label>Categoría</mat-label>
+                  <mat-select required [(ngModel)]="vehiculoPropuesto">
+                    <mat-option *ngFor="let vehiculo of listaVehiculosPropuestos" [value]="vehiculo.id">
+                      {{vehiculo.nombre}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="unidad" placeholder="Unidad" [(ngModel)]="unidad">
+                </mat-form-field>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput type="number" name="cantidad" placeholder="Cantidad" [(ngModel)]="cantidad">
+                </mat-form-field>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="precio" placeholder="Precio" [(ngModel)]="precio" mask="separator.2" thousandSeparator=",">
+                </mat-form-field>
+              </div>
+
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput name="importe" placeholder="Importe" [(ngModel)]="importe" mask="separator.2" thousandSeparator=",">
+                </mat-form-field>
+              </div>
+
+
+              <div class="cont-btns">
+                <button mat-raised-button color="primary" (click)="agregarDetalle()" class="btn-accept">Agregar Detalle</button>
+              </div>
+
+            </mat-expansion-panel>
+
+          </div>
+
+          <div class="mat-box-shadow margin-333 cont-tabla" *ngIf="detallesOrden; else noOrden">
+            <div class="wrap-totales">
+              <div class="total">
+                <p>Total Importe:
+                  <span>{{totalImporte | currency}}</span>
+                </p>
+              </div>
+            </div>
+
+            <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="detallesOrden"
+              [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true"
+              [rowHeight]="50">
+
+              <ngx-datatable-column name="No." [flexGrow]="1">
+                <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{ rowIndex + 1 }}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Vehículo Propuesto" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{row?.vehiculoPropuesto.nombre}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Unidad" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{row?.unidad}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{row?.cantidad}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Precio" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{row?.precio | currency}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Importe" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    {{row?.importe | currency}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Acción" [flexGrow]="1">
+                <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+                  <p class="content-center">
+                    <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarVehiculoLista(rowIndex)">
+                      <mat-icon>delete</mat-icon>
+                    </button>
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+
+          </div>
+
+          <ng-template #noOrden>
+            <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+              [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
+              <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+              <ngx-datatable-column name="Vehículo Propuesto" [flexGrow]="1"></ngx-datatable-column>
+              <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+              <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+              <ngx-datatable-column name="Precio" [flexGrow]="1"></ngx-datatable-column>
+              <ngx-datatable-column name="Importe" [flexGrow]="1"></ngx-datatable-column>
+            </ngx-datatable>
+          </ng-template>
+
+
+          <div class="fields-form-adicional" *ngIf="solicitud.observacion">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                {{solicitud.observacion}}
+              </div>
+            </div>
+          </div>
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" class="btn-accept">Modificar Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/lista-solicitudes-validadas'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </div>
+  </mat-card>
+</div>

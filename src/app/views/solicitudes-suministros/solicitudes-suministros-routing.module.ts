@@ -11,6 +11,10 @@ import { ModificarSolicitudRecursoComponent } from './components/modificar-solic
 import { ModificarSolicitudMaterialesComponent } from './components/modificar-solicitud-materiales/modificar-solicitud-materiales.component';
 import { ModificarSolicitudVehiculosComponent } from './components/modificar-solicitud-vehiculos/modificar-solicitud-vehiculos.component';
 import { ValidarSolicitudesComponent } from './components/validar-solicitudes/validar-solicitudes.component';
+import { GenerarOrdenPagoRecursosComponent } from './components/generar-orden-pago-recursos/generar-orden-pago-recursos.component';
+import { GenerarOrdenPagoMaterialesComponent } from './components/generar-orden-pago-materiales/generar-orden-pago-materiales.component';
+import { ListaSolicitudesValidadasComponent } from './components/lista-solicitudes-validadas/lista-solicitudes-validadas.component';
+import { GenerarOrdenPagoVehiculosComponent } from './components/generar-orden-pago-vehiculos/generar-orden-pago-vehiculos.component';
 
 const routes: Routes = [
   {
@@ -62,6 +66,26 @@ const routes: Routes = [
     path:'validar-solicitudes',
     component: ValidarSolicitudesComponent,
     data: {title: 'Lista Solicitudes para Validar', breadcrumb: 'Lista Solicitudes para Validar'}
+  },
+  {
+    path:'lista-solicitudes-validadas',
+    component: ListaSolicitudesValidadasComponent,
+    data: {title: 'Lista de Solicitudes Validadas', breadcrumb: 'Lista de Solicitudes Validadas'}
+  },
+  {
+    path:'orden-pago-recursos/:idSolicitud',
+    component: GenerarOrdenPagoRecursosComponent,
+    data: {title: 'Generar Orden de Trabajo de Recursos', breadcrumb: 'Generar Orden de Trabajo de Recursos'}
+  },
+  {
+    path:'orden-pago-materiales/:idSolicitud',
+    component: GenerarOrdenPagoMaterialesComponent,
+    data: {title: 'Generar Orden de Trabajo de Materiales', breadcrumb: 'Generar Orden de Trabajo de Materiales'}
+  },
+  {
+    path:'orden-pago-vehiculos/:idSolicitud',
+    component: GenerarOrdenPagoVehiculosComponent,
+    data: {title: 'Generar Orden de Trabajo de Vehículos, Equipo y Maquinaria', breadcrumb: 'Generar Orden de Trabajo de Vehículos, Equipo y Maquinaria'}
   },
 ];
 
