@@ -46,7 +46,7 @@
           </div>
 
           <div class="cont-btns">
-            <button mat-raised-button color="primary" class="btn-accept" (click)="generarOrden()">Generar Orden</button>
+            <button mat-raised-button color="primary" class="btn-accept" (click)="modificarOrden()">Modificar Orden</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/lista-solicitudes-validadas'">Cancelar</button>
           </div>
 
@@ -70,15 +70,15 @@
           </p>
         </div>
         <div class="total">
-            <p>Total Importe Autorizado Sin Factura:
-              <span>{{totalImporteValidadoSinFactura | currency}}</span>
-            </p>
-          </div>
-          <div class="total">
-            <p>Total Importe Autorizado Con Factura:
-              <span>{{totalImporteValidadoConFactura | currency}}</span>
-            </p>
-          </div>
+          <p>Total Importe Autorizado Sin Factura:
+            <span>{{totalImporteValidadoSinFactura | currency}}</span>
+          </p>
+        </div>
+        <div class="total">
+          <p>Total Importe Autorizado Con Factura:
+            <span>{{totalImporteValidadoConFactura | currency}}</span>
+          </p>
+        </div>
       </div>
 
       <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="peticionesSolicitadas"
@@ -97,7 +97,7 @@
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
               <!-- {{row?.categoriaSolicitudRecurso.descripcion}} -->
-              {{row?.idCategoriaSolicitudRecurso}}
+              {{row?.detallePeticionSolicitud.idCategoriaSolicitudRecurso}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -105,7 +105,7 @@
         <ngx-datatable-column name="Desglose de la Solicitud" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
-              {{row?.desglose}}
+              {{row?.detallePeticionSolicitud.desglose}}
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -122,47 +122,39 @@
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-validada">
               <p class="content-center">
-                {{row?.importeSolicitadoSinFactura | currency}}
+                {{row?.detallePeticionSolicitud.importeSolicitadoSinFactura | currency}}
               </p>
-              <input 
-              matInput 
-              mask="separator.2" thousandSeparator=","
-              [(ngModel)]="row.importeValidadoSinFactura"
-              (blur) = "getTotales()"
+              <input matInput mask="separator.2" thousandSeparator="," [(ngModel)]="row.detallePeticionOrden.importeSolicitadoSinFactura" (blur)="getTotales()"
               />
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>
-        
+
         <!-- <ngx-datatable-column name="Importe Solicitado C/Factura" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
               {{row?.importeSolicitadoConFactura | currency}}
             </p>
           </ng-template>
-        </!--> 
+        </!-->
 
         <ngx-datatable-column name="Importe Validado C/Factura" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-validada">
               <p class="content-center">
-                {{row?.importeSolicitadoConFactura | currency}}
+                {{row?.detallePeticionSolicitud.importeSolicitadoConFactura | currency}}
               </p>
-              <input 
-              matInput 
-              mask="separator.2" thousandSeparator=","
-              [(ngModel)]="row.importeValidadoConFactura" 
-              (blur) = "getTotales()"
+              <input matInput mask="separator.2" thousandSeparator="," [(ngModel)]="row.detallePeticionOrden.importeSolicitadoConFactura" (blur)="getTotales()"
               />
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>
-        
+
 
         <ngx-datatable-column name="Comentario Revisión" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="comentario">
-              <textarea matInput [(ngModel)]="row.comentarioRevision" ></textarea>
+              <textarea matInput [(ngModel)]="row.detallePeticionOrden.comentario"></textarea>
             </mat-form-field>
           </ng-template>
         </ngx-datatable-column>

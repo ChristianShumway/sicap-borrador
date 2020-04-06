@@ -7,7 +7,7 @@
   </div>
 </div>
 
-<div fxLayout="row wrap" *ngIf="!listaSolicitudes">
+<div fxLayout="row wrap" *ngIf="!listaSolicitudes.length">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
       <mat-spinner></mat-spinner>
@@ -15,7 +15,7 @@
   </div>
 </div>
 
-<div fxLayout="row wrap" *ngIf="listaSolicitudes">
+<div fxLayout="row wrap" *ngIf="listaSolicitudes.length">
   <div class="wrap-title" fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="col-folio">FOLIO</div>
     <div class="col-fecha">FECHA SOLICITO</div>
@@ -36,16 +36,80 @@
         <span>{{solicitud.solicitud.descripcion}}</span>
       </div>
       <div class="col-action">
-        <!-- <button mat-icon-button color="primary" (click)="openDialogRequest(solicitud)">
-          <mat-icon>more_horiz</mat-icon>
-        </button> -->
+        
         <button 
+        mat-icon-button color="primary" 
+        *ngIf="solicitud.idTipo === 1 && solicitud.idUsuarioOrdenTrabajo === 0 " 
+        [routerLink]="['/solicitudes-suministros/orden-pago-recursos', solicitud.solicitud.idSolicitudRecurso]" >
+          <mat-icon>description</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="accent" 
+        *ngIf="solicitud.idTipo === 1 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-recursos', solicitud.idOrdenTrabajo]" >
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="warn" 
+        *ngIf="solicitud.idTipo === 1 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        (click) = "openDialogDelete(1, solicitud.idOrdenTrabajo)" >
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <!-- MATERIALES -->
+        <button 
+        mat-icon-button color="primary" 
+        *ngIf="solicitud.idTipo === 2 && solicitud.idUsuarioOrdenTrabajo === 0 " 
+        [routerLink]="['/solicitudes-suministros/orden-pago-materiales', solicitud.solicitud.idSolicitudMaterial]" >
+          <mat-icon>description</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="accent" 
+        *ngIf="solicitud.idTipo === 2 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-materiales', solicitud.idOrdenTrabajo]" >
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="warn" 
+        *ngIf="solicitud.idTipo === 2 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        (click) = "openDialogDelete(2, solicitud.idOrdenTrabajo)" >
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <!-- MAQUINARIA -->
+
+        <button 
+        mat-icon-button color="primary" 
+        *ngIf="solicitud.idTipo === 3 && solicitud.idUsuarioOrdenTrabajo === 0 " 
+        [routerLink]="['/solicitudes-suministros/orden-pago-vehiculos', solicitud.solicitud.idSolicitudMaquinariaEquipo]" >
+          <mat-icon>description</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="accent" 
+        *ngIf="solicitud.idTipo === 3 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-vehiculos', solicitud.idOrdenTrabajo]" >
+          <mat-icon>edit</mat-icon>
+        </button>
+
+        <button 
+        mat-icon-button color="warn" 
+        *ngIf="solicitud.idTipo === 3 && solicitud.idUsuarioOrdenTrabajo !== 0 " 
+        (click) = "openDialogDelete(3, solicitud.idOrdenTrabajo)" >
+          <mat-icon>delete</mat-icon>
+        </button>
+
+        <!-- <button 
         *ngIf="solicitud.idTipo === 1" 
         mat-raised-button color="primary" 
         [routerLink]="['/solicitudes-suministros/orden-pago-recursos', solicitud.solicitud.idSolicitudRecurso]">
           Orden de trabajo
-        </button>
-        <button 
+        </button> -->
+        <!-- <button 
         *ngIf="solicitud.idTipo === 2" 
         mat-raised-button color="primary" 
         [routerLink]="['/solicitudes-suministros/orden-pago-materiales', solicitud.solicitud.idSolicitudMaterial]">
@@ -56,7 +120,7 @@
         mat-raised-button color="primary" 
         [routerLink]="['/solicitudes-suministros/orden-pago-vehiculos', solicitud.solicitud.idSolicitudMaquinariaEquipo]">
           Orden de trabajo
-        </button>
+        </button> -->
       </div>
     </div>
   </div>

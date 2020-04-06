@@ -15,6 +15,9 @@ import { GenerarOrdenPagoRecursosComponent } from './components/generar-orden-pa
 import { GenerarOrdenPagoMaterialesComponent } from './components/generar-orden-pago-materiales/generar-orden-pago-materiales.component';
 import { ListaSolicitudesValidadasComponent } from './components/lista-solicitudes-validadas/lista-solicitudes-validadas.component';
 import { GenerarOrdenPagoVehiculosComponent } from './components/generar-orden-pago-vehiculos/generar-orden-pago-vehiculos.component';
+import { ModificarOrdenTrabajoRecursosComponent } from './components/modificar-orden-trabajo-recursos/modificar-orden-trabajo-recursos.component';
+import { ModificarOrdenTrabajoMaterialesComponent } from './components/modificar-orden-trabajo-materiales/modificar-orden-trabajo-materiales.component';
+import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-orden-trabajo-vehiculos/modificar-orden-trabajo-vehiculos.component';
 
 const routes: Routes = [
   {
@@ -86,6 +89,21 @@ const routes: Routes = [
     path:'orden-pago-vehiculos/:idSolicitud',
     component: GenerarOrdenPagoVehiculosComponent,
     data: {title: 'Generar Orden de Trabajo de Vehículos, Equipo y Maquinaria', breadcrumb: 'Generar Orden de Trabajo de Vehículos, Equipo y Maquinaria'}
+  },
+  {
+    path:'modificar-orden-trabajo-recursos/:idOrdenTrabajo',
+    component: ModificarOrdenTrabajoRecursosComponent,
+    data: {title: 'Modificar Orden Trabajo Recursos', breadcrumb: 'Modificar Orden Trabajo Recursos'}
+  },
+  {
+    path:'modificar-orden-trabajo-materiales/:idOrdenTrabajo',
+    component: ModificarOrdenTrabajoMaterialesComponent,
+    data: {title: 'Modificar Orden Trabajo Materiales', breadcrumb: 'Modificar Orden Trabajo Materiales'}
+  },
+  {
+    path:'modificar-orden-trabajo-vehiculos/:idOrdenTrabajo',
+    component: ModificarOrdenTrabajoVehiculosComponent,
+    data: {title: 'Modificar Orden Trabajo Vehículos', breadcrumb: 'Modificar Orden Trabajo Vehículos'}
   },
 ];
 

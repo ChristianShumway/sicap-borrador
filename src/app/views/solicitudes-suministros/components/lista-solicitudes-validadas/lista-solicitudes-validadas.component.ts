@@ -4,6 +4,7 @@ import { AutenticacionService } from '../../../../shared/services/autenticacion.
 import { MatDialog, MatSnackBar } from '@angular/material';
 import { ModalDatosSolicitudComponent } from '../modal-datos-solicitud/modal-datos-solicitud.component';
 import { DatePipe } from '@angular/common';
+import { ModalEliminarComponent } from '../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 @Component({
   selector: 'app-lista-solicitudes-validadas',
@@ -12,7 +13,7 @@ import { DatePipe } from '@angular/common';
 })
 export class ListaSolicitudesValidadasComponent implements OnInit {
 
-  listaSolicitudes: any[];
+  listaSolicitudes: any[] = [];
   solicitudesMostrar: any[];
   idUsuarioLogeado;
   fechaHoy = new Date();
@@ -32,55 +33,69 @@ export class ListaSolicitudesValidadasComponent implements OnInit {
   }
 
   getSolicitudesParaValidar() {
-    this.solicitudesService.getSolicitudesParaValidar().subscribe(
+    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 1).subscribe(
       solicitudes => {
-        console.log(solicitudes);
-        this.listaSolicitudes = solicitudes;
+        if(solicitudes.length) {
+          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+        }
+        console.log(this.listaSolicitudes);
+      }, 
+      error => console.log(error)
+    );
+
+    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 2).subscribe(
+      solicitudes => {
+        if(solicitudes.length) {
+          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+        }
+        console.log(this.listaSolicitudes);
+      }, 
+      error => console.log(error)
+    );
+
+    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 3).subscribe(
+      solicitudes => {
+        if(solicitudes.length) {
+          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+        }
+        console.log(this.listaSolicitudes);
       }, 
       error => console.log(error)
     );
   }
 
-  openDialogRequest(solicitud): void {
-    // console.log(solicitud);
-    const dialogRef = this.dialog.open(ModalDatosSolicitudComponent, {
-      width: '460px',
-      panelClass: 'custom-dialog-container-user',
-      data: solicitud
+  // openDialogDelete(idOrdenTrabajo) {
+  //   console.log(idOrdenTrabajo);
+  // }
+
+  openDialoAlertDelete(tipoOrden, idOrdenTrabajo) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      // data: idObra
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
-      const {opcion} = result[0];
-      const format = 'yyyy/MM/dd';
-      const hoy = this.pipe.transform(this.fechaHoy, format);
-      let datosValidar: any;
+      if(result){
 
-      if(opcion === 'validar'){
-        datosValidar = {
-          idUsuarioValido: this.idUsuarioLogeado,
-          fechaValido: hoy,
-          idBitacoraSolicitud: solicitud.idBitacoraSolicitud,
-          idTipo: solicitud.idTipo,
-          tipo: solicitud.tipo
-        };
+        // this.solicitudesService.deleteOrdenTrabajo(idOrdenTrabajo, tipoOrden).subscribe(
+        //   response => {
+        //     if(response.estatus === '05'){
+        //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
+        //       this.getSolicitudesParaValidar();
+        //     } else {
+        //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
+        //     }
+        //   },
+        //     error => {
+        //     this.useAlerts(error.message, ' ', 'error-dialog');
+        //     console.log(error);
+        //   }
+        // );
       }
-
-      console.log(datosValidar);
-      this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.getSolicitudesParaValidar();
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
-      
     });
   }
+
 
   useAlerts(message, action, className, time=4000) {
     this.snackBar.open(message, action, {

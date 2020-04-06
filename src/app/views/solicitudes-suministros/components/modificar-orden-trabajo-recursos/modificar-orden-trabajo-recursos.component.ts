@@ -14,16 +14,15 @@ import { Obra } from './../../../../shared/models/obra';
 import { DetallesOrdenTrabajoRecurso, OrdenTrabajoRecurso } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
 
-
 @Component({
-  selector: 'app-generar-orden-pago-recursos',
-  templateUrl: './generar-orden-pago-recursos.component.html',
-  styleUrls: ['./generar-orden-pago-recursos.component.scss']
+  selector: 'app-modificar-orden-trabajo-recursos',
+  templateUrl: './modificar-orden-trabajo-recursos.component.html',
+  styleUrls: ['./modificar-orden-trabajo-recursos.component.scss']
 })
-export class GenerarOrdenPagoRecursosComponent implements OnInit {
+export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  idSolicitud: number;
+  idOrdenTrabajo: number;
   solicitud: any;
   obra: Obra;
   solicitudForm: FormGroup;
@@ -51,12 +50,13 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( (params: Params) => this.idSolicitud = parseInt(params.idSolicitud));
+    this.activatedRoute.params.subscribe( (params: Params) => this.idOrdenTrabajo = parseInt(params.idOrdenTrabajo));
     this.getSolicitud();
+    console.log(this.idOrdenTrabajo);
   }
   
   getSolicitud() {
-    this.solicitudesService.getSolicitudParaOrdenTrabajo(1, this.idSolicitud).subscribe(
+    this.solicitudesService.getOrdenTrabajoById(1, this.idOrdenTrabajo).subscribe(
       (solicitud: any) => {
         console.log(solicitud);
         this.solicitud = solicitud;
@@ -78,21 +78,28 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
   
   
   modificarEstructuraPeticion(){
-    this.solicitud.solicitud.detSolicitudRecurso.map( peticion => {
-      
-      const peticionModificada = {
-        ... peticion,
-        importeValidadoSinFactura: 0,
-        importeValidadoConFactura: 0,
-        comentarioRevision: ''
-      }
+    let arregloDetallesPeticion = {};
+    this.solicitud.solicitud.detSolicitudRecurso.map( peticionSolicitud => {
 
-      this.peticionesSolicitadas.push(peticionModificada);
+      this.solicitud.detOrdenTrabajoRecurso.map( peticionOrden => {
+
+        if(peticionSolicitud.idCategoriaSolicitudRecurso === peticionOrden.idCategoriaSolicitudRecurso) {
+          arregloDetallesPeticion = {
+            detallePeticionSolicitud: { ...peticionSolicitud},
+            detallePeticionOrden: { ...peticionOrden},
+          };
+        }
+
+      });
+
+      this.peticionesSolicitadas.push(arregloDetallesPeticion);
+      // console.log(this.peticionesSolicitadas);
     });
 
     this.getTotales();
 
     console.log(this.peticionesSolicitadas);
+    // console.log(JSON.stringify(this.peticionesSolicitadas));
   }
 
   getTotales() {
@@ -101,44 +108,44 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
     this.totalImporteValidadoSinFactura = 0;
     this.totalImporteValidadoConFactura = 0;
     this.peticionesSolicitadas.map( (peticion: any) => {
-      this.totalImporteSolicitadoSinFactura += peticion.importeSolicitadoSinFactura; 
-      this.totalImporteSolicitadoConFactura += peticion.importeSolicitadoConFactura; 
-      this.totalImporteValidadoSinFactura += parseFloat(peticion.importeValidadoSinFactura); 
-      this.totalImporteValidadoConFactura += parseFloat(peticion.importeValidadoConFactura); 
+      this.totalImporteSolicitadoSinFactura += peticion.detallePeticionSolicitud.importeSolicitadoSinFactura; 
+      this.totalImporteSolicitadoConFactura += peticion.detallePeticionSolicitud.importeSolicitadoConFactura; 
+      this.totalImporteValidadoSinFactura += parseFloat(peticion.detallePeticionOrden.importeSolicitadoSinFactura); 
+      this.totalImporteValidadoConFactura += parseFloat(peticion.detallePeticionOrden.importeSolicitadoConFactura); 
     });
   }
 
-  generarOrden(){
+  modificarOrden(){
     console.log(this.peticionesSolicitadas);
-    let detallesOrdenTrabajoRecurso = [];
+    let detallesOrdenTrabajoRecurso: DetallesOrdenTrabajoRecurso[] = [];
     const format = 'yyyy/MM/dd';
     const hoy = this.pipe.transform(this.fechaHoy, format);
 
-    this.peticionesSolicitadas.map( peticion => {
-      const peticionParaOrdenTrabajo = {
-        idDetOrdenTrabajoRecurso: 0,
-        idOrdenTrabajoRecurso: 0,
-        idCategoriaSolicitudRecurso: peticion.idCategoriaSolicitudRecurso,
-        importeSolicitadoSinFactura: parseFloat(peticion.importeValidadoSinFactura),
-        importeSolicitadoConFactura: parseFloat(peticion.importeValidadoConFactura),
-        comentario: peticion.comentarioRevision,
+    this.peticionesSolicitadas.map( (peticion) => {
+      const peticionCompleta =  {
+        ...peticion.detallePeticionOrden,
+        importeSolicitadoSinFactura: parseFloat(peticion.detallePeticionOrden.importeSolicitadoSinFactura),
+        importeSolicitadoConFactura: parseFloat(peticion.detallePeticionOrden.importeSolicitadoConFactura),
         idUsuarioModifico: this.idUsuarioLogeado,
-        pk: 1
+
       };
 
-      detallesOrdenTrabajoRecurso.push(peticionParaOrdenTrabajo);
+      detallesOrdenTrabajoRecurso.push(peticionCompleta);
     });
 
     const ordenTrabajo: OrdenTrabajoRecurso = {
-      idSolicitudRecurso: this.solicitud.solicitud.idSolicitudRecurso,
+      idOrdenTrabajoRecurso: this.solicitud.idOrdenTrabajoRecurso,
+      idSolicitudRecurso: this.solicitud.idSolicitudRecurso,
+      folio: this.solicitud.folio,
       idUsuarioModifico: this.idUsuarioLogeado,
       detOrdenTrabajoRecurso: detallesOrdenTrabajoRecurso,
-      idSolicitud: this.solicitud.solicitud.idSolicitudRecurso,
+      idSolicitud: this.solicitud.idSolicitudRecurso
     };
 
+    console.log(JSON.stringify(ordenTrabajo));
     console.log(ordenTrabajo);
 
-    this.solicitudesService.createOrdenTrabajoRecursos(ordenTrabajo).subscribe(
+    this.solicitudesService.updateOrdenTrabajo(ordenTrabajo).subscribe(
       response => {
         if(response.estatus === '05'){
           this.router.navigate(['/solicitudes-suministros/lista-solicitudes-validadas']);

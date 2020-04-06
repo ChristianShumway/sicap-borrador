@@ -13,18 +13,18 @@ import { SolicitudMaterial, MaterialParaSolicitud } from './../../.././../shared
 import { Usuario } from '../../../../shared/models/usuario';
 
 @Component({
-  selector: 'app-generar-orden-pago-materiales',
-  templateUrl: './generar-orden-pago-materiales.component.html',
-  styleUrls: ['./generar-orden-pago-materiales.component.scss']
+  selector: 'app-modificar-orden-trabajo-materiales',
+  templateUrl: './modificar-orden-trabajo-materiales.component.html',
+  styleUrls: ['./modificar-orden-trabajo-materiales.component.scss']
 })
-export class GenerarOrdenPagoMaterialesComponent implements OnInit {
+export class ModificarOrdenTrabajoMaterialesComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  idSolicitud: number;
-  solicitud: SolicitudMaterial;
+  idOrdenTrabajo: number;
+  ordenTrabajo: any;
   solicitudForm: FormGroup;
-  listaMaterial: MaterialParaSolicitud[] = [];
-  listaTemp: MaterialParaSolicitud[];
+  listaMaterial: any[] = [];
+  listaTemp: any[];
   fechaHoy = new Date();
   fechaRequiere;
   pipe = new DatePipe('en-US');
@@ -44,15 +44,15 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( (params: Params) => this.idSolicitud = parseInt(params.idSolicitud));
+    this.activatedRoute.params.subscribe( (params: Params) => this.idOrdenTrabajo = parseInt(params.idOrdenTrabajo));
     this.getSolicitud();
   }
 
   getSolicitud() {
-    this.solicitudesService.getSolicitudMaterialesById(2, this.idSolicitud).subscribe(
-      (solicitud: SolicitudMaterial) => {
-        console.log(solicitud);
-        this.solicitud = solicitud;
+    this.solicitudesService.getOrdenTrabajoById(2, this.idOrdenTrabajo).subscribe(
+      (ordenTrabajo: any) => {
+        console.log(ordenTrabajo);
+        this.ordenTrabajo = ordenTrabajo;
         this.validateAccessValidation();
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
@@ -62,30 +62,17 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
   validateAccessValidation() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.opcionesPermitidas = true;
-    this.fechaRequiere = new Date(this.solicitud.fechaRequiere);
+    this.fechaRequiere = new Date(this.ordenTrabajo.fechaRequiere);
     this.fechaRequiere.setDate(this.fechaRequiere.getDate());
     this.getValidations();
     this.getCatalogos();
-    this.solicitudForm.patchValue(this.solicitud);
+    this.solicitudForm.patchValue(this.ordenTrabajo);
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
-    
-    this.solicitud.detSolicitudMaterial.map( material => {
-      if (material.cantidadSolictada > 0) {
-        const materialModificado = {
-          ...material,
-          proveedor: '',
-          precio: 0,
-          importe: 0
-        };
 
-        this.listaMaterial.push(materialModificado);
-        console.log(this.listaMaterial);
-      }
-    });
-    
+    console.log( this.ordenTrabajo.detOrdentrabajoMaterial)
+    this.listaMaterial = this.ordenTrabajo.detOrdentrabajoMaterial;
     this.listaTemp = this.listaMaterial;
-    // this.listaMaterial = this.solicitud.detSolicitudMaterial;
    
 
   }
@@ -119,27 +106,16 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
     //   );
   }
 
-  public onFechaRequiereMaterial(event): void {
-    this.fechaRequiere = event.value;
-  }
-
-  generarOrden(){
+  modificarOrden(){
     const detOrdenTrabajoMateriales: any[] = [];
     const format = 'yyyy/MM/dd';
     const hoy = this.pipe.transform(this.fechaHoy, format);
     
     this.listaMaterial.map( (material: any) => {
       const materialOrden = {
-        idDetOrdenTrabajoMaterial: 0,
-        idOrdenTrabajoMaterial: 0,
-        idMaterial: material.idMaterial,
-        idObra: material.idObra,
-        descripcion: material.descripcion,
-        unidad: material.unidad,
-        precioUnitarioMaterial: 0,
+        ...material,
         proveedor: material.proveedor,
-        cantidad: material.cantidadSolictada,
-        precioUnitario: parseFloat(material.precio),
+        precioUnitario: parseFloat(material.precioUnitario),
         importe: parseFloat(material.importe),
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModifico: hoy,
@@ -147,18 +123,21 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
       
       detOrdenTrabajoMateriales.push(materialOrden);
     });
-    // console.log(detOrdenTrabajoMateriales);
+
+    //console.log(detOrdenTrabajoMateriales);
 
     const ordenTrabajo  = {
-      idSolicitudMaterial: this.solicitud.idSolicitudMaterial,
+      idOrdenTrabajoMaterial: this.ordenTrabajo.idOrdenTrabajoMaterial,
+      idSolicitudMaterial: this.ordenTrabajo.idSolicitudMaterial,
+      folio: this.ordenTrabajo.folio,
       idUsuarioModifico: this.idUsuarioLogeado,
-      idSolicitud: this.solicitud.idSolicitudMaterial,
+      idSolicitud: this.ordenTrabajo.idSolicitudMaterial,
       detOrdentrabajoMaterial: detOrdenTrabajoMateriales
     }
 
     console.log(ordenTrabajo);
 
-    this.solicitudesService.createOrdenTrabajoMateriales(ordenTrabajo).subscribe(
+    this.solicitudesService.updateOrdenTrabajoMateriales(ordenTrabajo).subscribe(
       response => {
         if(response.estatus === '05'){
           this.router.navigate(['/solicitudes-suministros/lista-solicitudes-validadas']);

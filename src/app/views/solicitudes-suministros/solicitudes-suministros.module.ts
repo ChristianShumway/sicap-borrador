@@ -29,6 +29,9 @@ import { GenerarOrdenPagoRecursosComponent } from './components/generar-orden-pa
 import { GenerarOrdenPagoMaterialesComponent } from './components/generar-orden-pago-materiales/generar-orden-pago-materiales.component';
 import { GenerarOrdenPagoVehiculosComponent } from './components/generar-orden-pago-vehiculos/generar-orden-pago-vehiculos.component';
 import { ListaSolicitudesValidadasComponent } from './components/lista-solicitudes-validadas/lista-solicitudes-validadas.component';
+import { ModificarOrdenTrabajoRecursosComponent } from './components/modificar-orden-trabajo-recursos/modificar-orden-trabajo-recursos.component';
+import { ModificarOrdenTrabajoMaterialesComponent } from './components/modificar-orden-trabajo-materiales/modificar-orden-trabajo-materiales.component';
+import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-orden-trabajo-vehiculos/modificar-orden-trabajo-vehiculos.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -49,6 +52,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     GenerarOrdenPagoMaterialesComponent,
     GenerarOrdenPagoVehiculosComponent,
     ListaSolicitudesValidadasComponent,
+    ModificarOrdenTrabajoRecursosComponent,
+    ModificarOrdenTrabajoMaterialesComponent,
+    ModificarOrdenTrabajoVehiculosComponent,
   ],
   imports: [
     CommonModule,

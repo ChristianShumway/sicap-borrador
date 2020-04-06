@@ -26,7 +26,7 @@ form{
       text-transform: uppercase;
     }
   }
-  
+
   .data-form {
     margin: 10px 0 20px;
     display: grid;
@@ -44,6 +44,7 @@ form{
       display: grid;
       grid-template-columns: auto 1fr;
       grid-gap: 10px;
+      align-items: center;
       .tit{
         font-weight: 500;
       text-transform: uppercase;
@@ -69,6 +70,7 @@ form{
       text-transform: uppercase;
     }
   }
+  
 }
 
 .cont-btns{
@@ -80,66 +82,9 @@ form{
   }
 }
 
-.wrap-peticiones{
-  width: 100%;
-  margin: 10px 0 0;
-  border-top: 1px solid lightgray;
-  padding: 20px 0 0;
-  position: relative;
-  &::before{
-    // content: 'Agregar Petición';
-    position: absolute;
-    top: -25px;
-    color: #4caf50;
-    font-size: 12px;
-    font-weight: 400;
-    text-transform: uppercase;
-  }
-  .title-peticion {
-    color: #4caf50;
-    text-transform: uppercase;
-    font-size: 12px;
-    font-weight: 400;
-  }
-}
-
-.wrap-totales{
-  padding: 20px 10px 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  .total {
-    p {
-      font-weight: 500;
-    }
-    span {
-      color: #4caf50;
-    }
-  }
-}
-
 .content-center{
-  height: 42px;
   text-align: center;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.content-right{
-  height: 42px;
-  text-align: center;
-  display: flex;
-  justify-content: right;
-  align-items: center;
-}
-
-// .content-center{
-//   text-align: center;
-//   margin: 16px 0 0 0 !important;
-// }
-
-.comentario{
-  width: 100%;
+  margin: 16px 0 0 0 !important;
 }
 
 .cantidad-seleccionada{
@@ -160,28 +105,10 @@ form{
   width: 80%;
   margin: 0 auto;
   display: block;
-  // border: 1px solid red;
 }
 
-.content-center{
-  text-align: center;
-  margin: 16px 0 0 0 !important;
-}
-
-.cantidad-validada{
-  .content-center{
-    margin: 0 !important;
-  }
-}
-
-.mat-btn-delete{
-  background: #ffc107;
-  color: white;
-}
-
-
-.mat-card{
-  margin-bottom: 25px;
+.comentario{
+  width: 100%;
 }
 
 @media screen and (max-width:768px) {

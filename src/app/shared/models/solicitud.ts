@@ -48,6 +48,9 @@ export interface MaterialParaSolicitud {
   idUsuarioModifico?: number;
   idSolicitudMaterial?: number;
   pk?: number;
+  proveedor?: string;
+  precio?: number;
+  importe?: number;
 } 
 
 export interface SolicitudMaterial {
@@ -102,11 +105,26 @@ export interface TableroControl {
   fechaRechazo: string;
 }
 
-export interface OrdenPagoRecursos {
-  solicitud: any[];
+// ORDENES DE TRABAJO
+
+export interface DetallesOrdenTrabajoRecurso {
+  idDetOrdenTrabajoRecurso?: number;
+  idOrdenTrabajoRecurso: number;
+  idCategoriaSolicitudRecurso: number;
+  importeSolicitadoSinFactura: number;
+  importeSolicitadoConFactura: number;
+  comentario: string;
   idUsuarioModifico: number;
-  idUsuarioGeneroOrden: number;
-  fechaRealizo: string;
+  pk?: number;
+}
+
+export interface OrdenTrabajoRecurso {
+  idOrdenTrabajoRecurso?: number;
+  idSolicitudRecurso: number;
+  folio?: string;
+  idUsuarioModifico: number;
+  detOrdenTrabajoRecurso: DetallesOrdenTrabajoRecurso[];
+  idSolicitud: number;
 }
 
 export interface OrdenPagoMaterial {

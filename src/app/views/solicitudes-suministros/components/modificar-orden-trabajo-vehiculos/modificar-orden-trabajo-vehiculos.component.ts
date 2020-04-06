@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { DatePipe } from '@angular/common';
 
 import { environment } from './../../../../../environments/environment';
@@ -10,17 +10,18 @@ import { AutenticacionService } from '../../../../shared/services/autenticacion.
 import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
+import { ModalEliminarComponent } from '../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 @Component({
-  selector: 'app-generar-orden-pago-vehiculos',
-  templateUrl: './generar-orden-pago-vehiculos.component.html',
-  styleUrls: ['./generar-orden-pago-vehiculos.component.scss']
+  selector: 'app-modificar-orden-trabajo-vehiculos',
+  templateUrl: './modificar-orden-trabajo-vehiculos.component.html',
+  styleUrls: ['./modificar-orden-trabajo-vehiculos.component.scss']
 })
-export class GenerarOrdenPagoVehiculosComponent implements OnInit {
+export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  idSolicitud: number;
-  solicitud: SolicitudVehiculo;
+  idOrdenTrabajo: number;
+  ordenTrabajo: any;
   solicitudForm: FormGroup;
 
   fechaHoy = new Date();
@@ -47,21 +48,22 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
-    this.activatedRoute.params.subscribe( (params: Params) => this.idSolicitud = parseInt(params.idSolicitud));
-    this.getSolicitud();
+    this.activatedRoute.params.subscribe( (params: Params) => this.idOrdenTrabajo = parseInt(params.idOrdenTrabajo));
+    this.getOrdenTrabajo();
   }
 
-  getSolicitud() {
-    this.solicitudesService.getSolicitudMaquinariaEquipoById(3, this.idSolicitud).subscribe(
-      (solicitud: SolicitudVehiculo) => {
-        console.log(solicitud);
-        this.solicitud = solicitud;
+  getOrdenTrabajo() {
+    this.solicitudesService.getOrdenTrabajoById(3, this.idOrdenTrabajo).subscribe(
+      (ordenTrabajo: any) => {
+        console.log(ordenTrabajo);
+        this.ordenTrabajo = ordenTrabajo;
         this.validateAccessValidation();
-        this.solicitudesService.getVehiculosByObra(this.solicitud.idObra).subscribe(
+        this.solicitudesService.getVehiculosByObra(this.ordenTrabajo.solicitud.idObra).subscribe(
           vehiculos => this.listaVehiculosPropuestos = vehiculos,
           error => console.log(error)
         );
@@ -75,6 +77,9 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     this.opcionesPermitidas = true;
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.detallesOrden = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
+    this.getTotales();
+    console.log(this.detallesOrden);
   }
 
   agregarDetalle(){
@@ -93,9 +98,9 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
       let tipoVehiculo = this.listaVehiculosPropuestos.filter( vehiculo => vehiculo.idVehiculo === this.vehiculoPropuesto);
       const orden = {
         idDetOrdenTrabajoMaquinariaEquipo: 0,
-        idOrdenTrabajoMaquinariaEquipo: 0,
+        idOrdenTrabajoMaquinariaEquipo: this.ordenTrabajo.idOrdenTrabajoMaquinariaEquipo,
         idVehiculo: this.vehiculoPropuesto,
-        idObra: this.solicitud.idObra,
+        idObra: this.ordenTrabajo.solicitud.idObra,
         cantidad: this.cantidad,
         precioUnitario: parseFloat(this.precio),
         importe:  parseFloat(this.importe),
@@ -104,10 +109,11 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
         descripcion: "1231",
         vehiculo: tipoVehiculo[0]
       };
+
+      console.log(orden);
       
       this.detallesOrden.push(orden);
       this.detallesOrden = [...this.detallesOrden];
-      // this.countPeticion += 1;
       this.vehiculoPropuesto = 0;
       this.unidad = '';
       this.cantidad = '';
@@ -116,7 +122,6 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
       this.useAlerts('Detalle agregado a la orden correctamente', ' ', 'success-dialog');
       this.getTotales();
       this.panelOpenState = !this.panelOpenState;
-      console.log(this.detallesOrden);
     }
   }
 
@@ -127,14 +132,47 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     });
   }
 
-  eliminarVehiculoLista(index) {
-    this.detallesOrden.splice(index, 1);
-    this.detallesOrden = [...this.detallesOrden];
-    this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
-    this.getTotales();
+
+  eliminarVehiculoLista(index, idDetalle) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      // data: idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(idDetalle === 0 ){
+          this.detallesOrden.splice(index, 1);
+          this.detallesOrden = [...this.detallesOrden];
+          this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
+          this.getTotales();
+        } else {
+          console.log(idDetalle);
+          this.solicitudesService.deleteDetalleOrdenTrabajo(idDetalle, 3).subscribe(
+            response => {
+              if(response.estatus === '05'){
+                this.useAlerts(response.mensaje, ' ', 'success-dialog');
+                // this.validateAccessValidation();
+                this.detallesOrden.splice(index, 1);
+                this.detallesOrden = [...this.detallesOrden];
+                this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
+                this.getTotales();
+              } else {
+                this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              }
+            },
+              error => {
+              this.useAlerts(error.message, ' ', 'error-dialog');
+              console.log(error);
+            }
+          );
+        }
+      }
+    });
   }
 
-  crearOrden() {
+  modificarOrden() {
     if(!this.detallesOrden.length){
       this.useAlerts( 'Debes Aregar un detalle a la orden de trabajo', ' ', 'error-dialog');
     } else {
@@ -142,17 +180,20 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
       const hoy = this.pipe.transform(this.fechaHoy, format);
       
       const ordenTrabajo = {
-        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
+        idOrdenTrabajoMaquinariaEquipo: this.ordenTrabajo.idOrdenTrabajoMaquinariaEquipo,
+        idSolicitudMaquinariaEquipo: this.ordenTrabajo.idSolicitudMaquinariaEquipo,
+        folio: this.ordenTrabajo.folio,
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModicio: hoy,
         detOrdenTrabajoMaquinariaEquipo: this.detallesOrden,
         observaciones: "dasads update",
-        idSolicitud: this.solicitud.idSolicitudMaquinariaEquipo,
-        serieFolio: "MAQ"
+        idSolicitud: this.ordenTrabajo.idSolicitudMaquinariaEquipo,
+        serieFolio: this.ordenTrabajo.serieFolio,
       };
 
       console.log(ordenTrabajo);
-      this.solicitudesService.createOrdenTrabajoVehiculos(ordenTrabajo).subscribe(
+      console.log(JSON.stringify(ordenTrabajo));
+      this.solicitudesService.updateOrdenTrabajoVehiculos(ordenTrabajo).subscribe(
         response => {
           if(response.estatus === '05'){
             this.router.navigate(['/solicitudes-suministros/lista-solicitudes-validadas']);

@@ -99,4 +99,65 @@ export class SolicitudesService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setRequestValidation`, JSON.stringify(solicitud), { headers: headerss});
   }
+
+  getSolicitudesValidadas(idUsuario: number, idEstado: number, idTipo: number) {
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${idEstado}/${idTipo}`);
+  }
+
+
+  // ORDEN TRABAJO RECURSOS
+  getSolicitudParaOrdenTrabajo(tipoSolicitud: number, idSolicitud: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEmptyOrdenWorked/${tipoSolicitud}/${idSolicitud}`);
+  }
+  
+  createOrdenTrabajoRecursos(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/createWokedOrdenResource`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
+
+  
+  updateOrdenTrabajo(orden: Partial<any>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateWokedOrdenResource`, JSON.stringify(orden), { headers: headerss});
+  }
+
+  // ORDEN TRABAJO MATERIALES
+  createOrdenTrabajoMateriales(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/createWokedOrdenMaterial`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
+  updateOrdenTrabajoMateriales(orden: Partial<any>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateWokedOrdenMaterial`, JSON.stringify(orden), { headers: headerss});
+  }
+
+  //ORDEN TRABAJO VEHICULOS
+
+  createOrdenTrabajoVehiculos(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/createWokedOrdenEngineryAndTeam`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
+  updateOrdenTrabajoVehiculos(orden: Partial<any>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateWokedOrdenEngineryAndTeam`, JSON.stringify(orden), { headers: headerss});
+  }
+
+  // [10:15 a. m., 6/4/2020] Coy: deletedetOrder/{idDetWorkOrden}/{typeWorkOrden}
+
+  deleteDetalleOrdenTrabajo(idDetOrdenTrabajo: number, tipoOrden: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/deletedetOrder/${idDetOrdenTrabajo}/${tipoOrden}`);
+  }
+
+  getOrdenTrabajoById(tipoSolicitud: number, idOrdenTrabajo: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkedOrdenById/${tipoSolicitud}/${idOrdenTrabajo}`);
+  }
+
+  getVehiculosByObra(idObra: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getVehiculosByObra/${idObra}`);
+  }
+  // getVehiculosByObra/{idObra}
+
 }
