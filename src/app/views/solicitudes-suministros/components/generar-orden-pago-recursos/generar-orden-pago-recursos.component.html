@@ -40,14 +40,14 @@
           <div class="fields-form">
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
-                <div class="desc">{{solicitud.solicitud.descripcion}}</div>
+                <div class="desc">{{solicitud.solicitud.observacionesAdicionales}}</div>
               </div>
             </div>
           </div>
 
           <div class="cont-btns">
             <button mat-raised-button color="primary" class="btn-accept" (click)="generarOrden()">Generar Orden</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/lista-solicitudes-validadas'">Cancelar</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
           </div>
 
         </mat-card-content>
@@ -121,9 +121,6 @@
         <ngx-datatable-column name="Importe Validado S/Factura" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-validada">
-              <p class="content-center">
-                {{row?.importeSolicitadoSinFactura | currency}}
-              </p>
               <input 
               matInput 
               mask="separator.2" thousandSeparator=","
@@ -131,6 +128,9 @@
               (blur) = "getTotales()"
               />
             </mat-form-field>
+            <p class="content-centers">
+              {{row?.importeSolicitadoSinFactura | currency}}
+            </p>
           </ng-template>
         </ngx-datatable-column>
         
@@ -145,9 +145,6 @@
         <ngx-datatable-column name="Importe Validado C/Factura" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-validada">
-              <p class="content-center">
-                {{row?.importeSolicitadoConFactura | currency}}
-              </p>
               <input 
               matInput 
               mask="separator.2" thousandSeparator=","
@@ -155,6 +152,9 @@
               (blur) = "getTotales()"
               />
             </mat-form-field>
+            <p class="content-centers">
+              {{row?.importeSolicitadoConFactura | currency}}
+            </p>
           </ng-template>
         </ngx-datatable-column>
         

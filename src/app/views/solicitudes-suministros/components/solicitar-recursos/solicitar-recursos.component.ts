@@ -111,7 +111,8 @@ export class SolicitarRecursosComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      descripcion: new FormControl('', Validators.required),
+      descripcion: new FormControl(''),
+      observacionesAdicionales: new FormControl('', Validators.required),
     });
   }
 

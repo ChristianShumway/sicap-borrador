@@ -17,6 +17,7 @@ import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudMaterial, MaterialParaSolicitud } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
+import { MaterialService } from '../../../../shared/services/material.service';
 
 @Component({
   selector: 'app-solicitar-materiales-herramientas',
@@ -44,6 +45,11 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   tooltip = 'solicitud-materiales';
   opcionesPermitidas = true;
 
+  descripcionMaterial: string;
+  unidadMaterial: string;
+  cantidadMaterial: number = 0;
+  panelOpenState: boolean = false;
+
   constructor(
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
@@ -53,7 +59,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
+    private catalogoMaterialesService: MaterialService,
   ) { }
 
   ngOnInit() {
@@ -106,7 +113,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(new Date(), Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      descripcion: new FormControl(''),
+      observacionesAdicionales: new FormControl('', Validators.required),
     });
   }
   
@@ -117,6 +125,7 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     );
     this.solicitudesService.getListMaterialForResource(this.idObra).subscribe(
       (materiales: MaterialParaSolicitud[]) => {
+        console.log(materiales);
         this.listaMaterial = materiales;
         this.listaTemp = this.listaMaterial;
       },
@@ -125,18 +134,60 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
         error => this.useAlerts( error.message, ' ', 'error-dialog');
       }
     );
-    // this.usuariosService.getUsuariosByIdProfile(2).subscribe(
-    //   ( usuarios: Usuario[]) => this.listaUsuariosAdministracionCentral = usuarios,
-    //   error => console.log(error)
-    //  );
-    //  this.usuariosService.getUsuariosByIdProfile(1).subscribe(
-    //    ( usuarios: Usuario[]) => this.listaUsuariosJefeInmediato = usuarios,
-    //    error => console.log(error)
-    //   );
   }
 
   public onFechaRequiereMaterial(event): void {
     this.fechaRequiere = event.value;
+  }
+
+  agregarMaterialExtra(){
+    if(!this.descripcionMaterial){
+      this.useAlerts('Ingresa la descripción del material a agregar', ' ', 'error-dialog');
+    } else if (!this.unidadMaterial){
+      this.useAlerts('Ingresa la unidad del material a agregar', ' ', 'error-dialog');
+    } else if (!this.cantidadMaterial){
+      this.useAlerts('Ingresa la cantidad del material a agregar', ' ', 'error-dialog');
+    } else {
+      let ultimoIdMaterial;
+      this.listaMaterial.map( (material: MaterialParaSolicitud) => {
+        ultimoIdMaterial = Math.max(material.idMaterial);
+      });
+      console.log(ultimoIdMaterial);
+
+      const materialExtra =  {
+        idMaterial: ultimoIdMaterial + 1,
+        noMaterial: 99999,
+        descripcion: this.descripcionMaterial,
+        unidad: this.unidadMaterial,
+        cantidad: this.cantidadMaterial,
+        precioUnitario: 0,
+        importe: 0,
+        tipo: 2,
+        idObra: this.idObra,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        // comentario: this.comentarioMaterial,
+        // idDetSolicitudMateral: 0,
+        // idSolicitudMaterial: 0,
+      };
+
+      console.log(materialExtra);
+
+      this.catalogoMaterialesService.createMaterialExtraordinario(materialExtra).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getCatalogos();
+            this.descripcionMaterial = '';
+            this.unidadMaterial = '';
+            this.cantidadMaterial = 0;
+            this.panelOpenState = !this.panelOpenState;
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }  
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   crearSolicitud(){

@@ -22,6 +22,7 @@ export class ModalDatosSolicitudComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log(this.data);
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     if(this.data.idTipo===1){

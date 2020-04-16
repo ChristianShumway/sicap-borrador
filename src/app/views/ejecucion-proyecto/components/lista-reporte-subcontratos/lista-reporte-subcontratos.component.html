@@ -50,6 +50,11 @@
               <p class="tit-observacion">Observación:</p>
               <p>{{reporte.observacion}}</p>
             </div>
+            <div class="wrap-total" *ngFor = "let tot of total">
+              <p class="total-p" *ngIf="tot.idReporte === reporte.idReporteSubContrato">
+                  El importe total  de los conceptos agregados al reporte de subcontrato es de<b>{{tot.totalMateriales | currency}}</b> 
+              </p>
+            </div>
           </div>
           <mat-accordion>
             <mat-expansion-panel>

@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -13,6 +13,7 @@ import { SolicitudesService } from '../../../../shared/services/solicitudes.serv
 import { Obra } from './../../../../shared/models/obra';
 import { SolicitudRecurso, PeticionSolicitudRecurso } from './../../.././../shared/models/solicitud';
 import { Usuario } from '../../../../shared/models/usuario';
+import { ModalEliminarComponent } from '../../../alta-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 @Component({
   selector: 'app-modificar-solicitud-recurso',
@@ -54,7 +55,8 @@ export class ModificarSolicitudRecursoComponent implements OnInit {
     private obraService: ObraService,
     private snackBar: MatSnackBar,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -100,7 +102,8 @@ export class ModificarSolicitudRecursoComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      descripcion: new FormControl(this.solicitud.descripcion, Validators.required),
+      descripcion: new FormControl(''),
+      observacionesAdicionales: new FormControl(this.solicitud.observacionesAdicionales, Validators.required),
     });
   }
 
@@ -194,20 +197,37 @@ export class ModificarSolicitudRecursoComponent implements OnInit {
   }
 
   eliminarObservacion(index, idPeticion){
-    this.solicitudesService.deletePeticion(idPeticion, 1).subscribe(
-      response => {
-        if(response.estatus === '05'){
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      // data: idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(!idPeticion){
           this.peticionesSolicitadas.splice(index, 1);
           this.peticionesSolicitadas = [...this.peticionesSolicitadas];
-          this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          // this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+          this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
           this.getTotales();
         } else {
-          this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          this.solicitudesService.deletePeticion(idPeticion, 1).subscribe(
+            response => {
+              if(response.estatus === '05'){
+                this.peticionesSolicitadas.splice(index, 1);
+                this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+                this.useAlerts(response.mensaje, ' ', 'success-dialog');
+                // this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+                this.getTotales();
+              } else {
+                this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              }
+            },
+            error => this.useAlerts(error.message, ' ', 'error-dialog')
+          );
         }
-      },
-      error => this.useAlerts(error.message, ' ', 'error-dialog')
-    );
+      }
+    });
   }
 
   getTotales() {

@@ -43,6 +43,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
+  total:any[] = [];
 
   nombreComponente = 'reporte-subcontratos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -118,11 +119,17 @@ export class ListaReporteSubcontratosComponent implements OnInit {
 
   getReporte(){
     this.reporteSubcontratoService.getReportSubContractdByObra(this.idObra).subscribe(
-      (list: ReporteSubcontrato[]) => {
-        this.reporte = list;
+      (reportes: ReporteSubcontrato[]) => {
+        this.reporte = reportes;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        // console.log(this.reporte);
+        // console.log(reportes);
+
+        reportes.map( reporte => {
+          const total = reporte.viewReportSubContract.reduce((acc,obj) => acc + (obj.importeSubContrato),0);
+          const art = {idReporte: reporte.idReporteSubContrato, totalMateriales: total,};
+          this.total.push(art);          
+        });
       }
     );
   }

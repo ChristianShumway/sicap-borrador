@@ -27,9 +27,9 @@
 
             <div class="wrap-data-obra">
               <div class="tit">Nombre de la empresa:</div>
-              <div class="desc">{{obra.nombreObra}}</div>
+              <div class="desc">{{obra.empresa.nombre}}</div>
               <div class="tit">Obra / Proyecto:</div>
-              <div class="desc">Proyecto</div>
+              <div class="desc">{{obra.nombreObra}}</div>
               <div class="tit">Fecha de la Solicitud:</div>
               <div class="desc">{{fechaHoy | date}}</div> 
             </div>
@@ -39,12 +39,12 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                  <textarea matInput placeholder="Observaciones de la Solicitud" formControlName="observacionesAdicionales"></textarea>
                 </mat-form-field>
                 <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
                   class="form-error-msg">
-                    Descripción de la solicitud es un campo requerido
+                    Observación de la solicitud es un campo requerido
                   </small>
                 </div>
               </div>

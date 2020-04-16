@@ -16,8 +16,8 @@
   }
   .card-info{
     display: grid;
-    grid-template-columns: 5fr 1fr;
-    grid-gap: 0 5px;
+    grid-template-columns: .6fr 1fr .8fr 2fr 2.5fr;
+    grid-gap: 0 15px;
     align-items: center;
     margin-bottom: 0px;
     padding: 5px 10px;
@@ -33,23 +33,44 @@
       padding-bottom: 5px;
       text-transform: uppercase;
       color: gray;
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
     .col-tit-actions{
       text-align: center;
       padding-bottom: 5px;
       color: gray;
       text-transform: uppercase;
+      display: grid;
+      grid-template-columns: repeat(8, auto);
+      grid-gap: 5px;
     }
+
     .col-description{
-  
+      width: 100%;
+      overflow: hidden;
+      white-space: nowrap;
+      text-overflow: ellipsis;
     }
+
     .col-actions{
       display: grid;
-      grid-template-columns: repeat(3, auto);
+      grid-template-columns: repeat(8, auto);
       grid-gap: 5px;
       button{
         background-origin: padding-box;
       }
+    }
+  }
+}
+
+@media screen and (max-width:1440px){
+  .solicitud-card{
+    overflow-x: scroll;
+    .mat-card-cont{
+      width: 1440px;
     }
   }
 }

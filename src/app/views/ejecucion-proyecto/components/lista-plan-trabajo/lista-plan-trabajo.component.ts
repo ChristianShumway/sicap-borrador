@@ -38,6 +38,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
+  total:any[] = [];
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -113,10 +114,17 @@ export class ListaPlanTrabajoComponent implements OnInit {
 
   getWorkPlans(){
     this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
-      (list: PlanTrabajo[]) => {
-        this.workPlans = list;
+      (planes: PlanTrabajo[]) => {
+        this.workPlans = planes;
         this.workPlansTemp =  this.workPlans;
         this.dataSource.data = this.workPlans;
+
+        planes.map( plan => {
+          const total = plan.viewConceptWorkPlan.reduce((acc,obj) => acc + (obj.importePlaneado),0);
+          const art = {idPlan: plan.idPlanTrabajo, totalMateriales: total,};
+          this.total.push(art);          
+        });
+        // console.log(this.total);
       }
     );
   }

@@ -125,7 +125,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       fechaInicialUso: new FormControl(new Date(), Validators.required),
       fechaFinalUso: new FormControl(new Date(), Validators.required),
       lugar: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      descripcion: new FormControl(''),
       idServicioInteres: new FormControl('', Validators.required),
       observacion: new FormControl(''),
     });

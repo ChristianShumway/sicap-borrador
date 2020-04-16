@@ -46,6 +46,11 @@
               <p class="tit-observacion">Observación:</p>
               <p>{{plan.observacion}}</p>
             </div>
+            <div class="wrap-total" *ngFor = "let tot of total">
+              <p class="total-p" *ngIf="tot.idPlan === plan.idPlanTrabajo">
+                El importe total planeado de los conceptos agregados al plan de trabajo es de <b>{{tot.totalMateriales | currency}}</b> 
+              </p>
+            </div>
           </div>
 
           <mat-accordion>

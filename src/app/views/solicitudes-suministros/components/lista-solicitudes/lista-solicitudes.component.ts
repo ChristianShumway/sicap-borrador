@@ -6,6 +6,9 @@ import { SolicitudesService } from '../../../../shared/services/solicitudes.serv
 
 import { SolicitudRecurso, SolicitudVehiculo, SolicitudMaterial } from './../../.././../shared/models/solicitud';
 import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
+import { ModalDatosSolicitudComponent } from '../modal-datos-solicitud/modal-datos-solicitud.component';
+import { DatePipe } from '@angular/common';
+import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 
 @Component({
   selector: 'app-lista-solicitudes',
@@ -16,9 +19,11 @@ export class ListaSolicitudesComponent implements OnInit {
 
   idUsuarioLogeado: any;
   solicitudes: any[];
-  solicitudesRecursos: SolicitudRecurso[] = [];
-  solicitudesMateriales: SolicitudMaterial[] = [];
-  solicitudesVehiculos: SolicitudVehiculo[] = [];
+  solicitudesRecursos: SolicitudRecurso[];
+  solicitudesMateriales: SolicitudMaterial[];
+  solicitudesVehiculos: SolicitudVehiculo[];
+  fechaHoy = new Date();
+  pipe = new DatePipe('en-US');
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -33,19 +38,24 @@ export class ListaSolicitudesComponent implements OnInit {
   }
 
   getResources(){
-    this.solicitudesService.getResourcesByUser(this.idUsuarioLogeado).subscribe(
+    this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 1).subscribe(
       solicitudes => {
-        this.solicitudes = solicitudes;
-        // console.log(solicitudes);
-        solicitudes.map( solicitud => {
-          if(solicitud.idTipo === 1){
-            this.solicitudesRecursos = solicitud.solicitud;
-          } else if (solicitud.idTipo === 2){
-            this.solicitudesMateriales = solicitud.solicitud;
-          }  else if (solicitud.idTipo === 3){
-            this.solicitudesVehiculos = solicitud.solicitud;
-          }
-        });
+        this.solicitudesRecursos = solicitudes;
+        console.log(this.solicitudesRecursos);
+      },
+      error => console.log(error)
+    );
+    this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 2).subscribe(
+      solicitudes => {
+        this.solicitudesMateriales = solicitudes;
+        console.log(this.solicitudesMateriales);
+      },
+      error => console.log(error)
+    );
+    this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 3).subscribe(
+      solicitudes => {
+        this.solicitudesVehiculos = solicitudes;
+        console.log(this.solicitudesVehiculos);
       },
       error => console.log(error)
     );
@@ -76,6 +86,88 @@ export class ListaSolicitudesComponent implements OnInit {
           }
         );
       }
+    });
+  }
+
+  openDialogRequest(solicitud): void {
+    // console.log(solicitud);
+    const dialogRef = this.dialog.open(ModalDatosSolicitudComponent, {
+      width: '460px',
+      panelClass: 'custom-dialog-container-user',
+      data: solicitud
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(result);
+      const {opcion} = result[0];
+      const format = 'yyyy/MM/dd';
+      const hoy = this.pipe.transform(this.fechaHoy, format);
+      let datosValidar: any;
+
+      if(opcion === 'validar'){
+        datosValidar = {
+          idUsuarioValido: this.idUsuarioLogeado,
+          fechaValido: hoy,
+          idBitacoraSolicitud: solicitud.idBitacoraSolicitud,
+          idTipo: solicitud.idTipo,
+          tipo: solicitud.tipo
+        };
+      }
+
+      console.log(datosValidar);
+      this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getResources();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
+      
+    });
+  }
+
+  openDialogAuthorize(idOrdenTrabajo, idTipoSolicitud): void{
+    // console.log(idOrdenTrabajo);
+    const dialogRef = this.dialog.open(ModalAutorizarOrdenTrabajoComponent, {
+      width: '460px',
+      panelClass: 'custom-dialog-container-user',
+      data: { idOrdenTrabajo,idTipoSolicitud }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      // console.log(result);
+      const {opcion} = result[0];
+      const format = 'yyyy/MM/dd';
+      const hoy = this.pipe.transform(this.fechaHoy, format);
+      let datosValidar: any;
+
+      // if(opcion === 'validar'){
+      //   datosValidar = {
+      //     idUsuarioValido: this.idUsuarioLogeado,
+      //     fechaValido: hoy,
+      //     idBitacoraSolicitud: solicitud.idBitacoraSolicitud,
+      //     idTipo: solicitud.idTipo,
+      //     tipo: solicitud.tipo
+      //   };
+      // }
+
+      // console.log(datosValidar);
+      // this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
+      //   response => {
+      //     if(response.estatus === '05'){
+      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
+      //       this.getResources();
+      //     } else {
+      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
+      //     }
+      //   },
+      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
+      // );
+      
     });
   }
 

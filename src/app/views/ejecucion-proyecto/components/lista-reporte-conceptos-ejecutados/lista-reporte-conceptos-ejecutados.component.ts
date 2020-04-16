@@ -43,6 +43,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
+  total:any[] = [];
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -119,11 +120,17 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
 
   getReporte(){
     this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
-      (list: ReporteConceptosEjecutados[]) => {
-        this.reporte = list;
+      (reportes: ReporteConceptosEjecutados[]) => {
+        this.reporte = reportes;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        // console.log(list);
+        // console.log(reportes);
+
+        reportes.map( reporte => {
+          const total = reporte.viewConceptExecuted.reduce((acc,obj) => acc + (obj.importeEjecutado),0);
+          const art = {idReporte: reporte.idConceptoEjecutado, totalMateriales: total,};
+          this.total.push(art);          
+        });
       }
     );
   }

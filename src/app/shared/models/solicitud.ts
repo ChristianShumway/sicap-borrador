@@ -22,7 +22,8 @@ export interface SolicitudRecurso {
   idSolicitudRecurso?: number;
   idEmpresa: number;
   idObra: number;
-  descripcion: string;
+  descripcion?: string;
+  observacionesAdicionales?: string;
   obra?: Obra;
   idUsuarioModifico: number;
   idUsuarioSolicito: number;
@@ -57,7 +58,8 @@ export interface SolicitudMaterial {
   idSolicitudMaterial?: number;
   idEmpresa: number;
   idObra: number;
-  descripcion: string;
+  descripcion?: string;
+  observacionesAdicionales?: string;
   fechaRequiere: string;
   lugarRecepcion: string;
   idUsuarioSolicito: number;
@@ -85,7 +87,7 @@ export interface SolicitudVehiculo {
   idUsuarioModifico: number;
   fechaModificacion?: number;
   obra?: Obra; 
-  observacion?: string;
+  observacion: string;
   idServicioInteres: number;
   servicioInteres?: any;
   serieFolio?: string;

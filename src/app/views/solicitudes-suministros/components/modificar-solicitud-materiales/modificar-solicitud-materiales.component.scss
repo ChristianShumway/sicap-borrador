@@ -64,7 +64,7 @@ form{
     position: relative;
     margin-bottom: 20px;
     &:before {
-      content: 'Descripción de la Solicitud:';
+      content: 'Observaciones Adicionales:';
       position: absolute;
       top: -25px;
       text-transform: uppercase;
@@ -79,6 +79,29 @@ form{
     &:first-child {
       margin-right: 15px;
     }
+  }
+}
+
+.wrap-peticiones{
+  width: 100%;
+  margin: 10px 0 0;
+  border-top: 1px solid lightgray;
+  padding: 20px 0 0;
+  position: relative;
+  &::before{
+    // content: 'Agregar Petición';
+    position: absolute;
+    top: -25px;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .title-peticion {
+    color: #4caf50;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
   }
 }
 

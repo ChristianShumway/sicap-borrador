@@ -9,84 +9,96 @@
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
   <form [formGroup]="notaBitacoraForm" (submit)="reportarAvance()" *ngIf = "opcionesPermitidas">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
-      <div class="info-obra">
-        <h1>{{obra.noContrato}}</h1>
-        <p>{{obra.nombreObra}}</p>
-      </div>
 
-      <div class="info-bitacora">
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
-          </mat-form-field>
-        </div>
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)">
-          </mat-form-field>
-        </div>
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
-          </mat-form-field>
-        </div>
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
-              (dateChange)="onFechaInicio($event)">
-            <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
-            <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
-          </mat-form-field>
-          <div class="validaciones">
-            <small *ngIf="notaBitacoraForm.controls['fechaInicio'].hasError('required') && notaBitacoraForm.controls['fechaInicio'].touched"
-              class="form-error-msg">
-              Fecha Inicio del plan de trabajo es un campo requerido
-            </small>
-          </div>
-          <div class="validaciones">
-            <small *ngIf="error.isError" class="form-error-msg">
-              {{ error.errorMessage }}
-            </small>
-          </div>
-        </div>
-
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
-            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
-            <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
-          </mat-form-field>
-          <div class="validaciones">
-            <small *ngIf="notaBitacoraForm.controls['fechaFinal'].hasError('required') && notaBitacoraForm.controls['fechaFinal'].touched"
-              class="form-error-msg">
-              Fecha Final del plan de trabajo es un campo requerido
-            </small>
-          </div>
-        </div>
-
-      </div>
-
-      <!-- <h5>Dirección: {{address}}</h5> -->
-
-      <!-- <div class="form-group">
-            <label>Enter address</label>
-            <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
-              autocapitalize="off" spellcheck="off" type="text" #search>
-          </div> -->
-      <mat-accordion>
-        <mat-expansion-panel>
+      <div class="wrap-colapsable">
+        <mat-expansion-panel [(expanded)]="panelOpenState">
           <mat-expansion-panel-header>
-            <mat-panel-title>
-              Dirección: {{address}}
-            </mat-panel-title>
+            <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
           </mat-expansion-panel-header>
-          <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
-            [mapTypeControl]='true' >
-            <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
-            </agm-marker>
-          </agm-map>
+  
+          <div class="info-obra">
+            <!-- <h1>{{obra.noContrato}}</h1> -->
+            <p>{{obra.nombreObra}}</p>
+          </div>
+    
+          <div class="info-bitacora">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)">
+              </mat-form-field>
+            </div>
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Longitud" name="longitud" formControlName="longitud" (keyup)="obtenerUbicacionCoord($event)">
+              </mat-form-field>
+            </div>
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
+                  (dateChange)="onFechaInicio($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+              </mat-form-field>
+              <div class="validaciones">
+                <small *ngIf="notaBitacoraForm.controls['fechaInicio'].hasError('required') && notaBitacoraForm.controls['fechaInicio'].touched"
+                  class="form-error-msg">
+                  Fecha Inicio del plan de trabajo es un campo requerido
+                </small>
+              </div>
+              <div class="validaciones">
+                <small *ngIf="error.isError" class="form-error-msg">
+                  {{ error.errorMessage }}
+                </small>
+              </div>
+            </div>
+    
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
+              </mat-form-field>
+              <div class="validaciones">
+                <small *ngIf="notaBitacoraForm.controls['fechaFinal'].hasError('required') && notaBitacoraForm.controls['fechaFinal'].touched"
+                  class="form-error-msg">
+                  Fecha Final del plan de trabajo es un campo requerido
+                </small>
+              </div>
+            </div>
+    
+          </div>
+    
+          <!-- <h5>Dirección: {{address}}</h5> -->
+    
+          <!-- <div class="form-group">
+                <label>Enter address</label>
+                <input type="text" class="form-control" (keydown.enter)="$event.preventDefault()" placeholder="Search Nearest Location" autocorrect="off"
+                  autocapitalize="off" spellcheck="off" type="text" #search>
+              </div> -->
+          <mat-accordion>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Dirección: {{address}}
+                </mat-panel-title>
+              </mat-expansion-panel-header>
+              <agm-map [latitude]="latitude" [longitude]="longitude" [zoom]="zoom" [scrollwheel]="null" [gestureHandling]="'cooperative'"
+                [mapTypeControl]='true' >
+                <agm-marker [latitude]="latitude" [longitude]="longitude" [markerDraggable]="true" (dragEnd)="markerDragEnd($event)">
+                </agm-marker>
+              </agm-map>
+            </mat-expansion-panel>
+          </mat-accordion>
+  
         </mat-expansion-panel>
-      </mat-accordion>
+        
+      </div>
+
       
 
       <div class="wrap-button">
@@ -156,7 +168,7 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
+        <ngx-datatable-column name="Cantidad Ejecutada" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada">
               <input matInput type="number" min="0" [(ngModel)]="row.cantidadEjecutada">
@@ -164,7 +176,7 @@
           </ng-template>
         </ngx-datatable-column>
 
-        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
+        <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
               {{ row?.cantidadEjecutada * row?.precioUnitario | currency }}
@@ -183,8 +195,8 @@
         <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
         <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
-        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1"></ngx-datatable-column>
-        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Ejecutada" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1"></ngx-datatable-column>
       </ngx-datatable>
     </ng-template>
 

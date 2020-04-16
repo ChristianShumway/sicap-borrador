@@ -11,11 +11,13 @@
   </div>
 </div>
 <div class="wrap-datos-solicitud" *ngIf="data.idTipo===1">
+  <p class="inf">No. Folio: <span>{{data.solicitud.serieFolio}}-{{data.idSolicitud}}</span></p> 
   <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicito | date}}</span></p>  
+  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
   <div class="col-descripcion">
-    <p>Descripción:</p>
+    <p>Observaciones Adicionales:</p>
     <div class="desc">
-      <span>{{data.solicitud.descripcion}}</span>
+      <span>{{data.solicitud.observacionesAdicionales}}</span>
     </div>
   </div>
 </div>
@@ -35,14 +37,16 @@
 </div>
 
 <div class="wrap-datos-solicitud" *ngIf="data.idTipo===2">
+  <p class="inf">No. Folio: <span>MAT-{{data.idSolicitud}}</span></p> 
   <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicito | date}}</span></p>
   <p class="inf">Fecha Requiere en Obra: <span>{{data.solicitud.fechaRequiere | date}}</span></p>
   <p class="inf">Lugar de Recepción del Material: <span>{{data.solicitud.lugarRecepcion}}</span></p>
+  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
 
   <div class="col-descripcion">
-    <p>Descripción:</p>
+    <p>Observaciones Adicionales:</p>
     <div class="desc">
-      <span>{{data.solicitud.descripcion}}</span>
+      <span>{{data.solicitud.observacionesAdicionales}}</span>
     </div>
   </div>
 </div>
@@ -68,15 +72,16 @@
   <p class="inf">Correo Electrónico: <span>{{data.solicitud.correoElectronico}}</span></p>
   <p class="inf">Periodo de Uso del Equipo: <span>{{data.solicitud.fechaInicialUso | date}} al {{data.solicitud.fechaFinalUso | date}} </span></p>
   <p class="inf">Lugar donde se Requiere: <span>{{data.solicitud.lugar}}</span></p>
+  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
 
-  <div class="col-descripcion">
+  <!-- <div class="col-descripcion">
     <p>Descripción:</p>
     <div class="desc">
       <span>{{data.solicitud.descripcion}}</span>
     </div>
-  </div>
+  </div> -->
   <div class="col-descripcion" *ngIf="data.solicitud.observacion">
-    <p>Observación:</p>
+    <p>Observaciones Adicionales:</p>
     <div class="desc">
       <span>{{data.solicitud.observacion}}</span>
     </div>

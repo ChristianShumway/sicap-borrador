@@ -46,14 +46,14 @@
           <div class="fields-form">
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
-                <div class="desc">{{ordenTrabajo.solicitud.descripcion}}</div>
+                <div class="desc">{{ordenTrabajo.solicitud.observacionesAdicionales}}</div>
               </div>
             </div>
           </div>
 
           <div class="cont-btns">
             <button mat-raised-button color="primary"  (click)= "modificarOrden()" class="btn-accept">Modificar Orden</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/lista-solicitudes-validadas'">Cancelar</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
           </div>
 
         </mat-card-content>

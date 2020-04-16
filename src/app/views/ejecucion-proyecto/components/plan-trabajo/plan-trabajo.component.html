@@ -9,52 +9,63 @@
 <div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
   <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
-      <div class="info-obra">
-        <h1>{{obra.noContrato}}</h1>
-        <p>{{obra.nombreObra}}</p>
+      
+      <div class="wrap-colapsable">
+        <mat-expansion-panel [(expanded)]="panelOpenState">
+          <mat-expansion-panel-header>
+            <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
+          </mat-expansion-panel-header>
+  
+          <div class="info-obra">
+            <!-- <h1>{{obra.noContrato}}</h1> -->
+            <p>{{obra.nombreObra}}</p>
+          </div>
+    
+          <div class="info-bitacora">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
+              </mat-form-field>
+            </div>
+    
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
+                  (dateChange)="onFechaInicio($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+              </mat-form-field>
+              <div class="validaciones">
+                <small *ngIf="planTrabajoForm.controls['fechaInicio'].hasError('required') && planTrabajoForm.controls['fechaInicio'].touched" class="form-error-msg">
+                  Fecha Inicio del plan de trabajo es un campo requerido
+                </small>
+              </div>
+              <div class="validaciones">
+                <small *ngIf="error.isError" class="form-error-msg">
+                  {{ error.errorMessage }}
+                </small>
+              </div>
+            </div>
+    
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin"
+                  (dateChange)="onFechaFinal($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
+              </mat-form-field>
+              <div class="validaciones">
+                <small *ngIf="planTrabajoForm.controls['fechaFinal'].hasError('required') && planTrabajoForm.controls['fechaFinal'].touched" class="form-error-msg">
+                  Fecha Final del plan de trabajo es un campo requerido
+                </small>
+              </div>
+            </div>
+    
+          </div>
+
+        </mat-expansion-panel>
       </div>
 
-      <div class="info-bitacora">
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
-          </mat-form-field>
-        </div>
-
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
-              (dateChange)="onFechaInicio($event)">
-            <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
-            <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
-          </mat-form-field>
-          <div class="validaciones">
-            <small *ngIf="planTrabajoForm.controls['fechaInicio'].hasError('required') && planTrabajoForm.controls['fechaInicio'].touched" class="form-error-msg">
-              Fecha Inicio del plan de trabajo es un campo requerido
-            </small>
-          </div>
-          <div class="validaciones">
-            <small *ngIf="error.isError" class="form-error-msg">
-              {{ error.errorMessage }}
-            </small>
-          </div>
-        </div>
-
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin"
-              (dateChange)="onFechaFinal($event)">
-            <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
-            <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
-          </mat-form-field>
-          <div class="validaciones">
-            <small *ngIf="planTrabajoForm.controls['fechaFinal'].hasError('required') && planTrabajoForm.controls['fechaFinal'].touched" class="form-error-msg">
-              Fecha Final del plan de trabajo es un campo requerido
-            </small>
-          </div>
-        </div>
-
-      </div>
 
       <div class="wrap-button">
         <button *ngIf="catalogo.length" mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit" class="btn-accept">Registrar</button>

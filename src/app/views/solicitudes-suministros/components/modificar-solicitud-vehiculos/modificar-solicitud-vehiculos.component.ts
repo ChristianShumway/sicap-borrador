@@ -107,7 +107,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
       fechaInicialUso: new FormControl(this.fechaInicio, Validators.required),
       fechaFinalUso: new FormControl(this.fechaFinal, Validators.required),
       lugar: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      descripcion: new FormControl(''),
       idServicioInteres: new FormControl('', Validators.required),
       observacion: new FormControl(''),
     });

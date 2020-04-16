@@ -78,7 +78,16 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequestMaterialAndTeam`, JSON.stringify(solicitud), { headers: headerss});
   }
 
+  addAdditionalMaterial(material): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/addAdditionalMaterial`, JSON.stringify(material), { headers: headerss});
+  }
+
   // GENERAL
+  // /getWorkOrden/{idUserio}/{etapa}/{tipoSolicitud}"
+  getSolicitudesPorUsuario(idUsuario: number, etapa: number, tipoSolicitud: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${etapa}/${tipoSolicitud}`);
+  }
   showStepByStepInResource(idSolicitud: number): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEstatusRequest/${idSolicitud}`);
   }
@@ -145,8 +154,6 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateWokedOrdenEngineryAndTeam`, JSON.stringify(orden), { headers: headerss});
   }
 
-  // [10:15 a. m., 6/4/2020] Coy: deletedetOrder/{idDetWorkOrden}/{typeWorkOrden}
-
   deleteDetalleOrdenTrabajo(idDetOrdenTrabajo: number, tipoOrden: number): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/deletedetOrder/${idDetOrdenTrabajo}/${tipoOrden}`);
   }
@@ -159,5 +166,9 @@ export class SolicitudesService {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getVehiculosByObra/${idObra}`);
   }
   // getVehiculosByObra/{idObra}
+
+  // getOrdenTrabajoById(tipoSolicitud: number, idOrdenTrabajo: number): Observable<any>{
+  //   return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkedOrdenById/${tipoSolicitud}/${idOrdenTrabajo}`);
+  // }
 
 }

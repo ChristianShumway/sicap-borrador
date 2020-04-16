@@ -18,6 +18,7 @@ import { GenerarOrdenPagoVehiculosComponent } from './components/generar-orden-p
 import { ModificarOrdenTrabajoRecursosComponent } from './components/modificar-orden-trabajo-recursos/modificar-orden-trabajo-recursos.component';
 import { ModificarOrdenTrabajoMaterialesComponent } from './components/modificar-orden-trabajo-materiales/modificar-orden-trabajo-materiales.component';
 import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-orden-trabajo-vehiculos/modificar-orden-trabajo-vehiculos.component';
+import { ValidarOrdenesTrabajoComponent } from './components/validar-ordenes-trabajo/validar-ordenes-trabajo.component';
 
 const routes: Routes = [
   {
@@ -104,6 +105,11 @@ const routes: Routes = [
     path:'modificar-orden-trabajo-vehiculos/:idOrdenTrabajo',
     component: ModificarOrdenTrabajoVehiculosComponent,
     data: {title: 'Modificar Orden Trabajo Vehículos', breadcrumb: 'Modificar Orden Trabajo Vehículos'}
+  },
+  {
+    path:'autorizar-ordenes-trabajo',
+    component: ValidarOrdenesTrabajoComponent,
+    data: {title: 'Lista Ordenes de Trabajo por Autorizar', breadcrumb: 'Lista Ordenes de Trabajo por Autorizar'}
   },
 ];
 

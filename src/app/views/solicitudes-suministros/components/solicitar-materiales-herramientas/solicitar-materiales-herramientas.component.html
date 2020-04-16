@@ -68,12 +68,12 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Detalles generales de la Solicitud" formControlName="descripcion"></textarea>
+                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacionesAdicionales"></textarea>
                 </mat-form-field>
                 <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['descripcion'].hasError('required') && solicitudForm.controls['descripcion'].touched"
+                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
                   class="form-error-msg">
-                    Descripción de la solicitud es un campo requerido
+                    Observación de la solicitud es un campo requerido
                   </small>
                 </div>
               </div>
@@ -89,6 +89,40 @@
       </div>
     </form>
 
+    <div class="wrap-peticiones">
+      <mat-expansion-panel [(expanded)]="panelOpenState">
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-peticion">
+            Agregar Material
+          </mat-panel-title>
+          
+        </mat-expansion-panel-header>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Descripción"  [(ngModel)]="descripcionMaterial"></textarea>
+          </mat-form-field>
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput name="importe-solicitado-sin-factura"  placeholder="Unidad" [(ngModel)]="unidadMaterial">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput type="number" name="importe-solicitado-sin-factura"  placeholder="Cantidad Solicitada" [(ngModel)]="cantidadMaterial">
+          </mat-form-field>
+        </div>
+  
+        <div class="cont-btns">
+          <button mat-raised-button color="primary" (click)="agregarMaterialExtra()" class="btn-accept">Agregar Material</button>
+        </div>
+      
+      </mat-expansion-panel>   
+    </div>
+
   </mat-card>
 
   <!-- FILTRO -->
@@ -100,13 +134,21 @@
   <div class="mat-box-shadow margin-333" *ngIf="listaMaterial.length; else noMaterial">
     <div *ngIf= "obra">
       <!-- {{listaMaterial | json}} -->
-      <ngx-datatable class="material fullscreen bg-white" style="height: 400px; overflow-y: auto;" [rows]="listaMaterial"
-        [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true"
-        [rowHeight]="50">
+      <ngx-datatable 
+        class="material fullscreen bg-white" 
+        [rows]="listaMaterial"
+        [columnMode]="'force'" 
+        [headerHeight]="50" 
+        [footerHeight]="50" 
+        [scrollbarH]="true" 
+        [rowHeight]="'auto'" 
+        [rowHeight]="50"
+        [limit]="10"
+      >
   
         <ngx-datatable-column name="No." [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <p class="content-center">
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
                 {{row?.noMaterial}}
             </p>
           </ng-template>
@@ -114,7 +156,7 @@
   
         <ngx-datatable-column name="Conceptos" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center">
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
               {{row?.descripcion}}
             </p>
           </ng-template>
@@ -122,7 +164,7 @@
   
         <ngx-datatable-column name="Unidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center">
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
               {{row?.unidad}}
             </p>
           </ng-template>
@@ -130,7 +172,7 @@
   
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <mat-form-field class="cantidad-seleccionada">
+            <mat-form-field class="cantidad-seleccionada" >
               <input 
               matInput 
               type="number" 

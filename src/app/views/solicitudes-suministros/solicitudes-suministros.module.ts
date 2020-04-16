@@ -32,6 +32,8 @@ import { ListaSolicitudesValidadasComponent } from './components/lista-solicitud
 import { ModificarOrdenTrabajoRecursosComponent } from './components/modificar-orden-trabajo-recursos/modificar-orden-trabajo-recursos.component';
 import { ModificarOrdenTrabajoMaterialesComponent } from './components/modificar-orden-trabajo-materiales/modificar-orden-trabajo-materiales.component';
 import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-orden-trabajo-vehiculos/modificar-orden-trabajo-vehiculos.component';
+import { ValidarOrdenesTrabajoComponent } from './components/validar-ordenes-trabajo/validar-ordenes-trabajo.component';
+import { ModalAutorizarOrdenTrabajoComponent } from './components/modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -55,6 +57,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ModificarOrdenTrabajoRecursosComponent,
     ModificarOrdenTrabajoMaterialesComponent,
     ModificarOrdenTrabajoVehiculosComponent,
+    ValidarOrdenesTrabajoComponent,
+    ModalAutorizarOrdenTrabajoComponent,
   ],
   imports: [
     CommonModule,
@@ -74,7 +78,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NgxMaskModule.forRoot(options),
   ],
   entryComponents:[
-    ModalDatosSolicitudComponent
+    ModalDatosSolicitudComponent,
+    ModalAutorizarOrdenTrabajoComponent
   ]
 
 })

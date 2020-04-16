@@ -35,12 +35,18 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
   listaUsuariosJefeInmediato: Usuario[] = [];
   opcionesPermitidas = true;
 
+  descripcionMaterial: string;
+  unidadMaterial: string;
+  cantidadMaterial: number = 0;
+  comentarioMaterial: string;
+  panelOpenState: boolean = false;
+
   constructor(
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
   ) { }
 
   ngOnInit() {
@@ -84,7 +90,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      descripcion: new FormControl(''),
+      observacionesAdicionales: new FormControl('', Validators.required),
     });
   }
   
@@ -111,6 +118,58 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
 
   public onFechaRequiereMaterial(event): void {
     this.fechaRequiere = event.value;
+  }
+
+  agregarMaterialExtra(){
+    if(!this.descripcionMaterial){
+      this.useAlerts('Ingresa la descripción del material a agregar', ' ', 'error-dialog');
+    } else if (!this.unidadMaterial){
+      this.useAlerts('Ingresa la unidad del material a agregar', ' ', 'error-dialog');
+    } else if (!this.cantidadMaterial){
+      this.useAlerts('Ingresa la cantidad del material a agregar', ' ', 'error-dialog');
+    } else {
+      let ultimoIdMaterial;
+      this.listaMaterial.map( (material: MaterialParaSolicitud) => {
+        ultimoIdMaterial = Math.max(material.idMaterial);
+      });
+      // console.log(ultimoIdMaterial);
+
+      const materialExtra =  {
+        idMaterial: ultimoIdMaterial + 1,
+        noMaterial: 99999,
+        descripcion: this.descripcionMaterial,
+        unidad: this.unidadMaterial,
+        cantidad: this.cantidadMaterial,
+        precioUnitario: 0,
+        importe: 0,
+        tipo: 3,
+        idObra: this.solicitud.idObra,
+        idSolicitud: this.solicitud.idSolicitudMaterial,
+        comentario: this.comentarioMaterial,
+        descripcionSolicitud: '',
+        idUsuarioModifico: this.idUsuarioLogeado,
+      };
+
+      // console.log(materialExtra);
+
+      this.solicitudesService.addAdditionalMaterial(materialExtra).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            console.log(response);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getSolicitud();
+            this.descripcionMaterial = '';
+            this.unidadMaterial = '';
+            this.cantidadMaterial = 0;
+            this.comentarioMaterial = '';
+            this.panelOpenState = !this.panelOpenState;
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }  
+        },
+        error => console.log(error)
+      );
+    }
   }
 
   modificarSolicitud(){

@@ -141,7 +141,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
     this.solicitudesService.createOrdenTrabajoRecursos(ordenTrabajo).subscribe(
       response => {
         if(response.estatus === '05'){
-          this.router.navigate(['/solicitudes-suministros/lista-solicitudes-validadas']);
+          this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
           this.useAlerts(response.mensaje, ' ', 'success-dialog');
         } else {
           this.useAlerts(response.mensaje, ' ', 'error-dialog');

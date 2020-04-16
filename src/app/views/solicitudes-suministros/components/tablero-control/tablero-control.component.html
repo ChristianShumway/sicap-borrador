@@ -53,13 +53,13 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Descripción" [flexGrow]="1">
+      <!-- <ngx-datatable-column name="Descripción" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
             {{row?.descripcion}}
           </p>
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
 
       <ngx-datatable-column name="Empresa" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
@@ -69,10 +69,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Obra" [flexGrow]="1">
+      <ngx-datatable-column name="Contrato" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-left">
-            {{row?.obra}}
+            {{row?.contrato}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -85,7 +85,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Solicitud" [flexGrow]="1">
+      <ngx-datatable-column name="Fecha de Solicitud" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center date-exist" *ngIf="row?.fechaSolicitud">
             {{row?.fechaSolicitud | date}}
@@ -96,7 +96,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Validación" [flexGrow]="1">
+      <ngx-datatable-column name="Fecha de Validación" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center date-exist" *ngIf="row?.fechaValidacion">
             {{row?.fechaValidacion | date}}
@@ -107,7 +107,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Orden de Trabajo" [flexGrow]="1">
+      <ngx-datatable-column name="Fecha de Orden de Trabajo" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center date-exist" *ngIf="row?.fechaOrdenTrabajo" >
             {{row?.fechaOrdenTrabajo | date}}
@@ -118,7 +118,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Autorización Suministro" [flexGrow]="1">
+      <ngx-datatable-column name="Fecha de Autorización Suministro" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center date-exist" *ngIf="row?.fechaAutorizacionSuministro">
             {{row?.fechaAutorizacionSuministro | date}}
@@ -144,9 +144,9 @@
 <ng-template #noSolicitudes>
   <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
     [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
-    <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+    <!-- <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column> -->
     <ngx-datatable-column name="Folio" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+    <!-- <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column> -->
     <ngx-datatable-column name="Empresa" [flexGrow]="1"></ngx-datatable-column>
     <ngx-datatable-column name="Obra" [flexGrow]="1"></ngx-datatable-column>
     <ngx-datatable-column name="Solicitante" [flexGrow]="1"></ngx-datatable-column>

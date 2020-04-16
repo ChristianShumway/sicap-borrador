@@ -63,7 +63,7 @@ form{
     position: relative;
     margin-bottom: 20px;
     &:before {
-      content: 'Descripción de la Solicitud:';
+      content: 'Observaciones de la Solicitud:';
       position: absolute;
       top: -25px;
       text-transform: uppercase;
@@ -130,6 +130,13 @@ form{
   text-align: center;
   display: flex;
   justify-content: right;
+  align-items: center;
+}
+
+.content-centers{
+  text-align: center;
+  display: flex;
+  justify-content: center;
   align-items: center;
 }
 
