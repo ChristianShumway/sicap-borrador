@@ -4,7 +4,8 @@
     <span>Grupo Empresasial CIMA</span>
     <div class="col-obra">
       <div class="logo">
-          <img src="http://{{host}}/{{rutaImg}}/files/{{ordenTrabajo.solicitud.obra.empresa.imagen}}" alt="usuario"  />
+        <app-loading-image [url]="imgEmpresa"></app-loading-image>
+        <!-- <img src="http://{{host}}/{{rutaImg}}/files/{{ordenTrabajo.solicitud.obra.empresa.imagen}}" alt="usuario"  /> -->
       </div>
       <div class="nombre">
         <p>{{ordenTrabajo.solicitud.obra.nombreObra}}</p>
@@ -12,10 +13,12 @@
     </div>
   </div>
   
-  <div class="wrap-datos-solicitud">
+  <div class="wrap-datos-solicitud" *ngIf="ordenTrabajo.idTipo===1">
     <p class="inf">No. Folio: <span>{{ordenTrabajo.solicitud.serieFolio}}-{{ordenTrabajo.solicitud.idSolicitudRecurso}}</span></p> 
+    <p class="inf">Realiza OT: <span>{{ordenTrabajo.usuarioElaboro.nombre}} {{ordenTrabajo.usuarioElaboro.apellidoPaterno}} {{ordenTrabajo.usuarioElaboro.apellidoMaterno}}</span></p> 
+    <p class="inf">Fecha Generación OT: <span>{{ordenTrabajo.fechaElaboro | date}}</span></p>  
     <p class="inf">Fecha Solicitud: <span>{{ordenTrabajo.solicitud.fechaSolicito | date}}</span></p>  
-    <!-- <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p>  -->
+    <p class="inf">Beneficiario: <span>{{ordenTrabajo.solicitud.usuarioSolicito.nombre}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoPaterno}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
     <div class="col-descripcion">
       <p>Observaciones Adicionales:</p>
       <div class="desc">
@@ -24,68 +27,100 @@
     </div>
   </div>
   
-  <!-- *ngIf="ordenTrabajo.solicitud.serieFolio === 'REC" -->
-  <div class="wrap-materiales" >
+  <div class="wrap-materiales" *ngIf="ordenTrabajo.idTipo===1" >
     <p class="title">Lista Peticiones</p>
-    <div class="material" *ngFor="let peticion of peticionesSeleccionadas">
+    <div class="material-ot" *ngFor="let peticion of detallesOrdenTrabajoRecursos">
+      <div class="tit">Categoria:</div>
+      <div class="desc">{{peticion.categoria}}</div>
       <div class="tit">Desglose:</div>
       <div class="desc">{{peticion.desglose}}</div>
       <div class="tit">Importe Solicitado sin Factura:</div>
       <div class="desc">{{peticion.importeSolicitadoSinFactura | currency}}</div>
-      <div class="tit">Importe Seleccionado con Factura:</div>
+      <div class="tit">Importe Solicitado con Factura:</div>
       <div class="desc">{{peticion.importeSolicitadoConFactura | currency}}</div>
-      <div class="tit">Comentario</div>
-      <div class="desc">{{peticion.comentario}}</div>
+      <div class="tit" *ngIf="peticion.comentarioSolicitud">Comentario de la Solicitud:</div>
+      <div class="desc" *ngIf="peticion.comentarioSolicitud">{{peticion.comentarioSolicitud}}</div>
+      <div class="tit">Importe Validado sin Factura:</div>
+      <div class="desc">{{peticion.importeValidadoSinFactura | currency}}</div>
+      <div class="tit">Importe Validado con Factura:</div>
+      <div class="desc">{{peticion.importeValidadoConFactura | currency}}</div>
+      <div class="tit" *ngIf="peticion.comentarioRevision">Comentario de la Revisión:</div>
+      <div class="desc" *ngIf="peticion.comentarioRevision">{{peticion.comentarioRevision}}</div>
     </div>
   </div>
   
-    <!-- <div class="wrap-datos-solicitud" *ngIf="data.idTipo===2">
-      <p class="inf">No. Folio: <span>MAT-{{data.idSolicitud}}</span></p> 
-      <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicito | date}}</span></p>
-      <p class="inf">Fecha Requiere en Obra: <span>{{data.solicitud.fechaRequiere | date}}</span></p>
-      <p class="inf">Lugar de Recepción del Material: <span>{{data.solicitud.lugarRecepcion}}</span></p>
-      <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-    
-      <div class="col-descripcion">
-        <p>Observaciones Adicionales:</p>
-        <div class="desc">
-          <span>{{data.solicitud.observacionesAdicionales}}</span>
-        </div>
-      </div>
-    </div> -->
-    
-    <!-- <div class="wrap-materiales" *ngIf="data.idTipo===2 && materialesSeleccionados.length">
-      <p class="title">Lista Materiales</p>
-      <div class="material" *ngFor="let material of materialesSeleccionados">
-        <div class="tit">Descripción:</div>
-        <div class="desc">{{material.descripcion}}</div>
-        <div class="tit">Unidad:</div>
-        <div class="desc">{{material.unidad}}</div>
-        <div class="tit">Cantidad:</div>
-        <div class="desc">{{material.cantidadSolictada}}</div>
-        <div class="tit" *ngIf="material.comentario">Observación</div>
-        <div class="desc" *ngIf="material.comentario">{{material.comentario}}</div>
-      </div>
-    </div> -->
-    
-    <!-- <div class="wrap-datos-solicitud" *ngIf="data.idTipo===3">
-      <p class="inf">No Folio: <span>{{data.solicitud.folio}}</span></p>
-      <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicitud | date}}</span></p>
-      <p class="inf">Teléfono Contácto: <span>{{data.solicitud.telefonoContacto}}</span></p>
-      <p class="inf">Correo Electrónico: <span>{{data.solicitud.correoElectronico}}</span></p>
-      <p class="inf">Periodo de Uso del Equipo: <span>{{data.solicitud.fechaInicialUso | date}} al {{data.solicitud.fechaFinalUso | date}} </span></p>
-      <p class="inf">Lugar donde se Requiere: <span>{{data.solicitud.lugar}}</span></p>
-      <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-    
-  
-      <div class="col-descripcion" *ngIf="data.solicitud.observacion">
-        <p>Observaciones Adicionales:</p>
-        <div class="desc">
-          <span>{{data.solicitud.observacion}}</span>
-        </div>
+  <div class="wrap-datos-solicitud" *ngIf="ordenTrabajo.idTipo===2">
+    <p class="inf">No. Folio: <span>MAT-{{ordenTrabajo.idSolicitud}}</span></p> 
+    <p class="inf">Realiza OT: <span>{{ordenTrabajo.usuarioElaboro.nombre}} {{ordenTrabajo.usuarioElaboro.apellidoPaterno}} {{ordenTrabajo.usuarioElaboro.apellidoMaterno}}</span></p> 
+    <p class="inf">Fecha Generación OT: <span>{{ordenTrabajo.fechaElaboro | date}}</span></p> 
+    <p class="inf">Fecha Solicitud: <span>{{ordenTrabajo.solicitud.fechaSolicito | date}}</span></p>
+    <p class="inf">Fecha Requiere en Obra: <span>{{ordenTrabajo.solicitud.fechaRequiere | date}}</span></p>
+    <p class="inf">Lugar de Recepción del Material: <span>{{ordenTrabajo.solicitud.lugarRecepcion}}</span></p>
+    <p class="inf">Beneficiario <span>{{ordenTrabajo.solicitud.usuarioSolicito.nombre}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoPaterno}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
+
+    <div class="col-descripcion">
+      <p>Observaciones Adicionales:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.solicitud.observacionesAdicionales}}</span>
       </div>
     </div>
-     -->
+  </div>
+    
+  <div class="wrap-materiales" *ngIf="ordenTrabajo.idTipo===2">
+    <p class="title">Lista Materiales</p>
+    <div class="material-ot" *ngFor="let material of detallesOrdenTrabajoMateriales">
+      <div class="tit">Descripción:</div>
+      <div class="desc">{{material.descripcion}}</div>
+      <div class="tit">Proveedor:</div>
+      <div class="desc">{{material.proveedor}}</div>
+      <div class="tit">Unidad:</div>
+      <div class="desc">{{material.unidad}}</div>
+      <div class="tit">Cantidad:</div>
+      <div class="desc">{{material.cantidad}}</div>
+      <div class="tit" *ngIf="material.comentario">Observación</div>
+      <div class="desc" *ngIf="material.comentario">{{material.comentario}}</div>
+      <div class="tit">Precio:</div>
+      <div class="desc">{{material.precioUnitario | currency}}</div>
+      <div class="tit">Importe:</div>
+      <div class="desc">{{material.importe | currency}}</div>
+    </div>
+  </div>
+    
+  <div class="wrap-datos-solicitud" *ngIf="ordenTrabajo.idTipo===3">
+    <p class="inf">No. Folio: <span>{{ordenTrabajo.solicitud.serieFolio}}-{{ordenTrabajo.idSolicitud}}</span></p> 
+    <p class="inf">Realiza OT: <span>{{ordenTrabajo.usuarioElaboro.nombre}} {{ordenTrabajo.usuarioElaboro.apellidoPaterno}} {{ordenTrabajo.usuarioElaboro.apellidoMaterno}}</span></p> 
+    <p class="inf">Fecha Generación OT: <span>{{ordenTrabajo.fechaElaboro | date}}</span></p>  
+    <p class="inf">Fecha Solicitud: <span>{{ordenTrabajo.solicitud.fechaSolicitud | date}}</span></p>  
+    <p class="inf">Beneficiario: <span>{{ordenTrabajo.solicitud.usuarioSolicito.nombre}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoPaterno}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
+    <p class="inf">Teléfono Contácto: <span>{{ordenTrabajo.solicitud.telefonoContacto}}</span></p>
+    <p class="inf">Correo Electrónico: <span>{{ordenTrabajo.solicitud.correoElectronico}}</span></p>
+    <p class="inf">Periodo de Uso del Equipo: <span>{{ordenTrabajo.solicitud.fechaInicialUso | date}} al {{ordenTrabajo.solicitud.fechaFinalUso | date}} </span></p>
+    <p class="inf">Lugar donde se Requiere: <span>{{ordenTrabajo.solicitud.lugar}}</span></p>  
+
+    <div class="col-descripcion" *ngIf="ordenTrabajo.solicitud.observacion">
+      <p>Observaciones Adicionales:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.solicitud.observacion}}</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap-materiales" *ngIf="ordenTrabajo.idTipo===3">
+    <p class="title">Detalles de la Orden</p>
+    <div class="material-ot" *ngFor="let vehiculo of detallesOrdenTrabajoVehiculos">
+      <div class="tit">Vehículo Propuesto:</div>
+      <div class="desc">{{vehiculo.vehiculo.marca}} {{vehiculo.vehiculo.modelo}}</div>
+      <div class="tit">Unidad:</div>
+      <div class="desc">{{vehiculo.unidad}}</div>
+      <div class="tit">Cantidad:</div>
+      <div class="desc">{{vehiculo.cantidad}}</div>
+      <div class="tit">Precio:</div>
+      <div class="desc">{{vehiculo.precioUnitario | currency}}</div>
+      <div class="tit">Importe:</div>
+      <div class="desc">{{vehiculo.importe | currency}}</div>
+    </div>
+  </div>
+    
   
   <div class="wrap-buttons">
     <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->

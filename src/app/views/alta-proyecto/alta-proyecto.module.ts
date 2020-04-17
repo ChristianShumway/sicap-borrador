@@ -91,7 +91,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     NgxDocViewerModule
   ],
   exports:[
-    TimeLineObservacionesObraComponent
+    TimeLineObservacionesObraComponent,
+    LoadingImageComponent,
   ],
   entryComponents: [
     ModalEliminarComponent,

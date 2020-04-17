@@ -89,6 +89,34 @@ export class ListaSolicitudesComponent implements OnInit {
     });
   }
 
+  openDialogDeleteOrden(idOrdentrabajo, tipoOrdenTrabajo) {
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      // data: idObra
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+
+        this.solicitudesService.deleteOrdenTrabajo(idOrdentrabajo, tipoOrdenTrabajo).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
+  }
+
   openDialogRequest(solicitud): void {
     // console.log(solicitud);
     const dialogRef = this.dialog.open(ModalDatosSolicitudComponent, {
@@ -130,8 +158,7 @@ export class ListaSolicitudesComponent implements OnInit {
     });
   }
 
-  openDialogAuthorize(idOrdenTrabajo, idTipoSolicitud): void{
-    // console.log(idOrdenTrabajo);
+  openDialogAuthorize(idOrdenTrabajo, idTipoSolicitud, idSolicitud): void{
     const dialogRef = this.dialog.open(ModalAutorizarOrdenTrabajoComponent, {
       width: '460px',
       panelClass: 'custom-dialog-container-user',
@@ -139,34 +166,34 @@ export class ListaSolicitudesComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      // console.log(result);
+      
       const {opcion} = result[0];
-      const format = 'yyyy/MM/dd';
-      const hoy = this.pipe.transform(this.fechaHoy, format);
-      let datosValidar: any;
+      let datosAutorizar: any;
 
-      // if(opcion === 'validar'){
-      //   datosValidar = {
-      //     idUsuarioValido: this.idUsuarioLogeado,
-      //     fechaValido: hoy,
-      //     idBitacoraSolicitud: solicitud.idBitacoraSolicitud,
-      //     idTipo: solicitud.idTipo,
-      //     tipo: solicitud.tipo
-      //   };
-      // }
+      if(opcion === 'validar'){
+        datosAutorizar = {
+          idOrdenCompra: idOrdenTrabajo,
+          idTipo: idTipoSolicitud,
+          idSolicitud: idSolicitud,
+          idUsuarioAutorizo:this.idUsuarioLogeado,
+          idBitacoraSolicitud:0,
+        };
+      }
 
-      // console.log(datosValidar);
-      // this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
-      //   response => {
-      //     if(response.estatus === '05'){
-      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-      //       this.getResources();
-      //     } else {
-      //       this.useAlerts(response.mensaje, ' ', 'error-dialog');
-      //     }
-      //   },
-      //   error => this.useAlerts(error.message, ' ', 'error-dialog')
-      // );
+      console.log(datosAutorizar);
+      console.log(opcion);
+
+      this.solicitudesService.autorizarSolicitud(datosAutorizar).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getResources();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
       
     });
   }

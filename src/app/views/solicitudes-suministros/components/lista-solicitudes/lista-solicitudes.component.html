@@ -107,7 +107,7 @@
 
                 <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
                 <button 
-                (click) = "openDialogDelete(1, solicitud.idOrdenTrabajo)" 
+                (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 1)" 
                 mat-icon-button 
                 *ngIf = "solicitud.eliminarOrdenTrabajo"
                 color="primary" 
@@ -119,7 +119,7 @@
 
                 <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
                 <button 
-                (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 1)"
+                (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 1, solicitud.idSolicitud)"
                 mat-icon-button 
                 *ngIf = "solicitud.autorizar"
                 color="primary" 
@@ -250,7 +250,7 @@
 
                 <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
                 <button 
-                (click) = "openDialogDelete(2, solicitud.idOrdenTrabajo)" 
+                (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 2)" 
                 mat-icon-button 
                 *ngIf = "solicitud.eliminarOrdenTrabajo"
                 color="primary" 
@@ -263,6 +263,7 @@
                 <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
                 <button 
                 mat-icon-button 
+                (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 2, solicitud.idSolicitud)"
                 *ngIf = "solicitud.autorizar"
                 color="primary" 
                 matTooltip="Autorizar Orden de Trabajo" matTooltipPosition="left">
@@ -402,6 +403,7 @@
 
               <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
               <button 
+              (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 3, solicitud.idSolicitud)"
               mat-icon-button 
               *ngIf = "solicitud.autorizar"
               color="primary" 

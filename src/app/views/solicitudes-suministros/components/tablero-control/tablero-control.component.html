@@ -27,15 +27,14 @@
   <div>
     <ngx-datatable 
     class="material fullscreen bg-white" 
-    style="height: 600px; overflow-y: auto;" 
     [rows]="solicitudesModif" 
-    [columnMode]="'force'"
+    [columnMode]="'force'" 
     [headerHeight]="50" 
     [footerHeight]="50" 
     [scrollbarH]="true" 
     [rowHeight]="'auto'" 
-    
-    [scrollbarH]="true" >
+    [rowHeight]="50"
+    [limit]="10" >
 
       <!-- <ngx-datatable-column name="No." [flexGrow]="1">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>

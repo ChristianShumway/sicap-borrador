@@ -15,8 +15,12 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   host: string;
   ordenTrabajo: any;
   peticionesSeleccionadas: PeticionSolicitudRecurso[];
-  detallesOrdenTrabajoRecursos: any[];
+  detallesOrdenTrabajoRecursos: any[] = [];
   materialesSeleccionados: MaterialParaSolicitud[] = [];
+  detallesOrdenTrabajoMateriales: any[];
+  detallesOrdenTrabajoVehiculos: any[];
+  imgEmpresa: string;
+
   constructor(
     public dialogRef: MatDialogRef<ModalAutorizarOrdenTrabajoComponent>,
     @Inject(MAT_DIALOG_DATA) public data,
@@ -28,15 +32,9 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.data);
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
     this.getOrdenTrabajo();
-    // if(this.data.idTipo===1){
-    //   this.getPeticiones();
-    // } else if(this.data.idTipo===2){
-    //   this.getMateriales();
-    // }
   }
 
   getOrdenTrabajo() {
@@ -44,29 +42,35 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
       ordenTrabajo => {
         console.log(ordenTrabajo);
         this.ordenTrabajo = ordenTrabajo;
-        if(this.ordenTrabajo.solicitud.serieFolio === 'REC'){
-          this.peticionesSeleccionadas = this.ordenTrabajo.solicitud.detSolicitudRecurso;
-          this.detallesOrdenTrabajoRecursos = this.ordenTrabajo.detOrdenTrabajoRecurso;
-        }
-
-        console.log(this.peticionesSeleccionadas);
+        this.imgEmpresa = `http://${this.host}/${this.rutaImg}/files/${ordenTrabajo.solicitud.obra.empresa.imagen}`;
+        
+        if(this.ordenTrabajo.idTipo === 1){
+          this.ordenTrabajo.solicitud.detSolicitudRecurso.map( (peticionSolicitud:PeticionSolicitudRecurso) => {
+            this.ordenTrabajo.detOrdenTrabajoRecurso.map( peticionOrden => {
+              if ( peticionSolicitud.idCategoriaSolicitudRecurso === peticionOrden.idCategoriaSolicitudRecurso) {
+                const objetoPeticionCompuesto = {
+                  categoria: peticionOrden.categoriaSolicitudRecurso.descripcion,
+                  desglose: peticionSolicitud.desglose,
+                  importeSolicitadoSinFactura: peticionSolicitud.importeSolicitadoSinFactura,
+                  importeValidadoSinFactura: peticionOrden.importeSolicitadoSinFactura,
+                  importeSolicitadoConFactura: peticionSolicitud.importeSolicitadoConFactura,
+                  importeValidadoConFactura: peticionOrden.importeSolicitadoConFactura,
+                  comentarioSolicitud: peticionSolicitud.comentario,
+                  comentarioRevision: peticionOrden.comentario,
+                };
+                this.detallesOrdenTrabajoRecursos.push(objetoPeticionCompuesto);
+              }
+            })
+          })
+        } else if(this.ordenTrabajo.idTipo === 2){
+          this.detallesOrdenTrabajoMateriales = this.ordenTrabajo.detOrdentrabajoMaterial;
+        } else if( this.ordenTrabajo.idTipo === 3) {
+          this.detallesOrdenTrabajoVehiculos = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
+        }      
+        
       },
       error => console.log (error)
     );
-  }
-
-  getPeticiones(){
-    this.data.solicitud.detSolicitudRecurso.map( (peticion: PeticionSolicitudRecurso) =>{
-        this.peticionesSeleccionadas.push(peticion);
-    });
-  }
-
-  getMateriales(){
-    this.data.solicitud.detSolicitudMaterial.map( (material: MaterialParaSolicitud) =>{
-      if(material.cantidadSolictada > 0){
-        this.materialesSeleccionados.push(material);
-      }
-    });
   }
 
 }

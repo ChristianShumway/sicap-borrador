@@ -11,6 +11,7 @@ import { SharedModule } from './../../shared/shared.module';
 import { QuillModule } from 'ngx-quill';
 import { SharedPipesModule } from './../../shared/pipes/shared-pipes.module';
 import { NgxMaskModule, IConfig } from 'ngx-mask'
+import { AltaProyectoModule } from '../alta-proyecto/alta-proyecto.module';
 
 import { SolicitudesSuministrosRoutingModule } from './solicitudes-suministros-routing.module';
 import { EjecucionProyectoModule } from '../ejecucion-proyecto/ejecucion-proyecto.module';
@@ -76,11 +77,12 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     SharedPipesModule,
     EjecucionProyectoModule,
     NgxMaskModule.forRoot(options),
+    AltaProyectoModule
   ],
   entryComponents:[
     ModalDatosSolicitudComponent,
     ModalAutorizarOrdenTrabajoComponent
   ]
-
+  
 })
 export class SolicitudesSuministrosModule { }

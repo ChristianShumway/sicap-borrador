@@ -158,13 +158,23 @@ export class SolicitudesService {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/deletedetOrder/${idDetOrdenTrabajo}/${tipoOrden}`);
   }
 
+  deleteOrdenTrabajo(idOrdenTrabajo: number, tipoOrden: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/deleteOrden/${idOrdenTrabajo}/${tipoOrden}`);
+  }
+
   getOrdenTrabajoById(tipoSolicitud: number, idOrdenTrabajo: number): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkedOrdenById/${tipoSolicitud}/${idOrdenTrabajo}`);
   }
 
   getVehiculosByObra(idObra: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getVehiculosByObra/${idObra}`);
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getVehicle/${idObra}`);
   }
+
+  autorizarSolicitud(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setRequestAuthorize`, JSON.stringify(solicitud), { headers: headerss});
+  }
+  
   // getVehiculosByObra/{idObra}
 
   // getOrdenTrabajoById(tipoSolicitud: number, idOrdenTrabajo: number): Observable<any>{
