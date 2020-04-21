@@ -3,7 +3,8 @@
   <span>Grupo Empresasial CIMA</span>
   <div class="col-obra">
     <div class="logo">
-        <img src="http://{{host}}/{{rutaImg}}/files/{{data.solicitud.obra.empresa.imagen}}" alt="usuario"  />
+      <app-loading-image [url]="imgEmpresa"></app-loading-image>
+      <!-- <img src="http://{{host}}/{{rutaImg}}/files/{{data.solicitud.obra.empresa.imagen}}" alt="empresa"  /> -->
     </div>
     <div class="nombre">
       <p>{{data.solicitud.obra.nombreObra}}</p>

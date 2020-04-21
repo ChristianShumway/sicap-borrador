@@ -8,7 +8,7 @@
 .container-titulo {
   display: grid;
   grid-template-columns: 200px 1fr;
-  margin: 20px 0;
+  margin: 10px 0 0;
   grid-gap: 10px;
   align-items: center;
   .logo {
@@ -34,6 +34,10 @@
 .content-center {
   text-align: center;
   margin: 16px 0 0 0 !important;
+  width: 100%;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .content-left {

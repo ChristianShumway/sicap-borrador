@@ -44,7 +44,7 @@
       color: gray;
       text-transform: uppercase;
       display: grid;
-      grid-template-columns: repeat(8, auto);
+      grid-template-columns: repeat(9, auto);
       grid-gap: 5px;
     }
 
@@ -57,7 +57,7 @@
 
     .col-actions{
       display: grid;
-      grid-template-columns: repeat(8, auto);
+      grid-template-columns: repeat(9, auto);
       grid-gap: 5px;
       button{
         background-origin: padding-box;

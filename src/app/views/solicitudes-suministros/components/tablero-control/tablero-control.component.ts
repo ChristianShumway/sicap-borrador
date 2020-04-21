@@ -43,7 +43,7 @@ export class TableroControlComponent implements OnInit {
       (list: TableroControl[]) => {
         this.listaSolicitudes = list;
         this.temp = this.listaSolicitudes;
-        console.log(list);
+        // console.log(list);
         list.map( solicitud => {
           const solicidudModificada = {
             folio: solicitud.solicitud.folio,
@@ -51,10 +51,12 @@ export class TableroControlComponent implements OnInit {
             empresa: solicitud.solicitud.obra.empresa.nombre,
             contrato: solicitud.solicitud.obra.noContrato,
             solicitante: `${solicitud.usuarioSolicito.nombre} ${solicitud.usuarioSolicito.apellidoPaterno} ${solicitud.usuarioSolicito.apellidoMaterno}`,
+            estatus: solicitud.estatus,
             fechaSolicitud: solicitud.fechaSolicitud,
             fechaValidacion: solicitud.fechaValidacion,
             fechaOrdenTrabajo: solicitud.fechaOrdenTrabajo,
             fechaAutorizacionSuministro: solicitud.fechaAutorizacionSuministro,
+            fechaSuministro: solicitud.fechaSuministro,
             fechaRechazo: solicitud.fechaRechazo
           };
 

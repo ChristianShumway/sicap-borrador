@@ -13,6 +13,8 @@ export class ModalDatosSolicitudComponent implements OnInit {
   host: string;
   peticionesSeleccionadas: PeticionSolicitudRecurso[] = [];
   materialesSeleccionados: MaterialParaSolicitud[] = [];
+  imgEmpresa: string;
+
   constructor(
     public dialogRef: MatDialogRef<ModalDatosSolicitudComponent>,
     @Inject(MAT_DIALOG_DATA) public data) {}
@@ -25,6 +27,7 @@ export class ModalDatosSolicitudComponent implements OnInit {
     console.log(this.data);
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
+    this.imgEmpresa = `http://${this.host}/${this.rutaImg}/files/${this.data.solicitud.obra.empresa.imagen}`;
     if(this.data.idTipo===1){
       this.getPeticiones();
     } else if(this.data.idTipo===2){

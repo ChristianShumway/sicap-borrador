@@ -1,4 +1,4 @@
-<div fxLayout="row wrap" *ngIf="!solicitudesRecursos">
+<div fxLayout="row wrap" *ngIf="!solicitudes.length">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
       <mat-spinner></mat-spinner>
@@ -6,7 +6,7 @@
   </div>
 </div>
 
-<mat-tab-group *ngIf="solicitudesRecursos">
+<mat-tab-group *ngIf="solicitudes.length">
   <mat-tab label="Recursos">
     <div class="container-solicitudes recursos" fxLayout="row wrap" *ngIf="solicitudesRecursos">
       <h1>Solicitudes:</h1>
@@ -44,7 +44,16 @@
                 {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
               </div>
               <div class="col-actions">
-                
+                <!-- BOTON DESCARGAR SOLICITUD -->
+                <button 
+                (click) = "descargarSolicitud(solicitud.idSolicitud, 1)"
+                mat-icon-button
+                color="warn"
+                matTooltip="Descargar Solicitud" matTooltipPosition="left">
+                  <mat-icon>cloud_download</mat-icon>
+                </button>
+                <!-- END BOTON DESCARGAR SOLICITUD -->
+
                 <!-- BOTON EDITAR SOLICITUD -->
                 <button 
                 [routerLink]="['/solicitudes-suministros/modificar-solicitud-recursos', solicitud.idSolicitud]" 
@@ -90,7 +99,15 @@
                 matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
                   <mat-icon>description</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo" > <mat-icon>description</mat-icon> </button>
+                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
+                <button 
+                mat-icon-button 
+                (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 1)"
+                *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
+                color="warn" 
+                matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
+                  <mat-icon>cloud_download</mat-icon> 
+                </button>
                 <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
 
                 <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
@@ -131,14 +148,15 @@
 
                 <!-- BOTON SUMINISTRAR SOLICITUD -->
                 <button 
+                (click)="openDialogSupply(solicitud.idOrdenTrabajo, 1, solicitud.idSolicitud)"
                 mat-icon-button 
                 *ngIf = "solicitud.suministrar"
                 color="primary" 
                 matTooltip="Verificar Suministro" matTooltipPosition="left">
-                  <mat-icon>monetization_on</mat-icon>
-                  <!-- <mat-icon>local_shipping</mat-icon> -->
+                  <mat-icon>{{solicitud.icono}}</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar"> <mat-icon>monetization_on</mat-icon> </button>
+                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
+                <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
                 <!-- END BOTON SUMINISTRAR SOLICITUD -->
               </div>
             </div>
@@ -187,6 +205,16 @@
                 {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
               </div>
               <div class="col-actions">
+
+                <!-- BOTON DESCARGAR SOLICITUD -->
+                <button 
+                (click) = "descargarSolicitud(solicitud.idSolicitud, 2)"
+                mat-icon-button
+                color="warn"
+                matTooltip="Descargar Solicitud" matTooltipPosition="left">
+                  <mat-icon>cloud_download</mat-icon>
+                </button>
+                <!-- END BOTON DESCARGAR SOLICITUD -->
                 
                 <!-- BOTON EDITAR SOLICITUD -->
                 <button 
@@ -233,7 +261,15 @@
                 matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
                   <mat-icon>description</mat-icon>
                 </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo" > <mat-icon>description</mat-icon> </button>
+                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
+                <button 
+                mat-icon-button 
+                (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 2)"
+                *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
+                color="warn" 
+                matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
+                  <mat-icon>cloud_download</mat-icon> 
+                </button>
                 <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
 
                 <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
@@ -274,14 +310,16 @@
 
                 <!-- BOTON SUMINISTRAR SOLICITUD -->
                 <button 
+                (click)="openDialogSupply(solicitud.idOrdenTrabajo, 2, solicitud.idSolicitud)"
                 mat-icon-button 
                 *ngIf = "solicitud.suministrar"
                 color="primary" 
                 matTooltip="Verificar Suministro" matTooltipPosition="left">
-                  <mat-icon>monetization_on</mat-icon>
+                  <mat-icon>{{solicitud.icono}}</mat-icon>
                   <!-- <mat-icon>local_shipping</mat-icon> -->
                 </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar"> <mat-icon>monetization_on</mat-icon> </button>
+                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
+                <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
                 <!-- END BOTON SUMINISTRAR SOLICITUD -->
               </div>
             </div>
@@ -328,6 +366,16 @@
               {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
             </div>
             <div class="col-actions">
+
+              <!-- BOTON DESCARGAR SOLICITUD -->
+              <button 
+              (click) = "descargarSolicitud(solicitud.idSolicitud, 3)"
+              mat-icon-button
+              color="warn"
+              matTooltip="Descargar Solicitud" matTooltipPosition="left">
+                <mat-icon>cloud_download</mat-icon>
+              </button>
+              <!-- END BOTON DESCARGAR SOLICITUD -->
               
               <!-- BOTON EDITAR SOLICITUD -->
               <button 
@@ -374,7 +422,15 @@
               matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
                 <mat-icon>description</mat-icon>
               </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo" > <mat-icon>description</mat-icon> </button>
+              <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
+              <button 
+              mat-icon-button 
+              (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 3)"
+              *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
+              color="warn" 
+              matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
+                <mat-icon>cloud_download</mat-icon> 
+              </button>
               <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
 
               <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
@@ -415,14 +471,16 @@
 
               <!-- BOTON SUMINISTRAR SOLICITUD -->
               <button 
+              (click)="openDialogSupply(solicitud.idOrdenTrabajo, 3, solicitud.idSolicitud)"
               mat-icon-button 
               *ngIf = "solicitud.suministrar"
               color="primary" 
               matTooltip="Verificar Suministro" matTooltipPosition="left">
-                <mat-icon>monetization_on</mat-icon>
+                <mat-icon>{{solicitud.icono}}</mat-icon>
                 <!-- <mat-icon>local_shipping</mat-icon> -->
               </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar"> <mat-icon>monetization_on</mat-icon> </button>
+              <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
+              <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
               <!-- END BOTON SUMINISTRAR SOLICITUD -->
             </div>
           </div>

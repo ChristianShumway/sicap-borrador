@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { MatSnackBar, MatDialog } from '@angular/material';
+import { DatePipe } from '@angular/common';
 
 import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
 import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 import { SolicitudRecurso, SolicitudVehiculo, SolicitudMaterial } from './../../.././../shared/models/solicitud';
-import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
+
 import { ModalDatosSolicitudComponent } from '../modal-datos-solicitud/modal-datos-solicitud.component';
-import { DatePipe } from '@angular/common';
+import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 
 @Component({
@@ -18,7 +19,7 @@ import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-tr
 export class ListaSolicitudesComponent implements OnInit {
 
   idUsuarioLogeado: any;
-  solicitudes: any[];
+  solicitudes: any[] = [];
   solicitudesRecursos: SolicitudRecurso[];
   solicitudesMateriales: SolicitudMaterial[];
   solicitudesVehiculos: SolicitudVehiculo[];
@@ -41,6 +42,7 @@ export class ListaSolicitudesComponent implements OnInit {
     this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 1).subscribe(
       solicitudes => {
         this.solicitudesRecursos = solicitudes;
+        solicitudes.map( solicitud => this.solicitudes.push(solicitud));
         console.log(this.solicitudesRecursos);
       },
       error => console.log(error)
@@ -48,14 +50,16 @@ export class ListaSolicitudesComponent implements OnInit {
     this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 2).subscribe(
       solicitudes => {
         this.solicitudesMateriales = solicitudes;
-        console.log(this.solicitudesMateriales);
+        solicitudes.map( solicitud => this.solicitudes.push(solicitud));
+        // console.log(this.solicitudesMateriales);
       },
       error => console.log(error)
     );
     this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2, 3).subscribe(
       solicitudes => {
         this.solicitudesVehiculos = solicitudes;
-        console.log(this.solicitudesVehiculos);
+        solicitudes.map( solicitud => this.solicitudes.push(solicitud));
+        // console.log(this.solicitudesVehiculos);
       },
       error => console.log(error)
     );
@@ -196,6 +200,70 @@ export class ListaSolicitudesComponent implements OnInit {
       );
       
     });
+  }
+
+  openDialogSupply(idOrdenTrabajo, idTipoSolicitud, idSolicitud): void{
+    const dialogRef = this.dialog.open(ModalAutorizarOrdenTrabajoComponent, {
+      width: '460px',
+      panelClass: 'custom-dialog-container-user',
+      data: { idOrdenTrabajo,idTipoSolicitud }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      
+      const {opcion} = result[0];
+      let datosSuministrar: any;
+
+      if(opcion === 'validar'){
+        datosSuministrar = {
+          idOrdenCompra: idOrdenTrabajo,
+          idTipo: idTipoSolicitud,
+          idSolicitud: idSolicitud,
+          idUsuarioAutorizo:this.idUsuarioLogeado,
+          idBitacoraSolicitud:0,
+        };
+      }
+
+      console.log(datosSuministrar);
+      console.log(opcion);
+
+      this.solicitudesService.suministrarSolicitud(datosSuministrar).subscribe(
+        response => {
+          if(response.estatus === '05'){
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.getResources();
+          } else {
+            this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          }
+        },
+        error => this.useAlerts(error.message, ' ', 'error-dialog')
+      );
+      
+    });
+  }
+
+  descargarSolicitud(idSolicitud, tipoSolicitud) {
+    console.log(idSolicitud);
+    this.solicitudesService.descargarSolicitud(idSolicitud, tipoSolicitud).subscribe(
+      result => {
+        console.log(result);
+        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-request/Solicitud_${idSolicitud}.pdf`;
+        window.open( urlArchivo, '_blank');
+      },
+      error => console.log(error)
+    );
+  }
+
+  descargarOrdenTrabajo(idOrdenTrabajo, tipoOrden) {
+    console.log(idOrdenTrabajo);
+    this.solicitudesService.descargarOrdenTrabajo(idOrdenTrabajo, tipoOrden).subscribe(
+      result => {
+        console.log(result);
+        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-request/Orden_trabajo_${idOrdenTrabajo}.pdf`;
+        window.open( urlArchivo, '_blank');
+      },
+      error => console.log(error)
+    );
   }
 
   useAlerts(message, action, className){
