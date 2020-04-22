@@ -2,7 +2,6 @@ import { Cliente } from "./cliente";
 import { Obra } from './obra';
 import { Usuario } from "./usuario";
 import { Empresa } from "./empresa";
-import { User } from "../../../../dist/assets/examples/material/display-value-autocomplete/display-value-autocomplete.component";
 
 // SOLICITUD RECURSO
 
@@ -32,7 +31,7 @@ export interface SolicitudRecurso {
   empresa?: Empresa;
   pk?: number;
   serieFolio?: string;
-  usuarioSolicito?: User;
+  usuarioSolicito?: Usuario;
 }
 
 // SOLICITUD MATERIAL
