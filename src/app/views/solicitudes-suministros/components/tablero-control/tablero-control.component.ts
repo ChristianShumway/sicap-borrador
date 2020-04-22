@@ -43,7 +43,7 @@ export class TableroControlComponent implements OnInit {
       (list: TableroControl[]) => {
         this.listaSolicitudes = list;
         this.temp = this.listaSolicitudes;
-        // console.log(list);
+        console.log(list);
         list.map( solicitud => {
           const solicidudModificada = {
             folio: solicitud.solicitud.folio,

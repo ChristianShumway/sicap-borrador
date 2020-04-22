@@ -105,6 +105,8 @@ export interface TableroControl {
   usuarioSolicito: Usuario;
   tipoSolicitud: string;
   fechaRechazo: string;
+  fechaSuministro: string;
+  estatus: string;
 }
 
 // ORDENES DE TRABAJO
