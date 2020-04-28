@@ -34,7 +34,7 @@ export class CrearPerfilComponent implements OnInit {
       nombre: new FormControl('', [
         Validators.required,
       ]),
-      descripcion: new FormControl(),
+      descripcion: new FormControl(''),
     })
   }
 

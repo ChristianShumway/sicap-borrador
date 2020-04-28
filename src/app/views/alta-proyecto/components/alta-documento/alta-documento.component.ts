@@ -35,24 +35,41 @@ export class AltaDocumentoComponent implements OnInit {
     this.rutaImg = environment.imageServe;
     this.host = environment.host;
 
-    const headers = [{ name: 'Accept', value: 'application/json' }];
+    const headers = [{ name: 'Accept', value: 'application/json'}];
     this.uploaderArchivo = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObra', autoUpload: true, headers: headers });
     this.uploaderArchivo.onBuildItemForm = (fileItem: any, form: any) => {
       form.append('idObra', this.data.idObra);
       form.append('idUserAdd', this.data.idUsuario);
       this.loadingFile = true;
-      console.log(this.loadingFile);
+      // console.log(this.loadingFile);
     };
     this.uploaderArchivo.uploadAll();
     this.uploaderArchivo.onCompleteItem = (item: any, response: any, status: any, headers: any) => {
       this.loadingFile = false;
-      if(item.isSuccess){
-        this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
-        this.useAlerts('Documento cargado', ' ', 'success-dialog');
+      // console.log(item);
+      // console.log(response);
+      const result = JSON.parse(response);
+      console.log(result);
+
+      if (result != undefined) {
+        if(result.noEstatus === 5) {
+          this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
+          this.useAlerts(result.mensaje, ' ', 'success-dialog');
+        } else {
+          this.useAlerts(result.mensaje, ' ', 'error-dialog');
+        }
       } else {
-        this.useAlerts('Documento no se subió', ' ', 'error-dialog');
+        this.useAlerts('Ocurrio un error, favor de reportar', ' ', 'error-dialog');
       }
+
       this.bottomSheetRef.dismiss(); 
+
+      // if(item.isSuccess){
+      //   this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
+      //   this.useAlerts('Documento cargado', ' ', 'success-dialog');
+      // } else {
+      //   this.useAlerts('Documento no se subió', ' ', 'error-dialog');
+      // }
     };
   }
 

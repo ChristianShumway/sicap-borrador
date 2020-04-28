@@ -69,7 +69,7 @@ export class CrearUsuarioComponent implements OnInit {
       apellidoPaterno: new FormControl('', [
         Validators.required,
       ]),
-      apellidoMaterno: new FormControl(),
+      apellidoMaterno: new FormControl(''),
       usuario: new FormControl('', [
         Validators.minLength(4),
         Validators.maxLength(20)

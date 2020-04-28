@@ -20,7 +20,7 @@ export class ObrasComponent implements OnInit {
 
   obras: Obra[] = [];
   obrasTemp: Obra[] = [];
-  rutaImg: string;
+  rutaSicap: string;
   host: string;
   // fechaActual= New Date();
   estatusObraPeriodo: number;
@@ -50,7 +50,7 @@ export class ObrasComponent implements OnInit {
     this.changeDetectorRef.detectChanges();
     this.dataSource.paginator = this.paginator;
     this.obs$ = this.dataSource.connect();
-    this.rutaImg = environment.imgRUL;
+    this.rutaSicap = environment.imgRUL;
     this.host = environment.host;
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.activatedRoute.params.subscribe( (option: Params) => {
@@ -153,7 +153,7 @@ export class ObrasComponent implements OnInit {
     this.obraService.getExportarFicha(idObra).subscribe(
       result => {
         console.log(result);
-        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-obra/Ficha_planeacion_${idObra}.pdf`;
+        const urlArchivo = `http://${this.host}/${this.rutaSicap}/files//files-obra/Ficha_planeacion_${idObra}.pdf`;
         // location.href= urlArchivo;
         window.open( urlArchivo, '_blank');
       },

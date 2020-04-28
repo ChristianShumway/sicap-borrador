@@ -13,6 +13,7 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 
 // import { viewerType } from 'modules/document-viewer.component';
 import { viewerType } from './../../../../../../node_modules/ngx-doc-viewer/document-viewer.component';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-biblioteca',
@@ -27,6 +28,8 @@ export class BibliotecaComponent implements OnInit {
   usuarioLogeado;
   private documentosObs$ : Observable<DocumentosObra>;
   doc = '';
+  rutaSicap: string;
+  host: string;
 
 
  
@@ -43,6 +46,8 @@ export class BibliotecaComponent implements OnInit {
   ngOnInit() {
     this.usuarioLogeado = this.autenticacionService.currentUserValue;
     this.getDocuments();
+    this.rutaSicap = environment.imgRUL;
+    this.host = environment.host;
   }
 
   getObra(){
@@ -107,8 +112,10 @@ export class BibliotecaComponent implements OnInit {
   }
 
   vistaPreviaArchivo(doc: DocumentosObra){
-    const archivo = `${doc.ruta}/${doc.nombre}`;
-    // console.log(archivo);
+    console.log(doc);
+    // const archivo = `${doc.ruta}/${doc.nombre}`;
+    const archivo = `http://${this.host}/${this.rutaSicap}/files/files-obra/${doc.nombre}`;
+    console.log(archivo);
     this.doc = archivo;
   }
 

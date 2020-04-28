@@ -14,7 +14,7 @@
             <mat-form-field class="full-width">
               <mat-label>Empresa</mat-label>
               <mat-select formControlName="idEmpresa" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let empresa of empresas" [value]="empresa.idEmpresa">
                   {{empresa.nombre}}
                 </mat-option>
@@ -32,7 +32,7 @@
             <mat-form-field class="full-width">
               <mat-label>Cliente</mat-label>
               <mat-select formControlName="idCliente" (selectionChange) = "getUsuariosCliente($event.value)" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let cliente of clientes" [value]="cliente.idCliente">
                   {{cliente.nombre}}
                 </mat-option>
@@ -169,7 +169,7 @@
             <mat-form-field class="full-width">
               <mat-label>Gerente de Proyecto</mat-label>
               <mat-select formControlName="idGerente" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let gerente of gerenteProyecto" [value]="gerente.idUsuario">
                   {{gerente.nombre}} {{gerente.apellidoPaterno}} {{gerente.apellidoMaterno}}
                 </mat-option>
@@ -186,7 +186,7 @@
             <mat-form-field class="full-width">
               <mat-label>Planeación y Presupuestos</mat-label>
               <mat-select formControlName="idPlaneacionPresupuesto" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let personal of planeacionPresupuestos" [value]="personal.idUsuario">
                   {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
                 </mat-option>
@@ -203,7 +203,7 @@
             <mat-form-field class="full-width">
               <mat-label>Control de Obra</mat-label>
               <mat-select formControlName="idControlObra" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let personal of controlObra" [value]="personal.idUsuario">
                   {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
                 </mat-option>
@@ -220,7 +220,7 @@
             <mat-form-field class="full-width">
               <mat-label>Compras</mat-label>
               <mat-select formControlName="idCompras" required>
-                <mat-option>--</mat-option>
+                <!-- <mat-option>--</mat-option> -->
                 <mat-option *ngFor="let personal of compras" [value]="personal.idUsuario">
                   {{personal.nombre}} {{personal.apellidoPaterno}} {{personal.apellidoMaterno}}
                 </mat-option>

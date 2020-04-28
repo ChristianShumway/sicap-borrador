@@ -180,8 +180,11 @@ export class CrearObraComponent implements OnInit {
     const nuevaFechaFin = this.pipe.transform(ff, format);
     var fechaInicio = new Date(nuevaFechaInicio).getTime();
     var fechaFin    = new Date(nuevaFechaFin).getTime();
+    console.log(fechaInicio);
+    console.log(fechaFin);
     const plazoEjecucion = fechaFin - fechaInicio;
-    this.createObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)));
+    console.log(plazoEjecucion);
+    this.createObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)+1));
   }
 
   createObra(){
