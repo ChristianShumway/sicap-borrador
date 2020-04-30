@@ -180,6 +180,11 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setSupply`, JSON.stringify(solicitud), { headers: headerss});
   }
 
+  rechazarSolicitud(solicitud): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setReject`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
   descargarSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/printReource/${idSolicitud}/${tipoSolicitud}`);
   }

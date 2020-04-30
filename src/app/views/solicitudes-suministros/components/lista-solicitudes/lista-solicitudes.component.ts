@@ -136,7 +136,7 @@ export class ListaSolicitudesComponent implements OnInit {
       const hoy = this.pipe.transform(this.fechaHoy, format);
       let datosValidar: any;
 
-      if(opcion === 'validar'){
+      if (opcion === 'validar') {
         datosValidar = {
           idUsuarioValido: this.idUsuarioLogeado,
           fechaValido: hoy,
@@ -144,20 +144,41 @@ export class ListaSolicitudesComponent implements OnInit {
           idTipo: solicitud.idTipo,
           tipo: solicitud.tipo
         };
-      }
 
-      console.log(datosValidar);
-      this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.getResources();
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
+        console.log(datosValidar);
+        this.solicitudesService.validarSolicitudes(datosValidar).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
+
+      } else if (opcion === 'rechazar') {        
+        datosValidar = {
+          idTipo: solicitud.idTipo,
+          idSolicitud: solicitud.idSolicitud,
+          idUsuarioRechazo: this.idUsuarioLogeado,
+          idBitacoraSolicitud: 0,
+        };
+
+        console.log(datosValidar);
+        this.solicitudesService.rechazarSolicitud(datosValidar).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
+      }
       
     });
   }
@@ -173,8 +194,9 @@ export class ListaSolicitudesComponent implements OnInit {
       
       const {opcion} = result[0];
       let datosAutorizar: any;
+      console.log(opcion);
 
-      if(opcion === 'validar'){
+      if (opcion === 'validar') {
         datosAutorizar = {
           idOrdenCompra: idOrdenTrabajo,
           idTipo: idTipoSolicitud,
@@ -182,22 +204,41 @@ export class ListaSolicitudesComponent implements OnInit {
           idUsuarioAutorizo:this.idUsuarioLogeado,
           idBitacoraSolicitud:0,
         };
+        console.log(datosAutorizar);
+  
+        this.solicitudesService.autorizarSolicitud(datosAutorizar).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
+      } else if (opcion === 'rechazar') {        
+        datosAutorizar = {
+          idTipo: idTipoSolicitud,
+          idSolicitud: idSolicitud,
+          idUsuarioRechazo: this.idUsuarioLogeado,
+          idBitacoraSolicitud: 0,
+        };
+
+        console.log(datosAutorizar);
+        this.solicitudesService.rechazarSolicitud(datosAutorizar).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.getResources();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
       }
 
-      console.log(datosAutorizar);
-      console.log(opcion);
-
-      this.solicitudesService.autorizarSolicitud(datosAutorizar).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.getResources();
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
       
     });
   }

@@ -91,10 +91,10 @@
 
 <div class="wrap-buttons">
   <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->
-  <button mat-mini-fab color="primary">
+  <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]" matTooltip="Rechazar Solicitud" matTooltipPosition="left">
     <mat-icon>thumb_down</mat-icon>
   </button>
-  <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'validar'}]">
+  <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'validar'}]" matTooltip="Validar Solicitud" matTooltipPosition="right">
     <mat-icon>thumb_up</mat-icon>
   </button>
 </div>
