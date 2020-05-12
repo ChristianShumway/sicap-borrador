@@ -1,0 +1,107 @@
+<mat-card class="p-0 container-create-user">
+  <mat-card-title class="">
+    <div class="card-title-text">Llena el formulario para el registro de un nuevo equipo</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="createExtraForm" (submit)="createExtraordinary()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100">
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="noVehiculo" formControlName="noVehiculo" placeholder="No. Vehículo" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['noVehiculo'].hasError('required') && createExtraForm.controls['noVehiculo'].touched" class="form-error-msg">
+                El número del vehículo es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="descripcion" formControlName="descripcion" placeholder="Descripción" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['descripcion'].hasError('required') && createExtraForm.controls['descripcion'].touched"
+                class="form-error-msg">
+                Las descripción del vehículo es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="clave" formControlName="clave" placeholder="Clave" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['clave'].hasError('required') && createExtraForm.controls['clave'].touched"
+                class="form-error-msg">
+                Las clave del vehículo es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="placas" formControlName="placas" placeholder="Placas" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['placas'].hasError('required') && createExtraForm.controls['placas'].touched"
+                class="form-error-msg">
+                Las placas del vehículo es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput type="number" name="cantidad" formControlName="cantidad" placeholder="Cantidad" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['cantidad'].hasError('required') && createExtraForm.controls['cantidad'].touched" class="form-error-msg">
+                La cantidad es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="unidad" formControlName="unidad" placeholder="Unidad" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['unidad'].hasError('required') && createExtraForm.controls['unidad'].touched"
+                class="form-error-msg">
+                La unidad es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput  name="precioUnitario" formControlName="precioUnitario" placeholder="Precio Unitario" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['precioUnitario'].hasError('required') && createExtraForm.controls['precioUnitario'].touched"
+                class="form-error-msg">
+                El precio unitario es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="importe" formControlName="importe" placeholder="Importe" mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraForm.controls['importe'].hasError('required') && createExtraForm.controls['importe'].touched" class="form-error-msg">
+                El importe es un campo requerido
+              </small>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="cont-btns">
+        <button mat-raised-button color="primary" [disabled]="createExtraForm.invalid" type="submit">Agregar</button>
+        <!-- <button mat-raised-button [routerLink]="'/configuracion/perfiles'">Cancelar</button> -->
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>

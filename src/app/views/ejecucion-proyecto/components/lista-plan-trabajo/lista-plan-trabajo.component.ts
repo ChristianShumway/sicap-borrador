@@ -39,6 +39,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   panelOpenState = false;
   montoTotal: number = 0;
   total:any[] = [];
+  permisoAcceso: boolean = false;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -105,9 +106,13 @@ export class ListaPlanTrabajoComponent implements OnInit {
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
     console.log(idExistente);
     if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a ver lista de plan de trabajo de esta obra', ' ', 'error-dialog');
+      // this.router.navigate(['/dashboard']);
+      // this.useAlerts('No tienes acceso a ver lista de plan de trabajo de esta obra', ' ', 'error-dialog');
+      this.permisoAcceso = false;
+      console.log(this.permisoAcceso);
     } else {
+      this.permisoAcceso = true;
+      console.log(this.permisoAcceso);
       // this.getWorkPlans();
     }
   }
@@ -120,8 +125,14 @@ export class ListaPlanTrabajoComponent implements OnInit {
         this.dataSource.data = this.workPlans;
 
         planes.map( plan => {
+          console.log(plan);
           const total = plan.viewConceptWorkPlan.reduce((acc,obj) => acc + (obj.importePlaneado),0);
-          const art = {idPlan: plan.idPlanTrabajo, totalMateriales: total,};
+          const art = {
+            idPlan: plan.idPlanTrabajo, 
+            totalMateriales: total, 
+            totalEjecutado: plan.totalEjecutado,
+            totalObra: plan.totalObra
+          };
           this.total.push(art);          
         });
         // console.log(this.total);
@@ -226,7 +237,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
     setTimeout(() => { 
       this.montoTotal+= monto;
     },0);
-    console.log(this.montoTotal);
+    // console.log(this.montoTotal);
   }
 
   useAlerts(message, action, className) {

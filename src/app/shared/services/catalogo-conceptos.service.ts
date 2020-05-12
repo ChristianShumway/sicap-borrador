@@ -3,30 +3,13 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CatalogoConceptos } from '../models/catalogo-conceptos';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { environment } from 'environments/environment';
+import { CatalogoManoObra } from '../models/catalogo-mano-obra';
+import { CatalogoSubcontrato } from '../models/catalogo-subcontrato';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CatalogoConceptosService {
-
-  catalogoConceptosTemp: CatalogoConceptos[] = [
-    {
-      noConcepto: 1,
-      descripcion: 'Poda de Árbol tipo "B"',
-      unidad: 'Árbol',
-      cantidad: 20,
-      precioUnitario: 152.99,
-      importe:  110152.80 
-    },
-    {
-      noConcepto: 1,
-      descripcion: 'Poda de Árbol tipo "A"',
-      unidad: 'Árbol',
-      cantidad: 720,
-      precioUnitario: 152.99,
-      importe:  110152.80 
-    }
-  ];
 
   getDataColumns() {
     return [
@@ -81,7 +64,6 @@ export class CatalogoConceptosService {
       error => console.log(error)
     );
   }
-
 
   getCatalogoObra(id: number): Observable<any>{
     return this.http.get<CatalogoConceptos>(`${environment.apiURL}/obra/getConceptsByObra/${id}`);

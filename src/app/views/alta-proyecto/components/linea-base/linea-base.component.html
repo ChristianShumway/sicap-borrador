@@ -1,0 +1,93 @@
+<div class="wrap-add-montos">
+  <mat-accordion>
+    <mat-expansion-panel [(expanded)]="panelOpenState">
+
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Agregar Período
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+
+      <form [formGroup]="montoForm" (submit)="addMonto()">
+        <div fxLayout="row wrap">
+          <div fxFlex="100" fxFlex.gt-xs="100">
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput placeholder="Nombre" name="nombre" formControlName="nombre">
+              </mat-form-field>
+            </div>
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <mat-label>Duración del Periodo</mat-label>
+                <mat-select formControlName="idTipoDuracion" required>
+                  <mat-option *ngFor="let tipo of tipoDuracion" [value]="tipo.idTipoDuracion">
+                    {{tipo.descripcion}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput type="number" placeholder="Porcentaje" name="porcentaje" formControlName="porcentaje">
+              </mat-form-field>
+            </div>
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicial" name="date" placeholder="Desde" (dateChange)="onFechaInicio($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+              </mat-form-field>
+            </div>
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Hasta" (dateChange)="onFechaFin($event)">
+                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                <mat-datepicker #fechaFin (selectedChange)="onFechaFin($event)"></mat-datepicker>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+        <div class="cont-btn">
+          <button mat-raised-button color="primary" [disabled]="montoForm.invalid" type="submit">Agregar</button>
+        </div>
+      </form>
+
+    </mat-expansion-panel>
+  </mat-accordion>
+</div>
+
+<div class="wrap-list-montos" *ngIf="(periodosObs$ | async) as periodos">
+  <!-- {{periodos | json}} -->
+  <h4 mat-subheader>Períodos Programados Agregados</h4>
+  <mat-list *ngIf="periodos.length">
+
+    <div class="tipo-presupuesto">
+      <!-- <p class="titulo-tipo-presupuesto pto">Presupuesto Total de Obra</p> -->
+      <div *ngFor="let periodo of periodos">
+        <mat-list-item>
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(periodo)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(periodo)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line><b>{{periodo.nombre}}</b></h2>
+          <p mat-line> Porcentaje: {{periodo.porcentaje}} % </p>
+          <p mat-line> Desde: {{periodo.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{periodo.fechaFinal | date}} </p>
+          <p mat-line> {{periodo.tipoDuracion.descripcion}} No. {{periodo.noLineaBase}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
+  </mat-list>
+</div>

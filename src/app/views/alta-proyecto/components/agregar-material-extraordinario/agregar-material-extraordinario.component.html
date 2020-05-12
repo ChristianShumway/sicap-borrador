@@ -16,7 +16,7 @@
             <div class="validaciones">
               <small *ngIf="createExtraordinaryMaterialForm.controls['noMaterial'].hasError('required') && createExtraordinaryMaterialForm.controls['noMaterial'].touched"
                 class="form-error-msg">
-                El número del concepto extraordinario es un campo requerido
+                El número del material extraordinario es un campo requerido
               </small>
             </div>
           </div>
@@ -27,7 +27,29 @@
             <div class="validaciones">
               <small *ngIf="createExtraordinaryMaterialForm.controls['descripcion'].hasError('required') && createExtraordinaryMaterialForm.controls['descripcion'].touched"
                 class="form-error-msg">
-                La descripción del concepto extraordinario es un campo requerido
+                La descripción del material extraordinario es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="partida" formControlName="partida" placeholder="Partida" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraordinaryMaterialForm.controls['partida'].hasError('required') && createExtraordinaryMaterialForm.controls['partida'].touched"
+                class="form-error-msg">
+                La partida del material extraordinario es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="familia" formControlName="familia" placeholder="Familia" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraordinaryMaterialForm.controls['familia'].hasError('required') && createExtraordinaryMaterialForm.controls['familia'].touched"
+                class="form-error-msg">
+                La familia del material extraordinario es un campo requerido
               </small>
             </div>
           </div>

@@ -9,4 +9,6 @@ export interface ListaPersonal {
   sueldo: number;
   idArchivoObra?: number;
   tipo?: number;
+  partida?: string;
+  extraordinario?: number;
 }

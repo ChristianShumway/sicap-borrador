@@ -6,8 +6,10 @@ export interface ReporteSubcontrato {
   latitud: number;
   longitud: number;
   fechaInicio: string;
-  fechaFinal: string;
+  fechaFinal?: string;
   idUsuarioModifico?: number;
   observacion: string;
   viewReportSubContract?: ConceptoSubcontrato[];
+  totalEjecutado?: number;
+  totalObra?: number;
 }

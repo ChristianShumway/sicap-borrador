@@ -2,84 +2,90 @@
   <input matInput placeholder="Filtrar Plan de Trabajo" value="" (keyup)='updateFilter($event)'>
 </mat-form-field> -->
 
-<div class="wrap-button">
-  <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Regresar</button>
-</div>
-
-
-<div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
-  <ng-container *ngIf="worksPlan.length; else loading">
-    
-    <div class="monto-total">
-      <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p>
-    </div>
-
-    <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-      <mat-card class="user-card p-0">
-        <mat-card-title>
-          <div class="card-title-text obra">
-            <span fxFlex></span>
-            <button mat-icon-button [matMenuTriggerFor]="planMenu" class="">
-              <mat-icon class="">more_vert</mat-icon>
-            </button>
-            <mat-menu #planMenu="matMenu">
-              <div id="modificar-reporte" #myIdM>
-                <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Plan de Trabajo</a>
+<div class="container-gral" *ngIf = "permisoAcceso">
+  <div class="wrap-button">
+    <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Regresar</button>
+  </div>
+  
+  <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
+    <ng-container *ngIf="worksPlan.length; else loading">
+      <div class="monto-total">
+        <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p>
+      </div>
+      
+      <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+        <!-- {{plan | json}} -->
+        <mat-card class="user-card p-0">
+          <mat-card-title>
+            <div class="card-title-text obra">
+              <span fxFlex></span>
+              <button mat-icon-button [matMenuTriggerFor]="planMenu" class="">
+                <mat-icon class="">more_vert</mat-icon>
+              </button>
+              <mat-menu #planMenu="matMenu">
+                <div id="modificar-reporte" #myIdM>
+                  <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Plan de Trabajo</a>
+                </div>
+                <div id="eliminar-reporte" #myIdE>
+                  <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Plan</button>
+                </div>
+              </mat-menu>
+            </div>
+            <mat-divider></mat-divider>
+          </mat-card-title>
+  
+          <mat-card-content>
+            <div class="user-details">
+              <div class="wrap-detalles-tarea">
+                <p class="p-info-catalogs">
+                  <span>Fecha de Inicio:</span> {{plan.fechaInicio | date}}</p>
+                <p class="p-info-catalogs">
+                  <span>Fecha de Termino:</span> {{plan.fechaFinal | date}}</p>
               </div>
-              <div id="eliminar-reporte" #myIdE>
-                <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Plan</button>
+              <div class="wrap-observacion">
+                <p class="tit-observacion">Observación:</p>
+                <p>{{plan.observacion}}</p>
               </div>
-            </mat-menu>
-          </div>
-          <mat-divider></mat-divider>
-        </mat-card-title>
-
-        <mat-card-content>
-          <div class="user-details">
-            <div class="wrap-detalles-tarea">
-              <p class="p-info-catalogs">
-                <span>Fecha de Inicio:</span> {{plan.fechaInicio | date}}</p>
-              <p class="p-info-catalogs">
-                <span>Fecha de Termino:</span> {{plan.fechaFinal | date}}</p>
+              <div class="wrap-total" *ngFor = "let tot of total">
+                <p class="total-p" *ngIf="tot.idPlan === plan.idPlanTrabajo">
+                  El importe total planeado dentro del periodo es de <b>{{tot.totalMateriales | currency}}</b> 
+                  y representa el {{(tot.totalMateriales / tot.totalObra) * 100 | number:'1.2-2'}}% del total de la obra.
+                </p>
+                <p class="total-e" *ngIf="tot.idPlan === plan.idPlanTrabajo">
+                  El importe total ejecutado dentro del periodo es de <b>{{tot.totalEjecutado | currency}}</b> 
+                  y representa el {{(tot.totalEjecutado / tot.totalObra) * 100 | number:'1.2-2'}}% del total de la obra.
+                </p>
+              </div>
             </div>
-            <div class="wrap-observacion">
-              <p class="tit-observacion">Observación:</p>
-              <p>{{plan.observacion}}</p>
-            </div>
-            <div class="wrap-total" *ngFor = "let tot of total">
-              <p class="total-p" *ngIf="tot.idPlan === plan.idPlanTrabajo">
-                El importe total planeado de los conceptos agregados al plan de trabajo es de <b>{{tot.totalMateriales | currency}}</b> 
-              </p>
-            </div>
-          </div>
-
-          <mat-accordion>
-            <mat-expansion-panel>
-              <mat-expansion-panel-header>
-                <mat-panel-title>
-                  Conceptos
-                </mat-panel-title>
-                <mat-panel-description>
-                  Conceptos agregados al plan de trabajo
-                </mat-panel-description>
-              </mat-expansion-panel-header>
-              <app-conceptos-lista 
-                [conceptos]="plan.viewConceptWorkPlan" 
-                [tipoReporte]="'plan-trabajo'"
-                (montosCaptured) = "onMontosTotal($event)" >
-              </app-conceptos-lista>             
-            </mat-expansion-panel>
-          </mat-accordion>
-          
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </ng-container>
-  <ng-template #loading>
-    <div class="wrap-loading-catalog">
-      <mat-spinner [diameter]="60"></mat-spinner>
-    </div>
-  </ng-template>
+  
+            <mat-accordion>
+              <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                  <mat-panel-title>
+                    Conceptos
+                  </mat-panel-title>
+                  <mat-panel-description>
+                    Conceptos agregados al plan de trabajo
+                  </mat-panel-description>
+                </mat-expansion-panel-header>
+                <app-conceptos-lista 
+                  [conceptos]="plan.viewConceptWorkPlan" 
+                  [tipoReporte]="'plan-trabajo'"
+                  (montosCaptured) = "onMontosTotal($event)" >
+                </app-conceptos-lista>             
+              </mat-expansion-panel>
+            </mat-accordion>
+            
+          </mat-card-content>
+        </mat-card>
+      </div>
+    </ng-container>
+    <ng-template #loading>
+      <div class="wrap-loading-catalog">
+        <mat-spinner [diameter]="60"></mat-spinner>
+      </div>
+    </ng-template>
+  </div>
+  
+  <mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>
 </div>
-
-<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

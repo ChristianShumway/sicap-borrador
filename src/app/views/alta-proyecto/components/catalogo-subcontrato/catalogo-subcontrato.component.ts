@@ -9,6 +9,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
+import { MatBottomSheet } from '@angular/material';
 
 @Component({
   selector: 'app-catalogo-subcontrato',
@@ -42,6 +44,7 @@ export class CatalogoSubcontratoComponent implements OnInit {
     public dialog: MatDialog,
     private catalogoSubcontratoService: CatalogoSubcontratoService,
     private autenticacionService: AutenticacionService,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
 
@@ -152,6 +155,21 @@ export class CatalogoSubcontratoComponent implements OnInit {
         );
       }
     });
+  }
+
+  openBottomExtraordinario(idArchivoObra): void {
+    let sheet = this.bottomSheet.open(AgregarConceptoExtraordinarioComponent, {
+      data: {
+        idObra:this.idObra, 
+        idUsuario: this.usuarioLogeado,
+        tipoCatalogo: 'subcontrato',
+        idArchivoObra
+      }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked'+this.idObra);
+    });  
   }
 
   useAlerts(message, action, className) {

@@ -1,11 +1,14 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { Observable } from 'rxjs';
+import { MatSnackBar } from '@angular/material';
+import { DatePipe } from '@angular/common';
+
+import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
+import { EvidenciaReporte } from './../../../../shared/models/evidencia-reporte';
 import { ReporteConceptosEjecutadosService } from './../../../../shared/services/reporte-conceptos-ejecutados.service';
 import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service';
-import { EvidenciaReporte } from './../../../../shared/models/evidencia-reporte';
-import { Observable } from 'rxjs';
-import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
-import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
+
 
 @Component({
   selector: 'app-conceptos-lista',
@@ -39,12 +42,13 @@ export class ConceptosListaComponent implements OnInit {
     private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
     private autenticacionService: AutenticacionService,
     private snackBar: MatSnackBar,
-    private reporteSubcontratoService: ReporteSubcontratoService
+    private reporteSubcontratoService: ReporteSubcontratoService,
+    private reporteManoObraService: ReporteManoObraService
   ) { }
 
   ngOnInit() {
     this.idUserLogeado = this.autenticacionService.currentUserValue;
-    console.log(this.tipoReporte);
+    // console.log(this.tipoReporte);
     this.getConcepts();
   }
 
@@ -65,6 +69,12 @@ export class ConceptosListaComponent implements OnInit {
         if (concepto.cantidadSubContrato > 0){
           this.conceptosSeleccionados.push(concepto);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeSubContrato;
+        }
+      } else if(this.tipoReporte === 'reporte-mano-obra'){
+        if (concepto.cantidadCapturada > 0){
+          this.conceptosSeleccionados.push(concepto);
+          // console.log(this.conceptosSeleccionados);
+          this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;
         }
       }
     });

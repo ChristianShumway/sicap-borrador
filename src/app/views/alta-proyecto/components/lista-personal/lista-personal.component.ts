@@ -9,6 +9,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import { MatBottomSheet } from '@angular/material';
+import { AgregarPersonalComponent } from '../agregar-personal/agregar-personal.component';
 
 @Component({
   selector: 'app-lista-personal',
@@ -42,6 +44,7 @@ export class ListaPersonalComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private autenticacionService: AutenticacionService,
     public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
 
@@ -152,6 +155,21 @@ export class ListaPersonalComponent implements OnInit {
         );
       }
     });
+  }
+
+  openBottomExtra(idArchivoObra): void {
+    let sheet = this.bottomSheet.open(AgregarPersonalComponent, {
+      data: {
+        idObra:this.idObra, 
+        idUsuario: this.usuarioLogeado,
+        tipoCatalogo: 'personal',
+        idArchivoObra
+      }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked'+this.idObra);
+    });  
   }
 
   useAlerts(message, action, className) {

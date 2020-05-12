@@ -41,9 +41,9 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   idObra;
   idReporteConceptos
   fechaInicio;
-  fechaFinal;
+  // fechaFinal;
   fechaHoy = new Date();
-  error:any={isError:false,errorMessage:''};
+  // error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
 
@@ -79,7 +79,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObra();
     this.getValidations();
-    this.compareTwoDates();
+    // this.compareTwoDates();
     
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
@@ -114,34 +114,34 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
       fechaInicio: new FormControl(this.fechaInicio, Validators.required),
-      fechaFinal: new FormControl(this.fechaFinal, Validators.required),
+      // fechaFinal: new FormControl(this.fechaFinal, Validators.required),
     })
   }
 
   public onFechaInicio(event): void {
     this.fechaInicio = event.value;
-    this.compareTwoDates();
+    // this.compareTwoDates();
   }
 
-  public onFechaFinal(event): void {
-    this.fechaFinal = event.value;
-    this.compareTwoDates();
-  }
+  // public onFechaFinal(event): void {
+  //   this.fechaFinal = event.value;
+  //   this.compareTwoDates();
+  // }
 
-  compareTwoDates(){
-    const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-    const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+  // compareTwoDates(){
+  //   const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //   const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
 
-    if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};      
-      this.notaBitacoraForm.controls['fechaInicio'].setValue(this.fechaFinal);
-      this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-      const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-      const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
-    } else {
-      this.error={isError:false};
-    }
-  }
+  //   if( controlFechaFin < controlFechaInicio){
+  //     this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};      
+  //     this.notaBitacoraForm.controls['fechaInicio'].setValue(this.fechaFinal);
+  //     this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //     const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //     const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+  //   } else {
+  //     this.error={isError:false};
+  //   }
+  // }
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
@@ -191,8 +191,8 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
           let finString = reporte.fechaFinal;
           this.fechaInicio = new Date(inicioString);
           this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
-          this.fechaFinal = new Date(finString);
-          this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
+          // this.fechaFinal = new Date(finString);
+          // this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
           this.notaBitacoraForm.patchValue(reporte);
           // console.log(reporte);
           this.latitude = reporte.latitud;
@@ -344,7 +344,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
     if (this.notaBitacoraForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
-      const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
+      // const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
       const newCatalog: ConceptoEjecutado[] = []
   
       this.catalogo.map( (concepto: ConceptoEjecutado) => {
@@ -363,7 +363,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
         ...this.notaBitacoraForm.value,
         idConceptoEjecutado: parseInt(this.idReporteConceptos),
         fechaInicio: nuevaFechaInicio,
-        fechaFinal: nuevaFechaFin,
+        // fechaFinal: nuevaFechaFin,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptExecuted: newCatalog,

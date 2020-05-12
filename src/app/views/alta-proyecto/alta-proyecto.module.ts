@@ -40,6 +40,10 @@ import { TimeLineObservacionesObraComponent } from './components/time-line-obser
 import { ObservacionHeaderComponent } from './components/observacion-header/observacion-header.component';
 import { ObservacionBodyComponent } from './components/observacion-body/observacion-body.component';
 import { LoadingImageComponent } from './components/loading-image/loading-image.component';
+import { AgregarPersonalComponent } from './components/agregar-personal/agregar-personal.component';
+import { AgregarEquipoComponent } from './components/agregar-equipo/agregar-equipo.component';
+import { LineaBaseComponent } from './components/linea-base/linea-base.component';
+import { ModificarLineaBaseComponent } from './components/modificar-linea-base/modificar-linea-base.component';
 // import { NgxDocViewerModule } from 'modules';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -71,7 +75,11 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     TimeLineObservacionesObraComponent,
     ObservacionHeaderComponent,
     ObservacionBodyComponent,
-    LoadingImageComponent
+    LoadingImageComponent,
+    AgregarPersonalComponent,
+    AgregarEquipoComponent,
+    LineaBaseComponent,
+    ModificarLineaBaseComponent
   ],
   imports: [
     CommonModule,
@@ -100,7 +108,10 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     AgregarMaterialExtraordinarioComponent,
     AsignarMaterialesConceptoComponent,
     AltaDocumentoComponent,
-    ModificarMontoProgramadoComponent
+    ModificarMontoProgramadoComponent,
+    AgregarPersonalComponent,
+    AgregarEquipoComponent,
+    ModificarLineaBaseComponent
   ]
 })
 export class AltaProyectoModule { }

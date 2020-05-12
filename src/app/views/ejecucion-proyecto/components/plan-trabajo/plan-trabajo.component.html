@@ -6,87 +6,156 @@
   </div>
 </div>
 
-<div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()">
-    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+<div *ngIf="(obraObs$ | async) as obra">
+  <div fxLayout="row wrap" *ngIf = "permisoAcceso">
+    <form [formGroup]="planTrabajoForm" (submit)="reportarAvance()">
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+        
+        <div class="wrap-colapsable">
+          <mat-expansion-panel [(expanded)]="panelOpenState">
+            <mat-expansion-panel-header>
+              <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
+            </mat-expansion-panel-header>
+    
+            <div class="info-obra">
+              <!-- <h1>{{obra.noContrato}}</h1> -->
+              <p>{{obra.nombreObra}}</p>
+            </div>
       
-      <div class="wrap-colapsable">
-        <mat-expansion-panel [(expanded)]="panelOpenState">
-          <mat-expansion-panel-header>
-            <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
-          </mat-expansion-panel-header>
+            <div class="info-bitacora">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
+                </mat-form-field>
+              </div>
+      
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
+                    (dateChange)="onFechaInicio($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="planTrabajoForm.controls['fechaInicio'].hasError('required') && planTrabajoForm.controls['fechaInicio'].touched" class="form-error-msg">
+                    Fecha Inicio del plan de trabajo es un campo requerido
+                  </small>
+                </div>
+                <div class="validaciones">
+                  <small *ngIf="error.isError" class="form-error-msg">
+                    {{ error.errorMessage }}
+                  </small>
+                </div>
+              </div>
+      
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin"
+                    (dateChange)="onFechaFinal($event)">
+                  <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+                  <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="planTrabajoForm.controls['fechaFinal'].hasError('required') && planTrabajoForm.controls['fechaFinal'].touched" class="form-error-msg">
+                    Fecha Final del plan de trabajo es un campo requerido
+                  </small>
+                </div>
+              </div>
+      
+            </div>
   
-          <div class="info-obra">
-            <!-- <h1>{{obra.noContrato}}</h1> -->
-            <p>{{obra.nombreObra}}</p>
-          </div>
-    
-          <div class="info-bitacora">
-            <div class="pb-1">
-              <mat-form-field class="full-width">
-                <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
-              </mat-form-field>
-            </div>
-    
-            <div class="pb-1">
-              <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
-                  (dateChange)="onFechaInicio($event)">
-                <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
-                <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
-              </mat-form-field>
-              <div class="validaciones">
-                <small *ngIf="planTrabajoForm.controls['fechaInicio'].hasError('required') && planTrabajoForm.controls['fechaInicio'].touched" class="form-error-msg">
-                  Fecha Inicio del plan de trabajo es un campo requerido
-                </small>
-              </div>
-              <div class="validaciones">
-                <small *ngIf="error.isError" class="form-error-msg">
-                  {{ error.errorMessage }}
-                </small>
-              </div>
-            </div>
-    
-            <div class="pb-1">
-              <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin"
-                  (dateChange)="onFechaFinal($event)">
-                <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
-                <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
-              </mat-form-field>
-              <div class="validaciones">
-                <small *ngIf="planTrabajoForm.controls['fechaFinal'].hasError('required') && planTrabajoForm.controls['fechaFinal'].touched" class="form-error-msg">
-                  Fecha Final del plan de trabajo es un campo requerido
-                </small>
-              </div>
-            </div>
-    
-          </div>
-
-        </mat-expansion-panel>
+          </mat-expansion-panel>
+        </div>
+  
+  
+        <div class="wrap-button">
+          <button *ngIf="catalogo.length" mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit" class="btn-accept">Registrar</button>
+          <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Cancelar</button>
+        </div>
+  
       </div>
-
-
-      <div class="wrap-button">
-        <button *ngIf="catalogo.length" mat-raised-button color="primary" [disabled]="planTrabajoForm.invalid" type="submit" class="btn-accept">Registrar</button>
-        <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/plan-trabajo'">Cancelar</button>
+    </form>
+  
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" >
+      <mat-form-field class="margin-333" style="width: 98%">
+        <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
+      </mat-form-field>
+  
+      <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
+  
+        <ngx-datatable 
+        class="material fullscreen bg-white"
+        style="height: 500px; overflow-y: auto;" 
+        [rows]="catalogo" 
+        [columnMode]="'force'" 
+        [headerHeight]="50" 
+        [footerHeight]="50"
+        [scrollbarH]="true" 
+        [rowHeight]="'auto'" 
+        [scrollbarH]="true" 
+        [rowHeight]="50">
+          <ngx-datatable-column name="No." [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{ row?.noConcepto }}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Descripción" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.descripcion}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Unidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.unidad}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.cantidadOriginal}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.precioUnitario | currency}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <mat-form-field class="cantidad-seleccionada">
+                <input matInput type="number" min="0" [(ngModel)] = "row.cantidadPlaneada">
+              </mat-form-field>
+            </ng-template>
+          </ngx-datatable-column>
+  
+          <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p class="content-center">
+                {{ row?.cantidadPlaneada * row?.precioUnitario | currency }} 
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+  
+        </ngx-datatable>
       </div>
-
-    </div>
-  </form>
-
-
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo" >
-    <mat-form-field class="margin-333" style="width: 98%">
-      <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
-    </mat-form-field>
-
-    <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
-
+      
+      <ng-template #noconceptos>
       <ngx-datatable 
       class="material fullscreen bg-white"
-      style="height: 500px; overflow-y: auto;" 
-      [rows]="catalogo" 
       [columnMode]="'force'" 
       [headerHeight]="50" 
       [footerHeight]="50"
@@ -94,84 +163,16 @@
       [rowHeight]="'auto'" 
       [scrollbarH]="true" 
       [rowHeight]="50">
-        <ngx-datatable-column name="No." [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{ row?.noConcepto }}
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Descripción" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.descripcion}}
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Unidad" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.unidad}}
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Cantidad" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.cantidadOriginal}}
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-              {{row?.precioUnitario | currency}}
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <mat-form-field class="cantidad-seleccionada">
-              <input matInput type="number" min="0" [(ngModel)] = "row.cantidadPlaneada">
-            </mat-form-field>
-          </ng-template>
-        </ngx-datatable-column>
-
-        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1">
-          <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center">
-              {{ row?.cantidadPlaneada * row?.precioUnitario | currency }} 
-            </p>
-          </ng-template>
-        </ngx-datatable-column>
-
+        <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1"></ngx-datatable-column>
+        <ngx-datatable-column name="Importe Planeado" [flexGrow]="1"></ngx-datatable-column>
       </ngx-datatable>
+      </ng-template>
+  
     </div>
-    
-    <ng-template #noconceptos>
-    <ngx-datatable 
-    class="material fullscreen bg-white"
-    [columnMode]="'force'" 
-    [headerHeight]="50" 
-    [footerHeight]="50"
-    [scrollbarH]="true" 
-    [rowHeight]="'auto'" 
-    [scrollbarH]="true" 
-    [rowHeight]="50">
-      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Cantidad Planeada" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Importe Planeado" [flexGrow]="1"></ngx-datatable-column>
-    </ngx-datatable>
-    </ng-template>
-
   </div>
 </div>

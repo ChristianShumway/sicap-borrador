@@ -7,6 +7,7 @@ import { BehaviorSubject } from 'rxjs';
 import { DocumentosObra } from './../models/documentos-obra';
 import { MontoProgramado } from '../models/monto-programado';
 import { Observacion } from '../models/observacion';
+import { LineaBase } from '../models/linea-base';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,8 @@ export class ObraService {
   private archivosObraSubject = new BehaviorSubject<DocumentosObra>(null);
   private montosObra: MontoProgramado;
   private montosObraSubject = new BehaviorSubject<MontoProgramado>(null);
+  private lineaBase: LineaBase;
+  private lineaBaseSubject = new BehaviorSubject<LineaBase>(null);
 
   private observacionesObra: Observacion[];
   private observacionesObraSubject = new BehaviorSubject<Observacion[]>(null);
@@ -128,6 +131,37 @@ export class ObraService {
     return this.http.post<any>(`${environment.apiURL}/obra/deleteBudget`, JSON.stringify(monto), { headers: headerss});
   }
 
+  getDataLineaBase(): Observable<LineaBase> {
+    return this.lineaBaseSubject.asObservable();
+  }
+
+  private refreshLineaBase() {
+    this.lineaBaseSubject.next(this.lineaBase);
+  }
+  
+  getLineaBaseObservable(id:number){
+    return this.http.get<LineaBase>(`${environment.apiURL}/obra/getBaseLineByObra/${id}`).subscribe(
+      (montos: LineaBase) => {
+        this.lineaBase = montos;
+        this.refreshLineaBase();
+      },
+      error => console.log(error)
+    );
+  }
+
+  createUpdateLineaBaseObra(periodo): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/updateBaseLine`, JSON.stringify(periodo), { headers: headerss});
+  }
+
+  deleteLineaBaseObra(monto: Partial<LineaBase>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/obra/deleteBaseLine`, JSON.stringify(monto), { headers: headerss});
+  }
+
+  getTiposDuracion(): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/obra/getDurationType`);
+  }
 
   createObservacionObra(observacion): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});

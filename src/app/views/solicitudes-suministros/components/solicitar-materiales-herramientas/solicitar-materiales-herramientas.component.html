@@ -146,22 +146,31 @@
         [limit]="10"
       >
   
-        <ngx-datatable-column name="No." [flexGrow]="1">
+        <ngx-datatable-column name="Categoria" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
-                {{row?.noMaterial}}
+                {{row?.idMaterial}}
             </p>
           </ng-template>
         </ngx-datatable-column>
+
+        <!-- <ngx-datatable-column name="Categoria" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
+              {{row?.idMaterial}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column> -->
   
-        <ngx-datatable-column name="Conceptos" [flexGrow]="1">
+        <ngx-datatable-column name="Descripción" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
               {{row?.descripcion}}
             </p>
           </ng-template>
         </ngx-datatable-column>
-  
+        
+        
         <ngx-datatable-column name="Unidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
@@ -169,7 +178,7 @@
             </p>
           </ng-template>
         </ngx-datatable-column>
-  
+        
         <ngx-datatable-column name="Cantidad" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <mat-form-field class="cantidad-seleccionada" >

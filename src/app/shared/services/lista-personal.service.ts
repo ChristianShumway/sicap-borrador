@@ -41,5 +41,11 @@ export class ListaPersonalService {
   removeListaPersonal(idFile: number, idUser: number): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
+
+  createPersonalExtra(personal): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<ListaPersonal>(`${environment.apiURL}/obra/addStaff`, JSON.stringify(personal), { headers: headerss});
+  }
+
   
 }

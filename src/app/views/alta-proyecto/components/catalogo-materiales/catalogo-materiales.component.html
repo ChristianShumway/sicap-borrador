@@ -1,5 +1,5 @@
 <div *ngIf="(catalogoMaterialesObs$ | async) as catalogo">
-
+  <!-- {{catalogo | json}} -->
   <div *ngIf="catalogo.length; else cargarCatalogo">
     <div class="div" *ngIf="catalogo">
       <!-- <mat-form-field class="margin-333" style="width: 100%">
@@ -39,10 +39,18 @@
             </ng-template>
           </ngx-datatable-column>
 
-          <ngx-datatable-column name="Unidad" [flexGrow]="1">
+          <ngx-datatable-column name="Partida" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-                {{row?.unidad}}
+                {{row?.partida}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Familia" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.familia}}
               </p>
             </ng-template>
           </ngx-datatable-column>
@@ -51,6 +59,14 @@
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
                 {{row?.cantidad}}
+              </p>
+            </ng-template>
+          </ngx-datatable-column>
+          
+          <ngx-datatable-column name="Unidad" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
+                {{row?.unidad}}
               </p>
             </ng-template>
           </ngx-datatable-column>

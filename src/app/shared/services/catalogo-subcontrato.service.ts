@@ -42,4 +42,9 @@ export class CatalogoSubcontratoService {
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
 
+  createConceptoExtraordinario(extraordinario): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<CatalogoSubcontrato>(`${environment.apiURL}/obra/addSubContract`, JSON.stringify(extraordinario), { headers: headerss});
+  }
+
 }

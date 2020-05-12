@@ -18,6 +18,18 @@
             </small>
           </div> -->
         </div>
+        
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Duración del Periodo</mat-label>
+            <mat-select formControlName="idTipoDuracion" required>
+              <mat-option *ngFor="let tipo of tipoDuracion" [value]="tipo.idTipoDuracion">
+                {{tipo.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput placeholder="Monto" name="monto" formControlName="monto"  mask="separator.2" thousandSeparator=",">

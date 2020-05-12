@@ -122,7 +122,7 @@
             </div>
           </div> -->
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Servicio de Interes</mat-label>
               <mat-select formControlName="idServicioInteres" required>
@@ -136,7 +136,7 @@
                 Servicio de Interes es un campo requerido
               </small>
             </div>
-          </div>
+          </div> -->
 
           <div class="fields-form-adicional">
             <div class="wrap-descripcion-solicitud">
@@ -156,5 +156,170 @@
         </mat-card-content>
       </div>
     </form>
+
+    <div class="wrap-peticiones">
+      <mat-expansion-panel [(expanded)]="panelOpenState">
+        
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-peticion">
+            Agregar Petición
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select required [(ngModel)]="categoriaPeticion">
+              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
+                {{categoria.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>  
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Descripción de Solicitud"  [(ngModel)]="descripcionSolicitud"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput  placeholder="Tipo de Servicio" [(ngModel)]="tipoServicioSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput  placeholder="Unidad" [(ngModel)]="unidadSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput type="number"  placeholder="Cantidad" [(ngModel)]="cantidadSolicitud">
+          </mat-form-field>
+        </div>
+
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Precio" [(ngModel)]="precioSolicitud" mask="separator.2" thousandSeparator=",">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Importe" [(ngModel)]="importeSolicitud" mask="separator.2" thousandSeparator=",">
+          </mat-form-field>
+        </div>
+
+        <div class="cont-btns">
+          <button mat-raised-button color="primary" (click)="agregarPetision()" class="btn-accept">Agregar Petición</button>
+        </div>
+      
+      </mat-expansion-panel>
+      
+    </div>
+  
   </mat-card>
+  
+  <div class="mat-box-shadow margin-333" *ngIf="peticionesSolicitadas.length; else nopeticiones">
+    <!-- {{peticionesSolicitadas | json}} -->
+
+    <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="peticionesSolicitadas" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+      <ngx-datatable-column name="No." [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{ rowIndex + 1 }}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Categoría" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.categoriaSolicitudRecurso.descripcion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descripción" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.descripcion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.tipoServicio}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Unidad" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.unidad}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p  class="content-center">
+            {{row?.cantidad}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p  class="content-center">
+            {{row?.precio | currency}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Importe" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p  class="content-center">
+            {{row?.importe | currency}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Acción" [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+
+  <ng-template #nopeticiones >
+    <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
+      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Precio" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Importe" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+  </ng-template>
+
 </div>

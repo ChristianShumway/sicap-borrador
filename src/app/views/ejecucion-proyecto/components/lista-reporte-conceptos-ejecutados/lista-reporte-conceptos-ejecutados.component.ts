@@ -44,6 +44,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   panelOpenState = false;
   montoTotal: number = 0;
   total:any[] = [];
+  permisoAcceso: boolean = false;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -111,9 +112,13 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     // console.log(idExistente);
     // debugger;
     if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
+      // this.router.navigate(['/dashboard']);
+      // this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
+      this.permisoAcceso = false;
+      console.log(this.permisoAcceso);
     } else {
+      this.permisoAcceso = true;
+      console.log(this.permisoAcceso);
       // this.getReporte();
     }
   }
@@ -127,6 +132,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         // console.log(reportes);
 
         reportes.map( reporte => {
+          console.log(reporte);
           const total = reporte.viewConceptExecuted.reduce((acc,obj) => acc + (obj.importeEjecutado),0);
           const art = {idReporte: reporte.idConceptoEjecutado, totalMateriales: total,};
           this.total.push(art);          

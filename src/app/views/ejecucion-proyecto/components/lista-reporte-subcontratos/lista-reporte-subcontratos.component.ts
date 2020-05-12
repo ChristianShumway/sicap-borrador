@@ -44,6 +44,8 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   panelOpenState = false;
   montoTotal: number = 0;
   total:any[] = [];
+  permisoAcceso: boolean = false;
+  totalObra: number;
 
   nombreComponente = 'reporte-subcontratos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -110,10 +112,14 @@ export class ListaReporteSubcontratosComponent implements OnInit {
     const idExistente = idUsuariosConPermiso.find(id => id === this.idUserLogeado);
     // console.log(idExistente);
     if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
+      // this.router.navigate(['/dashboard']);
+      // this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
+      this.permisoAcceso = false;
+      console.log(this.permisoAcceso);
     } else {
       // this.getReporte();
+      this.permisoAcceso = true;
+      console.log(this.permisoAcceso);
     }
   }
 
@@ -126,10 +132,17 @@ export class ListaReporteSubcontratosComponent implements OnInit {
         // console.log(reportes);
 
         reportes.map( reporte => {
+          // console.log(reporte);
+          this.totalObra = reporte.totalObra
           const total = reporte.viewReportSubContract.reduce((acc,obj) => acc + (obj.importeSubContrato),0);
-          const art = {idReporte: reporte.idReporteSubContrato, totalMateriales: total,};
-          this.total.push(art);          
+          const art = {
+            idReporte: reporte.idReporteSubContrato, 
+            totalMateriales: total,
+            totalObra: reporte.totalObra
+          };
+          this.total.push(art); 
         });
+        // console.log(this.totalObra);         
       }
     );
   }

@@ -42,6 +42,18 @@ export class SolicitarVehiculosComponent implements OnInit {
   rutaImg: string;
   host: string;
 
+  peticionesSolicitadas: any[] = [];
+  listaCategoriasPeticion: any[] = [];
+  categoriaPeticion: number;
+  descripcionSolicitud: string;
+  tipoServicioSolicitud: string;
+  unidadSolicitud: string;
+  cantidadSolicitud: number;
+  precioSolicitud: string;
+  importeSolicitud: string;
+  countPeticion:number = 0;
+  panelOpenState: boolean = false;
+
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
   opcionesPermitidas = true;
@@ -126,22 +138,23 @@ export class SolicitarVehiculosComponent implements OnInit {
       fechaFinalUso: new FormControl(new Date(), Validators.required),
       lugar: new FormControl('', Validators.required),
       descripcion: new FormControl(''),
-      idServicioInteres: new FormControl('', Validators.required),
+      idServicioInteres: new FormControl(''),
       observacion: new FormControl(''),
     });
   }
+
+
 
   getCatalogos() {
     this.empresasService.getAllEmpresas().subscribe(
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
-    this.clientesService.getClientes().subscribe(
-      (clientes: Cliente[]) => this.clientes = clientes.filter( cliente => cliente.activo === 1),
-      error => console.log(error)
+    this.solicitudesService.getCategoriasSolicitudRecursos().subscribe(
+      (categorias: any[]) => this.listaCategoriasPeticion = categorias,
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
   }
-
 
   public onFechaInicioUso(event): void {
     this.fechaInicio = event.value;
@@ -201,6 +214,60 @@ export class SolicitarVehiculosComponent implements OnInit {
         error => this.useAlerts(error.message, ' ', 'error-dialog')
       );
     }
+  }
+
+  agregarPetision(){
+    if(!this.categoriaPeticion){
+      this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
+    } else if (!this.descripcionSolicitud){
+      this.useAlerts('Ingresa la descripción de la petición', ' ', 'error-dialog');
+    } else if (!this.tipoServicioSolicitud){
+      this.useAlerts('Ingresa el tipo de servicio  para esta petición', ' ', 'error-dialog');
+    }  else if (!this.unidadSolicitud){
+      this.useAlerts('Ingresa la unidad  para esta petición', ' ', 'error-dialog');
+    }  else if (!this.cantidadSolicitud){
+      this.useAlerts('Ingresa la cantidad  para esta petición', ' ', 'error-dialog');
+    }  else if (!this.precioSolicitud){
+      this.useAlerts('Ingresa el precio  para esta petición', ' ', 'error-dialog');
+    }  else if (!this.importeSolicitud){
+      this.useAlerts('Ingresa el importe para esta petición', ' ', 'error-dialog');
+    } else {  
+      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
+      tipoCategoria = tipoCategoria[0];
+      const peticion: any = {
+        // idDetSolicitudRecurso: this.countPeticion + 1,
+        idCategoriaSolicitudRecurso: this.categoriaPeticion,
+        descripcion: this.descripcionSolicitud,
+        tipoServicio: this.tipoServicioSolicitud,
+        unidad: this.unidadSolicitud,
+        cantidad: this.cantidadSolicitud,
+        precio: parseFloat(this.precioSolicitud),
+        importe: parseFloat(this.importeSolicitud),
+        idUsuarioModifico: this.idUsuarioLogeado,
+        // idSolicitudRecurso: this.idUsuarioLogeado,
+        categoriaSolicitudRecurso: tipoCategoria
+      };
+      
+      this.peticionesSolicitadas.push(peticion);
+      this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+      this.countPeticion += 1;
+      this.categoriaPeticion = 0;
+      this.descripcionSolicitud = '';
+      this.tipoServicioSolicitud = '';
+      this.unidadSolicitud = '';
+      this.cantidadSolicitud = 0;
+      this.precioSolicitud = '';
+      this.importeSolicitud = '';
+      this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
+      this.panelOpenState = !this.panelOpenState;
+      console.log(this.peticionesSolicitadas);
+    }
+  }
+
+  eliminarObservacion(index){
+    this.peticionesSolicitadas.splice(index, 1);
+    this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+    this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
   }
 
   useAlerts(message, action, className, time=4000) {

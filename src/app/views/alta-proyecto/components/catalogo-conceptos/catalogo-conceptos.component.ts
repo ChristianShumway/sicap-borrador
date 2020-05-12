@@ -166,11 +166,13 @@ export class CatalogoConceptosComponent implements OnInit {
     });
   }
 
-  openBottomExtraordinario(): void {
+  openBottomExtraordinario(idArchivo): void {
     let sheet = this.bottomSheet.open(AgregarConceptoExtraordinarioComponent, {
       data: {
         idObra:this.idObra, 
-        idUsuario: this.usuarioLogeado
+        idUsuario: this.usuarioLogeado,
+        tipoCatalogo: 'concepto',
+        idArchivo
       }
     });
 

@@ -30,6 +30,7 @@ export class PlanTrabajoComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   planTrabajoForm: FormGroup;
+  permisoAcceso: boolean = false;
 
   public searchElementRef: ElementRef;
 
@@ -99,10 +100,27 @@ export class PlanTrabajoComponent implements OnInit {
             this.validateAccessObra(data.supervisor);
           }
         });
-
-        this.getConceptsToPlan();
+        // this.getConceptsToPlan();
       }
     })
+  }
+
+  validateAccessObra(supervisores) {
+    // console.log(supervisores);
+    let idSupervisores = [];
+    supervisores.map(supervisor => {
+      idSupervisores.push(supervisor.idUsuario);
+    });
+    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
+    // console.log(idExistente);
+    if (!idExistente) {
+      this.permisoAcceso = false;
+      // this.router.navigate(['/dashboard']);
+      // this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
+    } else {
+      this.permisoAcceso = true;
+      this.getConceptsToPlan();
+    }
   }
 
   getConceptsToPlan(){
@@ -119,21 +137,6 @@ export class PlanTrabajoComponent implements OnInit {
         )
       }
     });
-  }
-
-  validateAccessObra(supervisores) {
-    // console.log(supervisores);
-    let idSupervisores = [];
-    supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
-    });
-    // console.log(idSupervisores);
-    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
-    // console.log(idExistente);
-    if (!idExistente) {
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar plan de trabajo de esta obra', ' ', 'error-dialog');
-    }
   }
 
 

@@ -37,6 +37,18 @@ import { CarouselEvidenciasComponent } from './components/carousel-evidencias/ca
 import { GalleryComponent } from './components/gallery/gallery.component';
 import { ObservacionValidacionConceptoComponent } from './components/observacion-validacion-concepto/observacion-validacion-concepto.component';
 import { BitacoraObraComponent } from './components/bitacora-obra/bitacora-obra.component';
+import { ReporteManoObraComponent } from './components/reporte-mano-obra/reporte-mano-obra.component';
+import { ReporteMaterialesComponent } from './components/reporte-materiales/reporte-materiales.component';
+import { ReporteMaquinariaEquipoComponent } from './components/reporte-maquinaria-equipo/reporte-maquinaria-equipo.component';
+import { ReporteIngresosEgresosComponent } from './components/reporte-ingresos-egresos/reporte-ingresos-egresos.component';
+import { ListaReporteManoObraComponent } from './components/lista-reporte-mano-obra/lista-reporte-mano-obra.component';
+import { ListaReporteMaterialesComponent } from './components/lista-reporte-materiales/lista-reporte-materiales.component';
+import { ListaReporteMaquinariaEquipoComponent } from './components/lista-reporte-maquinaria-equipo/lista-reporte-maquinaria-equipo.component';
+import { ListaReporteIngresosEgresosComponent } from './components/lista-reporte-ingresos-egresos/lista-reporte-ingresos-egresos.component';
+import { ModificarReporteManoObraComponent } from './components/modificar-reporte-mano-obra/modificar-reporte-mano-obra.component';
+import { ModificarReporteMaterialesComponent } from './components/modificar-reporte-materiales/modificar-reporte-materiales.component';
+import { ModificarReporteMaquinariaEquipoComponent } from './components/modificar-reporte-maquinaria-equipo/modificar-reporte-maquinaria-equipo.component';
+import { ModificarReporteIngresosEgresosComponent } from './components/modificar-reporte-ingresos-egresos/modificar-reporte-ingresos-egresos.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -62,7 +74,19 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     CarouselEvidenciasComponent,
     GalleryComponent,
     ObservacionValidacionConceptoComponent,
-    BitacoraObraComponent
+    BitacoraObraComponent,
+    ReporteManoObraComponent,
+    ReporteMaterialesComponent,
+    ReporteMaquinariaEquipoComponent,
+    ReporteIngresosEgresosComponent,
+    ListaReporteManoObraComponent,
+    ListaReporteMaterialesComponent,
+    ListaReporteMaquinariaEquipoComponent,
+    ListaReporteIngresosEgresosComponent,
+    ModificarReporteManoObraComponent,
+    ModificarReporteMaterialesComponent,
+    ModificarReporteMaquinariaEquipoComponent,
+    ModificarReporteIngresosEgresosComponent
   ],
   imports: [
   CommonModule,

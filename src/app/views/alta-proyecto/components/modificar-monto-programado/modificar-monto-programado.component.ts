@@ -18,6 +18,7 @@ export class ModificarMontoProgramadoComponent implements OnInit {
   fechaFinPeriodo;
   pipe = new DatePipe('en-US');
   tipoPresupuestos: any[] = [];
+  tipoDuracion: any[] = [];
 
   constructor(
     private snackBar: MatSnackBar,
@@ -42,6 +43,7 @@ export class ModificarMontoProgramadoComponent implements OnInit {
   getValidations() {
     this.modificarMontoForm = new FormGroup({
       idTipoPresupuesto: new FormControl('', Validators.required),
+      idTipoDuracion: new FormControl('', Validators.required),
       monto: new FormControl('', [Validators.required,]),
       fechaInicial: new FormControl(this.fechaInicioPeriodo, Validators.required),
       fechaFinal: new FormControl(this.fechaFinPeriodo, Validators.required),
@@ -57,9 +59,12 @@ export class ModificarMontoProgramadoComponent implements OnInit {
 
   getCatalogoP(){
     this.obraService.getPresupuestosParaMontosObra().subscribe(
-      presupuestos => {
-        this.tipoPresupuestos = presupuestos;
-      },
+      presupuestos => this.tipoPresupuestos = presupuestos,
+      error => console.log(error)
+    );
+
+    this.obraService.getTiposDuracion().subscribe(
+      tipoDuracion => this.tipoDuracion = tipoDuracion,
       error => console.log(error)
     );
   }

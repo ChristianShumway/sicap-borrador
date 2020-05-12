@@ -32,7 +32,8 @@
     <div *ngIf="cat">
       <div class="div" *ngIf="cat.tipoDetalle === 3">
         <div class="wrap-button">
-          <button mat-raised-button color="primary" (click)="eliminarCatalogo(cat.idArchivoObra)">Eliminar Catálogo de Subcontrato</button>
+          <button mat-raised-button color="warn" (click)="eliminarCatalogo(cat.idArchivoObra)">Eliminar Catálogo de Subcontrato</button>
+          <button mat-raised-button color="primary" (click)="openBottomExtraordinario(cat.idArchivoObra)">Extraordinario</button>
         </div>
 
         <div class="mat-box-shadow margin-333">
@@ -41,37 +42,43 @@
 
             <ngx-datatable-column name="No." [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{ row?.noSubcontrato }}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{ row?.noSubcontrato }}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Descripción" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.descripcion}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.descripcion}}</p>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Partida" [flexGrow]="1">
+              <ng-template let-row="row" ngx-datatable-cell-template>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.partida}}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Unidad" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.unidad}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.unidad}}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Cantidad" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.cantidad}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.cantidad}}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Precio" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.precio | currency}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.precio | currency}}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Importe" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p>{{row?.importe | currency}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.importe | currency}}</p>
               </ng-template>
             </ngx-datatable-column>
 

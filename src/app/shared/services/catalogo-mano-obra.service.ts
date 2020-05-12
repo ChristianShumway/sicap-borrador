@@ -42,4 +42,9 @@ export class CatalogoManoObraService {
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
 
+  createConceptoExtraordinario(extraordinario): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<CatalogoManoObra>(`${environment.apiURL}/obra/workforce`, JSON.stringify(extraordinario), { headers: headerss});
+  }
+
 }

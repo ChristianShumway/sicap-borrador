@@ -5,6 +5,7 @@ export interface CatalogoConceptos {
   cantidad: number;
   precioUnitario: number;
   importe:  number;
+  partida: string;
   tipo?: number;
   idObra?: number;
 }

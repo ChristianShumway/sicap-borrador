@@ -42,4 +42,10 @@ export class ListaMaquinariaEquipoService {
     return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${idFile}/${idUser}`);
   }
 
+  createConceptoExtraordinario(extraordinario): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<ListaMaquinariaEquipo>(`${environment.apiURL}/obra/engineerAndTeam`, JSON.stringify(extraordinario), { headers: headerss});
+  }
+
+
 }

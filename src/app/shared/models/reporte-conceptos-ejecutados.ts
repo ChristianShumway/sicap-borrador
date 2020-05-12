@@ -6,7 +6,7 @@ export interface ReporteConceptosEjecutados {
   latitud: number;
   longitud: number;
   fechaInicio: string;
-  fechaFinal: string;
+  fechaFinal?: string;
   idUsuarioModifico?: number;
   observacion: string;
   viewConceptExecuted?: ConceptoEjecutado[];

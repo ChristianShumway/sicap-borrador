@@ -39,7 +39,7 @@
             </div>
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
+                <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Captura"
                   (dateChange)="onFechaInicio($event)">
                 <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
                 <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
@@ -47,17 +47,17 @@
               <div class="validaciones">
                 <small *ngIf="notaBitacoraForm.controls['fechaInicio'].hasError('required') && notaBitacoraForm.controls['fechaInicio'].touched"
                   class="form-error-msg">
-                  Fecha Inicio del plan de trabajo es un campo requerido
+                  Fecha de Captura es un campo requerido
                 </small>
               </div>
-              <div class="validaciones">
+              <!-- <div class="validaciones">
                 <small *ngIf="error.isError" class="form-error-msg">
                   {{ error.errorMessage }}
                 </small>
-              </div>
+              </div> -->
             </div>
     
-            <div class="pb-1">
+            <!-- <div class="pb-1">
               <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
                 <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
@@ -69,7 +69,7 @@
                   Fecha Final del plan de trabajo es un campo requerido
                 </small>
               </div>
-            </div>
+            </div> -->
     
           </div>
     

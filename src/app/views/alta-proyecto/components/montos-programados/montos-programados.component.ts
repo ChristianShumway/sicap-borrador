@@ -30,6 +30,7 @@ export class MontosProgramadosComponent implements OnInit {
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
   tipoPresupuestos: any[] = [];
+  tipoDuracion: any[] = [];
   
   constructor(
     private snackBar: MatSnackBar,
@@ -53,6 +54,7 @@ export class MontosProgramadosComponent implements OnInit {
   getValidations() {
     this.montoForm = new FormGroup({
       idTipoPresupuesto: new FormControl('', Validators.required),
+      idTipoDuracion: new FormControl('', Validators.required),
       monto: new FormControl('', Validators.required),
       fechaInicial: new FormControl(new Date(), Validators.required),
       fechaFinal: new FormControl(new Date(), Validators.required),
@@ -86,9 +88,12 @@ export class MontosProgramadosComponent implements OnInit {
 
   getCatalogoP(){
     this.obraService.getPresupuestosParaMontosObra().subscribe(
-      presupuestos => {
-        this.tipoPresupuestos = presupuestos;
-      },
+      presupuestos => this.tipoPresupuestos = presupuestos,
+      error => console.log(error)
+    );
+
+    this.obraService.getTiposDuracion().subscribe(
+      tipoDuracion => this.tipoDuracion = tipoDuracion,
       error => console.log(error)
     );
   }

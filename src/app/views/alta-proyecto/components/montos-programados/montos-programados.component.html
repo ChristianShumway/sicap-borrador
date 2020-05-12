@@ -32,6 +32,17 @@
 
             <div class="pb-1">
               <mat-form-field class="full-width">
+                <mat-label>Duración del Periodo</mat-label>
+                <mat-select formControlName="idTipoDuracion" required>
+                  <mat-option *ngFor="let tipo of tipoDuracion" [value]="tipo.idTipoDuracion">
+                    {{tipo.descripcion}}
+                  </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </div>
+
+            <div class="pb-1">
+              <mat-form-field class="full-width">
                 <input matInput placeholder="Monto"  name="monto" formControlName="monto" value=""  mask="separator.2" thousandSeparator=",">
               </mat-form-field>
             </div>
@@ -85,7 +96,7 @@
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line>
-            Monto No. {{monto.noPresupuesto}}
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}}
             <span>Presupuesto Total de Obra</span>
           </p>
           <mat-divider></mat-divider>
@@ -111,7 +122,7 @@
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
-            Monto No. {{monto.noPresupuesto}} 
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
             <span>Presupuesto Total de Materiales</span>
           </p>
           <mat-divider></mat-divider>
@@ -137,7 +148,7 @@
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
-            Monto No. {{monto.noPresupuesto}} 
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
             <span>Presupuesto de Mano de Obra</span>
           </p>
           <mat-divider></mat-divider>
@@ -163,7 +174,7 @@
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
-            Monto No. {{monto.noPresupuesto}} 
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
             <span>Presupuesto de Subcontratos</span>
           </p>
           <mat-divider></mat-divider>
@@ -189,7 +200,33 @@
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
-            Monto No. {{monto.noPresupuesto}} 
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
+            <span>Presupuesto de Maquinaria y Equipo</span>
+          </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
+      </div>
+    </div>
+
+    <div class="tipo-presupuesto">
+      <p class="titulo-tipo-presupuesto psc">Presupuesto de Sobrecostos</p>
+      <div *ngFor="let monto of montos">
+        <mat-list-item *ngIf="monto.idTipoPresupuesto === 8">
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="montostMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #montostMenu="matMenu">
+            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+          </mat-menu>
+          <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
+          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
+          <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
+          <p mat-line> 
+            {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
             <span>Presupuesto de Maquinaria y Equipo</span>
           </p>
           <mat-divider></mat-divider>

@@ -8,4 +8,6 @@ export interface PlanTrabajo {
   observacion?: string;
   viewConceptWorkPlan?: ConceptoPlanTrabajo[];
   idUsuarioModifico?: number;
+  totalEjecutado?: number;
+  totalObra?: number;
 }

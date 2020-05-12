@@ -62,6 +62,70 @@ export const environment = {
       activo: 1
     },
     {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-mano-obra',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-mano-obra',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-materiales',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-materiales',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-maquinaria-equipo',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-maquinaria-equipo',
+      activo: 1
+    },
+    {
+      idOpcion: 32,
+      nombre: 'Eliminar Reportes',
+      descripcion: 'eliminar reportes del modulo ejecución de proyectos',
+      tooltip: 'eliminar-reporte',
+      component: 'reporte-ingresos-egresos',
+      activo: 1
+    },
+    {
+      idOpcion: 33,
+      nombre: 'Modificar Reportes',
+      descripcion: 'Modificar reportes del modulo ejecución de proyectos',
+      tooltip: 'modificar-reporte',
+      component: 'reporte-ingresos-egresos',
+      activo: 1
+    },
+    {
       idOpcion: 34,
       nombre: 'Validar Reportes',
       descripcion: 'Opción para el usuario poder validar conceptos ejecutados por un supervisor',

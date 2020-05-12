@@ -68,7 +68,7 @@ export class ObraDataComponent implements OnInit {
   ngOnInit() {
     this.getObra();
     this.getValidations();
-    this.compareTwoDates();
+    // this.compareTwoDates();
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
 
@@ -89,6 +89,7 @@ export class ObraDataComponent implements OnInit {
         this.destajistasSeleccionados = obra.destajista;
         this.clientesSeleccionados = obra.usuarioCliente;
         this.getCatalogos();
+        this.compareTwoDates();
       },
       error => console.log(error)
     );   
@@ -219,7 +220,7 @@ export class ObraDataComponent implements OnInit {
     var fechaInicio = new Date(nuevaFechaInicio).getTime();
     var fechaFin    = new Date(nuevaFechaFin).getTime();
     const plazoEjecucion = fechaFin - fechaInicio;
-    this.updateObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)));
+    this.updateObraForm.controls['plazoEjecucion'].setValue(Math.ceil(plazoEjecucion/(1000*60*60*24)+1));
   }
 
   updateObra(){

@@ -34,11 +34,12 @@ export class ReporteSubcontratosComponent implements OnInit {
   idUsuarioLogeado;
   idObra;
   fechaInicio;
-  fechaFinal;
+  // fechaFinal;
   fechaHoy = new Date();
-  error:any={isError:false,errorMessage:''};
+  // error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   notaBitacoraForm: FormGroup;
+  permisoAcceso: boolean = false;
  
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
@@ -63,36 +64,15 @@ export class ReporteSubcontratosComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObra();
     this.getValidations();
-    this.compareTwoDates();
+    // this.compareTwoDates();
     this.fechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-    this.fechaFinal = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
-    this.fechaFinal.setDate(this.fechaFinal.getDate());
+    // this.fechaFinal = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+    // this.fechaFinal.setDate(this.fechaFinal.getDate());
     
     //load Places Autocomplete
     this.mapsAPILoader.load().then(() => {
       this.setCurrentLocation();
-      // this.geoCoder = new google.maps.Geocoder;
- 
-      // let autocomplete = new google.maps.places.Autocomplete(this.searchElementRef.nativeElement, {
-      //   types: ["address"]
-      // });
-
-      // autocomplete.addListener("place_changed", () => {
-      //   this.ngZone.run(() => {
-      //     //get the place result
-      //     let place: google.maps.places.PlaceResult = autocomplete.getPlace();
- 
-      //     //verify result
-      //     if (place.geometry === undefined || place.geometry === null) {
-      //       return;
-      //     }
-      //     //set latitude, longitude and zoom
-      //     this.latitude = place.geometry.location.lat();
-      //     this.longitude = place.geometry.location.lng();
-      //     this.zoom = 12;
-      //   });
-      // });
     });
   }
 
@@ -102,34 +82,34 @@ export class ReporteSubcontratosComponent implements OnInit {
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
       fechaInicio: new FormControl(new Date(), Validators.required),
-      fechaFinal: new FormControl(new Date(), Validators.required),
+      // fechaFinal: new FormControl(new Date(), Validators.required),
     })
   }
 
   public onFechaInicio(event): void {
     this.fechaInicio = event.value;
-    this.compareTwoDates();
+    // this.compareTwoDates();
   }
 
-  public onFechaFinal(event): void {
-    this.fechaFinal = event.value;
-    this.compareTwoDates();
-  }
+  // public onFechaFinal(event): void {
+  //   this.fechaFinal = event.value;
+  //   this.compareTwoDates();
+  // }
 
-  compareTwoDates(){
-    const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-    const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+  // compareTwoDates(){
+  //   const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //   const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
 
-    if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};
-      this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
-      this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-      const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
-      const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
-    } else {
-      this.error={isError:false};
-    }
-  }
+  //   if( controlFechaFin < controlFechaInicio){
+  //     this.error={isError:true,errorMessage:'Fecha inicial del reporte no puede ser mayor a la fecha final del mismo'};
+  //     this.notaBitacoraForm.controls['fechaInicio'].setValue(new Date(this.notaBitacoraForm.controls['fechaFinal'].value));
+  //     this.fechaInicio =  new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //     const controlFechaInicio = new Date(this.notaBitacoraForm.controls['fechaInicio'].value);
+  //     const controlFechaFin = new Date(this.notaBitacoraForm.controls['fechaFinal'].value);
+  //   } else {
+  //     this.error={isError:false};
+  //   }
+  // }
 
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
@@ -175,8 +155,11 @@ export class ReporteSubcontratosComponent implements OnInit {
     const idExistente = idSupervisores.find( id => id === this.idUsuarioLogeado);
     // console.log(idExistente);
     if(!idExistente){
-      this.router.navigate(['/dashboard']);
-      this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
+      // this.router.navigate(['/dashboard']);
+      // this.useAlerts('No tienes acceso a generar reporte de conceptos ejecutados', ' ', 'error-dialog');
+      this.permisoAcceso = false;
+    } else {
+      this.permisoAcceso = true;
     }
   }
 
@@ -329,7 +312,7 @@ export class ReporteSubcontratosComponent implements OnInit {
     if (this.notaBitacoraForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
-      const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
+      // const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
       const newCatalog: ConceptoSubcontrato[] = []
   
       this.catalogo.map( (concepto: ConceptoSubcontrato) => {
@@ -348,7 +331,7 @@ export class ReporteSubcontratosComponent implements OnInit {
       const reporte: ReporteSubcontrato = {
         ...this.notaBitacoraForm.value,
         fechaInicio: nuevaFechaInicio,
-        fechaFinal: nuevaFechaFin,
+        // fechaFinal: nuevaFechaFin,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewReportSubContract: newCatalog,

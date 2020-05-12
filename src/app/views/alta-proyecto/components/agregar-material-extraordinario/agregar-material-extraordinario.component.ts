@@ -33,10 +33,16 @@ export class AgregarMaterialExtraordinarioComponent implements OnInit {
       descripcion: new FormControl('', [
         Validators.required,
       ]),
-      unidad: new FormControl('', [
+      partida: new FormControl('', [
+        Validators.required,
+      ]),
+      familia: new FormControl('', [
         Validators.required,
       ]),
       cantidad: new FormControl('', [
+        Validators.required,
+      ]),
+      unidad: new FormControl('', [
         Validators.required,
       ]),
       precioUnitario: new FormControl('', [
@@ -50,7 +56,7 @@ export class AgregarMaterialExtraordinarioComponent implements OnInit {
 
   createExtraordinary(){
     if(this.createExtraordinaryMaterialForm.valid){
-      const material = {
+      const material:Material = {
         ...this.createExtraordinaryMaterialForm.value,
         tipo:2,
         idObra: this.data.idObra,

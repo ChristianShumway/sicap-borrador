@@ -33,6 +33,17 @@
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
+              <input matInput name="partida" formControlName="partida" placeholder="Partida" value="">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="createExtraordinaryConceptForm.controls['partida'].hasError('required') && createExtraordinaryConceptForm.controls['partida'].touched"
+                class="form-error-msg">
+                Partida es un campo requerido
+              </small>
+            </div>
+          </div>
+          <div class="pb-1">
+            <mat-form-field class="full-width">
               <input matInput name="unidad" formControlName="unidad" placeholder="Unidad" value="">
             </mat-form-field>
             <div class="validaciones">
@@ -55,7 +66,7 @@
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="precioUnitario" formControlName="precioUnitario" placeholder="Precio Unitario" value="">
+              <input matInput name="precioUnitario" formControlName="precioUnitario" placeholder="Precio Unitario" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createExtraordinaryConceptForm.controls['precioUnitario'].hasError('required') && createExtraordinaryConceptForm.controls['precioUnitario'].touched"
@@ -66,7 +77,7 @@
           </div>
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput type="number" name="importe" formControlName="importe" placeholder="Importe" value="">
+              <input matInput name="importe" formControlName="importe" placeholder="Importe" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createExtraordinaryConceptForm.controls['importe'].hasError('required') && createExtraordinaryConceptForm.controls['importe'].touched"

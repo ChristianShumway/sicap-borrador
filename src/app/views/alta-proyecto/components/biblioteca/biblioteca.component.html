@@ -14,7 +14,7 @@
       </div>
       <mat-menu #documentMenu="matMenu">
         <a mat-menu-item (click)="vistaPreviaArchivo(documento)" target="blank">Ver</a>
-        <a mat-menu-item href="{{documento.ruta}}/{{documento.nombre}}" target="blank">Descargar</a>
+        <a mat-menu-item href="http://{{host}}/{{rutaSicap}}/files/files-obra/{{documento.nombre}}" target="blank">Descargar</a>
         <button mat-menu-item (click)="openDialoAlertDelete(documento.idArchivoObra)">Eliminar</button>
       </mat-menu>
       <mat-icon mat-list-icon class="excel" *ngIf="documento.extension==='xlsx' || documento.extension==='xls'">note</mat-icon>

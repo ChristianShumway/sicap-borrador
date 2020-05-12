@@ -9,6 +9,8 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import { AgregarEquipoComponent } from '../agregar-equipo/agregar-equipo.component';
+import { MatBottomSheet } from '@angular/material';
 
 @Component({
   selector: 'app-lista-maquinaria-equipo',
@@ -42,6 +44,7 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private autenticacionService: AutenticacionService,
     public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet,
   ) { }
 
 
@@ -146,6 +149,20 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
         );
       }
     });
+  }
+  openBottomExtra(idArchivoObra): void {
+    let sheet = this.bottomSheet.open(AgregarEquipoComponent, {
+      data: {
+        idObra:this.idObra, 
+        idUsuario: this.usuarioLogeado,
+        tipoCatalogo: 'equipo',
+        idArchivoObra
+      }
+    });
+
+    sheet.backdropClick().subscribe( () => {
+      console.log('clicked'+this.idObra);
+    });  
   }
 
   useAlerts(message, action, className) {
