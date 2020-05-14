@@ -10,17 +10,14 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 import { NavigationService } from './../../../../shared/services/navigation.service';
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
 import { ObraService } from '../../../../shared/services/obra.service';
-import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
-import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
+import { ReporteIngresosEgresosService } from '../../../../shared/services/reporte-ingresos-egresos.service';
 
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { environment } from './../../../../../environments/environment';
 
 import { Usuario } from './../../../../shared/models/usuario';
 import { Obra } from '../../../../shared/models/obra';
-import { ReporteManoObra } from './../../../../shared/models/reporte-mano-obra';
-import { ConceptoManoObra } from './../../../../shared/models/concepto-mano-obra';
-
+import { ReporteIngresosEgresos } from './../../../../shared/models/reporte-ingresos-egresos';
 
 @Component({
   selector: 'app-lista-reporte-ingresos-egresos',
@@ -38,8 +35,8 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   
   idUserLogeado;
   accesoBitacora = false;
-  reports: ReporteManoObra[] = [];
-  reportsTemp: ReporteManoObra[] = [];
+  reports: ReporteIngresosEgresos[] = [];
+  reportsTemp: ReporteIngresosEgresos[] = [];
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
@@ -47,14 +44,14 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   permisoAcceso: boolean = false;
   totalMonto: number;
 
-  nombreComponente = 'reporte-mano-obra';
+  nombreComponente = 'reporte-ingresos-egresos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<ReporteManoObra> = new MatTableDataSource<ReporteManoObra>();
+  dataSource: MatTableDataSource<ReporteIngresosEgresos> = new MatTableDataSource<ReporteIngresosEgresos>();
 
   constructor(
     public dialog: MatDialog,
@@ -66,7 +63,7 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
     private obraService: ObraService,
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
-    private reporteManoObraService: ReporteManoObraService,
+    private reporteIngresosEgresosService: ReporteIngresosEgresosService,
   ) { }
 
   ngOnInit() {
@@ -120,37 +117,29 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   }
 
   getReports(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+    this.reporteIngresosEgresosService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteIngresosEgresos[]) => {
         this.reports = reportes;
         this.reportsTemp =  this.reports;
         this.dataSource.data = this.reports;
 
-        reportes.map( reporte => {
-          console.log(reporte);
-          this.totalMonto = reporte.totalManoObra;
-          const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
-          const art = {
-            idReporte: reporte.idCapturaManoObra, 
-            totalMateriales: total, 
-            totalManoObra: reporte.totalManoObra
-          };
-          this.total.push(art);          
-        });
-        // console.log(this.total);
+        console.log(this.reports);
+
+        // reportes.map( reporte => {
+        //   console.log(reporte);
+        //   this.totalMonto = reporte.totalManoObra;
+        //   const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+        //   const art = {
+        //     idReporte: reporte.idCapturaManoObra, 
+        //     totalMateriales: total, 
+        //     totalManoObra: reporte.totalManoObra
+        //   };
+        //   this.total.push(art);          
+        // });
       }
     );
   }
 
-  getReportsAfterDelete(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
-        this.reports = reportes;
-        this.reportsTemp =  this.reports;
-        this.dataSource.data = this.reports;
-      }
-    );
-  }
 
   getDataUser(){
     this.usuariosService.getUsuario(this.idUserLogeado).subscribe(
@@ -218,27 +207,28 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
       data: reporte
     });
 
-    dialogRef.afterClosed().subscribe(result => {
-      if(result){
-        console.log(reporte);
+    console.log(reporte)
 
-        this.reporteManoObraService.deleteReport(reporte).subscribe(
-          response => {
-            if(response.estatus === '05'){
-              this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getReportsAfterDelete();
-              this.montoTotal = 0;
-            } else {
-              this.useAlerts(response.mensaje, ' ', 'error-dialog');
-            }
-          },
-            error => {
-            this.useAlerts(error.message, ' ', 'error-dialog');
-            console.log(error);
-          }
-        );
-      }
-    });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   if(result){
+    //     console.log(reporte);
+
+    //     this.reporteIngresosEgresosService.deleteReport(reporte).subscribe(
+    //       response => {
+    //         if(response.estatus === '05'){
+    //           this.useAlerts(response.mensaje, ' ', 'success-dialog');
+    //           this.montoTotal = 0;
+    //         } else {
+    //           this.useAlerts(response.mensaje, ' ', 'error-dialog');
+    //         }
+    //       },
+    //         error => {
+    //         this.useAlerts(error.message, ' ', 'error-dialog');
+    //         console.log(error);
+    //       }
+    //     );
+    //   }
+    // });
   }
 
   onMontosTotal(monto){

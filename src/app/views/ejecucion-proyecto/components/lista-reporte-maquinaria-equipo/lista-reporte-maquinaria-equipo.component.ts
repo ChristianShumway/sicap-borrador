@@ -10,16 +10,15 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 import { NavigationService } from './../../../../shared/services/navigation.service';
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
 import { ObraService } from '../../../../shared/services/obra.service';
-import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
-import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
+import { ReporteMaquinariaEquipoService } from '../../../../shared/services/reporte-maquinaria-equipo.service';
 
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { environment } from './../../../../../environments/environment';
 
 import { Usuario } from './../../../../shared/models/usuario';
 import { Obra } from '../../../../shared/models/obra';
-import { ReporteManoObra } from './../../../../shared/models/reporte-mano-obra';
-import { ConceptoManoObra } from './../../../../shared/models/concepto-mano-obra';
+import { ReporteMaquinariaEquipo } from './../../../../shared/models/reporte-maquinaria-equipo';
+import { ConceptoMaquinariaEquipo } from './../../../../shared/models/concepto-maquinaria-equipo';
 
 
 @Component({
@@ -38,8 +37,8 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   
   idUserLogeado;
   accesoBitacora = false;
-  reports: ReporteManoObra[] = [];
-  reportsTemp: ReporteManoObra[] = [];
+  reports: ReporteMaquinariaEquipo[] = [];
+  reportsTemp: ReporteMaquinariaEquipo[] = [];
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
@@ -47,14 +46,14 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   permisoAcceso: boolean = false;
   totalMonto: number;
 
-  nombreComponente = 'reporte-mano-obra';
+  nombreComponente = 'reporte-maquinaria-equipo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<ReporteManoObra> = new MatTableDataSource<ReporteManoObra>();
+  dataSource: MatTableDataSource<ReporteMaquinariaEquipo> = new MatTableDataSource<ReporteMaquinariaEquipo>();
 
   constructor(
     public dialog: MatDialog,
@@ -66,7 +65,7 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
     private obraService: ObraService,
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
-    private reporteManoObraService: ReporteManoObraService,
+    private reporteMaquinariaEquipoService: ReporteMaquinariaEquipoService,
   ) { }
 
   ngOnInit() {
@@ -120,20 +119,20 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   }
 
   getReports(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+    this.reporteMaquinariaEquipoService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteMaquinariaEquipo[]) => {
         this.reports = reportes;
         this.reportsTemp =  this.reports;
         this.dataSource.data = this.reports;
 
-        reportes.map( reporte => {
+        reportes.map( (reporte: ReporteMaquinariaEquipo) => {
           console.log(reporte);
-          this.totalMonto = reporte.totalManoObra;
-          const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+          this.totalMonto = reporte.totalMaquinariaEquipo;
+          const total = reporte.detMaquinariaEquipo.reduce((acc,obj) => acc + (obj.importeCapturado),0);
           const art = {
-            idReporte: reporte.idCapturaManoObra, 
+            idReporte: reporte.idCapturaMaquinariaEquipo, 
             totalMateriales: total, 
-            totalManoObra: reporte.totalManoObra
+            totalMaquinaria: reporte.totalMaquinariaEquipo
           };
           this.total.push(art);          
         });
@@ -143,8 +142,8 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   }
 
   getReportsAfterDelete(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+    this.reporteMaquinariaEquipoService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteMaquinariaEquipo[]) => {
         this.reports = reportes;
         this.reportsTemp =  this.reports;
         this.dataSource.data = this.reports;
@@ -222,7 +221,7 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
       if(result){
         console.log(reporte);
 
-        this.reporteManoObraService.deleteReport(reporte).subscribe(
+        this.reporteMaquinariaEquipoService.deleteReport(reporte).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');

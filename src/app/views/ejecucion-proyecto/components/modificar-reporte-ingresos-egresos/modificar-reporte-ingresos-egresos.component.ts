@@ -9,12 +9,11 @@ import { AutenticacionService } from './../../../../shared/services/autenticacio
 import { ObraService } from 'app/shared/services/obra.service';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
-import { ReporteManoObraService } from './../../../../shared/services/reporte-mano-obra.service';
+import { ReporteIngresosEgresosService } from './../../../../shared/services/reporte-ingresos-egresos.service';
 
 import { Usuario } from '../../../../shared/models/usuario';
 import { Obra } from './../../../../shared/models/obra';
-import { ConceptoManoObra } from './../../../../shared/models/concepto-mano-obra';
-import { ReporteManoObra } from '../../../../shared/models/reporte-mano-obra';
+import { ReporteIngresosEgresos } from '../../../../shared/models/reporte-ingresos-egresos';
 import { environment } from './../../../../../environments/environment';
 
 @Component({
@@ -29,15 +28,16 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
   idUsuarioLogeado;
   idObra;
   idReporte;
-  reporteModif: ReporteManoObra[];
-  catalogo: ConceptoManoObra[] = [];
-  temp: ConceptoManoObra[] = [];
+  reporteModif: ReporteIngresosEgresos[];
   fecha = new Date();
   fechaCaptura;
   pipe = new DatePipe('en-US');
   reporteForm: FormGroup;
+  catalogoReferencias: any[];
+  catalogoTipoMovimientos: any[];
+  catalogoCategorias: any[];
 
-  nombreComponente = 'reporte-mano-obra';
+  nombreComponente = 'reporte-ingresos-egresos';
   tooltip = 'modificar-reporte';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
@@ -51,7 +51,7 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
     private router: Router,
     private autenticacionService: AutenticacionService,
     private obraService: ObraService,
-    private reporteManoObraService: ReporteManoObraService,
+    private reporteIngresosEgresosService: ReporteIngresosEgresosService,
     private snackBar: MatSnackBar,
     private navigationService: NavigationService,
     private usuariosService: UsuariosService
@@ -65,8 +65,12 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
 
   getValidations() {
     this.reporteForm = new FormGroup({
-      observacion: new FormControl('', Validators.required),
-      fechaCaptura: new FormControl(this.fechaCaptura, Validators.required),
+      fecha: new FormControl(this.fechaCaptura, Validators.required),
+      descripcion: new FormControl('', Validators.required),
+      idReferencia: new FormControl('', Validators.required),
+      monto: new FormControl('', Validators.required),
+      idTipoMovimientoMonetario: new FormControl('', Validators.required),
+      idCategoriaMovimientoMonetario: new FormControl('', Validators.required),
     })
   }
 
@@ -90,7 +94,7 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
           }
         });
 
-        this.getCatalogById();
+        this.getReport();
     
       }
     });
@@ -111,88 +115,58 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
     );
   }
 
-  getCatalogById(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+  getReport(){
+    this.reporteIngresosEgresosService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteIngresosEgresos[]) => {
         // console.log(reportes);
-        const reporteModif = reportes.filter( (reporte: ReporteManoObra) => reporte.idCapturaManoObra == this.idReporte);
+        const reporteModif = reportes.filter( (reporte: ReporteIngresosEgresos) => reporte.idMovimientoMonetario == this.idReporte);
         console.log(reporteModif);
-        reporteModif.map( (reporte: ReporteManoObra) => {
-          let fechaCapturaString = reporte.fechaCaptura;
+        reporteModif.map( (reporte: ReporteIngresosEgresos) => {
+          let fechaCapturaString = reporte.fecha;
           this.fechaCaptura = new Date(fechaCapturaString);
           this.fechaCaptura.setDate(this.fechaCaptura.getDate()+1);
           this.reporteForm.patchValue(reporte);
-          // console.log(reporte);
-          this.catalogo = reporte.detManoObra;
-          this.temp = this.catalogo;
+          console.log(reporte);
+          this.getCatalogs();
         });
-        console.log(this.catalogo);
       }
     );
   }
 
-
-  updateFilter(event) {
-    const val = event.target.value.toLowerCase();
-    var columns = Object.keys(this.temp[0]);
-    columns.splice(columns.length - 1);
-
-    if (!columns.length)
-      return;
-
-    const rows = this.temp.filter(function (d) {
-      for (let i = 0; i <= columns.length; i++) {
-        let column = columns[i];
-        if (d[column] && d[column].toString().toLowerCase().indexOf(val) > -1) {
-          return true;
-        }
-      }
-    });
-
-    if(!rows.length){
-      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog');
-    } else {
-      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog');
-    }
-
-    this.catalogo = rows;
+  getCatalogs(){ 
+    this.reporteIngresosEgresosService.getCatalogoReferencia().subscribe(
+      referencias => this.catalogoReferencias = referencias,
+      error => console.log(error)
+    );
+    this.reporteIngresosEgresosService.getCatalogoTipo().subscribe(
+      tipos => this.catalogoTipoMovimientos = tipos,
+      error => console.log(error)
+    );
+    this.reporteIngresosEgresosService.getCatalogoCategoria().subscribe(
+      categorias => this.catalogoCategorias = categorias,
+      error => console.log(error)
+    );       
   }
 
   reportarAvance() {
     if (this.reporteForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaCaptura = this.pipe.transform(this.fechaCaptura, format);
-      const newCatalog: ConceptoManoObra[] = []
-  
-      this.catalogo.map( (concepto: ConceptoManoObra) => {
-        // if(concepto.cantidadCapturada > 0 || concepto.idConceptoPlanTrabajo !== 0){
-        if(concepto.cantidadCapturada > 0){
-          const conceptoModificado = {
-            ...concepto,
-            precioUnitarioCapturado: concepto.precioUnitario,
-            importeCapturado: concepto.precioUnitario * concepto.cantidadCapturada
-          };
 
-          newCatalog.push(conceptoModificado);
-        }
-
-      });
-
-      const reporte: ReporteManoObra = {
+      const reporte: ReporteIngresosEgresos = {
         ...this.reporteForm.value,
-        idCapturaManoObra: parseInt(this.idReporte),
-        fechaCaptura: nuevaFechaCaptura,
+        idMovimientoMonetario: parseInt(this.idReporte),
+        fecha: nuevaFechaCaptura,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
-        detManoObra: newCatalog,
       };
       
       console.log(reporte);
 
-      this.reporteManoObraService.addReport(reporte).subscribe(
+      this.reporteIngresosEgresosService.addReport(reporte).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-mano-obra']);
+            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-ingresos-egresos']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');

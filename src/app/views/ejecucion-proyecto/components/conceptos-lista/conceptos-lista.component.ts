@@ -7,8 +7,6 @@ import { AutenticacionService } from '../../../../shared/services/autenticacion.
 import { EvidenciaReporte } from './../../../../shared/models/evidencia-reporte';
 import { ReporteConceptosEjecutadosService } from './../../../../shared/services/reporte-conceptos-ejecutados.service';
 import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service';
-import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
-
 
 @Component({
   selector: 'app-conceptos-lista',
@@ -43,7 +41,6 @@ export class ConceptosListaComponent implements OnInit {
     private autenticacionService: AutenticacionService,
     private snackBar: MatSnackBar,
     private reporteSubcontratoService: ReporteSubcontratoService,
-    private reporteManoObraService: ReporteManoObraService
   ) { }
 
   ngOnInit() {
@@ -71,6 +68,18 @@ export class ConceptosListaComponent implements OnInit {
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeSubContrato;
         }
       } else if(this.tipoReporte === 'reporte-mano-obra'){
+        if (concepto.cantidadCapturada > 0){
+          this.conceptosSeleccionados.push(concepto);
+          // console.log(this.conceptosSeleccionados);
+          this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;
+        }
+      } else if(this.tipoReporte === 'reporte-materiales'){
+        if (concepto.cantidadCapturada > 0){
+          this.conceptosSeleccionados.push(concepto);
+          // console.log(this.conceptosSeleccionados);
+          this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;
+        }
+      } else if(this.tipoReporte === 'reporte-maquinaria-equipo'){
         if (concepto.cantidadCapturada > 0){
           this.conceptosSeleccionados.push(concepto);
           // console.log(this.conceptosSeleccionados);

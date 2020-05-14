@@ -13,7 +13,7 @@
         <p>
           Se han capturado {{reportes.length}} reportes que suman un importe acumulado de
           <b>{{montoTotal | currency}}</b>
-          y representa el {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del total de la mano de obra.
+          y representa el {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del total de maquinaria y equipo.
         </p>
       </div>
 
@@ -28,7 +28,7 @@
               </button>
               <mat-menu #reporteMenu="matMenu">
                 <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-reporte-mano-obra/{{reporte.idCapturaManoObra}}" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Reporte Mano de Obra</a>
+                  <a mat-menu-item routerLink="modificar-reporte-maquinaria-equipo/{{reporte.idCapturaMaquinariaEquipo}}" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Reporte Maquinaria y Equipo</a>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
                   <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Reporte</button>
@@ -50,10 +50,10 @@
                 <p>{{reporte.observacion}}</p>
               </div>
               <div class="wrap-total" *ngFor="let tot of total">
-                <p class="total-p" *ngIf="tot.idReporte === reporte.idCapturaManoObra">
+                <p class="total-p" *ngIf="tot.idReporte === reporte.idCapturaMaquinariaEquipo">
                   El importe total capturado dentro del periodo es de
                   <b>{{tot.totalMateriales | currency}}</b>
-                  y representa el {{(tot.totalMateriales / tot.totalManoObra) * 100 | number:'1.2-2'}}% del total de la mano de obra.
+                  y representa el {{(tot.totalMateriales / tot.totalMaquinaria) * 100 | number:'1.2-2'}}% del total de maquinaria y equipo.
                 </p>
 
               </div>
@@ -63,13 +63,13 @@
               <mat-expansion-panel>
                 <mat-expansion-panel-header>
                   <mat-panel-title>
-                    Conceptos
+                    Maquinaria y Equipo
                   </mat-panel-title>
                   <mat-panel-description>
-                    Conceptos agregados al reporte de mano de obra
+                    Conceptos agregados al reporte de maquinaria y equipo
                   </mat-panel-description>
                 </mat-expansion-panel-header>
-                <app-conceptos-lista [conceptos]="reporte.detManoObra" [tipoReporte]="'reporte-mano-obra'" (montosCaptured)="onMontosTotal($event)">
+                <app-conceptos-lista [conceptos]="reporte.detMaquinariaEquipo" [tipoReporte]="'reporte-maquinaria-equipo'" (montosCaptured)="onMontosTotal($event)">
                 </app-conceptos-lista>
               </mat-expansion-panel>
             </mat-accordion>

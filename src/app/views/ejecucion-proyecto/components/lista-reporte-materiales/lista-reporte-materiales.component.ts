@@ -10,16 +10,15 @@ import { AutenticacionService } from 'app/shared/services/autenticacion.service'
 import { NavigationService } from './../../../../shared/services/navigation.service';
 import { UsuariosService } from './../../../../shared/services/usuarios.service';
 import { ObraService } from '../../../../shared/services/obra.service';
-import { PlanTrabajoService } from '../../../../shared/services/plan-trabajo.service';
-import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
+import { ReporteMaterialService } from '../../../../shared/services/reporte-material.service';
 
 import { ModalEliminarComponent } from './../modal-eliminar/modal-eliminar.component';
 import { environment } from './../../../../../environments/environment';
 
 import { Usuario } from './../../../../shared/models/usuario';
 import { Obra } from '../../../../shared/models/obra';
-import { ReporteManoObra } from './../../../../shared/models/reporte-mano-obra';
-import { ConceptoManoObra } from './../../../../shared/models/concepto-mano-obra';
+import { ReporteMaterial } from './../../../../shared/models/reporte-material';
+import { ConceptoMaterial } from './../../../../shared/models/concepto-material';
 
 
 @Component({
@@ -38,8 +37,8 @@ export class ListaReporteMaterialesComponent implements OnInit {
   
   idUserLogeado;
   accesoBitacora = false;
-  reports: ReporteManoObra[] = [];
-  reportsTemp: ReporteManoObra[] = [];
+  reports: ReporteMaterial[] = [];
+  reportsTemp: ReporteMaterial[] = [];
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
@@ -47,14 +46,14 @@ export class ListaReporteMaterialesComponent implements OnInit {
   permisoAcceso: boolean = false;
   totalMonto: number;
 
-  nombreComponente = 'reporte-mano-obra';
+  nombreComponente = 'reporte-materiales';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
 
   @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
   obs$: Observable<any>;
-  dataSource: MatTableDataSource<ReporteManoObra> = new MatTableDataSource<ReporteManoObra>();
+  dataSource: MatTableDataSource<ReporteMaterial> = new MatTableDataSource<ReporteMaterial>();
 
   constructor(
     public dialog: MatDialog,
@@ -66,7 +65,7 @@ export class ListaReporteMaterialesComponent implements OnInit {
     private obraService: ObraService,
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
-    private reporteManoObraService: ReporteManoObraService,
+    private reporteMaterialService: ReporteMaterialService,
   ) { }
 
   ngOnInit() {
@@ -120,20 +119,20 @@ export class ListaReporteMaterialesComponent implements OnInit {
   }
 
   getReports(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+    this.reporteMaterialService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteMaterial[]) => {
         this.reports = reportes;
         this.reportsTemp =  this.reports;
         this.dataSource.data = this.reports;
 
         reportes.map( reporte => {
           console.log(reporte);
-          this.totalMonto = reporte.totalManoObra;
-          const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+          this.totalMonto = reporte.totalMaterial;
+          const total = reporte.detMaterial.reduce((acc,obj) => acc + (obj.importeCapturado),0);
           const art = {
-            idReporte: reporte.idCapturaManoObra, 
+            idReporte: reporte.idCapturaMaterial, 
             totalMateriales: total, 
-            totalManoObra: reporte.totalManoObra
+            totalMaterial: reporte.totalMaterial
           };
           this.total.push(art);          
         });
@@ -143,8 +142,8 @@ export class ListaReporteMaterialesComponent implements OnInit {
   }
 
   getReportsAfterDelete(){
-    this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
-      (reportes: ReporteManoObra[]) => {
+    this.reporteMaterialService.getReportsByObra(this.idObra).subscribe(
+      (reportes: ReporteMaterial[]) => {
         this.reports = reportes;
         this.reportsTemp =  this.reports;
         this.dataSource.data = this.reports;
@@ -222,7 +221,7 @@ export class ListaReporteMaterialesComponent implements OnInit {
       if(result){
         console.log(reporte);
 
-        this.reporteManoObraService.deleteReport(reporte).subscribe(
+        this.reporteMaterialService.deleteReport(reporte).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');

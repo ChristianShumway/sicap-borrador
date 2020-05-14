@@ -6,12 +6,12 @@ import { DatePipe } from '@angular/common';
 import {MatSnackBar} from '@angular/material/snack-bar';
 
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
-import { ReporteManoObraService } from '../../../../shared/services/reporte-mano-obra.service';
+import { ReporteMaterialService } from '../../../../shared/services/reporte-material.service';
 import { ObraService } from 'app/shared/services/obra.service';
 
 import { Obra } from './../../../../shared/models/obra';
-import { ConceptoManoObra } from '../../../../shared/models/concepto-mano-obra';
-import { ReporteManoObra } from '../../../../shared/models/reporte-mano-obra';
+import { ConceptoMaterial } from '../../../../shared/models/concepto-material';
+import { ReporteMaterial } from '../../../../shared/models/reporte-material';
 
 
 @Component({
@@ -25,8 +25,8 @@ export class ReporteMaterialesComponent implements OnInit {
   private obraObs$: Observable<Obra>;
   idUsuarioLogeado;
   idObra;
-  catalogo: ConceptoManoObra[] = [];
-  temp: ConceptoManoObra[] = [];
+  catalogo: ConceptoMaterial[] = [];
+  temp: ConceptoMaterial[] = [];
   fecha = new Date();
   fechaCaptura;
   pipe = new DatePipe('en-US');
@@ -40,7 +40,7 @@ export class ReporteMaterialesComponent implements OnInit {
     private router: Router,
     private autenticacionService: AutenticacionService,
     private obraService: ObraService,
-    private reporteManoObraService: ReporteManoObraService,
+    private reporteMaterialService: ReporteMaterialService,
     private snackBar: MatSnackBar,
 
   ) { }
@@ -76,7 +76,7 @@ export class ReporteMaterialesComponent implements OnInit {
             this.validateAccessObra(data.supervisor);
           }
         });
-        // this.getConceptsToPlan();
+        // this.getConcepts();
       }
     })
   }
@@ -91,16 +91,16 @@ export class ReporteMaterialesComponent implements OnInit {
       this.permisoAcceso = false;
     } else {
       this.permisoAcceso = true;
-      this.getConceptsToPlan();
+      this.getConcepts();
     }
   }
 
-  getConceptsToPlan(){
+  getConcepts(){
     this.activatedRoute.params.subscribe((data: Params) => {
       if (data) {
         this.idObra = data.id;
-        this.reporteManoObraService.getCatalogByReport(this.idObra).subscribe(
-          (catalog: ConceptoManoObra[]) => {
+        this.reporteMaterialService.getCatalogByReport(this.idObra).subscribe(
+          (catalog: ConceptoMaterial[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
             console.log(this.catalogo);
@@ -130,9 +130,9 @@ export class ReporteMaterialesComponent implements OnInit {
     });
 
     if(!rows.length){
-      this.useAlerts('No se encontraron conceptos con esta referencia', ' ', 'error-dialog');
+      this.useAlerts('No se encontraron materiales con esta referencia', ' ', 'error-dialog');
     } else {
-      this.useAlerts(`Fueron encontrados ${rows.length} conceptos con esta referencia`, ' ', 'success-dialog');
+      this.useAlerts(`Fueron encontrados ${rows.length} materiales con esta referencia`, ' ', 'success-dialog');
     }
 
     this.catalogo = rows;
@@ -142,33 +142,36 @@ export class ReporteMaterialesComponent implements OnInit {
     if (this.reporteForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaCaptura = this.pipe.transform(this.fechaCaptura, format);
-      const newCatalog: ConceptoManoObra[] = []
+      const newCatalog: ConceptoMaterial[] = []
   
-      this.catalogo.map( (concepto: ConceptoManoObra) => {
+      this.catalogo.map( (concepto: ConceptoMaterial) => {
         if(concepto.cantidadCapturada > 0){
           const conceptoModificado = {
             ...concepto,
             precioUnitarioCapturado: concepto.precioUnitario,
-            importeCapturado: concepto.precioUnitario * concepto.cantidadCapturada
+            importeCapturado: concepto.precioUnitario * concepto.cantidadCapturada,
+            idUsuarioModifico: this.idUsuarioLogeado,
+            // idCapturaMaterial: this.idUsuarioLogeado,
           };
+
 
           newCatalog.push(conceptoModificado);
         }
       });
 
-      const reporte: ReporteManoObra = {
+      const reporte: ReporteMaterial = {
         ...this.reporteForm.value,
         fechaCaptura: nuevaFechaCaptura,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
-        detManoObra: newCatalog,
+        detMaterial: newCatalog,
       };
       console.log(reporte);
 
-      this.reporteManoObraService.addReport(reporte).subscribe(
+      this.reporteMaterialService.addReport(reporte).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-mano-obra']);
+            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-materiales']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');

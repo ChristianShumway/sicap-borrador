@@ -15,21 +15,21 @@ export class ReporteMaterialService {
   ) { }
 
   getReportsByObra(id: number): Observable<ReporteMaterial[]>{
-    return this.http.get<ReporteMaterial[]>(`${environment.apiURL}/projectExecution/getWorkForceByIdObra/${id}`);
+    return this.http.get<ReporteMaterial[]>(`${environment.apiURL}/projectExecution/getMaterialByIdObra/${id}`);
   }
 
   addReport(report): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<ReporteMaterial>(`${environment.apiURL}/projectExecution/addWorkforce`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<ReporteMaterial>(`${environment.apiURL}/projectExecution/addMaterial`, JSON.stringify(report), { headers: headerss});
   }
 
   getCatalogByReport(id: number): Observable<ConceptoMaterial[]>{
-    return this.http.get<ConceptoMaterial[]>(`${environment.apiURL}/projectExecution/getWorkForceEmpty/${id}`);
+    return this.http.get<ConceptoMaterial[]>(`${environment.apiURL}/projectExecution/getMaterialEmpty/${id}`);
   }
 
   deleteReport(report: Partial<ReporteMaterial>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteWorkForce`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteMaterial`, JSON.stringify(report), { headers: headerss});
   }
 
 }

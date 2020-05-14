@@ -10,145 +10,109 @@
   <div fxLayout="row wrap" *ngIf="permisoAcceso">
     <form [formGroup]="reporteForm" (submit)="reportarAvance()">
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
-
-        <div class="wrap-colapsable">
-          <mat-expansion-panel [(expanded)]="panelOpenState">
-            <mat-expansion-panel-header>
-              <mat-panel-title class="title-obra">
-                <h2>{{obra.noContrato}}</h2>
-              </mat-panel-title>
-            </mat-expansion-panel-header>
-
-            <div class="info-obra">
-              <!-- <h1>{{obra.noContrato}}</h1> -->
-              <p>{{obra.nombreObra}}</p>
-            </div>
-
+        <mat-card class="user-card p-0">
+          <mat-card-title class="info-obra">
+            <h1>{{obra.noContrato}}</h1>
+            <p>{{obra.nombreObra}}</p>
+          </mat-card-title>
+          <mat-card-content>
             <div class="info-bitacora">
+    
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
-                </mat-form-field>
-              </div>
-
-              <div class="pb-1">
-                <mat-form-field class="full-width">
-                  <input matInput [matDatepicker]="fechaCaptura" formControlName="fechaCaptura" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
+                  <input matInput [matDatepicker]="fechaCaptura" formControlName="fecha" name="date" placeholder="Fecha de Captura" (dateChange)="onFechaInicio($event)">
                   <mat-datepicker-toggle matSuffix [for]="fechaCaptura"></mat-datepicker-toggle>
                   <mat-datepicker #fechaCaptura (selectedChange)="onFechaInicio($event)"></mat-datepicker>
                 </mat-form-field>
                 <div class="validaciones">
-                  <small *ngIf="reporteForm.controls['fechaCaptura'].hasError('required') && reporteForm.controls['fechaCaptura'].touched"
+                  <small *ngIf="reporteForm.controls['fecha'].hasError('required') && reporteForm.controls['fecha'].touched"
                     class="form-error-msg">
                     Fecha de captura es un campo requerido
                   </small>
                 </div>
               </div>
-
+    
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Descripción" formControlName="descripcion"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                    <small *ngIf="reporteForm.controls['descripcion'].hasError('required') && reporteForm.controls['descripcion'].touched"
+                      class="form-error-msg">
+                      Fecha de captura es un campo requerido
+                    </small>
+                  </div>
+              </div>
+    
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <mat-label>Referencia</mat-label>
+                  <mat-select formControlName="idReferencia"  required>
+                    <mat-option *ngFor="let referencia of catalogoReferencias" [value]="referencia.idReferencia">
+                      {{referencia.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="reporteForm.controls['idReferencia'].hasError('required') && reporteForm.controls['idReferencia'].touched" class="form-error-msg">
+                    Referencia es un campo requerido
+                  </small>
+                </div>
+              </div>
+    
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <input matInput  name="monto" formControlName="monto" placeholder="Monto" mask="separator.2" thousandSeparator=",">
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="reporteForm.controls['monto'].hasError('required') && reporteForm.controls['monto'].touched"
+                    class="form-error-msg">
+                    Monto es un campo requerido
+                  </small>
+                </div>
+              </div>
+    
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <mat-label>Tipo Movimiento</mat-label>
+                  <mat-select formControlName="idTipoMovimientoMonetario"  required>
+                    <mat-option *ngFor="let tipo of catalogoTipoMovimientos" [value]="tipo.idTipoMovimientoMonetario">
+                      {{tipo.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="reporteForm.controls['idTipoMovimientoMonetario'].hasError('required') && reporteForm.controls['idTipoMovimientoMonetario'].touched" class="form-error-msg">
+                    Tipo de movimiento es un campo requerido
+                  </small>
+                </div>
+              </div>
+    
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <mat-label>Categoria</mat-label>
+                  <mat-select formControlName="idCategoriaMovimientoMonetario"  required>
+                    <mat-option *ngFor="let categoria of catalogoCategorias" [value]="categoria.idCategoriaMovimientoMonetario">
+                      {{categoria.descripcion}}
+                    </mat-option>
+                  </mat-select>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="reporteForm.controls['idCategoriaMovimientoMonetario'].hasError('required') && reporteForm.controls['idCategoriaMovimientoMonetario'].touched" class="form-error-msg">
+                    Categoria es un campo requerido
+                  </small>
+                </div>
+              </div>
+    
             </div>
-
-          </mat-expansion-panel>
-        </div>
-
-
-        <div class="wrap-button">
-          <button *ngIf="catalogo.length" mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Registrar</button>
-          <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-mano-obra'">Cancelar</button>
-        </div>
-
+      
+            <div class="wrap-button">
+              <button  mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Registrar</button>
+              <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-mano-obra'">Cancelar</button>
+            </div>
+          </mat-card-content>
+        </mat-card>
       </div>
     </form>
-
-    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-catalogo">
-      <mat-form-field class="margin-333" style="width: 98%">
-        <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
-      </mat-form-field>
-
-      <div class="mat-box-shadow margin-333" *ngIf="catalogo.length; else noconceptos">
-
-        <ngx-datatable class="material fullscreen bg-white" style="height: 500px; overflow-y: auto;" [rows]="catalogo" [columnMode]="'force'"
-          [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
-          <!-- <ngx-datatable-column name="No." [flexGrow]="1">
-              <ng-template let-row="row" ngx-datatable-cell-template>
-                <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                  {{ row?.noConcepto }}
-                </p>
-              </ng-template>
-            </ngx-datatable-column> -->
-
-          <ngx-datatable-column name="Descripción" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                {{row?.descripcion}}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Unidad" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                {{row?.unidad}}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Cantidad" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                {{row?.cantidad}}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Cantidad Total Capturada" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'gray' : 'blue' }">
-                {{row?.cantidadTotalCapturado}}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                {{row?.precioUnitario | currency}}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Cantidad a Capturar" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <mat-form-field class="cantidad-seleccionada">
-                <input matInput type="number" min="0" [(ngModel)]="row.cantidadCapturada">
-              </mat-form-field>
-            </ng-template>
-          </ngx-datatable-column>
-
-          <ngx-datatable-column name="Importe" [flexGrow]="1">
-            <ng-template let-row="row" ngx-datatable-cell-template>
-              <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">
-                {{ row?.cantidadCapturada * row?.precioUnitario | currency }}
-              </p>
-            </ng-template>
-          </ngx-datatable-column>
-
-        </ngx-datatable>
-      </div>
-
-      <ng-template #noconceptos>
-        <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
-          [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
-          <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad Total Capturada" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Precio Unitario" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Cantidad a Capturar" [flexGrow]="1"></ngx-datatable-column>
-          <ngx-datatable-column name="Importe" [flexGrow]="1"></ngx-datatable-column>
-        </ngx-datatable>
-      </ng-template>
-
-    </div>
   </div>
 </div>

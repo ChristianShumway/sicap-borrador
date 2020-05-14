@@ -1,15 +1,100 @@
-<!-- <mat-form-field class="margin-333" style="width: 98%">
-  <input matInput placeholder="Filtrar Plan de Trabajo" value="" (keyup)='updateFilter($event)'>
-</mat-form-field> -->
-
 <div class="container-gral" *ngIf="permisoAcceso">
   <div class="wrap-button">
-    <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-mano-obra'">Regresar</button>
+    <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Regresar</button>
   </div>
 
-  <div fxLayout="row wrap" *ngIf="(obs$ | async) as reportes">
+  <div  *ngIf="(obs$ | async) as reportes">
+    
     <ng-container *ngIf="reportes.length; else loading">
-      <div class="monto-total">
+      <!-- {{reportes | json}} -->
+      
+      <div class="mat-box-shadow margin-333">
+        <ngx-datatable 
+        class="material fullscreen bg-white"
+        [rows]="reportes"
+        [columnMode]="'force'"
+        [headerHeight]="50"
+        [footerHeight]="50"
+        [scrollbarH]="true"
+        [rowHeight]="'auto'"
+        [limit]="20"
+        [scrollbarH]="true"
+        [rowHeight]="50">
+  
+          <ngx-datatable-column name="No." [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{ row?.no }}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Fecha" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.fecha}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Descripción" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.descripcion}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Referencia" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.referencia.descripcion}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Ingreso" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.ingreso | currency}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Egreso" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.egreso | currency}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Acumulado" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.acumulado | currency}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Tipo" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.tipoMovimiento.descripcion}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Categoria" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <p  class="content-center">{{row?.categoriaMovimientoMonetario.descripcion}}</p>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Acción" [flexGrow]="1">
+            <ng-template let-row="row" ngx-datatable-cell-template>
+              <div  class="content-center buttons-report">
+                <div id="modificar-reporte" #myIdM>
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)" routerLink="modificar-reporte-ingresos-egresos/{{row?.idMovimientoMonetario}}" > 
+                    <mat-icon>edit</mat-icon> 
+                  </button>
+                </div>
+                <div id="eliminar-reporte" #myIdE>
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)" (click)="openDialoAlertDelete(row)" >
+                    <mat-icon>delete_sweep</mat-icon>
+                  </button>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-datatable-column>
+
+        </ngx-datatable>
+      </div>
+      <!-- <div class="monto-total">
         <p>
           Se han capturado {{reportes.length}} reportes que suman un importe acumulado de
           <b>{{montoTotal | currency}}</b>
@@ -18,7 +103,6 @@
       </div>
 
       <div *ngFor="let reporte of reportes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-        <!-- {{reporte | json}} -->
         <mat-card class="user-card p-0">
           <mat-card-title>
             <div class="card-title-text obra">
@@ -76,8 +160,9 @@
 
           </mat-card-content>
         </mat-card>
-      </div>
+      </div> -->
     </ng-container>
+
     <ng-template #loading>
       <div class="wrap-loading-catalog">
         <mat-spinner [diameter]="60"></mat-spinner>
@@ -85,5 +170,5 @@
     </ng-template>
   </div>
 
-  <mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>
+  <!-- <mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator> -->
 </div>

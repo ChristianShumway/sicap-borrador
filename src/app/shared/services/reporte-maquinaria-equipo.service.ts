@@ -15,21 +15,21 @@ export class ReporteMaquinariaEquipoService {
   ) { }
 
   getReportsByObra(id: number): Observable<ReporteMaquinariaEquipo[]>{
-    return this.http.get<ReporteMaquinariaEquipo[]>(`${environment.apiURL}/projectExecution/getWorkForceByIdObra/${id}`);
+    return this.http.get<ReporteMaquinariaEquipo[]>(`${environment.apiURL}/projectExecution/getEngineryAndTeamByIdObra/${id}`);
   }
 
   addReport(report): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<ReporteMaquinariaEquipo>(`${environment.apiURL}/projectExecution/addWorkforce`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<ReporteMaquinariaEquipo>(`${environment.apiURL}/projectExecution/addEngineryAndTeam`, JSON.stringify(report), { headers: headerss});
   }
 
   getCatalogByReport(id: number): Observable<ConceptoMaquinariaEquipo[]>{
-    return this.http.get<ConceptoMaquinariaEquipo[]>(`${environment.apiURL}/projectExecution/getWorkForceEmpty/${id}`);
+    return this.http.get<ConceptoMaquinariaEquipo[]>(`${environment.apiURL}/projectExecution/getEngineryAndTeamlEmpty/${id}`);
   }
 
   deleteReport(report: Partial<ReporteMaquinariaEquipo>): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
-    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteWorkForce`, JSON.stringify(report), { headers: headerss});
+    return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteEngineryAndTeam`, JSON.stringify(report), { headers: headerss});
   }
 
 }
