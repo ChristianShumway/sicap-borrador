@@ -31,7 +31,7 @@
     <p class="title">Lista Peticiones</p>
     <div class="material-ot" *ngFor="let peticion of detallesOrdenTrabajoRecursos">
       <div class="tit">Categoria:</div>
-      <div class="desc">{{peticion.categoria}}</div>
+      <div class="desc">{{peticion.categoria.descripcion}}</div>
       <div class="tit">Desglose:</div>
       <div class="desc">{{peticion.desglose}}</div>
       <div class="tit">Importe Solicitado sin Factura:</div>
@@ -107,17 +107,21 @@
 
   <div class="wrap-materiales" *ngIf="ordenTrabajo.idTipo===3">
     <p class="title">Detalles de la Orden</p>
-    <div class="material-ot" *ngFor="let vehiculo of detallesOrdenTrabajoVehiculos">
-      <div class="tit">Vehículo Propuesto:</div>
-      <div class="desc">{{vehiculo.vehiculo.marca}} {{vehiculo.vehiculo.modelo}}</div>
+    <div class="material-ot" *ngFor="let peticion of detallesOrdenTrabajoVehiculos">
+      <div class="tit">Categoría:</div>
+      <div class="desc">{{peticion.categoria.descripcion}}</div>
+      <div class="tit">Descripción:</div>
+      <div class="desc">{{peticion.descripcion}}</div>
+      <div class="tit">Tipo de Servicio:</div>
+      <div class="desc">{{peticion.tipoServicio}}</div>
       <div class="tit">Unidad:</div>
-      <div class="desc">{{vehiculo.unidad}}</div>
+      <div class="desc">{{peticion.unidad}}</div>
       <div class="tit">Cantidad:</div>
-      <div class="desc">{{vehiculo.cantidad}}</div>
+      <div class="desc">{{peticion.cantidad}}</div>
       <div class="tit">Precio:</div>
-      <div class="desc">{{vehiculo.precioUnitario | currency}}</div>
+      <div class="desc">{{peticion.precioUnitario | currency}}</div>
       <div class="tit">Importe:</div>
-      <div class="desc">{{vehiculo.importe | currency}}</div>
+      <div class="desc">{{peticion.importe | currency}}</div>
     </div>
   </div>
     

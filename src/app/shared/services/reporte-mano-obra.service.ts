@@ -32,4 +32,9 @@ export class ReporteManoObraService {
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteWorkForce`, JSON.stringify(report), { headers: headerss});
   }
 
+  getExportable(idObra:number, idUsuario:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportWorkForce/${idObra}/${idUsuario}`, {headers: headerss, responseType: 'blob',});
+  }
+
 }

@@ -170,7 +170,8 @@ export class ModificarReporteManoObraComponent implements OnInit {
           const conceptoModificado = {
             ...concepto,
             precioUnitarioCapturado: concepto.precioUnitario,
-            importeCapturado: concepto.precioUnitario * concepto.cantidadCapturada
+            importeCapturado: concepto.precioUnitario * concepto.cantidadCapturada,
+            idUsuarioModifico: this.idUsuarioLogeado
           };
 
           newCatalog.push(conceptoModificado);

@@ -47,6 +47,10 @@ export class NavigationService {
     return this.http.get<any[]>(`${environment.apiURL}/config/isAuthenticated/${idPerfil}/${idOpcion}`);
   }
 
+  validarPermisosSupervisor(idOpcion: number) {
+    return this.http.get<any[]>(`${environment.apiURL}/config/isAuthenticatedUser/${idOpcion}`);
+  }
+
   permisosMenu: Permisos[] = [
     { id: '1', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '5', autorizado: true },
     { id: '2', idPerfil: '1', nombrePerfil: 'Gerencia', idModulo: '30', autorizado: true },

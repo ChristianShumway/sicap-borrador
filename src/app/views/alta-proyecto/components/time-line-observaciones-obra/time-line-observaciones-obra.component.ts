@@ -7,15 +7,17 @@ import { Observacion } from './../../../../shared/models/observacion';
   styleUrls: ['./time-line-observaciones-obra.component.scss']
 })
 export class TimeLineObservacionesObraComponent implements OnInit {
-  
+  idUserLogeado;
   isLinear = false;
   @Input() observacionesList: Observacion[];
+  @Input() idusuario;
   
-  constructor() { }
+  constructor(
+  ) { }
 
 
   ngOnInit() {
-    console.log(this.observacionesList);
+    // console.log(this.idusuario);
   }
 
 }

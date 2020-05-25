@@ -1,4 +1,16 @@
 
+<div class="wrap-leyenda">
+  <p *ngIf="option==='plan-trabajo'">PLAN DE TRABAJO</p>
+  <p *ngIf="option==='reporte-conceptos-ejecutados'">REPORTE DE CONCEPTOS EJECUTADOS</p>
+  <p *ngIf="option==='reporte-subcontratos'">REPORTE DE SUBCONTRATOS</p>
+  <p *ngIf="option==='reporte-mano-obra'">REPORTE DE MANO DE OBRA</p>
+  <p *ngIf="option==='reporte-maquinaria-equipo'">REPORTE DE MAQUINARIA Y EQUIPO</p>
+  <p *ngIf="option==='reporte-materiales'">REPORTE DE MATERIALES</p>
+  <p *ngIf="option==='reporte-ingresos-egresos'">REPORTE DE INGRESOS Y EGRESOS</p>
+  <p *ngIf="option==='validacion'">OBRAS PARA VALIDACIONES</p>
+  <p *ngIf="option==='bitacora-obra'">BITÁCORA DE OBRA</p>
+</div>
+
 <mat-form-field class="margin-333" style="width: 98%">
   <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
 </mat-form-field>
@@ -77,6 +89,12 @@
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-plan-trabajo', obra.idObra]">
               Ver Plan de Trabajo</button>
+
+              <button 
+              *ngIf="option==='plan-trabajo'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'plan-trabajo')">
+              Exportar Reportes</button>
               
               <button 
               *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
@@ -91,6 +109,12 @@
               Ver Reportes</button>
 
               <button 
+              *ngIf="option==='reporte-conceptos-ejecutados'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'conceptos-ejecutados')">
+              Exportar Reportes</button>
+
+              <button 
               *ngIf="accesoBitacora && option==='reporte-subcontratos'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]">
@@ -101,6 +125,12 @@
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-reportes-subcontratos', obra.idObra]">
               Ver Reportes</button>
+
+              <button 
+              *ngIf="option==='reporte-subcontratos'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'subcontratos')">
+              Exportar Reportes</button>
 
               <button 
               *ngIf="accesoBitacora && option==='reporte-mano-obra'" 
@@ -115,6 +145,12 @@
               Ver Reportes</button>
 
               <button 
+              *ngIf="option==='reporte-mano-obra'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'mano-obra')">
+              Exportar Reportes</button>
+
+              <button 
               *ngIf="accesoBitacora && option==='reporte-materiales'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-materiales', obra.idObra]">
@@ -125,6 +161,12 @@
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-reportes-materiales', obra.idObra]">
               Ver Reportes</button>
+
+              <button 
+              *ngIf="option==='reporte-materiales'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'materiales')">
+              Exportar Reportes</button>
 
               <button 
               *ngIf="accesoBitacora && option==='reporte-maquinaria-equipo'" 
@@ -139,6 +181,12 @@
               Ver Reportes</button>
 
               <button 
+              *ngIf="option==='reporte-maquinaria-equipo'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'maquinaria-equipo')">
+              Exportar Reportes</button>
+
+              <button 
               *ngIf="accesoBitacora && option==='reporte-ingresos-egresos'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]">
@@ -149,6 +197,12 @@
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-reportes-ingresos-egresos', obra.idObra]">
               Ver Reportes</button>
+
+              <button 
+              *ngIf="option==='reporte-ingresos-egresos'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'ingresos-egresos')">
+              Exportar Reportes</button>
 
               <!-- <button 
               *ngIf="option==='validacion'" 

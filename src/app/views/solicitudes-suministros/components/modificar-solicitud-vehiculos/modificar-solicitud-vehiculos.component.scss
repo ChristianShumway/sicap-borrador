@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-form{
+form, .form{
   width: 100%;
   .title-solicitud{
     padding: 15px 0 0;
@@ -76,7 +76,7 @@ form{
     border: 1px solid darkgray;
     padding: 20px 10px;
     position: relative;
-    margin: 30px 0;
+    margin: 20px 0;
     &:before {
       content: 'Observaciones Adicionales:';
       position: absolute;
@@ -94,6 +94,64 @@ form{
       margin-right: 15px;
     }
   }
+}
+
+.wrap-peticiones{
+  width: 100%;
+  margin: 10px 0 0;
+  border-top: 1px solid lightgray;
+  padding: 20px 0 0;
+  position: relative;
+  &::before{
+    // content: 'Agregar Petición';
+    position: absolute;
+    top: -25px;
+    color: #4caf50;
+    font-size: 12px;
+    font-weight: 400;
+    text-transform: uppercase;
+  }
+  .title-peticion {
+    color: #4caf50;
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: 400;
+  }
+}
+
+.wrap-totales{
+  padding: 20px 10px 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  .total {
+    p {
+      font-weight: 500;
+    }
+    span {
+      color: #4caf50;
+    }
+  }
+}
+
+.content-center{
+  height: 42px;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mat-btn-delete{
+  background: #ffc107;
+  color: white;
+}
+
+.observacion-adicional {
+  width: 100%;
+}
+
+.c-s{
+  margin: 20px 0;
 }
 
 

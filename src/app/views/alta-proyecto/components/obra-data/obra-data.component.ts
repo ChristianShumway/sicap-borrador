@@ -6,6 +6,7 @@ import { EmpresasService } from './../../../../shared/services/empresas.service'
 import { ClientesService } from '../../../../shared/services/clientes.service';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
 import { DestajistasService } from './../../../../shared/services/destajistas.service';
+import { NavigationService } from '../../../../shared/services/navigation.service';
 
 import { Empresa } from './../../../../shared/models/empresa';
 import { Cliente } from './../../../../shared/models/cliente';
@@ -17,6 +18,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 import { Observacion } from '../../../../shared/models/observacion';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-obra-data',
@@ -52,6 +54,7 @@ export class ObraDataComponent implements OnInit {
   supervisoresSeleccionados: Usuario[];
   destajistasSeleccionados: Destajista[];
   clientesSeleccionados: Usuario[];
+  nombreComponente = 'crear-obra';
 
   constructor(
     private router: Router,
@@ -62,7 +65,8 @@ export class ObraDataComponent implements OnInit {
     private destajistasService: DestajistasService,
     private snackBar: MatSnackBar,
     private activatedRoute: ActivatedRoute,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private navigationService: NavigationService,
   ) { }
 
   ngOnInit() {
@@ -285,22 +289,13 @@ export class ObraDataComponent implements OnInit {
 
     this.usuariosService.getUsuarios().subscribe(
       (usuarios: Usuario[]) => {
-        this.supervisores = usuarios.filter( usuario => usuario.idPerfil === 9);
+        // this.supervisores = usuarios.filter( usuario => usuario.idPerfil === 9);
         this.gerenteProyecto = usuarios.filter( usuario => usuario.idPerfil === 10);
         this.planeacionPresupuestos = usuarios.filter( usuario => usuario.idPerfil === 2);
         this.controlObra = usuarios.filter( usuario => usuario.idPerfil === 3);
         this.compras = usuarios.filter( usuario => usuario.idPerfil === 8);
         this.usuarioCliente = usuarios.filter( usuario => usuario.idPerfil === 11 && usuario.idCliente === this.idClienteObra);
-        const listSupervisoresCheck=[];
         const listCustomersCheck=[];
-
-        this.supervisores.map( supervisor => {
-          this.supervisoresSeleccionados.map( ss => {
-            if(supervisor.idUsuario === ss.idUsuario){
-              listSupervisoresCheck.push(supervisor);
-            }
-          });
-        });
 
         this.usuarioCliente.map( (cliente: Usuario) => {
           this.clientesSeleccionados.map( (cs: Usuario) => {
@@ -310,8 +305,29 @@ export class ObraDataComponent implements OnInit {
           });
         });
 
-        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck);   
         this.updateObraForm.get('usuarioCliente').setValue(listCustomersCheck);  
+      },
+      error => console.log(error)
+    );
+
+    const listSupervisoresCheck=[];
+    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente);
+    const idModulo = moduloActual.idOpcion;
+    console.log(idModulo);
+    this.navigationService.validarPermisosSupervisor(idModulo).subscribe(
+      users => {
+        this.supervisores = users;
+
+        this.supervisores.map( supervisor => {
+          this.supervisoresSeleccionados.map( ss => {
+            if(supervisor.idUsuario === ss.idUsuario){
+              listSupervisoresCheck.push(supervisor);
+            }
+          });
+        });
+    
+        this.updateObraForm.get('supervisor').setValue(listSupervisoresCheck);
+        
       },
       error => console.log(error)
     );

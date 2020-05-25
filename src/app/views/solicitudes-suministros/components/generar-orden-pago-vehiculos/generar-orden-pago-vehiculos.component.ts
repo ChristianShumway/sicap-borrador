@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import { DatePipe } from '@angular/common';
 
 import { environment } from './../../../../../environments/environment';
@@ -10,6 +10,7 @@ import { AutenticacionService } from '../../../../shared/services/autenticacion.
 import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
+import { ModalLlenarPeticionComponent } from '../modal-llenar-peticion/modal-llenar-peticion.component';
 
 @Component({
   selector: 'app-generar-orden-pago-vehiculos',
@@ -40,6 +41,7 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
   precio;
   importe;
   panelOpenState: boolean = false;
+  totalPrecio: number;
   totalImporte: number;
 
   constructor(
@@ -47,7 +49,8 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog,
   ) { }
 
   ngOnInit() {
@@ -60,11 +63,13 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
       (solicitud: SolicitudVehiculo) => {
         console.log(solicitud);
         this.solicitud = solicitud;
+        // this.detallesOrden = solicitud.detSolicitudMaquinriaEquipo;
         this.validateAccessValidation();
-        this.solicitudesService.getVehiculosByObra(this.solicitud.idObra).subscribe(
-          vehiculos => this.listaVehiculosPropuestos = vehiculos,
-          error => console.log(error)
-        );
+        this.getNewDetails();
+        // this.solicitudesService.getVehiculosByObra(this.solicitud.idObra).subscribe(
+        //   vehiculos => this.listaVehiculosPropuestos = vehiculos,
+        //   error => console.log(error)
+        // );
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
@@ -77,61 +82,55 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     this.host = environment.host;
   }
 
-  agregarDetalle(){
-    if(!this.vehiculoPropuesto){
-      this.useAlerts('Selecciona el vehículo propuesto', ' ', 'error-dialog');
-    } else if (!this.unidad){
-      this.useAlerts('Ingresa la unidad del detalle', '', 'error-dialog');
-    } else if (!this.cantidad){
-      this.useAlerts('Ingresa la cantidad del detalle', ' ', 'error-dialog');
-    } else if (!this.precio){
-      this.useAlerts('Ingresa el precio del detalle', ' ', 'error-dialog');
-    } else if (!this.importe){
-      this.useAlerts('Ingresa el importe del detalle', ' ', 'error-dialog');
-    } else {
-      
-      let tipoVehiculo = this.listaVehiculosPropuestos.filter( vehiculo => vehiculo.idVehiculo === this.vehiculoPropuesto);
-      const orden = {
-        idDetOrdenTrabajoMaquinariaEquipo: 0,
-        idOrdenTrabajoMaquinariaEquipo: 0,
-        idVehiculo: this.vehiculoPropuesto,
-        idObra: this.solicitud.idObra,
-        cantidad: this.cantidad,
-        precioUnitario: parseFloat(this.precio),
-        importe:  parseFloat(this.importe),
-        idUsuarioModfico: this.idUsuarioLogeado,
-        unidad: this.unidad,
-        descripcion: "1231",
-        vehiculo: tipoVehiculo[0]
+  getNewDetails(){
+    this.solicitud.detSolicitudMaquinriaEquipo.map( peticion => {
+      const nuevaPeticion = {
+        // ...peticion,
+        categoria: peticion.categoriaSolicitudMaquinariaEquipo.descripcion,
+        descripcion: peticion.descripcion,
+        tipoServicio: peticion.tipoServicio,
+        unidad: '-',
+        cantidad: 0,
+        precioUnitario: 0,
+        importe: 0,
+        idDet: peticion.idDetSolicitudMaquinariaEquipo,
       };
-      
-      this.detallesOrden.push(orden);
-      this.detallesOrden = [...this.detallesOrden];
-      // this.countPeticion += 1;
-      this.vehiculoPropuesto = 0;
-      this.unidad = '';
-      this.cantidad = '';
-      this.precio = '';
-      this.importe = '';
-      this.useAlerts('Detalle agregado a la orden correctamente', ' ', 'success-dialog');
-      this.getTotales();
-      this.panelOpenState = !this.panelOpenState;
-      console.log(this.detallesOrden);
-    }
+
+      this.detallesOrden.push(nuevaPeticion);
+    });
+    // console.log(this.detallesOrden);
+    this.getTotales();
+  }
+
+
+  llenarPeticion(index, peticion){
+    // console.log(index);
+    const dialogRef = this.dialog.open(ModalLlenarPeticionComponent, {
+      width: '460px',
+      panelClass: 'custom-dialog-container-user',
+      data: {peticion, tipo:'create'}
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        // console.log(result);
+        this.detallesOrden.splice(index, 1);
+        this.detallesOrden.push(result);
+        console.log(this.detallesOrden);
+        this.detallesOrden = [...this.detallesOrden];
+        this.getTotales();
+      }
+
+    });
   }
 
   getTotales() {
     this.totalImporte = 0;
+    this.totalPrecio = 0;
     this.detallesOrden.map( (orden) => {
       this.totalImporte += orden.importe; 
+      this.totalPrecio += orden.precioUnitario;
     });
-  }
-
-  eliminarVehiculoLista(index) {
-    this.detallesOrden.splice(index, 1);
-    this.detallesOrden = [...this.detallesOrden];
-    this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
-    this.getTotales();
   }
 
   crearOrden() {
@@ -140,12 +139,31 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     } else {
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
+      const detOrdenTrabajo: any[] = [];
+
+      this.detallesOrden.map(peticion => {
+        const nuevaPeticion = {
+          idVehiculo: 1,
+          idObra: this.solicitud.idObra,
+          cantidad: peticion.cantidad,
+          precioUnitario: peticion.precioUnitario,
+          importe: peticion.importe,
+          idUsuarioModfico: this.idUsuarioLogeado,
+          unidad: peticion.unidad,
+          descripcion: peticion.descripcion,
+          idDetSolicitudMaquinariaEquipo: peticion.idDet
+        }
+
+        detOrdenTrabajo.push(nuevaPeticion);
+      });
+
+      console.log(detOrdenTrabajo);
       
       const ordenTrabajo = {
         idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModicio: hoy,
-        detOrdenTrabajoMaquinariaEquipo: this.detallesOrden,
+        detOrdenTrabajoMaquinariaEquipo: detOrdenTrabajo,
         observaciones: "dasads update",
         idSolicitud: this.solicitud.idSolicitudMaquinariaEquipo,
         serieFolio: "MAQ"

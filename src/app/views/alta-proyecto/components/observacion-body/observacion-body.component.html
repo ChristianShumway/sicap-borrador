@@ -2,3 +2,41 @@
   <p class="type-observation">{{nombreObservacion}}</p>
   <p class="observation">{{observacion.comentario}}</p>
 </div>
+
+<div *ngIf="evidencias.length">
+  
+  <div class="container-evidencias">
+    <div class="wrap-evidence" *ngFor = "let evidencia of evidencias">
+      <div class="item-evidence-file" *ngIf= "evidencia.extension === 'pdf'" >
+        <div class="btn"  >
+          <a href="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{evidencia.nombre}}" target="blank">Ver PDF <mat-icon>cloud_download</mat-icon></a>       
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div  class="container-evidencias">
+    <div class="wrap-evidence"  *ngFor = "let evidencia of evidencias">
+      <div class="item-evidence" *ngIf= "evidencia.extension === 'jpg' || evidencia.extension === 'png'">
+        <div >   
+          <img src="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{evidencia.nombre}}" alt="imagen">
+          <div class="options-btn">
+            <a class="btn-evidence show" matTooltip="Ver" matTooltipPosition="below" (click)="showImageZoom(evidencia.url,evidencia.nombre)">
+              <mat-icon>visibility </mat-icon>
+            </a>
+            <a *ngIf="idUsuarioModifico === idUsuario" class="btn-evidence delete" matTooltip="Eliminar" matTooltipPosition="below" (click)="deleteEvidence(evidencia)">
+              <mat-icon>delete </mat-icon>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+<div class="modal-img-zoom" *ngIf="showEvidenceZoom">
+  <img src="assets/images/icons/close.png" class="close-modal" (click)="closeModal()">
+  <img [src]="urlImageShow" alt="imagen zoom">
+</div>

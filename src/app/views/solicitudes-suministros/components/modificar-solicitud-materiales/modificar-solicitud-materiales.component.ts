@@ -30,6 +30,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
+  observacionesAdicionales: string;
+  categoriasParaMateriales: any;
 
   listaUsuariosAdministracionCentral: Usuario[] = [];
   listaUsuariosJefeInmediato: Usuario[] = [];
@@ -39,6 +41,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
   unidadMaterial: string;
   cantidadMaterial: number = 0;
   comentarioMaterial: string;
+  familiaMaterial: string;
+  idCategoriaMaterial: number = 0;
   panelOpenState: boolean = false;
 
   constructor(
@@ -78,6 +82,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
       this.host = environment.host;
       this.listaMaterial = this.solicitud.detSolicitudMaterial;
       this.listaTemp = this.listaMaterial;
+      this.observacionesAdicionales = this.solicitud.observacionesAdicionales;
+
       // this.fechaInicioObra = new Date(inicioString);
       // this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
     } else {
@@ -90,8 +96,6 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
-      descripcion: new FormControl(''),
-      observacionesAdicionales: new FormControl('', Validators.required),
     });
   }
   
@@ -106,14 +110,10 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
     //     error => this.useAlerts( error.message, ' ', 'error-dialog');
     //   }
     // );
-    // this.usuariosService.getUsuariosByIdProfile(2).subscribe(
-    //   ( usuarios: Usuario[]) => this.listaUsuariosAdministracionCentral = usuarios,
-    //   error => console.log(error)
-    //  );
-    //  this.usuariosService.getUsuariosByIdProfile(1).subscribe(
-    //    ( usuarios: Usuario[]) => this.listaUsuariosJefeInmediato = usuarios,
-    //    error => console.log(error)
-    //   );
+    this.solicitudesService.getCategoriasParaSolicitudMateriales().subscribe(
+      categorias => this.categoriasParaMateriales = categorias,
+      error=> console.log(error)
+    );
   }
 
   public onFechaRequiereMaterial(event): void {
@@ -125,6 +125,10 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
       this.useAlerts('Ingresa la descripción del material a agregar', ' ', 'error-dialog');
     } else if (!this.unidadMaterial){
       this.useAlerts('Ingresa la unidad del material a agregar', ' ', 'error-dialog');
+    } else if (!this.familiaMaterial){
+      this.useAlerts('Ingresa la familia del material a agregar', ' ', 'error-dialog');
+    } else if (this.idCategoriaMaterial === 0){
+      this.useAlerts('Selecciona la categoria del material a agregar', ' ', 'error-dialog');
     } else if (!this.cantidadMaterial){
       this.useAlerts('Ingresa la cantidad del material a agregar', ' ', 'error-dialog');
     } else {
@@ -132,7 +136,6 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
       this.listaMaterial.map( (material: MaterialParaSolicitud) => {
         ultimoIdMaterial = Math.max(material.idMaterial);
       });
-      // console.log(ultimoIdMaterial);
 
       const materialExtra =  {
         idMaterial: ultimoIdMaterial + 1,
@@ -148,9 +151,11 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
         comentario: this.comentarioMaterial,
         descripcionSolicitud: '',
         idUsuarioModifico: this.idUsuarioLogeado,
+        familia: this.familiaMaterial,
+        idCategoriaSolicitudMaterial: this.idCategoriaMaterial,
       };
 
-      // console.log(materialExtra);
+      console.log(materialExtra);
 
       this.solicitudesService.addAdditionalMaterial(materialExtra).subscribe(
         response => {
@@ -162,6 +167,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
             this.unidadMaterial = '';
             this.cantidadMaterial = 0;
             this.comentarioMaterial = '';
+            this.familiaMaterial = '';
+            this.idCategoriaMaterial = 0;
             this.panelOpenState = !this.panelOpenState;
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
@@ -197,7 +204,8 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
         idUsuarioSolicito: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
         // detSolicitudMaterial: materialSolicitado
-        detSolicitudMaterial: this.listaMaterial
+        detSolicitudMaterial: this.listaMaterial,
+        observacionesAdicionales: this.observacionesAdicionales
       };
 
       console.log(solicitud); 

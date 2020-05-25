@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -18,6 +18,7 @@ import { Obra } from './../../../../shared/models/obra';
 import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
 import { Cliente } from './../../../../shared/models/cliente';
+import { ModalEliminarComponent } from '../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 @Component({
   selector: 'app-modificar-solicitud-vehiculos',
@@ -39,6 +40,15 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
+  observacionesAdicionales: string;
+  peticionesSolicitadas: any[];
+  listaCategoriasPeticion: any[] = [];
+  categoriaPeticion: number;
+  descripcionSolicitud: string;
+  tipoServicioSolicitud: string;
+  comentariosSolicitud: string;
+  countPeticion:number = 0;
+  panelOpenState: boolean = false;
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
@@ -55,10 +65,9 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
     private snackBar: MatSnackBar,
-    private empresasService: EmpresasService,
-    private clientesService: ClientesService,
     private solicitudesService: SolicitudesService,
-    private router: Router
+    private router: Router,
+    public dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -71,6 +80,8 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
       (solicitud: SolicitudVehiculo) => {
         console.log(solicitud);
         this.solicitud = solicitud;
+        this.observacionesAdicionales = solicitud.observacion;
+        this.peticionesSolicitadas = solicitud.detSolicitudMaquinriaEquipo;
         this.validateAccessValidation();
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
@@ -89,6 +100,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
       this.rutaImg = environment.imgRUL;
       this.host = environment.host;
       this.solicitudForm.patchValue(this.solicitud);
+      this.getCatalogos();
 
     } else {
       this.opcionesPermitidas = false;
@@ -96,6 +108,12 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
 
   }
 
+  getCatalogos(){
+    this.solicitudesService.getCategoriasParaSolicitudMaquinaria().subscribe(
+      (categorias: any[]) => this.listaCategoriasPeticion = categorias,
+      error => this.useAlerts( error.message, ' ', 'error-dialog')
+    );
+  }
 
   getValidations(){
     this.solicitudForm = new FormGroup({
@@ -108,12 +126,10 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
       fechaFinalUso: new FormControl(this.fechaFinal, Validators.required),
       lugar: new FormControl('', Validators.required),
       descripcion: new FormControl(''),
-      idServicioInteres: new FormControl('', Validators.required),
-      observacion: new FormControl(''),
+      idServicioInteres: new FormControl(1),
+      // observacion: new FormControl(''),
     });
   }
-
-
 
   public onFechaInicioUso(event): void {
     this.fechaInicio = event.value;
@@ -138,6 +154,76 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
     }
   }
 
+  agregarPeticion(){
+    if(!this.categoriaPeticion){
+      this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
+    } else if (!this.descripcionSolicitud){
+      this.useAlerts('Ingresa la descripción de la petición', ' ', 'error-dialog');
+    } else if (!this.tipoServicioSolicitud){
+      this.useAlerts('Ingresa el tipo de servicio  para esta petición', ' ', 'error-dialog');
+    } else {  
+      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudMaquinariaEquipo === this.categoriaPeticion);
+      tipoCategoria = tipoCategoria[0];
+      const peticion: any = {
+        idCategoriaSolicitudMaquinariaEquipo: this.categoriaPeticion,
+        descripcion: this.descripcionSolicitud,
+        tipoServicio: this.tipoServicioSolicitud,
+        comentario: this.comentariosSolicitud,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        categoriaSolicitudMaquinariaEquipo: tipoCategoria,
+        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo
+      };
+      
+      this.peticionesSolicitadas.push(peticion);
+      this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+      this.countPeticion += 1;
+      this.categoriaPeticion = 0;
+      this.descripcionSolicitud = '';
+      this.tipoServicioSolicitud = '';
+      this.comentariosSolicitud = '';
+      this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
+      this.panelOpenState = !this.panelOpenState;
+      console.log(this.peticionesSolicitadas);
+    }
+  }
+
+  // eliminarObservacion(index){
+  //   this.peticionesSolicitadas.splice(index, 1);
+  //   this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+  //   this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+  // }
+
+  
+  eliminarObservacion(index, idPeticion){
+    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        if(!idPeticion){
+          this.peticionesSolicitadas.splice(index, 1);
+          this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+          this.useAlerts('Petición eliminada correctamente', ' ', 'success-dialog');
+        } else {
+          this.solicitudesService.deletePeticion(idPeticion, 3).subscribe(
+            response => {
+              if(response.estatus === '05'){
+                this.peticionesSolicitadas.splice(index, 1);
+                this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+                this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              } else {
+                this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              }
+            },
+            error => this.useAlerts(error.message, ' ', 'error-dialog')
+          );
+        }
+      }
+    });
+  }
+
   modificarSolicitud(){
     if (this.solicitudForm.valid){
       const format = 'yyyy/MM/dd';
@@ -145,36 +231,45 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
 
-      let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
-      
-      const solicitud: SolicitudVehiculo = {
-        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
-        folio: this.solicitud.folio,
-        idObra: this.solicitud.idObra,
-        ...this.solicitudForm.value,
-        // idEmpresa: this.obra.idEmpresa,
-        fechaInicialUso: nuevaFechaInicio,
-        fechaFinalUso: nuevaFechaFin,
-        fechaSolicitud: this.solicitud.fechaSolicitud,
-        fechaModificacion: hoy,
-        idUsuarioSolicito: this.idUsuarioLogeado,
-        idUsuarioModifico: this.idUsuarioLogeado,
-        // idObra: this.idObra,
-        servicioInteres: tipoServicioInteres[0],
-      };
-      console.log(solicitud);
+      if(this.peticionesSolicitadas.length === 0){
+        this.useAlerts('No has agregado ninguna petición a la solicitud', ' ', 'error-dialog');
+      } else { 
+        let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
+        
+        const solicitud: SolicitudVehiculo = {
+          idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
+          folio: this.solicitud.folio,
+          idObra: this.solicitud.idObra,
+          ...this.solicitudForm.value,
+          // idEmpresa: this.obra.idEmpresa,
+          fechaInicialUso: nuevaFechaInicio,
+          fechaFinalUso: nuevaFechaFin,
+          fechaSolicitud: this.solicitud.fechaSolicitud,
+          fechaModificacion: hoy,
+          idUsuarioSolicito: this.idUsuarioLogeado,
+          idUsuarioModifico: this.idUsuarioLogeado,
+          observacion: this.observacionesAdicionales,
+          observacionesAdicionales: this.observacionesAdicionales,
+          detSolicitudMaquinriaEquipo: this.peticionesSolicitadas
+          // idObra: this.idObra,
+          // servicioInteres: tipoServicioInteres[0],
+        };
+        console.log(solicitud);
+        // console.log(JSON.stringify(solicitud));
+  
+        this.solicitudesService.updateSolicitudVehiculos(solicitud).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
+      }
 
-      this.solicitudesService.updateSolicitudVehiculos(solicitud).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
     }
   }
 

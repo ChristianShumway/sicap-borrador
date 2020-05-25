@@ -8,8 +8,7 @@
 
 <div *ngIf="opcionesPermitidas">
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
-    <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
-      <!-- <form> -->
+    <div class="form">
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
         <mat-card-title class="title-solicitud">
           <h1>Solicitud de Recursos</h1>
@@ -34,65 +33,10 @@
               <div class="desc">{{fechaHoy | date}}</div> 
             </div>
           </div>
-
-          <div class="fields-form">
-            <div class="wrap-descripcion-solicitud">
-              <div class="pb-1">
-                <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Observaciones de la Solicitud" formControlName="observacionesAdicionales"></textarea>
-                </mat-form-field>
-                <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
-                  class="form-error-msg">
-                    Observación de la solicitud es un campo requerido
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-        
-          <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
-          </div>
-
-          <!-- <div class="pb-1">
-            <mat-form-field class="full-width">
-              <mat-label>Usuario Administración</mat-label>
-              <mat-select formControlName="idAdministrador" required>
-                <mat-option *ngFor="let usuario of listaUsuariosAdministracionCentral" [value]="usuario.idUsuario">
-                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idAdministrador'].hasError('required') && solicitudForm.controls['idAdministrador'].touched"
-                class="form-error-msg">
-                Usuario de adminitración es un campo requerido
-              </small>
-            </div>
-          </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <mat-label>Jefe Inmediato</mat-label>
-              <mat-select formControlName="idJefeInmediato" required>
-                <mat-option *ngFor="let usuario of listaUsuariosJefeInmediato" [value]="usuario.idUsuario">
-                  {{usuario.nombre}} {{usuario.apellidoPaterno}} {{usuario.apellidoMaterno}}
-                </mat-option>
-              </mat-select>
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="solicitudForm.controls['idJefeInmediato'].hasError('required') && solicitudForm.controls['idJefeInmediato'].touched"
-                class="form-error-msg">
-                Jefe inmediato es un campo requerido
-              </small>
-            </div>
-          </div> -->
-
+       
         </mat-card-content>
       </div>
-    </form>
+    </div>
 
     <div class="wrap-peticiones">
 
@@ -238,5 +182,38 @@
       <ngx-datatable-column name="Comentario Solicitud" [flexGrow]="1"></ngx-datatable-column>
     </ngx-datatable>
   </ng-template>
+
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
+    <form [formGroup]="solicitudForm" (submit)="crearSolicitud()">
+      <!-- <form> -->
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        
+
+        <mat-card-content>
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacionesAdicionales"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
+                  class="form-error-msg">
+                    Observación de la solicitud es un campo requerido
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+        
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
+          </div>
+        
+        </mat-card-content>
+      </div>
+    </form>
+  </mat-card>
 
 </div>

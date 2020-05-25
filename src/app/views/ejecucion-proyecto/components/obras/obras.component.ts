@@ -16,6 +16,7 @@ import { Usuario } from '../../../../shared/models/usuario';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
 import { BitacoraObraComponent } from './../bitacora-obra/bitacora-obra.component';
+import { ReporteManoObraService } from './../../../../shared/services/reporte-mano-obra.service';
 
 @Component({
   selector: 'app-obras',
@@ -56,7 +57,8 @@ export class ObrasComponent implements OnInit {
     private bottomSheet: MatBottomSheet,
     private activatedRoute: ActivatedRoute,
     private navigationService: NavigationService,
-    private usuariosService: UsuariosService
+    private usuariosService: UsuariosService,
+    private reporteManoObraService: ReporteManoObraService,
   ) { }
 
   ngOnInit() {
@@ -214,7 +216,10 @@ export class ObrasComponent implements OnInit {
   viewComments(idObra): void{
     const dialogRef = this.dialog.open(BitacoraObraComponent, {
       panelClass: 'custom-dialog-container-bitacora',
-      data: idObra
+      data:{
+        idObra,
+        idUsuario: this.idUserLogeado
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -222,6 +227,31 @@ export class ObrasComponent implements OnInit {
     });
   }
 
+  exportarReporte(idObra, tipoReporte){
+    if(tipoReporte === 'mano-obra'){
+      this.reporteManoObraService.getExportable(idObra, this.idUserLogeado).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-mano-obra.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    }
+  }
 
   useAlerts(message, action, className) {
     this.snackBar.open(message, action, {

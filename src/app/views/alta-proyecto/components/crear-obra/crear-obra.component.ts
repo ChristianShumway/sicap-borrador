@@ -7,6 +7,8 @@ import { EmpresasService } from './../../../../shared/services/empresas.service'
 import { ClientesService } from '../../../../shared/services/clientes.service';
 import { UsuariosService } from 'app/shared/services/usuarios.service';
 import { DestajistasService } from './../../../../shared/services/destajistas.service';
+import { NavigationService } from '../../../../shared/services/navigation.service';
+import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 
 import { Empresa } from './../../../../shared/models/empresa';
 import { Cliente } from './../../../../shared/models/cliente';
@@ -16,7 +18,7 @@ import { Destajista } from './../../../../shared/models/destajista';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
 import { Obra } from '../../../../shared/models/obra';
-import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-crear-obra',
@@ -42,6 +44,7 @@ export class CrearObraComponent implements OnInit {
   idUsuarioLogeado;
   observacionText: string;
   observacionesGenerales = [];
+  nombreComponente = 'crear-obra';
   
   constructor(
     private router: Router,
@@ -51,7 +54,8 @@ export class CrearObraComponent implements OnInit {
     private usuariosService: UsuariosService,
     private destajistasService: DestajistasService,
     private snackBar: MatSnackBar,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private navigationService: NavigationService,
   ) { }
 
   ngOnInit() {
@@ -212,6 +216,7 @@ export class CrearObraComponent implements OnInit {
       console.log(obra);
       const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra  + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
       console.log(sumaPresupuestos);
+
       if(obra.presupuestoTotal < sumaPresupuestos){
         this.useAlerts('Presupuesto total de la obra no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       } else {
@@ -246,7 +251,7 @@ export class CrearObraComponent implements OnInit {
 
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
-        this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
+        // this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
         this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
         this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
         this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
@@ -257,6 +262,14 @@ export class CrearObraComponent implements OnInit {
 
     this.destajistasService.getDestajistas().subscribe(
       (destajistas: Destajista[]) => this.destajistas = destajistas.filter( destajista => destajista.activo === 1),
+      error => console.log(error)
+    );
+
+    const moduloActual = environment.permisosEspeciales.find( modulo => modulo.component === this.nombreComponente);
+    const idModulo = moduloActual.idOpcion;
+    console.log(idModulo);
+    this.navigationService.validarPermisosSupervisor(idModulo).subscribe(
+      users => this.supervisores = users,
       error => console.log(error)
     );
 

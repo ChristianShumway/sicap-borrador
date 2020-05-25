@@ -33,15 +33,7 @@
               <div class="desc">Proyecto</div>
               <div class="tit">Fecha de la Solicitud:</div>
               <div class="desc">{{fechaHoy | date}}</div> 
-              <div class="tit">
-                Fecha en que se requiere en en obra:
-                <!-- <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['fechaRequiere'].hasError('required') && solicitudForm.controls['fechaRequiere'].touched"
-                    class="form-error-msg">
-                    Fecha en que se requiere el material es un campo requerido
-                  </small>
-                </div> -->
-              </div>
+              <div class="tit">Fecha en que se requiere en en obra:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
                   <input matInput [matDatepicker]="fechaRequiere" formControlName="fechaRequiere" name="date" (dateChange)="onFechaRequiereMaterial($event)">
@@ -54,17 +46,12 @@
                 <mat-form-field class="full-width">
                   <input matInput name="lugarRecepcion" formControlName="lugarRecepcion" >
                 </mat-form-field>
-                <!-- <div class="validaciones"> 
-                  <small *ngIf="solicitudForm.controls['lugarRecepcion'].hasError('required') && solicitudForm.controls['lugarRecepcion'].touched" class="form-error-msg">
-                    Lugar de recepción del material es un campo requerido 
-                  </small>
-                </div> -->
               </div>
 
             </div>
           </div>
 
-          <div class="fields-form">
+          <!-- <div class="fields-form">
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 <mat-form-field class="full-width">
@@ -78,7 +65,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
 
           <div class="cont-btns">
             <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
@@ -106,13 +93,30 @@
   
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput name="importe-solicitado-sin-factura"  placeholder="Unidad" [(ngModel)]="unidadMaterial">
+            <input matInput name="unidad"  placeholder="Unidad" [(ngModel)]="unidadMaterial">
           </mat-form-field>
         </div>
 
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput type="number" name="importe-solicitado-sin-factura"  placeholder="Cantidad Solicitada" [(ngModel)]="cantidadMaterial">
+            <input matInput name="familia"  placeholder="Familia" [(ngModel)]="familiaMaterial">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Categoria</mat-label>
+            <mat-select  [(ngModel)]="idCategoriaMaterial" required>
+              <mat-option *ngFor="let categoria of categoriasParaMateriales" [value]="categoria.idCategoriaSolicitudMaterial">
+                {{categoria.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput type="number" name="cantidad-solicitada"  placeholder="Cantidad Solicitada" [(ngModel)]="cantidadMaterial">
           </mat-form-field>
         </div>
   
@@ -146,10 +150,14 @@
         [limit]="10"
       >
   
-        <ngx-datatable-column name="Categoria" [flexGrow]="1">
+        <ngx-datatable-column name="Categoría" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }">
-                {{row?.idMaterial}}
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial === 0">
+              Obra
+            </p>
+            <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial !== 0">
+              {{row?.categoriaSolicitudMateria.descripcion}}
+              <!-- {{row?.categoriaSolicitudMaterial}} -->
             </p>
           </ng-template>
         </ngx-datatable-column>
@@ -214,5 +222,21 @@
       <ngx-datatable-column name="Comentarios" [flexGrow]="1"></ngx-datatable-column>
     </ngx-datatable>
   </ng-template>
+
+  <mat-card fxLayout="row wrap" class="container-solitud c-o form" *ngIf="obra">
+    <mat-card-content class="observations">
+      <div class="wrap-observaciones" fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <div class="fields-form">
+          <div class="wrap-descripcion-solicitud">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Observaciones Adicionales" [(ngModel)]="observacionesAdicionales"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
 
 </div>

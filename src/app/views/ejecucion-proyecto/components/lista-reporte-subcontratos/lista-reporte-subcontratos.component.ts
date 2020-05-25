@@ -129,7 +129,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
         this.reporte = reportes;
         this.reporteTemp =  this.reporte;
         this.dataSource.data = this.reporte;
-        // console.log(reportes);
+        console.log(reportes);
 
         reportes.map( reporte => {
           // console.log(reporte);

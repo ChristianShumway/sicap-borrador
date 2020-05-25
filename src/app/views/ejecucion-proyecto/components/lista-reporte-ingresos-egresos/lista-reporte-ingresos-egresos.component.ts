@@ -124,18 +124,6 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
         this.dataSource.data = this.reports;
 
         console.log(this.reports);
-
-        // reportes.map( reporte => {
-        //   console.log(reporte);
-        //   this.totalMonto = reporte.totalManoObra;
-        //   const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
-        //   const art = {
-        //     idReporte: reporte.idCapturaManoObra, 
-        //     totalMateriales: total, 
-        //     totalManoObra: reporte.totalManoObra
-        //   };
-        //   this.total.push(art);          
-        // });
       }
     );
   }
@@ -209,26 +197,27 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
 
     console.log(reporte)
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if(result){
-    //     console.log(reporte);
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        console.log(reporte);
 
-    //     this.reporteIngresosEgresosService.deleteReport(reporte).subscribe(
-    //       response => {
-    //         if(response.estatus === '05'){
-    //           this.useAlerts(response.mensaje, ' ', 'success-dialog');
-    //           this.montoTotal = 0;
-    //         } else {
-    //           this.useAlerts(response.mensaje, ' ', 'error-dialog');
-    //         }
-    //       },
-    //         error => {
-    //         this.useAlerts(error.message, ' ', 'error-dialog');
-    //         console.log(error);
-    //       }
-    //     );
-    //   }
-    // });
+        this.reporteIngresosEgresosService.deleteReport(reporte).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.montoTotal = 0;
+              this.getReports();
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+            error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            console.log(error);
+          }
+        );
+      }
+    });
   }
 
   onMontosTotal(monto){

@@ -11,6 +11,7 @@ import { SolicitudesService } from '../../../../shared/services/solicitudes.serv
 
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
 import { ModalEliminarComponent } from '../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
+import { ModalLlenarPeticionComponent } from '../modal-llenar-peticion/modal-llenar-peticion.component';
 
 @Component({
   selector: 'app-modificar-orden-trabajo-vehiculos',
@@ -35,6 +36,7 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
 
   listaVehiculosPropuestos = [];
   detallesOrden: any[] = [];
+  detallesSolicitud: any[] = [];
   vehiculoPropuesto;
   unidad;
   cantidad;
@@ -42,6 +44,7 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
   importe;
   panelOpenState: boolean = false;
   totalImporte: number;
+  totalPrecio: number;
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -77,98 +80,67 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
     this.opcionesPermitidas = true;
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
-    this.detallesOrden = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
-    this.getTotales();
-    console.log(this.detallesOrden);
+    // this.detallesOrden = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
+    // this.getTotales();
+    this.getNewDetails();
+    // console.log(this.detallesOrden);
   }
 
-  agregarDetalle(){
-    if(!this.vehiculoPropuesto){
-      this.useAlerts('Selecciona el vehículo propuesto', ' ', 'error-dialog');
-    } else if (!this.unidad){
-      this.useAlerts('Ingresa la unidad del detalle', '', 'error-dialog');
-    } else if (!this.cantidad){
-      this.useAlerts('Ingresa la cantidad del detalle', ' ', 'error-dialog');
-    } else if (!this.precio){
-      this.useAlerts('Ingresa el precio del detalle', ' ', 'error-dialog');
-    } else if (!this.importe){
-      this.useAlerts('Ingresa el importe del detalle', ' ', 'error-dialog');
-    } else {
-      
-      let tipoVehiculo = this.listaVehiculosPropuestos.filter( vehiculo => vehiculo.idVehiculo === this.vehiculoPropuesto);
-      const orden = {
-        idDetOrdenTrabajoMaquinariaEquipo: 0,
-        idOrdenTrabajoMaquinariaEquipo: this.ordenTrabajo.idOrdenTrabajoMaquinariaEquipo,
-        idVehiculo: this.vehiculoPropuesto,
-        idObra: this.ordenTrabajo.solicitud.idObra,
-        cantidad: this.cantidad,
-        precioUnitario: parseFloat(this.precio),
-        importe:  parseFloat(this.importe),
-        idUsuarioModfico: this.idUsuarioLogeado,
-        unidad: this.unidad,
-        descripcion: "1231",
-        vehiculo: tipoVehiculo[0]
-      };
+  getNewDetails(){
+    this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo.map( peticionOrden => {
+      this.ordenTrabajo.solicitud.detSolicitudMaquinriaEquipo.map( peticionSolicitud => {
+        if (peticionOrden.idDetSolicitudMaquinariaEquipo === peticionSolicitud.idDetSolicitudMaquinariaEquipo){
+          const nuevaPeticion = {
+            cantidad: peticionOrden.cantidad,
+            descripcion: peticionSolicitud.descripcion,
+            idDetOrdenTrabajoMaquinariaEquipo: peticionOrden.idDetOrdenTrabajoMaquinariaEquipo,
+            idDetSolicitudMaquinariaEquipo: peticionSolicitud.idDetSolicitudMaquinariaEquipo,
+            idObra: this.ordenTrabajo.solicitud.idObra,
+            idOrdenTrabajoMaquinariaEquipo: peticionOrden.idOrdenTrabajoMaquinariaEquipo,
+            idUsuarioModfico: this.idUsuarioLogeado,
+            idVehiculo: 1,
+            importe: peticionOrden.importe,
+            precioUnitario: peticionOrden.precioUnitario,
+            unidad: peticionOrden.unidad,
+            categoria: peticionSolicitud.categoriaSolicitudMaquinariaEquipo,
+            tipoServicio: peticionSolicitud.tipoServicio
+          };
+          this.detallesOrden.push(nuevaPeticion);
+        }
+      });
 
-      console.log(orden);
-      
-      this.detallesOrden.push(orden);
-      this.detallesOrden = [...this.detallesOrden];
-      this.vehiculoPropuesto = 0;
-      this.unidad = '';
-      this.cantidad = '';
-      this.precio = '';
-      this.importe = '';
-      this.useAlerts('Detalle agregado a la orden correctamente', ' ', 'success-dialog');
-      this.getTotales();
-      this.panelOpenState = !this.panelOpenState;
-    }
-  }
-
-  getTotales() {
-    this.totalImporte = 0;
-    this.detallesOrden.map( (orden) => {
-      this.totalImporte += orden.importe; 
     });
+    console.log(this.detallesOrden);
+    this.getTotales();
   }
 
-
-  eliminarVehiculoLista(index, idDetalle) {
-    const dialogRef = this.dialog.open(ModalEliminarComponent, {
-      width: '300px',
-      panelClass: 'custom-dialog-container-delete',
-      // data: idObra
+  llenarPeticion(index, peticion){
+    // console.log(index);
+    const dialogRef = this.dialog.open(ModalLlenarPeticionComponent, {
+      width: '460px',
+      panelClass: 'custom-dialog-container-user',
+      data: {peticion, tipo:'update'}
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(idDetalle === 0 ){
-          this.detallesOrden.splice(index, 1);
-          this.detallesOrden = [...this.detallesOrden];
-          this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
-          this.getTotales();
-        } else {
-          console.log(idDetalle);
-          this.solicitudesService.deleteDetalleOrdenTrabajo(idDetalle, 3).subscribe(
-            response => {
-              if(response.estatus === '05'){
-                this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                // this.validateAccessValidation();
-                this.detallesOrden.splice(index, 1);
-                this.detallesOrden = [...this.detallesOrden];
-                this.useAlerts('Detalle eliminado de la orden correctamente', ' ', 'success-dialog');
-                this.getTotales();
-              } else {
-                this.useAlerts(response.mensaje, ' ', 'error-dialog');
-              }
-            },
-              error => {
-              this.useAlerts(error.message, ' ', 'error-dialog');
-              console.log(error);
-            }
-          );
-        }
+        // console.log(result);
+        this.detallesOrden.splice(index, 1);
+        this.detallesOrden.push(result);
+        console.log(this.detallesOrden);
+        this.detallesOrden = [...this.detallesOrden];
+        this.getTotales();
       }
+
+    });
+  }
+
+  getTotales() {
+    this.totalImporte = 0;
+    this.totalPrecio = 0;
+    this.detallesOrden.map( (orden) => {
+      this.totalImporte += orden.importe; 
+      this.totalPrecio += orden.precioUnitario;
     });
   }
 
@@ -178,6 +150,27 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
     } else {
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
+      const detOrdenTrabajo: any[] = [];
+
+      this.detallesOrden.map(peticion => {
+        const nuevaPeticion = {
+          cantidad: peticion.cantidad,
+          descripcion: peticion.descripcion,
+          idDetOrdenTrabajoMaquinariaEquipo: peticion.idDetOrdenTrabajoMaquinariaEquipo,
+          idDetSolicitudMaquinariaEquipo: peticion.idDetSolicitudMaquinariaEquipo,
+          idObra: peticion.idObra,
+          idOrdenTrabajoMaquinariaEquipo: peticion.idOrdenTrabajoMaquinariaEquipo,
+          idUsuarioModfico: this.idUsuarioLogeado,
+          idVehiculo: 1,
+          importe: peticion.importe,
+          precioUnitario: peticion.precioUnitario,
+          unidad: peticion.unidad,
+        };
+
+        detOrdenTrabajo.push(nuevaPeticion);
+      });
+
+      console.log(detOrdenTrabajo);
       
       const ordenTrabajo = {
         idOrdenTrabajoMaquinariaEquipo: this.ordenTrabajo.idOrdenTrabajoMaquinariaEquipo,
@@ -185,14 +178,15 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
         folio: this.ordenTrabajo.folio,
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModicio: hoy,
-        detOrdenTrabajoMaquinariaEquipo: this.detallesOrden,
+        detOrdenTrabajoMaquinariaEquipo: detOrdenTrabajo,
         observaciones: "dasads update",
         idSolicitud: this.ordenTrabajo.idSolicitudMaquinariaEquipo,
         serieFolio: this.ordenTrabajo.serieFolio,
       };
 
       console.log(ordenTrabajo);
-      console.log(JSON.stringify(ordenTrabajo));
+
+      // console.log(JSON.stringify(ordenTrabajo));
       this.solicitudesService.updateOrdenTrabajoVehiculos(ordenTrabajo).subscribe(
         response => {
           if(response.estatus === '05'){

@@ -331,7 +331,7 @@ export class ReporteSubcontratosComponent implements OnInit {
       const reporte: ReporteSubcontrato = {
         ...this.notaBitacoraForm.value,
         fechaInicio: nuevaFechaInicio,
-        // fechaFinal: nuevaFechaFin,
+        fechaFinal: nuevaFechaInicio,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewReportSubContract: newCatalog,

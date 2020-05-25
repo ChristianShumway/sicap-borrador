@@ -37,19 +37,6 @@
             </div>
           </div>
 
-          <div class="fields-form">
-            <div class="wrap-descripcion-solicitud">
-              <div class="pb-1">
-                <div class="desc">{{solicitud.solicitud.observacionesAdicionales}}</div>
-              </div>
-            </div>
-          </div>
-
-          <div class="cont-btns">
-            <button mat-raised-button color="primary" class="btn-accept" (click)="modificarOrden()">Modificar Orden</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
-          </div>
-
         </mat-card-content>
       </div>
     </form>
@@ -176,5 +163,27 @@
     </ng-template>
   </div>
 
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
+    <form>
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-content>
+    
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <div class="desc">{{solicitud.solicitud.observacionesAdicionales}}</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" class="btn-accept" (click)="modificarOrden()">Modificar Orden</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </form>
+  </mat-card>
 
 </div>

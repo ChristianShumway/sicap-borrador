@@ -62,6 +62,10 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/updateRequestMaterial`, JSON.stringify(solicitud), { headers: headerss});
   }
 
+  getCategoriasParaSolicitudMateriales(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequestMaterial`);
+  }
+
   // SOLICITUD MAQUINARIA Y EQUIPO
 
   createSolicitudMaquinariaEquipo(solicitud): Observable<any>{
@@ -81,6 +85,10 @@ export class SolicitudesService {
   addAdditionalMaterial(material): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/addAdditionalMaterial`, JSON.stringify(material), { headers: headerss});
+  }
+
+  getCategoriasParaSolicitudMaquinaria(): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequestEngineryAndTem`);
   }
 
   // GENERAL

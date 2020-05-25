@@ -28,7 +28,7 @@ form{
   }
   
   .data-form {
-    margin: 10px 0 20px;
+    margin: 10px 0 0;
     display: grid;
     grid-template-columns: .7fr 1fr;
     justify-content: center;
@@ -61,9 +61,9 @@ form{
     border: 1px solid darkgray;
     padding: 20px 10px;
     position: relative;
-    margin-bottom: 20px;
+    margin: 20px 0;
     &:before {
-      content: 'Observaciones de la Solicitud:';
+      content: 'Observaciones Adicionales:';
       position: absolute;
       top: -25px;
       text-transform: uppercase;
@@ -188,7 +188,7 @@ form{
 
 
 .mat-card{
-  margin-bottom: 25px;
+  margin: 20px 0;
 }
 
 @media screen and (max-width:768px) {

@@ -1,0 +1,80 @@
+<div fxLayout="row wrap" class="container-principal">
+  <p class="leyenda">Completa los campos necesarios para la petición de la orden de trabajo.</p>
+  <form [formGroup]="peticionForm" (submit)="llenarPeticion()">
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Categoría" name="categoria" formControlName="categoria" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Descripción" name="descripcion" formControlName="descripcion" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Tipo de Servicio" name="tipoServicio" formControlName="tipoServicio" readonly>
+        </mat-form-field>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Unidad" name="unidad" formControlName="unidad">
+        </mat-form-field>
+        <div class="validaciones">
+          <small *ngIf="peticionForm.controls['unidad'].hasError('required') && peticionForm.controls['unidad'].touched"
+            class="form-error-msg">
+            Unidad es un campo requerido
+          </small>
+        </div>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Cantidad" name="cantidad" formControlName="cantidad" type="number">
+        </mat-form-field>
+        <div class="validaciones">
+          <small *ngIf="peticionForm.controls['cantidad'].hasError('required') && peticionForm.controls['cantidad'].touched"
+            class="form-error-msg">
+            Cantidad es un campo requerido
+          </small>
+        </div>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Precio" name="precio" formControlName="precioUnitario" mask="separator.2" thousandSeparator=",">
+        </mat-form-field>
+        <div class="validaciones">
+          <small *ngIf="peticionForm.controls['precioUnitario'].hasError('required') && peticionForm.controls['precioUnitario'].touched"
+            class="form-error-msg">
+            Precio es un campo requerido
+          </small>
+        </div>
+      </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <input matInput placeholder="Importe" name="importe" formControlName="importe" mask="separator.2" thousandSeparator=",">
+        </mat-form-field>
+        <div class="validaciones">
+          <small *ngIf="peticionForm.controls['importe'].hasError('required') && peticionForm.controls['importe'].touched"
+            class="form-error-msg">
+            Importe es un campo requerido
+          </small>
+        </div>
+      </div>
+
+     
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" [disabled]="peticionForm.invalid" type="submit" class="btn-accept">Aceptar</button>
+        <a mat-raised-button (click)="onNoClick()">Cancelar</a>
+      </div>
+
+    </div>
+  </form>
+</div>

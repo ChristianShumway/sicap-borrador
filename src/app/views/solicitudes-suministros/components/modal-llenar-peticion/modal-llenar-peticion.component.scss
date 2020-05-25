@@ -1,0 +1,20 @@
+.container-principal{
+  padding: 20px !important;
+  .leyenda {
+    font-weight: 400;
+    // border-bottom: 1px solid lightgray;
+    width: 100%;
+    padding: 0 0 5px;
+    margin-bottom: 20px;
+  }
+  form{
+    width: 100%;
+  }
+  .wrap-button{
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 80%;
+    margin: 0 auto;
+  }
+}

@@ -14,6 +14,14 @@ export const environment = {
   host: '108.175.5.160:8080',
   permisosEspeciales: [
     {
+      idOpcion: 43,
+      nombre: 'Permisos Supervisión',
+      descripcion: 'al momento de crear una obra mostrara que usuarios se mostrará en supervisores para poder crear planes de trabajo, conceptos ejecutados, crear solicitudes, etc.',
+      tooltip: 'permisos-supervision',
+      component: 'crear-obra',
+      activo: 1
+    },
+    {
       idOpcion: 32,
       nombre: 'Eliminar Reportes',
       descripcion: 'eliminar reportes del modulo ejecución de proyectos',

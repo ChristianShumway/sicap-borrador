@@ -446,8 +446,9 @@
               <!-- END BOTON MODIFICAR ORDEN DE TRABAJO -->
 
               <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
+              <!-- (click) = "openDialogDelete(3, solicitud.idOrdenTrabajo)"  -->
               <button 
-              (click) = "openDialogDelete(3, solicitud.idOrdenTrabajo)" 
+              (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 3)" 
               mat-icon-button 
               *ngIf = "solicitud.eliminarOrdenTrabajo"
               color="primary" 

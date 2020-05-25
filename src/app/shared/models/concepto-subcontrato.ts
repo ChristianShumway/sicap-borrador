@@ -7,7 +7,7 @@ export interface ConceptoSubcontrato {
   cantidad: number;
   precio: number;
   importe: number;
-  // idObra: number;
+  idObra?: number;
   idDetReporteSubContrato: number;
   cantidadSubContrato: number;
   precioUnitarioSubContrato: number;

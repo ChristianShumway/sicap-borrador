@@ -41,16 +41,14 @@ export class SolicitarVehiculosComponent implements OnInit {
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
+  observacionesAdicionales: string;
 
   peticionesSolicitadas: any[] = [];
   listaCategoriasPeticion: any[] = [];
   categoriaPeticion: number;
   descripcionSolicitud: string;
   tipoServicioSolicitud: string;
-  unidadSolicitud: string;
-  cantidadSolicitud: number;
-  precioSolicitud: string;
-  importeSolicitud: string;
+  comentariosSolicitud: string;
   countPeticion:number = 0;
   panelOpenState: boolean = false;
 
@@ -138,8 +136,8 @@ export class SolicitarVehiculosComponent implements OnInit {
       fechaFinalUso: new FormControl(new Date(), Validators.required),
       lugar: new FormControl('', Validators.required),
       descripcion: new FormControl(''),
-      idServicioInteres: new FormControl(''),
-      observacion: new FormControl(''),
+      idServicioInteres: new FormControl(1),
+      // observacion: new FormControl(''),
     });
   }
 
@@ -150,7 +148,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
-    this.solicitudesService.getCategoriasSolicitudRecursos().subscribe(
+    this.solicitudesService.getCategoriasParaSolicitudMaquinaria().subscribe(
       (categorias: any[]) => this.listaCategoriasPeticion = categorias,
       error => this.useAlerts( error.message, ' ', 'error-dialog')
     );
@@ -187,65 +185,61 @@ export class SolicitarVehiculosComponent implements OnInit {
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
 
       let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
-      
-      const solicitud: SolicitudVehiculo = {
-        ...this.solicitudForm.value,
-        // idEmpresa: this.obra.idEmpresa,
-        fechaInicialUso: nuevaFechaInicio,
-        fechaFinalUso: nuevaFechaFin,
-        fechaSolicitud: hoy,
-        fechaModificacion: hoy,
-        idUsuarioSolicito: this.idUsuarioLogeado,
-        idUsuarioModifico: this.idUsuarioLogeado,
-        idObra: this.idObra,
-        servicioInteres: tipoServicioInteres[0],
-      };
-      console.log(solicitud);
 
-      this.solicitudesService.createSolicitudMaquinariaEquipo(solicitud).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.router.navigate(['/solicitudes-suministros/obras']);
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
+      if(!this.peticionesSolicitadas.length){
+        this.useAlerts('No has agregado ninguna petición a la solicitud', ' ', 'error-dialog');
+      } else {
+        const solicitud: SolicitudVehiculo = {
+          ...this.solicitudForm.value,
+          // idEmpresa: this.obra.idEmpresa,
+          fechaInicialUso: nuevaFechaInicio,
+          fechaFinalUso: nuevaFechaFin,
+          fechaSolicitud: hoy,
+          fechaModificacion: hoy,
+          idUsuarioSolicito: this.idUsuarioLogeado,
+          idUsuarioModifico: this.idUsuarioLogeado,
+          idObra: this.idObra,
+          // servicioInteres: tipoServicioInteres[0],
+          observacion: this.observacionesAdicionales,
+          observacionesAdicionales: this.observacionesAdicionales,
+          detSolicitudMaquinriaEquipo: this.peticionesSolicitadas
+        };
+        console.log(solicitud);
+  
+        this.solicitudesService.createSolicitudMaquinariaEquipo(solicitud).subscribe(
+          response => {
+            if(response.estatus === '05'){
+              this.router.navigate(['/solicitudes-suministros/obras']);
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'error-dialog')
+        );
+      }
+      
     }
   }
 
-  agregarPetision(){
+  agregarPeticion(){
     if(!this.categoriaPeticion){
       this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
     } else if (!this.descripcionSolicitud){
       this.useAlerts('Ingresa la descripción de la petición', ' ', 'error-dialog');
     } else if (!this.tipoServicioSolicitud){
       this.useAlerts('Ingresa el tipo de servicio  para esta petición', ' ', 'error-dialog');
-    }  else if (!this.unidadSolicitud){
-      this.useAlerts('Ingresa la unidad  para esta petición', ' ', 'error-dialog');
-    }  else if (!this.cantidadSolicitud){
-      this.useAlerts('Ingresa la cantidad  para esta petición', ' ', 'error-dialog');
-    }  else if (!this.precioSolicitud){
-      this.useAlerts('Ingresa el precio  para esta petición', ' ', 'error-dialog');
-    }  else if (!this.importeSolicitud){
-      this.useAlerts('Ingresa el importe para esta petición', ' ', 'error-dialog');
     } else {  
-      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
+      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudMaquinariaEquipo === this.categoriaPeticion);
       tipoCategoria = tipoCategoria[0];
       const peticion: any = {
         // idDetSolicitudRecurso: this.countPeticion + 1,
-        idCategoriaSolicitudRecurso: this.categoriaPeticion,
+        idCategoriaSolicitudMaquinariaEquipo: this.categoriaPeticion,
         descripcion: this.descripcionSolicitud,
         tipoServicio: this.tipoServicioSolicitud,
-        unidad: this.unidadSolicitud,
-        cantidad: this.cantidadSolicitud,
-        precio: parseFloat(this.precioSolicitud),
-        importe: parseFloat(this.importeSolicitud),
+        comentario: this.comentariosSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
-        // idSolicitudRecurso: this.idUsuarioLogeado,
-        categoriaSolicitudRecurso: tipoCategoria
+        categoriaSolicitudMaquinariaEquipo: tipoCategoria,
       };
       
       this.peticionesSolicitadas.push(peticion);
@@ -254,10 +248,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       this.categoriaPeticion = 0;
       this.descripcionSolicitud = '';
       this.tipoServicioSolicitud = '';
-      this.unidadSolicitud = '';
-      this.cantidadSolicitud = 0;
-      this.precioSolicitud = '';
-      this.importeSolicitud = '';
+      this.comentariosSolicitud = '';
       this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
       this.panelOpenState = !this.panelOpenState;
       console.log(this.peticionesSolicitadas);

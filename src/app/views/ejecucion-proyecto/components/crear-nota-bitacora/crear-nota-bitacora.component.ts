@@ -340,7 +340,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
       const reporte: ReporteConceptosEjecutados = {
         ...this.notaBitacoraForm.value,
         fechaInicio: nuevaFechaInicio,
-        // fechaFinal: nuevaFechaFin,
+        fechaFinal: nuevaFechaInicio,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptExecuted: newCatalog,

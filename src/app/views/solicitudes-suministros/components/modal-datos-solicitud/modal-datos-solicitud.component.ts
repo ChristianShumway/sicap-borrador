@@ -13,6 +13,7 @@ export class ModalDatosSolicitudComponent implements OnInit {
   host: string;
   peticionesSeleccionadas: PeticionSolicitudRecurso[] = [];
   materialesSeleccionados: MaterialParaSolicitud[] = [];
+  peticionesMaquinariaSeleccionadas: any[] = [];
   imgEmpresa: string;
 
   constructor(
@@ -32,6 +33,8 @@ export class ModalDatosSolicitudComponent implements OnInit {
       this.getPeticiones();
     } else if(this.data.idTipo===2){
       this.getMateriales();
+    } else if(this.data.idTipo===3){
+      this.getPeticionesMaquinaria();
     }
   }
 
@@ -47,6 +50,12 @@ export class ModalDatosSolicitudComponent implements OnInit {
         this.materialesSeleccionados.push(material);
       }
     });
+  }
+
+  getPeticionesMaquinaria(){
+    this.data.solicitud.detSolicitudMaquinriaEquipo.map( peticion => {
+      this.peticionesMaquinariaSeleccionadas.push(peticion);
+    })
   }
 
 }

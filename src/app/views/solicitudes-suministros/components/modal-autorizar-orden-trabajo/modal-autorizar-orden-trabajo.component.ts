@@ -18,7 +18,7 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   detallesOrdenTrabajoRecursos: any[] = [];
   materialesSeleccionados: MaterialParaSolicitud[] = [];
   detallesOrdenTrabajoMateriales: any[];
-  detallesOrdenTrabajoVehiculos: any[];
+  detallesOrdenTrabajoVehiculos: any[] = [];
   imgEmpresa: string;
 
   constructor(
@@ -49,7 +49,8 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
             this.ordenTrabajo.detOrdenTrabajoRecurso.map( peticionOrden => {
               if ( peticionSolicitud.idCategoriaSolicitudRecurso === peticionOrden.idCategoriaSolicitudRecurso) {
                 const objetoPeticionCompuesto = {
-                  categoria: peticionOrden.categoriaSolicitudRecurso.descripcion,
+                  // categoria: peticionOrden.categoriaSolicitudRecurso.descripcion,
+                  categoria: peticionOrden.categoriaSolicitudRecurso,
                   desglose: peticionSolicitud.desglose,
                   importeSolicitadoSinFactura: peticionSolicitud.importeSolicitadoSinFactura,
                   importeValidadoSinFactura: peticionOrden.importeSolicitadoSinFactura,
@@ -65,7 +66,29 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
         } else if(this.ordenTrabajo.idTipo === 2){
           this.detallesOrdenTrabajoMateriales = this.ordenTrabajo.detOrdentrabajoMaterial;
         } else if( this.ordenTrabajo.idTipo === 3) {
-          this.detallesOrdenTrabajoVehiculos = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
+          // this.detallesOrdenTrabajoVehiculos = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
+          this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo.map( peticionOrden => {
+            this.ordenTrabajo.solicitud.detSolicitudMaquinriaEquipo.map( peticionSolicitud => {
+              if (peticionOrden.idDetSolicitudMaquinariaEquipo === peticionSolicitud.idDetSolicitudMaquinariaEquipo){
+                const nuevaPeticion = {
+                  cantidad: peticionOrden.cantidad,
+                  descripcion: peticionSolicitud.descripcion,
+                  idDetOrdenTrabajoMaquinariaEquipo: peticionOrden.idDetOrdenTrabajoMaquinariaEquipo,
+                  idDetSolicitudMaquinariaEquipo: peticionSolicitud.idDetSolicitudMaquinariaEquipo,
+                  idObra: this.ordenTrabajo.solicitud.idObra,
+                  idOrdenTrabajoMaquinariaEquipo: peticionOrden.idOrdenTrabajoMaquinariaEquipo,
+                  idUsuarioModfico: peticionSolicitud.idUsuarioModifico,
+                  importe: peticionOrden.importe,
+                  precioUnitario: peticionOrden.precioUnitario,
+                  unidad: peticionOrden.unidad,
+                  categoria: peticionSolicitud.categoriaSolicitudMaquinariaEquipo,
+                  tipoServicio: peticionSolicitud.tipoServicio
+                };
+                this.detallesOrdenTrabajoVehiculos.push(nuevaPeticion);
+              }
+            });
+      
+          });
         }      
         
       },

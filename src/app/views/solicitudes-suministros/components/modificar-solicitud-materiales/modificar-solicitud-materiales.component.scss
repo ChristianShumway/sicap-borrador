@@ -5,7 +5,7 @@
   align-items: center;
 }
 
-form{
+form, .form{
   width: 100%;
   .title-solicitud{
     padding: 15px 0 0;
@@ -62,7 +62,7 @@ form{
     border: 1px solid darkgray;
     padding: 20px 10px;
     position: relative;
-    margin-bottom: 20px;
+    margin: 20px 0;
     &:before {
       content: 'Observaciones Adicionales:';
       position: absolute;
@@ -130,8 +130,12 @@ form{
   display: block;
 }
 
-.comentario{
+.comentario, .observations{
   width: 100%;
+}
+
+.c-o{
+  margin: 20px 0;
 }
 
 @media screen and (max-width:768px) {

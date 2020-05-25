@@ -2,7 +2,7 @@
     <div fxLayout="column" fxFlex="100" fxFlex.gt-md="100">
       <!-- Time line -->
       <div *ngIf="(observacionesObs$ | async) as observaciones">
-        <app-time-line-observaciones-obra [observacionesList] = "observaciones"></app-time-line-observaciones-obra>
+        <app-time-line-observaciones-obra [observacionesList] = "observaciones" [idusuario] = "data.idUsuario"></app-time-line-observaciones-obra>
       </div>
       <!-- End Time line -->
     </div>

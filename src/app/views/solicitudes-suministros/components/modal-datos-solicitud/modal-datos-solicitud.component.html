@@ -57,8 +57,13 @@
   <div class="material" *ngFor="let material of materialesSeleccionados">
     <div class="tit">Descripción:</div>
     <div class="desc">{{material.descripcion}}</div>
+    <div class="tit">Categoría:</div>
+    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial === 0">Obra</div>
+    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial !== 0">{{material.categoriaSolicitudMaterial.descripcion}}</div>
     <div class="tit">Unidad:</div>
     <div class="desc">{{material.unidad}}</div>
+    <div class="tit">Familia:</div>
+    <div class="desc">{{material.familia}}</div>
     <div class="tit">Cantidad:</div>
     <div class="desc">{{material.cantidadSolictada}}</div>
     <div class="tit" *ngIf="material.comentario">Observación</div>
@@ -74,18 +79,25 @@
   <p class="inf">Periodo de Uso del Equipo: <span>{{data.solicitud.fechaInicialUso | date}} al {{data.solicitud.fechaFinalUso | date}} </span></p>
   <p class="inf">Lugar donde se Requiere: <span>{{data.solicitud.lugar}}</span></p>
   <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-
-  <!-- <div class="col-descripcion">
-    <p>Descripción:</p>
-    <div class="desc">
-      <span>{{data.solicitud.descripcion}}</span>
-    </div>
-  </div> -->
   <div class="col-descripcion" *ngIf="data.solicitud.observacion">
     <p>Observaciones Adicionales:</p>
     <div class="desc">
       <span>{{data.solicitud.observacion}}</span>
     </div>
+  </div>
+</div>
+
+<div class="wrap-materiales" *ngIf="data.idTipo===3">
+  <p class="title">Lista Peticiones</p>
+  <div class="material" *ngFor="let peticion of peticionesMaquinariaSeleccionadas">
+    <div class="tit">Categoría:</div>
+    <div class="desc">{{peticion.categoriaSolicitudMaquinariaEquipo.descripcion}}</div>
+    <div class="tit">Descripción:</div>
+    <div class="desc">{{peticion.descripcion}}</div>
+    <div class="tit">Tipo de Servicio:</div>
+    <div class="desc">{{peticion.tipoServicio}}</div>
+    <div class="tit">Comentarios:</div>
+    <div class="desc">{{peticion.comentario}}</div>
   </div>
 </div>
 

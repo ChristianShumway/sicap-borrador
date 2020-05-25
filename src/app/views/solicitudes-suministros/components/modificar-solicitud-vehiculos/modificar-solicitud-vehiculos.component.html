@@ -39,26 +39,15 @@
                 <mat-form-field class="full-width">
                   <input matInput name="telefono" formControlName="telefonoContacto">
                 </mat-form-field>
-                <!-- <div class="validaciones"> 
-                    <small *ngIf="solicitudForm.controls['telefono'].hasError('required') && solicitudForm.controls['telefono'].touched" class="form-error-msg">
-                      Teléfono es un campo requerido 
-                    </small>
-                  </div> -->
               </div>
+
               <div class="tit">Correo Electrónico:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
                   <input matInput type="email" name="email" formControlName="correoElectronico">
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                    <small *ngIf="solicitudForm.controls['email'].hasError('required') && solicitudForm.controls['email'].touched" class="form-error-msg">
-                      Correo electrónico es un campo requerido 
-                    </small>
-                    <small *ngIf="solicitudForm.controls['email'].hasError('email') && solicitudForm.controls['email'].touched" class="form-error-msg">
-                      Correo electrónico invalido 
-                    </small>
-                  </div> -->
               </div>
+
               <div class="tit">Inicio Periodo uso de equipo:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
@@ -66,18 +55,13 @@
                   <mat-datepicker-toggle matSuffix [for]="fechaInicialUso"></mat-datepicker-toggle>
                   <mat-datepicker #fechaInicialUso (selectedChange)="onFechaInicioUso($event)"></mat-datepicker>
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                    <small *ngIf="solicitudForm.controls['fechaInicialUso'].hasError('required') && solicitudForm.controls['fechaInicialUso'].touched"
-                      class="form-error-msg">
-                      Inicio periodo de uso es un campo requerido
-                    </small>
-                  </div> -->
                 <div class="validaciones">
                   <small *ngIf="error.isError" class="form-error-msg">
                     {{ error.errorMessage }}
                   </small>
                 </div>
               </div>
+
               <div class="tit">Fin Periodo uso de equipo:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
@@ -85,23 +69,13 @@
                   <mat-datepicker-toggle matSuffix [for]="fechaFinalUso"></mat-datepicker-toggle>
                   <mat-datepicker #fechaFinalUso (selectedChange)="onFechaFinalUso($event)"></mat-datepicker>
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                    <small *ngIf="solicitudForm.controls['fechaFinalUso'].hasError('required') && solicitudForm.controls['fechaFinalUso'].touched"
-                      class="form-error-msg">
-                      Fin periodo de uso es un campo requerido
-                    </small>
-                  </div> -->
               </div>
+              
               <div class="tit">Lugar donde se requiere el servicio:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
                   <input matInput name="lugar" formControlName="lugar">
                 </mat-form-field>
-                <!-- <div class="validaciones"> 
-                    <small *ngIf="solicitudForm.controls['lugar'].hasError('required') && solicitudForm.controls['lugar'].touched" class="form-error-msg">
-                      Lugar donde se requiere servicio es un campo requerido 
-                    </small>
-                  </div> -->
               </div>
 
             </div>
@@ -123,7 +97,7 @@
             </div>
           </div> -->
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
               <mat-label>Servicio de Interes</mat-label>
               <mat-select formControlName="idServicioInteres" required>
@@ -138,17 +112,7 @@
                 Servicio de Interes es un campo requerido
               </small>
             </div>
-          </div>
-
-          <div class="fields-form-adicional">
-            <div class="wrap-descripcion-solicitud">
-              <div class="pb-1">
-                <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacion"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
+          </div> -->
 
           <div class="cont-btns">
             <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
@@ -158,5 +122,139 @@
         </mat-card-content>
       </div>
     </form>
+
+    <div class="wrap-peticiones">
+      <mat-expansion-panel [(expanded)]="panelOpenState">
+        
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-peticion">
+            Agregar Petición
+          </mat-panel-title>
+        </mat-expansion-panel-header>
+      
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Categoría</mat-label>
+            <mat-select required [(ngModel)]="categoriaPeticion">
+              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudMaquinariaEquipo">
+                {{categoria.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>  
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Descripción"  [(ngModel)]="descripcionSolicitud"></textarea>
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput  placeholder="Tipo de Servicio" [(ngModel)]="tipoServicioSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <textarea matInput placeholder="Comentarios"  [(ngModel)]="comentariosSolicitud"></textarea>
+          </mat-form-field>
+        </div>
+
+
+        <div class="cont-btns">
+          <button mat-raised-button color="primary" (click)="agregarPeticion()" class="btn-accept">Agregar Petición</button>
+        </div>
+      
+      </mat-expansion-panel>
+    </div>
+
+  </mat-card>
+
+  <div class="mat-box-shadow margin-333" *ngIf="peticionesSolicitadas; else nopeticiones">
+    <!-- {{peticionesSolicitadas | json}} -->
+
+    <ngx-datatable class="material fullscreen bg-white" style="height: auto; overflow-y: auto;" [rows]="peticionesSolicitadas" [columnMode]="'force'"
+      [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true" [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50">
+
+      <ngx-datatable-column name="No." [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{ rowIndex + 1 }}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Categoría" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.categoriaSolicitudMaquinariaEquipo.descripcion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Descripción" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.descripcion}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.tipoServicio}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center">
+            {{row?.comentario}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Acción" [flexGrow]="1">
+        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
+          <p class="content-center">
+            <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex, row?.idDetSolicitudMaquinariaEquipo)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </p>
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+
+  <ng-template #nopeticiones >
+    <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
+      [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
+      <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1"></ngx-datatable-column>
+    </ngx-datatable>
+  </ng-template>
+
+  <mat-card fxLayout="row wrap" class="container-solitud form c-s" *ngIf="solicitud">
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+      <mat-card-content class="observacion-adicional">
+        <div class="fields-form-adicional">
+          <div class="wrap-descripcion-solicitud">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Observaciones Adicionales" [(ngModel)] = "observacionesAdicionales"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
   </mat-card>
 </div>

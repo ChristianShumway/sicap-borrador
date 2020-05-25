@@ -49,14 +49,7 @@
                 <mat-form-field class="full-width">
                   <input matInput type="email" name="email" formControlName="correoElectronico">
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['email'].hasError('required') && solicitudForm.controls['email'].touched" class="form-error-msg">
-                    Correo electrónico es un campo requerido 
-                  </small>
-                  <small *ngIf="solicitudForm.controls['email'].hasError('email') && solicitudForm.controls['email'].touched" class="form-error-msg">
-                    Correo electrónico invalido 
-                  </small>
-                </div> -->
+              
               </div>
               <div class="tit">Inicio Periodo uso de equipo:</div>
               <div class="desc">
@@ -65,12 +58,7 @@
                   <mat-datepicker-toggle matSuffix [for]="fechaInicialUso"></mat-datepicker-toggle>
                   <mat-datepicker #fechaInicialUso (selectedChange)="onFechaInicioUso($event)"></mat-datepicker>
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['fechaInicialUso'].hasError('required') && solicitudForm.controls['fechaInicialUso'].touched"
-                    class="form-error-msg">
-                    Inicio periodo de uso es un campo requerido
-                  </small>
-                </div> -->
+             
                 <div class="validaciones">
                   <small *ngIf="error.isError" class="form-error-msg">
                     {{ error.errorMessage }}
@@ -84,23 +72,14 @@
                   <mat-datepicker-toggle matSuffix [for]="fechaFinalUso"></mat-datepicker-toggle>
                   <mat-datepicker #fechaFinalUso (selectedChange)="onFechaFinalUso($event)"></mat-datepicker>
                 </mat-form-field>
-                <!-- <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['fechaFinalUso'].hasError('required') && solicitudForm.controls['fechaFinalUso'].touched"
-                    class="form-error-msg">
-                    Fin periodo de uso es un campo requerido
-                  </small>
-                </div> -->
+               
               </div>
               <div class="tit">Lugar donde se requiere el servicio:</div>
               <div class="desc">
                 <mat-form-field class="full-width">
                   <input matInput name="lugar" formControlName="lugar">
                 </mat-form-field>
-                <!-- <div class="validaciones"> 
-                  <small *ngIf="solicitudForm.controls['lugar'].hasError('required') && solicitudForm.controls['lugar'].touched" class="form-error-msg">
-                    Lugar donde se requiere servicio es un campo requerido 
-                  </small>
-                </div> -->
+              
               </div>
              
             </div>
@@ -137,16 +116,6 @@
               </small>
             </div>
           </div> -->
-
-          <div class="fields-form-adicional">
-            <div class="wrap-descripcion-solicitud">
-              <div class="pb-1">
-                <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacion"></textarea>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
     
           <div class="cont-btns">
             <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
@@ -170,7 +139,7 @@
           <mat-form-field class="full-width">
             <mat-label>Categoría</mat-label>
             <mat-select required [(ngModel)]="categoriaPeticion">
-              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
+              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudMaquinariaEquipo">
                 {{categoria.descripcion}}
               </mat-option>
             </mat-select>
@@ -179,7 +148,7 @@
   
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <textarea matInput placeholder="Descripción de Solicitud"  [(ngModel)]="descripcionSolicitud"></textarea>
+            <textarea matInput placeholder="Descripción"  [(ngModel)]="descripcionSolicitud"></textarea>
           </mat-form-field>
         </div>
 
@@ -191,31 +160,13 @@
 
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <input matInput  placeholder="Unidad" [(ngModel)]="unidadSolicitud">
+            <textarea matInput placeholder="Comentarios"  [(ngModel)]="comentariosSolicitud"></textarea>
           </mat-form-field>
         </div>
 
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput type="number"  placeholder="Cantidad" [(ngModel)]="cantidadSolicitud">
-          </mat-form-field>
-        </div>
-
-  
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Precio" [(ngModel)]="precioSolicitud" mask="separator.2" thousandSeparator=",">
-          </mat-form-field>
-        </div>
-
-        <div class="pb-1">
-          <mat-form-field class="full-width">
-            <input matInput placeholder="Importe" [(ngModel)]="importeSolicitud" mask="separator.2" thousandSeparator=",">
-          </mat-form-field>
-        </div>
 
         <div class="cont-btns">
-          <button mat-raised-button color="primary" (click)="agregarPetision()" class="btn-accept">Agregar Petición</button>
+          <button mat-raised-button color="primary" (click)="agregarPeticion()" class="btn-accept">Agregar Petición</button>
         </div>
       
       </mat-expansion-panel>
@@ -241,7 +192,7 @@
       <ngx-datatable-column name="Categoría" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.categoriaSolicitudRecurso.descripcion}}
+            {{row?.categoriaSolicitudMaquinariaEquipo.descripcion}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -262,34 +213,10 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Unidad" [flexGrow]="1">
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.unidad}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Cantidad" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p  class="content-center">
-            {{row?.cantidad}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Cantidad" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p  class="content-center">
-            {{row?.precio | currency}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Importe" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p  class="content-center">
-            {{row?.importe | currency}}
+            {{row?.comentario}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -315,11 +242,24 @@
       <ngx-datatable-column name="Categoría" [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column>
       <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Unidad" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Cantidad" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Precio" [flexGrow]="1"></ngx-datatable-column>
-      <ngx-datatable-column name="Importe" [flexGrow]="1"></ngx-datatable-column>
+      <ngx-datatable-column name="Comentarios" [flexGrow]="1"></ngx-datatable-column>
     </ngx-datatable>
   </ng-template>
+
+  <mat-card fxLayout="row wrap" class="container-solitud c-s" *ngIf="obra">
+    <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+      <mat-card-content class="observacion-adicional">
+        <div class="fields-form-adicional">
+          <div class="wrap-descripcion-solicitud">
+            <div class="pb-1">
+              <mat-form-field class="full-width">
+                <textarea matInput placeholder="Observaciones Adicionales" [(ngModel)] = "observacionesAdicionales"></textarea>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+      </mat-card-content>
+    </div>
+  </mat-card>
 
 </div>

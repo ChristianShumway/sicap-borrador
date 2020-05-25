@@ -45,6 +45,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   montoTotal: number = 0;
   total:any[] = [];
   permisoAcceso: boolean = false;
+  totalObra: number;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -132,9 +133,14 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         // console.log(reportes);
 
         reportes.map( reporte => {
-          console.log(reporte);
+          // console.log(reporte);
+          this.totalObra = reporte.totalObra
           const total = reporte.viewConceptExecuted.reduce((acc,obj) => acc + (obj.importeEjecutado),0);
-          const art = {idReporte: reporte.idConceptoEjecutado, totalMateriales: total,};
+          const art = {
+            idReporte: reporte.idConceptoEjecutado,
+            totalMateriales: total,
+            totalObra: reporte.totalObra
+          };
           this.total.push(art);          
         });
       }

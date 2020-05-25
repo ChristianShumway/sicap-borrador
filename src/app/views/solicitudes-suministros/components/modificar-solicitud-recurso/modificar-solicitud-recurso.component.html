@@ -8,7 +8,7 @@
 
 <div *ngIf="opcionesPermitidas">
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
-    <form [formGroup]="solicitudForm" (submit)="modificarSolicitud()">
+    <div class="form">
       <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
         <mat-card-title class="title-solicitud">
@@ -36,31 +36,9 @@
               <div class="desc">{{solicitud.fechaSolicito | date}}</div>
             </div>
           </div>
-
-          <div class="fields-form">
-            <div class="wrap-descripcion-solicitud">
-              <div class="pb-1">
-                <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Observaciones de la Solicitud" formControlName="observacionesAdicionales"></textarea>
-                </mat-form-field>
-                <div class="validaciones">
-                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
-                    class="form-error-msg">
-                    Observación de la solicitud es un campo requerido
-                  </small>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
-            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
-          </div>
-
         </mat-card-content>
       </div>
-    </form>
+    </div>
 
     <div class="wrap-peticiones">
 
@@ -122,7 +100,7 @@
   </mat-card>
 
   <div  *ngIf="obra">
-    <div class="mat-box-shadow margin-333" *ngIf="peticionesSolicitadas.length; else nopeticiones">
+    <div class="mat-box-shadow margin-333 table-peticiones" *ngIf="peticionesSolicitadas.length; else nopeticiones">
       <!-- {{peticionesSolicitadas | json}} -->
       <div class="wrap-totales">
         <div class="total">
@@ -215,6 +193,36 @@
       </ngx-datatable>
     </ng-template>
   </div>
+
+  <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
+    <form [formGroup]="solicitudForm" (submit)="modificarSolicitud()">
+      <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+        <mat-card-content>
+          <div class="fields-form">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <mat-form-field class="full-width">
+                  <textarea matInput placeholder="Observaciones Adicionales" formControlName="observacionesAdicionales"></textarea>
+                </mat-form-field>
+                <div class="validaciones">
+                  <small *ngIf="solicitudForm.controls['observacionesAdicionales'].hasError('required') && solicitudForm.controls['observacionesAdicionales'].touched"
+                    class="form-error-msg">
+                    Observación de la solicitud es un campo requerido
+                  </small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="cont-btns">
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
+            <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
+          </div>
+
+        </mat-card-content>
+      </div>
+    </form>
+  </mat-card>
 
 
 </div>

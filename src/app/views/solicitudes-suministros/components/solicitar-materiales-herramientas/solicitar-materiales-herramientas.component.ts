@@ -40,6 +40,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
+  observacionesAdicionales: string;
+  categoriasParaMateriales: any[];
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
@@ -48,6 +50,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   descripcionMaterial: string;
   unidadMaterial: string;
   cantidadMaterial: number = 0;
+  idCategoriaMaterial: number = 0;
+  familiaMaterial: string;
   panelOpenState: boolean = false;
 
   constructor(
@@ -113,16 +117,18 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(new Date(), Validators.required),
       lugarRecepcion: new FormControl('', Validators.required),
-      descripcion: new FormControl(''),
-      observacionesAdicionales: new FormControl('', Validators.required),
+      // descripcion: new FormControl(''),
+      // observacionesAdicionales: new FormControl('', Validators.required),
     });
   }
   
   getCatalogos() {
+    
     this.empresasService.getAllEmpresas().subscribe(
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
+
     this.solicitudesService.getListMaterialForResource(this.idObra).subscribe(
       (materiales: MaterialParaSolicitud[]) => {
         console.log(materiales);
@@ -134,6 +140,12 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
         error => this.useAlerts( error.message, ' ', 'error-dialog');
       }
     );
+
+    this.solicitudesService.getCategoriasParaSolicitudMateriales().subscribe(
+      categorias => this.categoriasParaMateriales = categorias,
+      error=> console.log(error)
+    );
+
   }
 
   public onFechaRequiereMaterial(event): void {
@@ -145,6 +157,10 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
       this.useAlerts('Ingresa la descripción del material a agregar', ' ', 'error-dialog');
     } else if (!this.unidadMaterial){
       this.useAlerts('Ingresa la unidad del material a agregar', ' ', 'error-dialog');
+    } else if (!this.familiaMaterial){
+      this.useAlerts('Ingresa la familia del material a agregar', ' ', 'error-dialog');
+    } else if (this.idCategoriaMaterial === 0){
+      this.useAlerts('Selecciona la categoria del material a agregar', ' ', 'error-dialog');
     } else if (!this.cantidadMaterial){
       this.useAlerts('Ingresa la cantidad del material a agregar', ' ', 'error-dialog');
     } else {
@@ -165,6 +181,8 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
         tipo: 2,
         idObra: this.idObra,
         idUsuarioModifico: this.idUsuarioLogeado,
+        familia: this.familiaMaterial,
+        idCategoriaSolicitudMaterial: this.idCategoriaMaterial,
         // comentario: this.comentarioMaterial,
         // idDetSolicitudMateral: 0,
         // idSolicitudMaterial: 0,
@@ -181,12 +199,15 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
             this.unidadMaterial = '';
             this.cantidadMaterial = 0;
             this.panelOpenState = !this.panelOpenState;
+            this.familiaMaterial = '';
+            this.idCategoriaMaterial = 0;
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }  
         },
         error => console.log(error)
       );
+
     }
   }
 
@@ -213,6 +234,7 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
         idUsuarioSolicito: this.idUsuarioLogeado,
         idUsuarioModifico: this.idUsuarioLogeado,
         idObra: this.idObra,
+        observacionesAdicionales: this.observacionesAdicionales,
         // detSolicitudMaterial: materialSolicitado
         detSolicitudMaterial: this.listaMaterial
       };

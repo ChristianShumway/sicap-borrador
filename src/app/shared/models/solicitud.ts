@@ -48,6 +48,9 @@ export interface MaterialParaSolicitud {
   idUsuarioModifico?: number;
   idSolicitudMaterial?: number;
   pk?: number;
+  familia: string;
+  idCategoriaSolicitudMaterial: number;
+  categoriaSolicitudMaterial?: any;
   proveedor?: string;
   precio?: number;
   importe?: number;
@@ -90,6 +93,7 @@ export interface SolicitudVehiculo {
   idServicioInteres: number;
   servicioInteres?: any;
   serieFolio?: string;
+  detSolicitudMaquinriaEquipo?: any[];
   // idEmpresa: number;
   // empresa?: Cliente;
 }

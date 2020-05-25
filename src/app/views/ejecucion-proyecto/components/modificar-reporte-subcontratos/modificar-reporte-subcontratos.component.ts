@@ -92,7 +92,7 @@ export class ModificarReporteSubcontratosComponent implements OnInit {
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
       fechaInicio: new FormControl(this.fechaInicio, Validators.required),
-      // fechaFinal: new FormControl(this.fechaFinal, Validators.required),
+      // fechaFinal: new FormControl(this.fechaInicio, Validators.required),
     })
   }
 
@@ -329,7 +329,7 @@ export class ModificarReporteSubcontratosComponent implements OnInit {
         ...this.notaBitacoraForm.value,
         idReporteSubContrato: parseInt(this.idReporteSubcontrato),
         fechaInicio: nuevaFechaInicio,
-        // fechaFinal: nuevaFechaFin,
+        fechaFinal: nuevaFechaInicio,
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewReportSubContract: newCatalog,

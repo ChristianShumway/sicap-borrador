@@ -19,7 +19,7 @@ export class BitacoraObraComponent implements OnInit {
   constructor(
     private obraService: ObraService,
     public dialogRef: MatDialogRef<BitacoraObraComponent>,
-    @Inject(MAT_DIALOG_DATA) public idObra
+    @Inject(MAT_DIALOG_DATA) public data
   ) { }
 
   ngOnInit() {
@@ -27,8 +27,8 @@ export class BitacoraObraComponent implements OnInit {
   }
 
   getObservationsByObra(){
-    console.log(this.idObra);
-    this.obraService.getObservacionesObraObservable(this.idObra);
+    console.log(this.data.idObra);
+    this.obraService.getObservacionesObraObservable(this.data.idObra);
     this.observacionesObs$ = this.obraService.getObservacionesObra();
     // this.obraService.getObservacionesObra().subscribe( result => this.observaciones = result);
   }
