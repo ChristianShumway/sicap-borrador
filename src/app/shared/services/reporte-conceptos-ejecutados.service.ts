@@ -64,5 +64,10 @@ export class ReporteConceptosEjecutadosService {
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteEvidenceConcept`, JSON.stringify(evidence), { headers: headerss});
   }
 
+  getExportable(idObra:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportConceptExecuted/${idObra}`, {headers: headerss, responseType: 'blob',});
+  }
+
 
 }

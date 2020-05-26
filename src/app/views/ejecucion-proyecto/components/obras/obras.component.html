@@ -89,12 +89,6 @@
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-plan-trabajo', obra.idObra]">
               Ver Plan de Trabajo</button>
-
-              <button 
-              *ngIf="option==='plan-trabajo'" 
-              mat-menu-item 
-              (click) = "exportarReporte(obra.idObra, 'plan-trabajo')">
-              Exportar Reportes</button>
               
               <button 
               *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
@@ -231,12 +225,25 @@
                 *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVS?.id)">
                 Validación de Subcontratos</button>
               </div>
+
+              <button 
+              *ngIf="option==='validacion'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'validacion')">
+              Exportar Validaciones</button>
               
               <button 
               *ngIf="option==='bitacora-obra'" 
               mat-menu-item 
               (click)="abrirAltaComentario(obra.idObra)">
               Agregar Nota</button>
+
+              <button 
+              *ngIf="option==='bitacora-obra'" 
+              mat-menu-item 
+              (click) = "exportarReporte(obra.idObra, 'bitacora-obra')">
+              Exportar Bitácora</button>
+
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

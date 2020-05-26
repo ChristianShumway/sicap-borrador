@@ -249,4 +249,28 @@ export class ListaPlanTrabajoComponent implements OnInit {
     });
   }
 
+  exportarReporte(idPlanTrabajo) {
+    this.planTrabajoService.getExportable(idPlanTrabajo).subscribe(
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download","reporte-plan-trabajo.xlsx");
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
+    );
+  }
+
 }

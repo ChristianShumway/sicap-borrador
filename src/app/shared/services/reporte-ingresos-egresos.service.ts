@@ -39,4 +39,9 @@ export class ReporteIngresosEgresosService {
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteMovementMonetary`, JSON.stringify(report), { headers: headerss});
   }
 
+  getExportable(idObra:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportMovement/${idObra}`, {headers: headerss, responseType: 'blob',});
+  }
+
 }

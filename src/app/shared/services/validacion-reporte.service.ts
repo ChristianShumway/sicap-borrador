@@ -32,5 +32,10 @@ export class ValidacionReporteService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/projectExecution/saveReportSubContract`, JSON.stringify(conceptsValidation), { headers: headerss});
   }
+
+  getExportable(idObra:number, idUsuario:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportConcetValidation/${idObra}/${idUsuario}`, {headers: headerss, responseType: 'blob',});
+  }
   
 }

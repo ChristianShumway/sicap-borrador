@@ -29,6 +29,9 @@
                 <div id="eliminar-reporte" #myIdE>
                   <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Plan</button>
                 </div>
+                <div>
+                  <button mat-menu-item (click)="exportarReporte(plan.idPlanTrabajo)">Exportar Plan de Trabajo</button>
+                </div>
               </mat-menu>
             </div>
             <mat-divider></mat-divider>

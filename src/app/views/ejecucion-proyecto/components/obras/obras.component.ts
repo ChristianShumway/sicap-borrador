@@ -17,6 +17,12 @@ import { NavigationService } from '../../../../shared/services/navigation.servic
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
 import { BitacoraObraComponent } from './../bitacora-obra/bitacora-obra.component';
 import { ReporteManoObraService } from './../../../../shared/services/reporte-mano-obra.service';
+import { ReporteConceptosEjecutadosService } from '../../../../shared/services/reporte-conceptos-ejecutados.service';
+import { ReporteSubcontratoService } from '../../../../shared/services/reporte-subcontrato.service';
+import { ReporteMaterialService } from './../../../../shared/services/reporte-material.service';
+import { ReporteMaquinariaEquipoService } from './../../../../shared/services/reporte-maquinaria-equipo.service';
+import { ReporteIngresosEgresosService } from './../../../../shared/services/reporte-ingresos-egresos.service';
+import { ValidacionReporteService } from './../../../../shared/services/validacion-reporte.service';
 
 @Component({
   selector: 'app-obras',
@@ -59,6 +65,12 @@ export class ObrasComponent implements OnInit {
     private navigationService: NavigationService,
     private usuariosService: UsuariosService,
     private reporteManoObraService: ReporteManoObraService,
+    private reporteConceptosEjecutadosService: ReporteConceptosEjecutadosService,
+    private reporteSubcontratoService: ReporteSubcontratoService,
+    private reporteMaterialService: ReporteMaterialService,
+    private reporteMaquinariaEquipoService: ReporteMaquinariaEquipoService,
+    private reporteIngresosEgresosService: ReporteIngresosEgresosService,
+    private validacionReporteService: ValidacionReporteService,
   ) { }
 
   ngOnInit() {
@@ -239,6 +251,160 @@ export class ObrasComponent implements OnInit {
           link.setAttribute("target", "_blank");
           link.setAttribute("href", obj_url);
           link.setAttribute("download","reporte-mano-obra.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'conceptos-ejecutados'){
+      this.reporteConceptosEjecutadosService.getExportable(idObra).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-conceptos-ejecutados.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'subcontratos'){
+      this.reporteSubcontratoService.getExportable(idObra, this.idUserLogeado).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-subcontratos.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'materiales'){
+      this.reporteMaterialService.getExportable(idObra, this.idUserLogeado).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-materiales.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'maquinaria-equipo'){
+      this.reporteMaquinariaEquipoService.getExportable(idObra, this.idUserLogeado).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-maquinaria-equipo.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'ingresos-egresos'){
+      this.reporteIngresosEgresosService.getExportable(idObra).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-ingresos-egresos.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'validacion') {
+      this.validacionReporteService.getExportable(idObra, this.idUserLogeado).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-validaciones.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    } else if(tipoReporte === 'bitacora-obra') {
+      this.reporteManoObraService.getExportableBitacota(idObra).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","reporte-bitacora-obra.xlsx");
             
           link.style.visibility = "hidden";
           document.body.appendChild(link);

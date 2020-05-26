@@ -39,5 +39,10 @@ export class ReporteSubcontratoService {
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteEvidenceSubcontract`, JSON.stringify(evidence), { headers: headerss});
   }
 
+  getExportable(idObra:number, idUsuario:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportSubContract/${idObra}/${idUsuario}`, {headers: headerss, responseType: 'blob',});
+  }
+
 
 }

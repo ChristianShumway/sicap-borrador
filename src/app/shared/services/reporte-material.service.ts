@@ -32,4 +32,9 @@ export class ReporteMaterialService {
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteMaterial`, JSON.stringify(report), { headers: headerss});
   }
 
+  getExportable(idObra:number, idUsuario:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportMaterial/${idObra}/${idUsuario}`, {headers: headerss, responseType: 'blob',});
+  }
+
 }

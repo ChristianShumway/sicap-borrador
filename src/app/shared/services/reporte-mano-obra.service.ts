@@ -37,4 +37,9 @@ export class ReporteManoObraService {
     return this.http.get(`${environment.apiURL}/projectExecution/exportWorkForce/${idObra}/${idUsuario}`, {headers: headerss, responseType: 'blob',});
   }
 
+  getExportableBitacota(idObra:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportLogObra/${idObra}`, {headers: headerss, responseType: 'blob',});
+  }
+
 }

@@ -37,4 +37,10 @@ export class PlanTrabajoService {
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/projectExecution/deleteConceptWorkplan `, JSON.stringify(concept), { headers: headerss});
   }
+
+  getExportable(idPlan:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/projectExecution/exportWorkPlan/${idPlan}`, {headers: headerss, responseType: 'blob',});
+  }
+
 }
