@@ -193,12 +193,22 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setReject`, JSON.stringify(solicitud), { headers: headerss});
   }
 
-  descargarSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/printReource/${idSolicitud}/${tipoSolicitud}`);
+  // descargarSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{
+  //   return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/printReource/${idSolicitud}/${tipoSolicitud}`);
+  // }
+
+  descargarSolicitud(idSolicitud:number, tipoSolicitud: number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/requestAndSupplies/printReource/${idSolicitud}/${tipoSolicitud}`, {headers: headerss, responseType: 'blob',});
   }
   
+  // descargarOrdenTrabajo(idOrdenTrabajo: number, tipoOrdenTrabajo: number): Observable<any>{
+  //   return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/printWorkOrden/${idOrdenTrabajo}/${tipoOrdenTrabajo}`);
+  // }
+
   descargarOrdenTrabajo(idOrdenTrabajo: number, tipoOrdenTrabajo: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/printWorkOrden/${idOrdenTrabajo}/${tipoOrdenTrabajo}`);
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/requestAndSupplies/printWorkOrden/${idOrdenTrabajo}/${tipoOrdenTrabajo}`, {headers: headerss, responseType: 'blob',});
   }
 
   // getVehiculosByObra/{idObra}

@@ -285,25 +285,69 @@ export class ListaSolicitudesComponent implements OnInit {
 
   descargarSolicitud(idSolicitud, tipoSolicitud) {
     console.log(idSolicitud);
+    let leyenda;
+    if(tipoSolicitud === 1){
+      leyenda = 'solicitud-recursos';
+    } else if(tipoSolicitud === 2){
+      leyenda = 'solicitud-materiales-herramientas';
+    } else  if(tipoSolicitud === 3){
+      leyenda = 'solicitud-maquinaria-equipo';
+    }
+
     this.solicitudesService.descargarSolicitud(idSolicitud, tipoSolicitud).subscribe(
-      result => {
-        console.log(result);
-        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-request/Solicitud_${idSolicitud}.pdf`;
-        window.open( urlArchivo, '_blank');
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download",`${leyenda}.xlsx`);
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
     );
   }
 
   descargarOrdenTrabajo(idOrdenTrabajo, tipoOrden) {
     console.log(idOrdenTrabajo);
+    let leyenda;
+    if(tipoOrden === 1){
+      leyenda = 'orden-trabajo-recursos';
+    } else if(tipoOrden === 2){
+      leyenda = 'orden-trabajo-materiales-herramientas';
+    } else  if(tipoOrden === 3){
+      leyenda = 'orden-trabajo-maquinaria-equipo';
+    }
+
     this.solicitudesService.descargarOrdenTrabajo(idOrdenTrabajo, tipoOrden).subscribe(
-      result => {
-        console.log(result);
-        const urlArchivo = `http://108.175.5.160:8080/Sicap/files//files-request/Orden_trabajo_${idOrdenTrabajo}.pdf`;
-        window.open( urlArchivo, '_blank');
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download",`${leyenda}.xlsx`);
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
     );
   }
 

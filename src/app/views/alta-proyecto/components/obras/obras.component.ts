@@ -150,15 +150,29 @@ export class ObrasComponent implements OnInit {
   }
 
   exportarFicha(idObra){
+
     this.obraService.getExportarFicha(idObra).subscribe(
-      result => {
-        console.log(result);
-        const urlArchivo = `http://${this.host}/${this.rutaSicap}/files//files-obra/Ficha_planeacion_${idObra}.pdf`;
-        // location.href= urlArchivo;
-        window.open( urlArchivo, '_blank');
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download","ficha-planeacion.xlsx");
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
       },
-      error => console.log(error)
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
     );
+
   }
 
   useAlerts(message, action, className){
