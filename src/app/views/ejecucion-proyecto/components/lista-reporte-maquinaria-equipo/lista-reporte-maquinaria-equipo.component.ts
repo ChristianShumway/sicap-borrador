@@ -45,6 +45,7 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalMonto: number;
+  reporteExistente = true;
 
   nombreComponente = 'reporte-maquinaria-equipo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -121,22 +122,26 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   getReports(){
     this.reporteMaquinariaEquipoService.getReportsByObra(this.idObra).subscribe(
       (reportes: ReporteMaquinariaEquipo[]) => {
-        this.reports = reportes;
-        this.reportsTemp =  this.reports;
-        this.dataSource.data = this.reports;
-
-        reportes.map( (reporte: ReporteMaquinariaEquipo) => {
-          console.log(reporte);
-          this.totalMonto = reporte.totalMaquinariaEquipo;
-          const total = reporte.detMaquinariaEquipo.reduce((acc,obj) => acc + (obj.importeCapturado),0);
-          const art = {
-            idReporte: reporte.idCapturaMaquinariaEquipo, 
-            totalMateriales: total, 
-            totalMaquinaria: reporte.totalMaquinariaEquipo
-          };
-          this.total.push(art);          
-        });
-        // console.log(this.total);
+        if(reportes.length > 0){
+          this.reports = reportes;
+          this.reportsTemp =  this.reports;
+          this.dataSource.data = this.reports;
+  
+          reportes.map( (reporte: ReporteMaquinariaEquipo) => {
+            console.log(reporte);
+            this.totalMonto = reporte.totalMaquinariaEquipo;
+            const total = reporte.detMaquinariaEquipo.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+            const art = {
+              idReporte: reporte.idCapturaMaquinariaEquipo, 
+              totalMateriales: total, 
+              totalMaquinaria: reporte.totalMaquinariaEquipo
+            };
+            this.total.push(art);          
+          });
+          // console.log(this.total);
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }

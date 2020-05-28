@@ -43,6 +43,7 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalMonto: number;
+  reporteExistente = true;
 
   nombreComponente = 'reporte-ingresos-egresos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -119,11 +120,15 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   getReports(){
     this.reporteIngresosEgresosService.getReportsByObra(this.idObra).subscribe(
       (reportes: ReporteIngresosEgresos[]) => {
-        this.reports = reportes;
-        this.reportsTemp =  this.reports;
-        this.dataSource.data = this.reports;
-
-        console.log(this.reports);
+        if(reportes.length > 0){
+          this.reports = reportes;
+          this.reportsTemp =  this.reports;
+          this.dataSource.data = this.reports;
+  
+          console.log(this.reports);
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }

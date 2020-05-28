@@ -45,6 +45,7 @@ export class ListaReporteMaterialesComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalMonto: number;
+  reporteExistente = true;
 
   nombreComponente = 'reporte-materiales';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -121,22 +122,26 @@ export class ListaReporteMaterialesComponent implements OnInit {
   getReports(){
     this.reporteMaterialService.getReportsByObra(this.idObra).subscribe(
       (reportes: ReporteMaterial[]) => {
-        this.reports = reportes;
-        this.reportsTemp =  this.reports;
-        this.dataSource.data = this.reports;
-
-        reportes.map( reporte => {
-          console.log(reporte);
-          this.totalMonto = reporte.totalMaterial;
-          const total = reporte.detMaterial.reduce((acc,obj) => acc + (obj.importeCapturado),0);
-          const art = {
-            idReporte: reporte.idCapturaMaterial, 
-            totalMateriales: total, 
-            totalMaterial: reporte.totalMaterial
-          };
-          this.total.push(art);          
-        });
-        // console.log(this.total);
+        if(reportes.length > 0) {
+          this.reports = reportes;
+          this.reportsTemp =  this.reports;
+          this.dataSource.data = this.reports;
+  
+          reportes.map( reporte => {
+            console.log(reporte);
+            this.totalMonto = reporte.totalMaterial;
+            const total = reporte.detMaterial.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+            const art = {
+              idReporte: reporte.idCapturaMaterial, 
+              totalMateriales: total, 
+              totalMaterial: reporte.totalMaterial
+            };
+            this.total.push(art);          
+          });
+          // console.log(this.total);
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }

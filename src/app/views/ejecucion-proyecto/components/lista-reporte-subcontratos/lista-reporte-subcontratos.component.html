@@ -82,7 +82,10 @@
     </ng-container>
     <ng-template #loading>
       <div class="wrap-loading-catalog">
-        <mat-spinner [diameter]="60"></mat-spinner>
+        <mat-spinner [diameter]="60" *ngIf = "reporteExistente"></mat-spinner>
+        <div *ngIf = "!reporteExistente">
+          <h3>EL PROYECTO NO CUENTA CON REPORTES REGISTRADOS</h3>
+        </div>
       </div>
     </ng-template>
   </div>

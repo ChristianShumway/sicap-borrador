@@ -30,6 +30,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   host: string;
   fechaActual = new Date();
   pipe = new DatePipe('en-US');
+  planTrabajoExistente = true;
   
   idUserLogeado;
   accesoBitacora = false;
@@ -120,22 +121,25 @@ export class ListaPlanTrabajoComponent implements OnInit {
   getWorkPlans(){
     this.planTrabajoService.getWorkPlanByObra(this.idObra).subscribe(
       (planes: PlanTrabajo[]) => {
-        this.workPlans = planes;
-        this.workPlansTemp =  this.workPlans;
-        this.dataSource.data = this.workPlans;
-
-        planes.map( plan => {
-          console.log(plan);
-          const total = plan.viewConceptWorkPlan.reduce((acc,obj) => acc + (obj.importePlaneado),0);
-          const art = {
-            idPlan: plan.idPlanTrabajo, 
-            totalMateriales: total, 
-            totalEjecutado: plan.totalEjecutado,
-            totalObra: plan.totalObra
-          };
-          this.total.push(art);          
-        });
-        // console.log(this.total);
+        if(planes.length > 0) {
+          this.workPlans = planes;
+          this.workPlansTemp =  this.workPlans;
+          this.dataSource.data = this.workPlans;
+  
+          planes.map( plan => {
+            console.log(plan);
+            const total = plan.viewConceptWorkPlan.reduce((acc,obj) => acc + (obj.importePlaneado),0);
+            const art = {
+              idPlan: plan.idPlanTrabajo, 
+              totalMateriales: total, 
+              totalEjecutado: plan.totalEjecutado,
+              totalObra: plan.totalObra
+            };
+            this.total.push(art);          
+          });
+        } else {
+          this.planTrabajoExistente = false;
+        }
       }
     );
   }

@@ -45,6 +45,7 @@ export class ListaReporteManoObraComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalMonto: number;
+  reporteExistente = true;
 
   nombreComponente = 'reporte-mano-obra';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -121,22 +122,26 @@ export class ListaReporteManoObraComponent implements OnInit {
   getReports(){
     this.reporteManoObraService.getReportsByObra(this.idObra).subscribe(
       (reportes: ReporteManoObra[]) => {
-        this.reports = reportes;
-        this.reportsTemp =  this.reports;
-        this.dataSource.data = this.reports;
-
-        reportes.map( reporte => {
-          console.log(reporte);
-          this.totalMonto = reporte.totalManoObra;
-          const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
-          const art = {
-            idReporte: reporte.idCapturaManoObra, 
-            totalMateriales: total, 
-            totalManoObra: reporte.totalManoObra
-          };
-          this.total.push(art);          
-        });
-        // console.log(this.total);
+        if(reportes.length > 0) {
+          this.reports = reportes;
+          this.reportsTemp =  this.reports;
+          this.dataSource.data = this.reports;
+  
+          reportes.map( reporte => {
+            console.log(reporte);
+            this.totalMonto = reporte.totalManoObra;
+            const total = reporte.detManoObra.reduce((acc,obj) => acc + (obj.importeCapturado),0);
+            const art = {
+              idReporte: reporte.idCapturaManoObra, 
+              totalMateriales: total, 
+              totalManoObra: reporte.totalManoObra
+            };
+            this.total.push(art);          
+          });
+          // console.log(this.total);
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }

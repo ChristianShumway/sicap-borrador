@@ -85,7 +85,10 @@
     </ng-container>
     <ng-template #loading>
       <div class="wrap-loading-catalog">
-        <mat-spinner [diameter]="60"></mat-spinner>
+        <mat-spinner [diameter]="60" *ngIf = "planTrabajoExistente"></mat-spinner>
+        <div *ngIf = "!planTrabajoExistente">
+          <h3>EL PROYECTO NO CUENTA CON PLAN DE TRABAJO REGISTRADO</h3>
+        </div>
       </div>
     </ng-template>
   </div>

@@ -35,6 +35,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   host: string;
   fechaActual = new Date();
   pipe = new DatePipe('en-US');
+  reporteExistente = true;
   
   idUserLogeado;
   accesoBitacora = false;
@@ -127,22 +128,26 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   getReporte(){
     this.reporteConceptosEjecutadosService.getConceptExecutedByObra(this.idObra).subscribe(
       (reportes: ReporteConceptosEjecutados[]) => {
-        this.reporte = reportes;
-        this.reporteTemp =  this.reporte;
-        this.dataSource.data = this.reporte;
-        // console.log(reportes);
-
-        reportes.map( reporte => {
-          // console.log(reporte);
-          this.totalObra = reporte.totalObra
-          const total = reporte.viewConceptExecuted.reduce((acc,obj) => acc + (obj.importeEjecutado),0);
-          const art = {
-            idReporte: reporte.idConceptoEjecutado,
-            totalMateriales: total,
-            totalObra: reporte.totalObra
-          };
-          this.total.push(art);          
-        });
+        if(reportes.length > 0){
+          this.reporte = reportes;
+          this.reporteTemp =  this.reporte;
+          this.dataSource.data = this.reporte;
+          // console.log(reportes);
+  
+          reportes.map( reporte => {
+            // console.log(reporte);
+            this.totalObra = reporte.totalObra
+            const total = reporte.viewConceptExecuted.reduce((acc,obj) => acc + (obj.importeEjecutado),0);
+            const art = {
+              idReporte: reporte.idConceptoEjecutado,
+              totalMateriales: total,
+              totalObra: reporte.totalObra
+            };
+            this.total.push(art);          
+          });
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }

@@ -43,6 +43,7 @@ export class ObrasComponent implements OnInit {
   porcentajeEjecucionFaltante: number;
   accesoBitacora = false;
   option: string;
+  usuarioIdentificado = true;
 
   nombreComponente = 'validacion-reportes';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -97,38 +98,49 @@ export class ObrasComponent implements OnInit {
   getObras() {
     this.obraService.getObras().subscribe(
       ((obras: Obra[]) => {
-        console.log(obras);
+        // console.log(obras);
         const obrasActivas = obras.filter(obra => obra.activo === 1);
         
         obrasActivas.map( (obra: Obra) => {
           if(obra.idGerente === this.idUserLogeado){
             this.obras.push(obra);
           }
+
           if(obra.idPlaneacionPresupuesto === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
           if(obra.idControlObra === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
           if(obra.idCompras === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
+
           obra.supervisor.map( (supervisor: Usuario) => {
-            
             if (supervisor.idUsuario === this.idUserLogeado){
               this.accesoBitacora = true;
               this.obras.push(obra);
+            }  else {
+              this.usuarioIdentificado = false;
             }
           });
 
           obra.usuarioCliente.map( (usuario: Usuario) => {
             if(usuario.idUsuario === this.idUserLogeado) {
               this.obras.push(obra);
+            }  else {
+              this.usuarioIdentificado = false;
             }
           });
 
         });
-
+        // console.log(this.obras);
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
         this.vadilateStatus(this.obras);
@@ -167,7 +179,7 @@ export class ObrasComponent implements OnInit {
       );
     });
 
-    console.log(this.permisosEspecialesPermitidos);
+    // console.log(this.permisosEspecialesPermitidos);
   }
 
   vadilateStatus(obras){

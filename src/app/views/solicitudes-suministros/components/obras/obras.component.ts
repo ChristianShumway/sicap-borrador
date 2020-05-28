@@ -27,6 +27,7 @@ export class ObrasComponent implements OnInit {
   pipe = new DatePipe('en-US');
   rutaImg: string;
   host: string;
+  usuarioIdentificado = true;
 
   nombreComponente = 'solicitudes-suministros-obras';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -74,20 +75,33 @@ export class ObrasComponent implements OnInit {
         obrasActivas.map( (obra: Obra) => {
           if(obra.idGerente === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
+
           if(obra.idPlaneacionPresupuesto === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
+
           if(obra.idControlObra === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
+
           if(obra.idCompras === this.idUserLogeado){
             this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
           }
+
           obra.supervisor.map( (supervisor: Usuario) => {
-            
             if (supervisor.idUsuario === this.idUserLogeado){
               this.obras.push(obra);
+            } else {
+              this.usuarioIdentificado = false;
             }
           });
 

@@ -1,4 +1,4 @@
-<mat-form-field class="margin-333" style="width: 98%">
+<mat-form-field class="margin-333" style="width: 98%" >
   <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
 </mat-form-field>
 
@@ -92,7 +92,10 @@
   </ng-container>
   <ng-template #loading>
     <div class="wrap-loading-catalog">
-      <mat-spinner [diameter]="60"></mat-spinner>
+      <mat-spinner [diameter]="60" *ngIf = "usuarioIdentificado"></mat-spinner>
+      <div *ngIf = "!usuarioIdentificado">
+        <h3>NO TIENES PROYECTOS ASIGNADOS</h3>
+      </div>
     </div>
   </ng-template>
 </div>

@@ -46,6 +46,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalObra: number;
+  reporteExistente = true;
 
   nombreComponente = 'reporte-subcontratos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -126,23 +127,27 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   getReporte(){
     this.reporteSubcontratoService.getReportSubContractdByObra(this.idObra).subscribe(
       (reportes: ReporteSubcontrato[]) => {
-        this.reporte = reportes;
-        this.reporteTemp =  this.reporte;
-        this.dataSource.data = this.reporte;
-        console.log(reportes);
-
-        reportes.map( reporte => {
-          // console.log(reporte);
-          this.totalObra = reporte.totalObra
-          const total = reporte.viewReportSubContract.reduce((acc,obj) => acc + (obj.importeSubContrato),0);
-          const art = {
-            idReporte: reporte.idReporteSubContrato, 
-            totalMateriales: total,
-            totalObra: reporte.totalObra
-          };
-          this.total.push(art); 
-        });
-        // console.log(this.totalObra);         
+        if(reportes.length > 0) {
+          this.reporte = reportes;
+          this.reporteTemp =  this.reporte;
+          this.dataSource.data = this.reporte;
+          console.log(reportes);
+  
+          reportes.map( reporte => {
+            // console.log(reporte);
+            this.totalObra = reporte.totalObra
+            const total = reporte.viewReportSubContract.reduce((acc,obj) => acc + (obj.importeSubContrato),0);
+            const art = {
+              idReporte: reporte.idReporteSubContrato, 
+              totalMateriales: total,
+              totalObra: reporte.totalObra
+            };
+            this.total.push(art); 
+          });
+          // console.log(this.totalObra);         
+        } else {
+          this.reporteExistente = false;
+        }
       }
     );
   }
