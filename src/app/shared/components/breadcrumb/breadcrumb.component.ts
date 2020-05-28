@@ -33,7 +33,7 @@ export class BreadcrumbComponent implements OnInit, OnDestroy, OnChanges {
       .pipe(filter(event => event instanceof NavigationEnd))
       .subscribe((routeChange) => {
         this.routeParts = this.routePartsService.generateRouteParts(this.activeRoute.snapshot);
-        //console.log(this.routeParts);
+        console.log(this.routeParts);
         if(this.idPerfilLogeado || this.idPerfilLogeado == 0){
           this.validarSesion();
         }

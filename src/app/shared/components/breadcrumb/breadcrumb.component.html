@@ -1,6 +1,10 @@
 <div class="breadcrumb-bar" *ngIf="layout.layoutConf.useBreadcrumb && layout.layoutConf.breadcrumb === 'simple'">
   <ul class="breadcrumb">
-    <li *ngFor="let part of routeParts"><a routerLink="/{{part.url}}">{{part.breadcrumb | translate}}</a></li>
+    <li *ngFor="let part of routeParts">
+      <!-- {{part | json}} -->
+      <a routerLink="/{{part.url}}">{{part.breadcrumb | translate}}</a>
+      <a *ngIf="part.params.tipo" style="text-transform: capitalize;"> / {{part.params.tipo}}</a>
+    </li>
   </ul>
 </div>
 
