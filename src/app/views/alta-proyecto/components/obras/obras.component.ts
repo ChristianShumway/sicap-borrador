@@ -153,14 +153,14 @@ export class ObrasComponent implements OnInit {
 
     this.obraService.getExportarFicha(idObra).subscribe(
       response => {
-        var blob = new Blob([response], {type: 'application/xlsx'});
+        var blob = new Blob([response], {type: 'application/pdf'});
         var link=document.createElement('a');
       
         var obj_url = window.URL.createObjectURL(blob);		    
         var link = document.createElement("a");
         link.setAttribute("target", "_blank");
         link.setAttribute("href", obj_url);
-        link.setAttribute("download","ficha-planeacion.xlsx");
+        link.setAttribute("download","ficha-planeacion.pdf");
           
         link.style.visibility = "hidden";
         document.body.appendChild(link);

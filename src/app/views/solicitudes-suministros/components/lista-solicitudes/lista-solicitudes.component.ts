@@ -296,14 +296,14 @@ export class ListaSolicitudesComponent implements OnInit {
 
     this.solicitudesService.descargarSolicitud(idSolicitud, tipoSolicitud).subscribe(
       response => {
-        var blob = new Blob([response], {type: 'application/xlsx'});
+        var blob = new Blob([response], {type: 'application/pdf'});
         var link=document.createElement('a');
       
         var obj_url = window.URL.createObjectURL(blob);		    
         var link = document.createElement("a");
         link.setAttribute("target", "_blank");
         link.setAttribute("href", obj_url);
-        link.setAttribute("download",`${leyenda}.xlsx`);
+        link.setAttribute("download",`${leyenda}.pdf`);
           
         link.style.visibility = "hidden";
         document.body.appendChild(link);
@@ -330,14 +330,14 @@ export class ListaSolicitudesComponent implements OnInit {
 
     this.solicitudesService.descargarOrdenTrabajo(idOrdenTrabajo, tipoOrden).subscribe(
       response => {
-        var blob = new Blob([response], {type: 'application/xlsx'});
+        var blob = new Blob([response], {type: 'application/pdf'});
         var link=document.createElement('a');
       
         var obj_url = window.URL.createObjectURL(blob);		    
         var link = document.createElement("a");
         link.setAttribute("target", "_blank");
         link.setAttribute("href", obj_url);
-        link.setAttribute("download",`${leyenda}.xlsx`);
+        link.setAttribute("download",`${leyenda}.pdf`);
           
         link.style.visibility = "hidden";
         document.body.appendChild(link);
