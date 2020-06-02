@@ -30,7 +30,7 @@
           <a mat-line *ngIf="!documento.detExpedienteUnicoObra" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" class="title-doc" >
             {{documento.descripcion}}
           </a>
-          <p mat-line mat-line> {{documento.fecha | date}} </p>
+          <p mat-line mat-line  *ngIf="documento.detExpedienteUnicoObra"> {{documento.detExpedienteUnicoObra.fecha | date}} </p>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
