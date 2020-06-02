@@ -45,6 +45,7 @@ export class CrearObraComponent implements OnInit {
   observacionText: string;
   observacionesGenerales = [];
   nombreComponente = 'crear-obra';
+  tooltipGerencia = 'permisos-gerente';
   
   constructor(
     private router: Router,
@@ -252,7 +253,7 @@ export class CrearObraComponent implements OnInit {
     this.usuariosService.getUsuarios().subscribe(
       (supervisores: Usuario[]) => {
         // this.supervisores = supervisores.filter( supervisor => supervisor.idPerfil === 9);
-        this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
+        // this.gerenteProyecto = supervisores.filter( supervisor => supervisor.idPerfil === 10);
         this.planeacionPresupuestos = supervisores.filter( supervisor => supervisor.idPerfil === 2);
         this.controlObra = supervisores.filter( supervisor => supervisor.idPerfil === 3);
         this.compras = supervisores.filter( supervisor => supervisor.idPerfil === 8);
@@ -270,6 +271,14 @@ export class CrearObraComponent implements OnInit {
     console.log(idModulo);
     this.navigationService.validarPermisosSupervisor(idModulo).subscribe(
       users => this.supervisores = users,
+      error => console.log(error)
+    );
+
+    const gerenteActual = environment.permisosEspeciales.find( modulo => modulo.tooltip === this.tooltipGerencia);
+    const idOpcion = gerenteActual.idOpcion;
+    console.log(idOpcion);
+    this.navigationService.validarPermisosSupervisor(idOpcion).subscribe(
+      users => this.gerenteProyecto = users,
       error => console.log(error)
     );
 

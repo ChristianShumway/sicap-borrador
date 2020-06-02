@@ -27,12 +27,11 @@ export class BibliotecaComponent implements OnInit {
   idObra;
   usuarioLogeado;
   private documentosObs$ : Observable<DocumentosObra>;
+  private listadocumentosValidosObs$ : Observable<any>;
   doc = '';
   rutaSicap: string;
   host: string;
 
-
- 
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
@@ -70,7 +69,8 @@ export class BibliotecaComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado)
+              // this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado)
+              this.obraService.getArchivosValidosObraObservable(this.obra.idObra);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -87,13 +87,18 @@ export class BibliotecaComponent implements OnInit {
   getDocuments(){
     this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado);
     this.documentosObs$ = this.obraService.getDataArchivoObra();
+
+    this.obraService.getArchivosValidosObraObservable(this.obra.idObra);
+    this.listadocumentosValidosObs$ = this.obraService.getDataArchivosValidosObra();
   }
 
-  abrirAltaDocumento(): void {
+  abrirAltaDocumento(idTipoDocumento): void {
+    console.log(idTipoDocumento);
     let sheet = this.bottomSheet.open(AltaDocumentoComponent, {
     data: {
       idObra: this.obra.idObra,
-      idUsuario: this.usuarioLogeado
+      idUsuario: this.usuarioLogeado,
+      idTipoDocumento
     }
     });
 
@@ -114,7 +119,7 @@ export class BibliotecaComponent implements OnInit {
   vistaPreviaArchivo(doc: DocumentosObra){
     console.log(doc);
     // const archivo = `${doc.ruta}/${doc.nombre}`;
-    const archivo = `http://${this.host}/${this.rutaSicap}/files/files-obra/${doc.nombre}`;
+    const archivo = `http://${this.host}/${this.rutaSicap}/files/files-log-obra/${doc.nombreArchivo}`;
     console.log(archivo);
     this.doc = archivo;
   }

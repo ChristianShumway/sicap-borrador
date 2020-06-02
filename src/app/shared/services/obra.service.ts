@@ -18,6 +18,8 @@ export class ObraService {
   private obrasubject = new BehaviorSubject<Obra>(null);
   private archivoObra: DocumentosObra;
   private archivosObraSubject = new BehaviorSubject<DocumentosObra>(null);
+  private archivosValidosObra: any;
+  private archivosValidosObraSubject = new BehaviorSubject<any>(null);
   private montosObra: MontoProgramado;
   private montosObraSubject = new BehaviorSubject<MontoProgramado>(null);
   private lineaBase: LineaBase;
@@ -91,8 +93,35 @@ export class ObraService {
     );
   }
 
-  deleteDocument(id: number, idUser: number): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}/${idUser}`);
+  // NUEVO LISTA DOCUMENTOS
+
+  getDataArchivosValidosObra(): Observable<any> {
+    return this.archivosValidosObraSubject.asObservable();
+  }
+
+  private refreshArchivosValidos() {
+    this.archivosValidosObraSubject.next(this.archivosValidosObra);
+  }
+  
+  getArchivosValidosObraObservable(idObra:number){
+    return this.http.get<any>(`${environment.apiURL}/projectExecution/getExpedienteUnicoObra/${idObra}`).subscribe(
+      (documento: any) => {
+        this.archivosValidosObra = documento;
+        this.refreshArchivosValidos();
+      },
+      error => console.log(error)
+    );
+  }
+
+
+  // eND NUEVO LISTA DOCUMENTOS
+
+  // deleteDocument(id: number, idUser: number): Observable<any>{
+  //   return this.http.get<any>(`${environment.apiURL}/obra/deleteFilesObra/${id}/${idUser}`);
+  // }
+
+  deleteDocument(idExpediente: number, idUser: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/projectExecution/deleteFileExpediente/${idExpediente}/${idUser}`);
   }
 
   getPresupuestosParaMontosObra(): Observable<any[]>{

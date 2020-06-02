@@ -36,10 +36,12 @@ export class AltaDocumentoComponent implements OnInit {
     this.host = environment.host;
 
     const headers = [{ name: 'Accept', value: 'application/json'}];
-    this.uploaderArchivo = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObra', autoUpload: true, headers: headers });
+    // this.uploaderArchivo = new FileUploader({ url: this.rutaServe + '/obra/uploadFileObra', autoUpload: true, headers: headers });
+    this.uploaderArchivo = new FileUploader({ url: this.rutaServe + '/projectExecution/uploadExpediente', autoUpload: true, headers: headers });
     this.uploaderArchivo.onBuildItemForm = (fileItem: any, form: any) => {
-      form.append('idObra', this.data.idObra);
+      form.append('idExediente', this.data.idTipoDocumento);
       form.append('idUserAdd', this.data.idUsuario);
+      form.append('idObra', this.data.idObra);
       this.loadingFile = true;
       // console.log(this.loadingFile);
     };
@@ -53,7 +55,8 @@ export class AltaDocumentoComponent implements OnInit {
 
       if (result != undefined) {
         if(result.noEstatus === 5) {
-          this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
+          // this.obraService.getArchivoObraObservable(this.data.idObra, 1, this.data.idUsuario);
+          this.obraService.getArchivosValidosObraObservable(this.data.idObra);
           this.useAlerts(result.mensaje, ' ', 'success-dialog');
         } else {
           this.useAlerts(result.mensaje, ' ', 'error-dialog');

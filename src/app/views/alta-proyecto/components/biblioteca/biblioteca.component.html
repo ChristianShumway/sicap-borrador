@@ -1,36 +1,40 @@
 <mat-list *ngIf="!doc">
-  <mat-list-item class="wrap-button">
-    <button mat-raised-button color="primary" (click)="abrirAltaDocumento()">Agregar Archivo</button>
-  </mat-list-item>
-  <mat-divider></mat-divider>
+  <!-- <mat-list-item class="wrap-button">
+    <button mat-raised-button color="primary" (click)="abrirAltaDocumento(1)">Agregar Archivo</button>
+  </mat-list-item> -->
+  <!-- <mat-divider></mat-divider> -->
   <h3 mat-subheader>Archivos</h3>
-  <div *ngIf="(documentosObs$ | async) as documentos">
-    <mat-list-item *ngFor="let documento of documentos">
-      <!-- {{documento | json}} -->
-      <div class="cont">
-        <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
-          <mat-icon class="">more_vert</mat-icon>
-        </button>
+  <div *ngIf="(listadocumentosValidosObs$ | async) as documentos">
+    <!-- {{documento | json}} -->
+    <div class="container-list">
+      <div *ngFor="let documento of documentos">
+        <mat-list-item>
+          <!-- {{documento.detExpedienteUnicoObra | json}} -->
+          <div class="cont">
+            <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+          </div>
+          <mat-menu #documentMenu="matMenu">
+            <a mat-menu-item *ngIf="documento.detExpedienteUnicoObra" (click)="vistaPreviaArchivo(documento.detExpedienteUnicoObra)" target="blank">Ver</a>
+            <a mat-menu-item *ngIf="!documento.detExpedienteUnicoObra" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
+            <a mat-menu-item *ngIf="documento.detExpedienteUnicoObra" href="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{documento.detExpedienteUnicoObra.nombreArchivo}}" target="blank">Descargar</a>
+            <button mat-menu-item *ngIf="documento.detExpedienteUnicoObra" (click)="openDialoAlertDelete(documento.detExpedienteUnicoObra.idDetExpedienteUnicoObra)">Eliminar</button>
+          </mat-menu>
+          <mat-icon mat-list-icon class="upload" *ngIf="documento.detExpedienteUnicoObra">done</mat-icon>
+          <mat-icon mat-list-icon class="no-upload" *ngIf="!documento.detExpedienteUnicoObra">close</mat-icon>
+  
+          <a mat-line *ngIf="documento.detExpedienteUnicoObra"  (click)="vistaPreviaArchivo(documento.detExpedienteUnicoObra)" class="title-doc" >
+            {{documento.descripcion}}
+          </a>
+          <a mat-line *ngIf="!documento.detExpedienteUnicoObra" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" class="title-doc" >
+            {{documento.descripcion}}
+          </a>
+          <p mat-line mat-line> {{documento.fecha | date}} </p>
+          <mat-divider></mat-divider>
+        </mat-list-item>
       </div>
-      <mat-menu #documentMenu="matMenu">
-        <a mat-menu-item (click)="vistaPreviaArchivo(documento)" target="blank">Ver</a>
-        <a mat-menu-item href="http://{{host}}/{{rutaSicap}}/files/files-obra/{{documento.nombre}}" target="blank">Descargar</a>
-        <button mat-menu-item (click)="openDialoAlertDelete(documento.idArchivoObra)">Eliminar</button>
-      </mat-menu>
-      <mat-icon mat-list-icon class="excel" *ngIf="documento.extension==='xlsx' || documento.extension==='xls'">note</mat-icon>
-      <mat-icon mat-list-icon class="word" *ngIf="documento.extension==='docx' || documento.extension==='doc'">note</mat-icon>
-      <mat-icon mat-list-icon class="pdf" *ngIf="documento.extension==='pdf'">note</mat-icon>
-      <mat-icon mat-list-icon class="jpg" *ngIf="documento.extension==='jpg' || documento.extension==='png'">note</mat-icon>
-      <a mat-line (click)="vistaPreviaArchivo(documento)" class="title-doc" >
-        {{documento.nombre}}
-      </a>
-      <p mat-line class="excel" *ngIf="documento.extension==='xlsx' || documento.extension==='xls'">{{documento.fechaAgrego | date}}</p>
-      <p mat-line class="word" *ngIf="documento.extension==='docx' || documento.extension==='doc'">{{documento.fechaAgrego | date}}</p>
-      <p mat-line class="pdf" *ngIf="documento.extension==='pdf'">{{documento.fechaAgrego | date}}</p>
-      <p mat-line class="jpg" *ngIf="documento.extension==='jpg' || documento.extension==='png'">{{documento.fechaAgrego | date}}</p>
-      <!-- <p mat-line mat-line> {{documento.fechaAgrego | date}} </p> -->
-      <mat-divider></mat-divider>
-    </mat-list-item>
+    </div>
   </div>
 </mat-list>
 

@@ -12,7 +12,7 @@
       <div class="monto-total">
         <p>
           Se han capturado {{reportes.length}} reportes que suman un importe acumulado de  <b>{{montoTotal | currency}}</b>  
-          y representa el {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del total de la mano de obra.
+          y representa un avance del {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del presupuesto de mano de obra.
         </p>
       </div>
 
@@ -50,9 +50,8 @@
               </div>
               <div class="wrap-total" *ngFor="let tot of total">
                 <p class="total-p" *ngIf="tot.idReporte === reporte.idCapturaManoObra">
-                  El importe total capturado dentro del periodo es de
-                  <b>{{tot.totalMateriales | currency}}</b>
-                  y representa el {{(tot.totalMateriales / tot.totalManoObra) * 100 | number:'1.2-2'}}% del total de la mano de obra.
+                  El importe total del reporte es de <b>{{tot.totalMateriales | currency}}</b>
+                  y representa el {{(tot.totalMateriales / tot.totalManoObra) * 100 | number:'1.2-2'}}% del presupuesto mano de obra.
                 </p>
                
               </div>

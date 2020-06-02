@@ -55,6 +55,7 @@ export class ObraDataComponent implements OnInit {
   destajistasSeleccionados: Destajista[];
   clientesSeleccionados: Usuario[];
   nombreComponente = 'crear-obra';
+  tooltipGerencia = 'permisos-gerente';
 
   constructor(
     private router: Router,
@@ -290,7 +291,7 @@ export class ObraDataComponent implements OnInit {
     this.usuariosService.getUsuarios().subscribe(
       (usuarios: Usuario[]) => {
         // this.supervisores = usuarios.filter( usuario => usuario.idPerfil === 9);
-        this.gerenteProyecto = usuarios.filter( usuario => usuario.idPerfil === 10);
+        // this.gerenteProyecto = usuarios.filter( usuario => usuario.idPerfil === 10);
         this.planeacionPresupuestos = usuarios.filter( usuario => usuario.idPerfil === 2);
         this.controlObra = usuarios.filter( usuario => usuario.idPerfil === 3);
         this.compras = usuarios.filter( usuario => usuario.idPerfil === 8);
@@ -307,6 +308,14 @@ export class ObraDataComponent implements OnInit {
 
         this.updateObraForm.get('usuarioCliente').setValue(listCustomersCheck);  
       },
+      error => console.log(error)
+    );
+
+    const gerenteActual = environment.permisosEspeciales.find( modulo => modulo.tooltip === this.tooltipGerencia);
+    const idOpcion = gerenteActual.idOpcion;
+    console.log(idOpcion);
+    this.navigationService.validarPermisosSupervisor(idOpcion).subscribe(
+      users => this.gerenteProyecto = users,
       error => console.log(error)
     );
 

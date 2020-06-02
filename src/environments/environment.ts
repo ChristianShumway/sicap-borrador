@@ -22,6 +22,14 @@ export const environment = {
       activo: 1
     },
     {
+      idOpcion: 43,
+      nombre: 'Permisos Gerente',
+      descripcion: 'al momento de crear una obra mostrara que usuarios se mostrará en gerente.',
+      tooltip: 'permisos-gerente',
+      component: 'crear-obra',
+      activo: 1
+    },
+    {
       idOpcion: 32,
       nombre: 'Eliminar Reportes',
       descripcion: 'eliminar reportes del modulo ejecución de proyectos',

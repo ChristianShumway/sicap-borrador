@@ -13,7 +13,7 @@
       <div class="monto-total">
         <p>
           Se han capturado {{reporteConceptos.length}} reportes que suman un importe acumulado de <b>{{montoTotal | currency}}</b> 
-          y representa un avance del  {{(montoTotal / totalObra) * 100 | number:'1.2-2'}}% del total de la obra
+          y representa un avance del  {{(montoTotal / totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos
         </p>
       </div>
   
@@ -55,7 +55,7 @@
               <div class="wrap-total" *ngFor = "let tot of total">
                 <p class="total-p" *ngIf="tot.idReporte === reporte.idReporteSubContrato">
                   El importe total del reporte es de <b>{{tot.totalMateriales | currency}}</b> 
-                  y representa el {{(tot.totalMateriales / tot.totalObra) * 100 | number:'1.2-2'}}% del total de la obra.
+                  y representa el {{(tot.totalMateriales / tot.totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos.
                 </p>
               </div>
             </div>

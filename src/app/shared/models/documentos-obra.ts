@@ -1,10 +1,11 @@
 export interface DocumentosObra {
-  idArchivoObra?: 1;
-  nombre?: string;
-  extension?: string;
-  fechaAgrego?: string;
-  idUsuarioagrego: number;
+  idDetExpedienteUnicoObra?: number;
+  idExpedienteUnicoObra?: number;
   idObra: number;
+  nombreArchivo?: string;
   ruta?: string;
-
+  extension?: string;
+  idUsuarioAgrego?: number;
+  url?: string;
+  fecha?: string;
 }
