@@ -90,6 +90,10 @@
   grid-gap: 10px;
 }
 
+.show.date{
+  font-size: 12px !important;
+}
+
 @media screen and (max-width:599px){
   .container-list {
     grid-template-columns: 100%;
