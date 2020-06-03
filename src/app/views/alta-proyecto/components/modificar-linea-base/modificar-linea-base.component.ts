@@ -36,7 +36,7 @@ export class ModificarLineaBaseComponent implements OnInit {
     this.fechaFinPeriodo.setDate(this.fechaFinPeriodo.getDate()+1);
     this.getValidations();
     this.getPrespuesto();
-    console.log(this.data);
+    // console.log(this.data);
   }
 
   getValidations() {
@@ -51,7 +51,7 @@ export class ModificarLineaBaseComponent implements OnInit {
 
   getPrespuesto(){
     const periodo = this.data.periodo;
-    console.log(periodo);
+    // console.log(periodo);
             
     this.modificarMontoForm.patchValue(periodo);
   }
@@ -98,21 +98,22 @@ export class ModificarLineaBaseComponent implements OnInit {
         // noLineaBase: this.data.periodo.noLineaBase,
         idUsuarioModifico: this.data.idUsuarioLogeado,
       };
-      console.log(periodo);
+      // console.log(periodo);
+      this.bottomSheetRef.dismiss(periodo);
 
-      this.obraService.createUpdateLineaBaseObra(periodo).subscribe(
-        response => {
-          console.log(response);
-          if(response.estatus === '05'){
-            this.obraService.getLineaBaseObservable(this.data.idObra);
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.bottomSheetRef.dismiss();
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'success-dialog')
-      );
+      // this.obraService.createUpdateLineaBaseObra(periodo).subscribe(
+      //   response => {
+      //     console.log(response);
+      //     if(response.estatus === '05'){
+      //       this.obraService.getLineaBaseObservable(this.data.idObra);
+      //       this.useAlerts(response.mensaje, ' ', 'success-dialog');
+      //       this.bottomSheetRef.dismiss();
+      //     } else {
+      //       this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
+      //     }
+      //   },
+      //   error => this.useAlerts(error.message, ' ', 'success-dialog')
+      // );
     }
   }
 

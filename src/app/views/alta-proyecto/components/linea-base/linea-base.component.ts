@@ -11,6 +11,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { LineaBase } from './../../../../shared/models/linea-base';
 import { DatePipe } from '@angular/common';
 import { ModificarLineaBaseComponent } from '../modificar-linea-base/modificar-linea-base.component';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-linea-base',
@@ -23,12 +24,14 @@ export class LineaBaseComponent implements OnInit {
   idUsuarioLogeado;
   panelOpenState: boolean = false;
   montoForm: FormGroup;
-  private periodosObs$ : Observable<LineaBase>;
+  // private periodosObs$ : Observable<LineaBase>;
   fechaInicio;
   fechaFin;
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
   tipoDuracion: any[] = [];
+  tipoLineaBase: any[];
+  registrosLineaBase: any[];
   
   constructor(
     private snackBar: MatSnackBar,
@@ -42,7 +45,8 @@ export class LineaBaseComponent implements OnInit {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getCatalogoP();
     this.getValidations();
-    this.getMontos();
+    // this.getMontos();
+    this.getPorcentajesLineaBase();
     this.fechaInicio = new Date(this.montoForm.controls['fechaInicial'].value);
     this.fechaFin = new Date(this.montoForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
@@ -81,7 +85,27 @@ export class LineaBaseComponent implements OnInit {
 
   getMontos(){
     this.obraService.getLineaBaseObservable(this.obra.idObra);
-    this.periodosObs$ = this.obraService.getDataLineaBase();
+    // this.periodosObs$ = this.obraService.getDataLineaBase();
+  }
+
+  getPorcentajesLineaBase(){
+    this.tipoLineaBase = [];
+    this.registrosLineaBase = [];
+    this.obraService.getPorcentajesLineaBase(this.obra.idObra).subscribe(
+      result => {
+        // console.log(result);
+        Object.keys(result).forEach ( tipo => {
+          var registros = result[tipo];
+          console.log(tipo);
+          console.log(registros);
+          this.tipoLineaBase.push(tipo);
+          registros.map( registro => this.registrosLineaBase.push(registro));
+        });
+        // console.log(this.tipoLineaBase);
+        // console.log(this.registrosLineaBase);
+      },
+      error => console.log(error)
+    );
   }
 
   getCatalogoP(){
@@ -111,7 +135,8 @@ export class LineaBaseComponent implements OnInit {
         response => {
           console.log(response);
           if(response.estatus === '05'){
-            this.obraService.getLineaBaseObservable(this.obra.idObra);
+            // this.obraService.getLineaBaseObservable(this.obra.idObra);
+            this.getPorcentajesLineaBase();
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
             this.panelOpenState = !this.panelOpenState;
             this.montoForm.reset();
@@ -133,8 +158,24 @@ export class LineaBaseComponent implements OnInit {
     }
     });
 
-    sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
+    sheet.afterDismissed().subscribe( result => {
+      // console.log('clicked'+this.obra.idObra);
+      if(result){
+        console.log(result);
+        this.obraService.createUpdateLineaBaseObra(result).subscribe(
+          response => {
+            console.log(response);
+            if(response.estatus === '05'){
+              this.getPorcentajesLineaBase();
+              this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            } else {
+              this.useAlerts(response.mensaje, ' ', 'error-dialog'); 
+            }
+          },
+          error => this.useAlerts(error.message, ' ', 'success-dialog')
+        );
+      }
+
     });  
   }
 
@@ -154,7 +195,8 @@ export class LineaBaseComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.obraService.getLineaBaseObservable(this.obra.idObra);
+              // this.obraService.getLineaBaseObservable(this.obra.idObra);
+              this.getPorcentajesLineaBase();
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }

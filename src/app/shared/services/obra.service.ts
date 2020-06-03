@@ -178,6 +178,10 @@ export class ObraService {
     );
   }
 
+  getPorcentajesLineaBase(id:number){
+    return this.http.get<any>(`${environment.apiURL}/obra/getBaseLineByObra/${id}`);
+  }
+
   createUpdateLineaBaseObra(periodo): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/obra/updateBaseLine`, JSON.stringify(periodo), { headers: headerss});
