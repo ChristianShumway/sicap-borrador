@@ -83,7 +83,7 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
 
       this.solicitud.detOrdenTrabajoRecurso.map( peticionOrden => {
 
-        if(peticionSolicitud.idCategoriaSolicitudRecurso === peticionOrden.idCategoriaSolicitudRecurso) {
+        if(peticionSolicitud.idCategoriaMovimientoMonetario === peticionOrden.idCategoriaMovimientoMonetario) {
           arregloDetallesPeticion = {
             detallePeticionSolicitud: { ...peticionSolicitud},
             detallePeticionOrden: { ...peticionOrden},
@@ -142,7 +142,7 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
       idSolicitud: this.solicitud.idSolicitudRecurso
     };
 
-    console.log(JSON.stringify(ordenTrabajo));
+    // console.log(JSON.stringify(ordenTrabajo));
     console.log(ordenTrabajo);
 
     this.solicitudesService.updateOrdenTrabajo(ordenTrabajo).subscribe(

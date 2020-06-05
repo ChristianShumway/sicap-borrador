@@ -34,10 +34,12 @@ export class SolicitarRecursosComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   peticionesSolicitadas: PeticionSolicitudRecurso[] = [];
+  catalogoTipoMovimientos: any = [];
   listaCategoriasPeticion: any[] = [];
   listaUsuariosAdministracionCentral: Usuario[] = [];
   listaUsuariosJefeInmediato: Usuario[] = [];
   categoriaPeticion: number;
+  tipoMovimiento: number;
   desgloseSolicitud: string;
   importeSolicitadoPeticionSinFactura;
   importeSolicitadoPeticionConFactura;
@@ -121,10 +123,17 @@ export class SolicitarRecursosComponent implements OnInit {
       (empresas: Empresa[]) => this.empresas = empresas.filter( empresa => empresa.activo === 1),
       error => console.log(error)
     );
-    this.solicitudesService.getCategoriasSolicitudRecursos().subscribe(
-      (categorias: any[]) => this.listaCategoriasPeticion = categorias,
-      error => this.useAlerts( error.message, ' ', 'error-dialog')
+
+    this.solicitudesService.getCatalogoTipo().subscribe(
+      tipos => this.catalogoTipoMovimientos = tipos,
+      error => console.log(error)
     );
+
+    // this.solicitudesService.getCategoriasSolicitudRecursos().subscribe(
+    //   (categorias: any[]) => this.listaCategoriasPeticion = categorias,
+    //   error => this.useAlerts( error.message, ' ', 'error-dialog')
+    // );
+
     this.usuariosService.getUsuariosByIdProfile(2).subscribe(
      ( usuarios: Usuario[]) => this.listaUsuariosAdministracionCentral = usuarios,
      error => console.log(error)
@@ -133,6 +142,14 @@ export class SolicitarRecursosComponent implements OnInit {
       ( usuarios: Usuario[]) => this.listaUsuariosJefeInmediato = usuarios,
       error => console.log(error)
      );
+  }
+
+  getCategories(idTipoMovimiento) {
+    console.log(idTipoMovimiento);
+    this.solicitudesService.getCategoriasSolicitudRecursos(idTipoMovimiento).subscribe(
+      categorias => this.listaCategoriasPeticion = categorias,
+      error => console.log(error)
+    );
   }
 
   crearSolicitud(){
@@ -169,31 +186,39 @@ export class SolicitarRecursosComponent implements OnInit {
   }
   
   agregarPetision(){
-    if(!this.categoriaPeticion){
+    if(!this.tipoMovimiento){
+      this.useAlerts('Selecciona el tipo de movimiento', ' ', 'error-dialog');
+    } else if(!this.categoriaPeticion){
       this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
     } else if (!this){
       this.useAlerts('Ingresa el desglose de la solicitud', ' ', 'error-dialog');
     } else if (!this.importeSolicitadoPeticionSinFactura || !this.importeSolicitadoPeticionConFactura){
       this.useAlerts('Ingresa el importe solicitado para esta petición', ' ', 'error-dialog');
     } else {
-      
-      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudRecurso === this.categoriaPeticion);
+     
+      let tipoMovimiento = this.catalogoTipoMovimientos.filter( movimiento => movimiento.idTipoMovimientoMonetario === this.tipoMovimiento);
+      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaMovimientoMonetario === this.categoriaPeticion);
+      tipoMovimiento = tipoMovimiento[0];
       tipoCategoria = tipoCategoria[0];
+      
       const peticion: PeticionSolicitudRecurso = {
         // idDetSolicitudRecurso: this.countPeticion + 1,
-        idCategoriaSolicitudRecurso: this.categoriaPeticion,
+        idTipoMovimientoMonetario: this.tipoMovimiento,
+        idCategoriaMovimientoMonetario: this.categoriaPeticion,
         desglose: this.desgloseSolicitud,
         importeSolicitadoSinFactura: parseFloat(this.importeSolicitadoPeticionSinFactura),
         importeSolicitadoConFactura: parseFloat(this.importeSolicitadoPeticionConFactura),
         comentario: this.comentarioSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
         // idSolicitudRecurso: this.idUsuarioLogeado,
-        categoriaSolicitudRecurso: tipoCategoria
+        tipoMovimientoMonetario: tipoMovimiento,
+        categoriaMovimientoMonetario: tipoCategoria
       };
       
       this.peticionesSolicitadas.push(peticion);
       this.peticionesSolicitadas = [...this.peticionesSolicitadas];
       this.countPeticion += 1;
+      this.tipoMovimiento = 0;
       this.categoriaPeticion = 0;
       this.desgloseSolicitud = '';
       this.importeSolicitadoPeticionSinFactura = '';

@@ -36,6 +36,7 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
   catalogoReferencias: any[];
   catalogoTipoMovimientos: any[];
   catalogoCategorias: any[];
+  reporte;
 
   nombreComponente = 'reporte-ingresos-egresos';
   tooltip = 'modificar-reporte';
@@ -127,6 +128,7 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
           this.fechaCaptura.setDate(this.fechaCaptura.getDate()+1);
           this.reporteForm.patchValue(reporte);
           console.log(reporte);
+          this.reporte = reporte;
           this.getCatalogs();
         });
       }
@@ -142,10 +144,18 @@ export class ModificarReporteIngresosEgresosComponent implements OnInit {
       tipos => this.catalogoTipoMovimientos = tipos,
       error => console.log(error)
     );
-    this.reporteIngresosEgresosService.getCatalogoCategoria().subscribe(
+    this.reporteIngresosEgresosService.getCatalogoCategoria(this.reporte.idTipoMovimientoMonetario).subscribe(
       categorias => this.catalogoCategorias = categorias,
       error => console.log(error)
     );       
+  }
+
+  getCategories(idTipoMovimiento) {
+    console.log(idTipoMovimiento);
+    this.reporteIngresosEgresosService.getCatalogoCategoria(idTipoMovimiento).subscribe(
+      categorias => this.catalogoCategorias = categorias,
+      error => console.log(error)
+    );
   }
 
   reportarAvance() {

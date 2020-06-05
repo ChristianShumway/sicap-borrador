@@ -7,14 +7,16 @@ import { Empresa } from "./empresa";
 
 export interface PeticionSolicitudRecurso {
   idDetSolicitudRecurso?: number;
-  idCategoriaSolicitudRecurso: number;
+  idTipoMovimientoMonetario: number;
+  idCategoriaMovimientoMonetario: number;
   desglose: string;
   importeSolicitadoSinFactura: number;
   importeSolicitadoConFactura: number;
   comentario?: string
   idUsuarioModifico: number;
   idSolicitudRecurso?: number;
-  categoriaSolicitudRecurso: any[];
+  tipoMovimientoMonetario?: any[];
+  categoriaMovimientoMonetario?: any[];
 }
 
 export interface SolicitudRecurso {

@@ -80,11 +80,20 @@
           </ng-template>
         </ngx-datatable-column> -->
 
+        <ngx-datatable-column name="Tipo Movimiento" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              <!-- {{row?.categoriaSolicitudRecurso.descripcion}} -->
+              {{row?.detallePeticionSolicitud.categoriaMovimientoMonetario.descripcion}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
         <ngx-datatable-column name="Categoría" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
               <!-- {{row?.categoriaSolicitudRecurso.descripcion}} -->
-              {{row?.detallePeticionSolicitud.idCategoriaSolicitudRecurso}}
+              {{row?.detallePeticionSolicitud.tipoMovimientoMonetario.descripcion}}
             </p>
           </ng-template>
         </ngx-datatable-column>

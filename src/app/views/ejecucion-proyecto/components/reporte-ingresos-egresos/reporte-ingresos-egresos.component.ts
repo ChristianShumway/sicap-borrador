@@ -109,16 +109,21 @@ export class ReporteIngresosEgresosComponent implements OnInit {
           tipos => this.catalogoTipoMovimientos = tipos,
           error => console.log(error)
         );
-        this.reporteIngresosEgresosService.getCatalogoCategoria().subscribe(
-          categorias => this.catalogoCategorias = categorias,
-          error => console.log(error)
-        );
+        // this.reporteIngresosEgresosService.getCatalogoCategoria().subscribe(
+        //   categorias => this.catalogoCategorias = categorias,
+        //   error => console.log(error)
+        // );
       
       }
-      console.log(this.catalogoReferencias);
-      console.log(this.catalogoTipoMovimientos);
-      console.log(this.catalogoCategorias);
     });
+  }
+
+  getCategories(idTipoMovimiento) {
+    console.log(idTipoMovimiento);
+    this.reporteIngresosEgresosService.getCatalogoCategoria(idTipoMovimiento).subscribe(
+      categorias => this.catalogoCategorias = categorias,
+      error => console.log(error)
+    );
   }
 
 

@@ -46,11 +46,14 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
         
         if(this.ordenTrabajo.idTipo === 1){
           this.ordenTrabajo.solicitud.detSolicitudRecurso.map( (peticionSolicitud:PeticionSolicitudRecurso) => {
+            // console.log(peticionSolicitud);
             this.ordenTrabajo.detOrdenTrabajoRecurso.map( peticionOrden => {
-              if ( peticionSolicitud.idCategoriaSolicitudRecurso === peticionOrden.idCategoriaSolicitudRecurso) {
+              // console.log(peticionOrden);
+              if ( peticionSolicitud.idCategoriaMovimientoMonetario === peticionOrden.idCategoriaMovimientoMonetario) {
                 const objetoPeticionCompuesto = {
                   // categoria: peticionOrden.categoriaSolicitudRecurso.descripcion,
-                  categoria: peticionOrden.categoriaSolicitudRecurso,
+                  tipoMovimiento: peticionOrden.tipoMovimientoMonetario,
+                  categoria: peticionOrden.categoriaMovimientoMonetario,
                   desglose: peticionSolicitud.desglose,
                   importeSolicitadoSinFactura: peticionSolicitud.importeSolicitadoSinFactura,
                   importeValidadoSinFactura: peticionOrden.importeSolicitadoSinFactura,
@@ -61,7 +64,8 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
                 };
                 this.detallesOrdenTrabajoRecursos.push(objetoPeticionCompuesto);
               }
-            })
+            });
+            // console.log(this.detallesOrdenTrabajoRecursos);
           })
         } else if(this.ordenTrabajo.idTipo === 2){
           this.detallesOrdenTrabajoMateriales = this.ordenTrabajo.detOrdentrabajoMaterial;

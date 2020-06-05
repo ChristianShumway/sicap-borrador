@@ -30,8 +30,10 @@
   <div class="wrap-materiales" *ngIf="ordenTrabajo.idTipo===1" >
     <p class="title">Lista Peticiones</p>
     <div class="material-ot" *ngFor="let peticion of detallesOrdenTrabajoRecursos">
+      <div class="tit">Tipo de Movimiento:</div>
+      <div class="desc" *ngIf="peticion.tipoMovimiento">{{peticion.tipoMovimiento.descripcion}}</div>
       <div class="tit">Categoria:</div>
-      <div class="desc">{{peticion.categoria.descripcion}}</div>
+      <div class="desc" *ngIf="peticion.categoria">{{peticion.categoria.descripcion}}</div>
       <div class="tit">Desglose:</div>
       <div class="desc">{{peticion.desglose}}</div>
       <div class="tit">Importe Solicitado sin Factura:</div>

@@ -118,7 +118,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
       const peticionParaOrdenTrabajo = {
         idDetOrdenTrabajoRecurso: 0,
         idOrdenTrabajoRecurso: 0,
-        idCategoriaSolicitudRecurso: peticion.idCategoriaSolicitudRecurso,
+        idCategoriaMovimientoMonetario: peticion.idCategoriaMovimientoMonetario,
         importeSolicitadoSinFactura: parseFloat(peticion.importeValidadoSinFactura),
         importeSolicitadoConFactura: parseFloat(peticion.importeValidadoConFactura),
         comentario: peticion.comentarioRevision,

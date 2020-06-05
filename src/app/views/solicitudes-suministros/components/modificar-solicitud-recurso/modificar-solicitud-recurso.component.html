@@ -50,12 +50,22 @@
 
         </mat-expansion-panel-header>
 
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <mat-label>Tipo Movimiento</mat-label>
+            <mat-select [(ngModel)]="tipoMovimiento" (selectionChange)= "getCategories($event.value)" required>
+              <mat-option *ngFor="let tipo of catalogoTipoMovimientos" [value]="tipo.idTipoMovimientoMonetario">
+                {{tipo.descripcion}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
 
         <div class="pb-1">
           <mat-form-field class="full-width">
             <mat-label>Categoría</mat-label>
             <mat-select required [(ngModel)]="categoriaPeticion">
-              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaSolicitudRecurso">
+              <mat-option *ngFor="let categoria of listaCategoriasPeticion" [value]="categoria.idCategoriaMovimientoMonetario">
                 {{categoria.descripcion}}
               </mat-option>
             </mat-select>
@@ -126,11 +136,19 @@
             </p>
           </ng-template>
         </ngx-datatable-column>
+
+        <ngx-datatable-column name="Tipo Movimiento" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center">
+              {{row?.tipoMovimientoMonetario.descripcion}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
   
         <ngx-datatable-column name="Categoría" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center">
-              {{row?.categoriaSolicitudRecurso.descripcion}}
+              {{row?.categoriaMovimientoMonetario.descripcion}}
             </p>
           </ng-template>
         </ngx-datatable-column>

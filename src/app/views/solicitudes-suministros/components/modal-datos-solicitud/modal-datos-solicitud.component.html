@@ -26,6 +26,10 @@
 <div class="wrap-materiales" *ngIf="data.idTipo===1">
   <p class="title">Lista Peticiones</p>
   <div class="material" *ngFor="let peticion of peticionesSeleccionadas">
+    <div class="tit">Tipo de Movimiento:</div>
+    <div class="desc">{{peticion.tipoMovimientoMonetario.descripcion}}</div>
+    <div class="tit">Categoría:</div>
+    <div class="desc">{{peticion.categoriaMovimientoMonetario.descripcion}}</div>
     <div class="tit">Desglose:</div>
     <div class="desc">{{peticion.desglose}}</div>
     <div class="tit">Importe Solicitado sin Factura:</div>

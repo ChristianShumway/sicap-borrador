@@ -25,8 +25,16 @@ export class SolicitudesService {
     return this.http.get<SolicitudRecurso>(`${environment.apiURL}/requestAndSupplies/getRequestById/${tipoSolicitud}/${idSolicitud}`);
   }
 
-  getCategoriasSolicitudRecursos(): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequesResources`);
+  getCatalogoTipo(): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getType`);
+  }
+
+  // getCategoriasSolicitudRecursos(idTipo:number): Observable<any>{
+  //   return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getCategoriesRequesResources/${idTipo}`);
+  // }
+
+  getCategoriasSolicitudRecursos(idTipo:number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/projectExecution/getCategory/${idTipo}`);
   }
 
   updateSolicitudRecurso(solicitud: Partial<SolicitudRecurso>): Observable<any>{

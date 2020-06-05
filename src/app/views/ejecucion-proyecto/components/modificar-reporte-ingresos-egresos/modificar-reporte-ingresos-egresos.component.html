@@ -74,7 +74,7 @@
             <div class="pb-1">
               <mat-form-field class="full-width">
                 <mat-label>Tipo Movimiento</mat-label>
-                <mat-select formControlName="idTipoMovimientoMonetario"  required>
+                <mat-select formControlName="idTipoMovimientoMonetario" (selectionChange)= "getCategories($event.value)"  required>
                   <mat-option *ngFor="let tipo of catalogoTipoMovimientos" [value]="tipo.idTipoMovimientoMonetario">
                     {{tipo.descripcion}}
                   </mat-option>

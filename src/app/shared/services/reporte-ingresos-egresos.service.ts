@@ -21,8 +21,8 @@ export class ReporteIngresosEgresosService {
     return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getType`);
   }
 
-  getCatalogoCategoria(): Observable<any[]>{
-    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getCategory`);
+  getCatalogoCategoria(tipoMovimiento:number): Observable<any[]>{
+    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getCategory/${tipoMovimiento}`);
   }
 
   getReportsByObra(id: number): Observable<ReporteIngresosEgresos[]>{
