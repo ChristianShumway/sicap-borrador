@@ -4,6 +4,7 @@
       <!-- {{part | json}} -->
       <a routerLink="/{{part.url}}">{{part.breadcrumb | translate}}</a>
       <a *ngIf="part.params.tipo" style="text-transform: capitalize;"> / {{part.params.tipo}}</a>
+      <a *ngIf="part.params.reporte" style="text-transform: capitalize;"> / {{part.params.reporte}}</a>
     </li>
   </ul>
 </div>

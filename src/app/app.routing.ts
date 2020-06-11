@@ -72,6 +72,11 @@ export const rootRouterConfig: Routes = [
         data: { title: 'Solicitudes y Suministros', breadcrumb: 'Solicitudes y Suministros'}
       },
       {
+        path: 'reportes-estadisticas',
+        loadChildren: () => import('./views/reportes-estadisticas/reportes-estadisticas.module').then( m => m.ReportesEstadisticasModule),
+        data: { title: 'Reportes y Estadisticas', breadcrumb: 'Reportes y Estadisticas'}
+      },
+      {
         path: 'material', 
         loadChildren: () => import('./views/material-example-view/material-example-view.module').then(m => m.MaterialExampleViewModule), 
         data: { title: 'Material', breadcrumb: 'MATERIAL'}

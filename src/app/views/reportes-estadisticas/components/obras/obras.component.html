@@ -1,0 +1,89 @@
+<!-- <div class="wrap-leyenda">
+  <p *ngIf="option==='plan-trabajo'">PLAN DE TRABAJO</p>
+  <p *ngIf="option==='reporte-conceptos-ejecutados'">REPORTE DE CONCEPTOS EJECUTADOS</p>
+  <p *ngIf="option==='reporte-subcontratos'">REPORTE DE SUBCONTRATOS</p>
+  <p *ngIf="option==='reporte-mano-obra'">REPORTE DE MANO DE OBRA</p>
+  <p *ngIf="option==='reporte-maquinaria-equipo'">REPORTE DE MAQUINARIA Y EQUIPO</p>
+  <p *ngIf="option==='reporte-materiales'">REPORTE DE MATERIALES</p>
+  <p *ngIf="option==='reporte-ingresos-egresos'">REPORTE DE INGRESOS Y EGRESOS</p>
+  <p *ngIf="option==='validacion'">OBRAS PARA VALIDACIONES</p>
+  <p *ngIf="option==='bitacora-obra'">BITÁCORA DE OBRA</p>
+</div> -->
+
+<mat-form-field class="margin-333" style="width: 98%">
+  <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
+</mat-form-field>
+
+<div fxLayout="row wrap" *ngIf="(obs$ | async) as obras">
+  <ng-container *ngIf="obras.length; else loading">
+    <div *ngFor="let obra of obras" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
+
+      <mat-card class="user-card p-0">
+        <mat-card-title>
+          <div class="card-title-text obra">
+
+
+            <a *ngIf="obra && option==='control-avance-semanal'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+           
+            <span class="title-card-catalogs">{{obra.noContrato}} -
+              <span> {{obra.nombreObra}} </span>
+            </span>
+            <span fxFlex></span>
+            <button mat-icon-button [matMenuTriggerFor]="userMenu" class="">
+              <mat-icon class="">more_vert</mat-icon>
+            </button>
+            <mat-menu #userMenu="matMenu">
+              <button *ngIf="option==='control-avance-semanal'" mat-menu-item [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
+                Reporte de Avance Semanal
+              </button>
+              <!-- 
+              <div id="validar-reporte-conceptos" #myIdVC>
+                <button mat-menu-item [routerLink]="['/reportes-estadisticas/validacion-conceptos-ejecutados', obra.idObra]" *ngIf="option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id)">
+                  Validación de Conceptos Ejecutados</button>
+              </div> 
+              -->
+            </mat-menu>
+          </div>
+          <mat-divider></mat-divider>
+        </mat-card-title>
+
+        <mat-card-content>
+          <div class="user-details">
+            <div class="wrap-detalles-obra">
+              <p class="p-info-catalogs">
+                <span>Fecha de Inicio:</span> {{obra.fechaInicio | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Fecha de Termino:</span> {{obra.fechaFin | date}}</p>
+              <p class="p-info-catalogs">
+                <span>Lugar:</span> {{obra.lugarTrabajo}}</p>
+
+              <p class="p-info-catalogs">
+                <span>Supervisor(es) Encargado(s):</span>
+                <b class="text-supervisor-obra" *ngFor="let supervisor of obra.supervisor">
+                  - {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}
+                </b>
+              </p>
+              <p class="p-info-catalogs">
+                <span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency}}</p>
+            </div>
+
+
+
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </div>
+  </ng-container>
+  <ng-template #loading>
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60" *ngIf="usuarioIdentificado"></mat-spinner>
+      <div *ngIf="!usuarioIdentificado">
+        <h3>NO TIENES PROYECTOS ASIGNADOS</h3>
+      </div>
+    </div>
+  </ng-template>
+</div>
+
+<mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator>

@@ -1,0 +1,106 @@
+<div class="container-costo-general">
+  <p class="title-section">
+    costo
+  </p>
+  <div class="wrap-costo-general">
+    <div class="avance programado-fecha">
+      <p class="porcentaje"> $6,531,181.53 </p>
+      <p class="leyenda">Presupuesto programado a la fecha</p>
+    </div>
+    <div class="avance ejecutado-fecha">
+      <p class="porcentaje">$5,610,468.72</p>
+      <p class="leyenda">Costo real a la fecha</p>
+    </div>
+    <div class="avance diferencia">
+      <p class="porcentaje">$920,712.8</p>
+      <p class="leyenda">Diferencia</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-costo-resumen">
+  <p class="title-section">
+    costo
+  </p>
+  <div class="scrollable-wrap">
+    <div class="wrap-costo-resumen title-wrap">
+      <div class="col-1 title-prog tipo-1">
+        <div>Periodo</div>
+        <div>Corte</div>
+      </div>
+      <div class="col-2 title-prog">
+        <p class="encabezado-col">Costo de Obra</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+      <div class="col-3 title-prog">
+        <p class="encabezado-col">Costo de Materiales</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+      <div class="col-4 title-prog">
+        <p class="encabezado-col">Costo de Mano de Obra</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+      <div class="col-5 title-prog">
+        <p class="encabezado-col">Costo de Subcontratos</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+      <div class="col-6 title-prog">
+        <p class="encabezado-col">Costo de Maq. y Equipo</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+      <div class="col-7 title-prog">
+        <p class="encabezado-col">Importe de Sobrecosto</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Real</div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap-costo-resumen content-wrap" *ngFor="let semana of semanas">
+      <div class="col-1 tipo-1">
+        <div>{{semana.periodo}}</div>
+        <div>{{semana.corte}}</div>
+      </div>
+      <div class="col-2  tipo-1">
+        <div>{{semana.totalProgramadoObra | currency}}</div>
+        <div>{{semana.totalRealObra | currency}}</div>
+      </div>
+      <div class="col-3 tipo-1">
+        <div>{{semana.totalProgramadoMateriales | currency}}</div>
+        <div>{{semana.totalRealMateriales | currency}}</div>
+      </div>
+      <div class="col-4 tipo-1">
+        <div>{{semana.totalProgramadoManoObra | currency}}</div>
+        <div>{{semana.totalRealManoObra | currency}}</div>
+      </div>
+      <div class="col-5 tipo-1">
+        <div>{{semana.totalProgramadoSubcontratos | currency}}</div>
+        <div>{{semana.totalRealSubcontratos | currency}}</div>
+      </div>
+      <div class="col-6 tipo-1">
+        <div>{{semana.totalProgramadoMaquinariaEquipo | currency}}</div>
+        <div>{{semana.totalRealMaquinariaEquipo | currency}}</div>
+      </div>
+      <div class="col-7 tipo-1">
+        <div>{{semana.totalProgramadoSobreCosto | currency}}</div>
+        <div>{{semana.totalRealSobreCosto | currency}}</div>
+      </div>
+    </div>
+  </div>
+
+</div>

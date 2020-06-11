@@ -1,0 +1,31 @@
+<p class="title-section">Gráficas</p>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="50" [@animate]="{value:'*',params:{delay:'400ms',scale:'.9'}}">
+    <mat-card>
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="wrap-title">
+          <h1 class="title-graphic">Avance Físico</h1>
+        </div>
+        <h6 class="m-0">Porcentaje / Semana </h6>
+      </div>
+
+      <div echarts [options]="avanceFisico" [autoResize]="true" style="height: 340px;"></div>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap">
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="50" [@animate]="{value:'*',params:{delay:'400ms',scale:'.9'}}">
+    <mat-card>
+      <div fxLayout="row wrap" fxLayoutAlign="start center">
+        <div class="wrap-title">
+          <h1 class="title-graphic">Costo de Obra</h1>
+        </div>
+        <h6 class="m-0">Costo / Semana </h6>
+      </div>
+
+      <div echarts [options]="costoObra" [autoResize]="true" style="height: 340px;"></div>
+    </mat-card>
+  </div>
+</div>

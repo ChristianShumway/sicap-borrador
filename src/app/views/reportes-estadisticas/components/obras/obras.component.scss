@@ -1,0 +1,58 @@
+.wrap-buttons{
+  text-align: right;
+}
+
+.wrap-leyenda{
+  margin-top: 5px;
+  text-align: center;
+  font-size: 20px;
+}
+
+.wrap-detalles-obra{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+  margin-bottom: 20px;
+}
+
+.wrap-detalles-obra p{
+  margin-bottom: 0;
+}
+
+.wrap-detalles-obra p span{
+  font-weight: bold;
+}
+
+.mat-card-title.status-perfecto{
+  background: green;
+}
+
+.mat-card-title.status-estable{
+  background: greenyellow;
+}
+
+.mat-card-title.status-alerta{
+  background: orange;
+}
+
+.mat-card-title.status-peligro{
+  background: red;
+}
+
+.text-supervisor-obra{
+  display: block;
+  font-weight: 400;
+  padding-left: 10px;
+}
+
+.wrap-container-comments{
+  height: 400px;
+  overflow-y: scroll;
+}
+
+@media screen and (max-width:599px){
+  .wrap-detalles-obra{
+    grid-template-columns: 1fr;
+    grid-gap: 10px 0;
+  }
+}

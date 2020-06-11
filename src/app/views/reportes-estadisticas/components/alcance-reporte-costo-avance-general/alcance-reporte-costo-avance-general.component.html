@@ -1,0 +1,108 @@
+<div class="container-alcance-general">
+  <p class="title-section">
+    ALCANCE
+  </p>
+  <div class="wrap-alcance-general">
+    <div class="avance programado-fecha">
+      <p class="porcentaje">100%</p>
+      <p class="leyenda">Avance programado a la fecha</p>
+    </div>
+    <div class="avance ejecutado-fecha">
+      <p class="porcentaje">104.95%</p>
+      <p class="leyenda">Avance ejecutado a la fecha</p>
+    </div>
+    <div class="avance diferencia">
+      <p class="porcentaje">4.95%</p>
+      <p class="leyenda">Diferencia</p>
+    </div>
+  </div>
+</div>
+
+<div class="container-alcance-resumen">
+  <p class="title-section">
+    ALCANCE
+  </p>
+  <div class="scrollable-wrap">
+    <div class="wrap-alcance-resumen title-wrap">
+      <div class="col-1 title-prog tipo-1">
+        <div>Periodo</div>
+        <div>Corte</div>
+      </div>
+      <div class="col-2 title-prog">
+        <p class="encabezado-col">Programa de Obra</p>
+        <div class="tipo-2">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+          <div>Validado</div>
+        </div>
+      </div>
+      <div class="col-3 title-prog">
+        <p class="encabezado-col">Programa de Materiales</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+        </div>
+      </div>
+      <div class="col-4 title-prog">
+        <p class="encabezado-col">Programa de Mano de Obra</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+        </div>
+      </div>
+      <div class="col-5 title-prog">
+        <p class="encabezado-col">Programa de Subcontratos</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+        </div>
+      </div>
+      <div class="col-6 title-prog">
+        <p class="encabezado-col">Programa de Maq. y Equipo</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+        </div>
+      </div>
+      <div class="col-7 title-prog">
+        <p class="encabezado-col">Programa de Costo</p>
+        <div class="tipo-1">
+          <div>Programado</div>
+          <div>Ejecutado</div>
+        </div>
+      </div>
+    </div>
+    <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of semanas">
+      <div class="col-1 tipo-1">
+        <div>{{semana.periodo}}</div>
+        <div>{{semana.corte}}</div>
+      </div>
+      <div class="col-2  tipo-2">
+        <div>{{semana.programadoObra}}%</div>
+        <div>{{semana.ejecutadoObra}}%</div>
+        <div>9.65%</div>
+      </div>
+      <div class="col-3 tipo-1">
+        <div>{{semana.programadoMateriales}}%</div>
+        <div>{{semana.ejecutadoMateriales}}%</div>
+      </div>
+      <div class="col-4 tipo-1">
+        <div>{{semana.programadoManoObra}}%</div>
+        <div>{{semana.ejecutadoManoObra}}%</div>
+      </div>
+      <div class="col-5 tipo-1">
+        <div>{{semana.programadoSubcontratos}}%</div>
+        <div>{{semana.ejecutadoSubcontratos}}%</div>
+      </div>
+      <div class="col-6 tipo-1">
+        <div>{{semana.programadoMaquinariaEquipo}}%</div>
+        <div>{{semana.ejecutadoMaquinariaEquipo}}%</div>
+      </div>
+      <div class="col-7 tipo-1">
+        <div>{{semana.programadoSobreCosto}}%</div>
+        <div>{{semana.ejecutadoSobreCosto}}%</div>
+      </div>
+    </div>
+  </div>
+
+</div>
