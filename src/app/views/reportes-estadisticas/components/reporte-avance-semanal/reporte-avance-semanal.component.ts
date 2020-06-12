@@ -30,6 +30,8 @@ export class ReporteAvanceSemanalComponent implements OnInit {
   pipe = new DatePipe('en-US');
   reporteForm: FormGroup;
   dataSemanas: any[];
+  dataAlcanceGral: any;
+  dataCostoGral: any;
   ver = false;
 
   constructor(
@@ -123,20 +125,32 @@ export class ReporteAvanceSemanalComponent implements OnInit {
           let dataPresupuestoMaquinariaEquipo;
           let dataPresupuestoSobreCosto;
           let newPresupuestoSemana;
-          // console.log(result);
+          console.log(result);
+
+          this.dataAlcanceGral = {
+            avanceProgramado: result.avanceProgramado,
+            avanceEjecutado: result.avanceEjecutado,
+            diferenciaAlcance: result.diferenciaAlcance
+          };
+
+          this.dataCostoGral = {
+            presupuestoProgramado: result.presupuestoProgramado,
+            costoReal: result.costoReal,
+            diferenciaCosto: result.diferenciaCosto
+          };
           
-          Object.keys(result).forEach ( noSemana => {
-            var datosSemana = result[noSemana];
+          Object.keys(result.detalle).forEach ( noSemana => {
+            var datosSemana = result.detalle[noSemana];
             // console.log(noSemana);
             // console.log(datosSemana);
             datosSemana.programacion.map( presupuesto => {
-              // console.log(presupuesto);
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 1){
                 dataPresupuestoObra = {
                   programadoObra: presupuesto.programado,
                   ejecutadoObra: presupuesto.ejecutado,
                   totalProgramadoObra: presupuesto.acumuladoProgramado,
-                  totalRealObra: presupuesto.totalReal
+                  totalRealObra: presupuesto.totalReal,
+                  totalValidadoObra: presupuesto.validado
                 }
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 2){
@@ -192,7 +206,6 @@ export class ReporteAvanceSemanalComponent implements OnInit {
               ...dataPresupuestoSobreCosto
             }
             
-            // console.log(newPresupuestoSemana);
             semanas.push(newPresupuestoSemana);
 
            

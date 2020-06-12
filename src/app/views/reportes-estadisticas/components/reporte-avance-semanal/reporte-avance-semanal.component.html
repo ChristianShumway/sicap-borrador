@@ -26,7 +26,7 @@
           <div class="title"> Nombre de la Obra: </div>
           <div class="description">{{obra.nombreObra}}</div>
           <div class="title"> Lugar: </div>
-          <div class="description"> León, Guanajuato </div>
+          <div class="description">{{obra.lugarTrabajo}}</div>
         </div>
       </div>
   
@@ -82,13 +82,13 @@
   
   <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataSemanas">
     <mat-card-content>
-      <app-alcance-reporte-costo-avance-general [semanas] = "dataSemanas"></app-alcance-reporte-costo-avance-general>
+      <app-alcance-reporte-costo-avance-general [semanas] = "dataSemanas" [alcanceGeneral] = "dataAlcanceGral" ></app-alcance-reporte-costo-avance-general>
     </mat-card-content>
   </mat-card>
   
   <mat-card class="rep-card seccion-costo p-0" *ngIf="dataSemanas">
     <mat-card-content>
-      <app-costo-reporte-costo-avance-general [semanas] = "dataSemanas"></app-costo-reporte-costo-avance-general>
+      <app-costo-reporte-costo-avance-general [semanas] = "dataSemanas" [costoGeneral] = "dataCostoGral"></app-costo-reporte-costo-avance-general>
     </mat-card-content>
   </mat-card>
   

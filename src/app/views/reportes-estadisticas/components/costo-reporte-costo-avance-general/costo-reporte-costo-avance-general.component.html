@@ -4,15 +4,15 @@
   </p>
   <div class="wrap-costo-general">
     <div class="avance programado-fecha">
-      <p class="porcentaje"> $6,531,181.53 </p>
+      <p class="porcentaje">{{costoGeneral.presupuestoProgramado | currency}}</p>
       <p class="leyenda">Presupuesto programado a la fecha</p>
     </div>
     <div class="avance ejecutado-fecha">
-      <p class="porcentaje">$5,610,468.72</p>
+      <p class="porcentaje">{{costoGeneral.costoReal | currency}}</p>
       <p class="leyenda">Costo real a la fecha</p>
     </div>
     <div class="avance diferencia">
-      <p class="porcentaje">$920,712.8</p>
+      <p class="porcentaje" [ngStyle] = "{'color':costoGeneral.diferenciaCosto >= 0 ? 'green' : 'red' }">{{costoGeneral.diferenciaCosto | currency}}</p>
       <p class="leyenda">Diferencia</p>
     </div>
   </div>

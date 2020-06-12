@@ -7,6 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CostoReporteCostoAvanceGeneralComponent implements OnInit {
   @Input() semanas: any; 
+  @Input() costoGeneral: any;
   constructor() { }
 
   ngOnInit() {

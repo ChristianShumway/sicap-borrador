@@ -7,10 +7,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class AlcanceReporteCostoAvanceGeneralComponent implements OnInit {
   @Input() semanas: any; 
+  @Input() alcanceGeneral: any;
   constructor() { }
 
   ngOnInit() {
-    // console.log(this.semanas);
   }
 
 }
