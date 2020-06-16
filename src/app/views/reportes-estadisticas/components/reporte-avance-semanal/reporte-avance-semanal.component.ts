@@ -148,54 +148,54 @@ export class ReporteAvanceSemanalComponent implements OnInit {
             datosSemana.programacion.map( presupuesto => {
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 1){
                 dataPresupuestoObra = {
-                  programadoObra: presupuesto.programado,
-                  ejecutadoObra: presupuesto.ejecutado,
+                  programadoObra: presupuesto.programado*100,
+                  ejecutadoObra: presupuesto.ejecutado*100,
+                  totalValidadoObra: presupuesto.validado*100,
                   totalProgramadoObra: presupuesto.acumuladoProgramado,
                   totalRealObra: presupuesto.totalReal,
-                  totalValidadoObra: presupuesto.validado
                 }
-                this.programadoAvanceFisico.push(presupuesto.programado);
-                this.ejecutadoAvanceFisico.push(presupuesto.ejecutado);
-                this.validadoAvanceFisico.push(presupuesto.validado);
+                this.programadoAvanceFisico.push(presupuesto.programado*100);
+                this.ejecutadoAvanceFisico.push(presupuesto.ejecutado*100);
+                this.validadoAvanceFisico.push(presupuesto.validado*100);
                 this.programadoCostoObra.push(presupuesto.acumuladoProgramado);
                 this.realCostoObra.push(presupuesto.totalReal);
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 2){
                 dataPresupuestoMateriales = {
-                  programadoMateriales: presupuesto.programado,
-                  ejecutadoMateriales: presupuesto.ejecutado,
+                  programadoMateriales: presupuesto.programado*100,
+                  ejecutadoMateriales: presupuesto.ejecutado*100,
                   totalProgramadoMateriales: presupuesto.acumuladoProgramado,
                   totalRealMateriales: presupuesto.totalReal
                 }
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 3){
                 dataPresupuestoManoObra = {
-                  programadoManoObra: presupuesto.programado,
-                  ejecutadoManoObra: presupuesto.ejecutado,
+                  programadoManoObra: presupuesto.programado*100,
+                  ejecutadoManoObra: presupuesto.ejecutado*100,
                   totalProgramadoManoObra: presupuesto.acumuladoProgramado,
                   totalRealManoObra: presupuesto.totalReal
                 }
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 4){
                 dataPresupuestoSubcontratos = {
-                  programadoSubcontratos: presupuesto.programado,
-                  ejecutadoSubcontratos: presupuesto.ejecutado,
+                  programadoSubcontratos: presupuesto.programado*100,
+                  ejecutadoSubcontratos: presupuesto.ejecutado*100,
                   totalProgramadoSubcontratos: presupuesto.acumuladoProgramado,
                   totalRealSubcontratos: presupuesto.totalReal
                 }
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 5){
                 dataPresupuestoMaquinariaEquipo = {
-                  programadoMaquinariaEquipo: presupuesto.programado,
-                  ejecutadoMaquinariaEquipo: presupuesto.ejecutado,
+                  programadoMaquinariaEquipo: presupuesto.programado*100,
+                  ejecutadoMaquinariaEquipo: presupuesto.ejecutado*100,
                   totalProgramadoMaquinariaEquipo: presupuesto.acumuladoProgramado,
                   totalRealMaquinariaEquipo: presupuesto.totalReal
                 }
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 8){
                 dataPresupuestoSobreCosto = {
-                  programadoSobreCosto: presupuesto.programado,
-                  ejecutadoSobreCosto: presupuesto.ejecutado,
+                  programadoSobreCosto: presupuesto.programado*100,
+                  ejecutadoSobreCosto: presupuesto.ejecutado*100,
                   totalProgramadoSobreCosto: presupuesto.acumuladoProgramado,
                   totalRealSobreCosto: presupuesto.totalReal
                 }

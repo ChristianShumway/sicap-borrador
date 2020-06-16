@@ -1,23 +1,3 @@
-<div class="container-alcance-general">
-  <p class="title-section">
-    ALCANCE
-  </p>
-  <div class="wrap-alcance-general">
-    <div class="avance programado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceProgramado}}%</p>
-      <p class="leyenda">Avance programado a la fecha</p>
-    </div>
-    <div class="avance ejecutado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceEjecutado}}%</p>
-      <p class="leyenda">Avance ejecutado a la fecha</p>
-    </div>
-    <div class="avance diferencia">
-      <p class="porcentaje" [ngStyle]="{'color':alcanceGeneral.diferenciaAlcance >= 0 ? 'green' : 'red' }">{{alcanceGeneral.diferenciaAlcance}}%</p>
-      <p class="leyenda">Diferencia</p>
-    </div>
-  </div>
-</div>
-
 <div class="container-alcance-resumen">
   <p class="title-section">
     ALCANCE
@@ -29,50 +9,38 @@
         <div>Corte</div>
       </div>
       <div class="col-2 title-prog">
-        <p class="encabezado-col">Programa de Obra</p>
+        <p class="encabezado-col">Programa de Subcontrato</p>
         <div class="tipo-2">
           <div>Programado</div>
           <div>Ejecutado</div>
-          <div>Validado</div>
-        </div>
-      </div>
-      <div class="col-3 title-prog">
-        <p class="encabezado-col">Programa de Materiales</p>
-        <div class="tipo-1">
-          <div>Programado</div>
-          <div>Ejecutado</div>
-        </div>
-      </div>
-      <div class="col-4 title-prog">
-        <p class="encabezado-col">Programa de Mano de Obra</p>
-        <div class="tipo-1">
-          <div>Programado</div>
-          <div>Ejecutado</div>
-        </div>
-      </div>
-      <div class="col-5 title-prog">
-        <p class="encabezado-col">Programa de Subcontratos</p>
-        <div class="tipo-1">
-          <div>Programado</div>
-          <div>Ejecutado</div>
-        </div>
-      </div>
-      <div class="col-6 title-prog">
-        <p class="encabezado-col">Programa de Maq. y Equipo</p>
-        <div class="tipo-1">
-          <div>Programado</div>
-          <div>Ejecutado</div>
-        </div>
-      </div>
-      <div class="col-7 title-prog">
-        <p class="encabezado-col">Programa de Costo</p>
-        <div class="tipo-1">
-          <div>Programado</div>
-          <div>Ejecutado</div>
+          <div>Diferencia</div>
         </div>
       </div>
     </div>
-    <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of semanas">
+
+    <div class="wrap-alcance-resumen content-wrap">
+      <div class="col-1 tipo-1">
+        <div>SEMANA 1</div>
+        <div>15/07/2018</div>
+      </div>
+      <div class="col-2  tipo-2">
+        <div>9.28%</div>
+        <div>0.00%</div>
+        <div>9.28%</div>
+      </div>
+
+      <div class="col-1 tipo-1">
+        <div>SEMANA 2</div>
+        <div>22/07/2018</div>
+      </div>
+      <div class="col-2  tipo-2">
+        <div>18.57%</div>
+        <div>4.22%</div>
+        <div>14.35%</div>
+      </div>
+    </div>
+    
+    <!-- <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of semanas">
       <div class="col-1 tipo-1">
         <div>{{semana.periodo}}</div>
         <div>{{semana.corte}}</div>
@@ -82,27 +50,7 @@
         <div>{{semana.ejecutadoObra}}%</div>
         <div>{{semana.totalValidadoObra}}%</div>
       </div>
-      <div class="col-3 tipo-1">
-        <div>{{semana.programadoMateriales}}%</div>
-        <div>{{semana.ejecutadoMateriales}}%</div>
-      </div>
-      <div class="col-4 tipo-1">
-        <div>{{semana.programadoManoObra}}%</div>
-        <div>{{semana.ejecutadoManoObra}}%</div>
-      </div>
-      <div class="col-5 tipo-1">
-        <div>{{semana.programadoSubcontratos}}%</div>
-        <div>{{semana.ejecutadoSubcontratos}}%</div>
-      </div>
-      <div class="col-6 tipo-1">
-        <div>{{semana.programadoMaquinariaEquipo}}%</div>
-        <div>{{semana.ejecutadoMaquinariaEquipo}}%</div>
-      </div>
-      <div class="col-7 tipo-1">
-        <div>{{semana.programadoSobreCosto}}%</div>
-        <div>{{semana.ejecutadoSobreCosto}}%</div>
-      </div>
-    </div>
+    </div> -->
   </div>
 
 </div>

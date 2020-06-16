@@ -31,6 +31,7 @@ import { CostoReporteCostoAvanceGeneralComponent } from './components/costo-repo
 import { GraficasReporteCostoAvanceGeneralComponent } from './components/graficas-reporte-costo-avance-general/graficas-reporte-costo-avance-general.component';
 import { ResumenSubcontratoComponent } from './components/resumen-subcontrato/resumen-subcontrato.component';
 import { AlcanceResumenSubcontratoComponent } from './components/alcance-resumen-subcontrato/alcance-resumen-subcontrato.component';
+import { PagosResumenSubcontratoComponent } from './components/pagos-resumen-subcontrato/pagos-resumen-subcontrato.component';
 // import { ModalEliminarComponent } from './../alta-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -43,7 +44,8 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     CostoReporteCostoAvanceGeneralComponent,
     GraficasReporteCostoAvanceGeneralComponent,
     ResumenSubcontratoComponent,
-    AlcanceResumenSubcontratoComponent
+    AlcanceResumenSubcontratoComponent,
+    PagosResumenSubcontratoComponent
   ],
   imports: [
     CommonModule,

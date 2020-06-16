@@ -1,0 +1,39 @@
+.container-pagos-resumen{
+  .title-section{
+    background: #3f3f3f;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .scrollable-wrap{
+    width: 100%;
+    overflow: auto;
+  }
+  .wrap-pagos-resumen{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    // grid-gap: 8px;
+    width: 1850px;
+    // padding: 5px;
+    &.title-wrap{
+      background: #f2f2f2;
+    }
+    .title-prog{
+      text-transform: uppercase;
+      font-size: 13px;
+      padding: 10px 3px;
+      font-weight: 500;
+    }
+
+  }
+}
+
+// @media screen and (max-width:1024px){
+//   .wrap-alcance-resumen{
+//     display: grid;
+//     grid-template-columns: repeat(2, 1fr);
+//     width: 1024px;
+//   }
+// }

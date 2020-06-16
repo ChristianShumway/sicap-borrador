@@ -81,7 +81,13 @@
 
   <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
     <mat-card-content>
-        <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato>
+      <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && !dataSemanas">
+    <mat-card-content>
+      <app-pagos-resumen-subcontrato  ></app-pagos-resumen-subcontrato>
     </mat-card-content>
   </mat-card>
 
