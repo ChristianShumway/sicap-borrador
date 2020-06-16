@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { egretAnimations } from "app/shared/animations/egret-animations";
 import tinyColor from 'tinycolor2';
 
@@ -11,12 +11,24 @@ import tinyColor from 'tinycolor2';
 export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
   avanceFisico: any;
   costoObra: any;
+  @Input() programadoAvanceFisico: any;
+  @Input() ejecutadoAvanceFisico: any;
+  @Input() validadoAvanceFisico: any;
+  @Input() programadoCostoObra: any;
+  @Input() realCostoObra: any;
+  @Input() periodos: any;
 
   constructor() { }
 
   ngOnInit() {
     this.getAvanceFisico();
     this.getCostoObra();
+    // console.log(this.programadoAvanceFisico);
+    // console.log(this.ejecutadoAvanceFisico);
+    // console.log(this.validadoAvanceFisico);
+    // console.log(this.programadoCostoObra);
+    // console.log(this.realCostoObra);
+    // console.log(this.periodos);     
   }
 
   getAvanceFisico() {
@@ -40,22 +52,7 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
       },
       xAxis: {
         type: "category",
-        data: [
-          "Semana 1",
-          "2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-          "13",
-          "14"
-        ],
+        data: this.periodos,
         axisLine: {
           show: false
         },
@@ -103,26 +100,11 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
       },
       series: [
         {
-          data: [
-            6,
-            10,
-            8,
-            12,
-            40,
-            42,
-            43,
-            44,
-            80,
-            82,
-            90,
-            91,
-            95,
-            120
-          ],
+          data: this.programadoAvanceFisico,
           type: "line",
-          name: "Bitcoin",
+          name: "Programado",
           smooth: true,
-          color: tinyColor('#9c27b0').toString(),
+          color: tinyColor('#1976d2').toString(),
           lineStyle: {
             opacity: 1,
             width: 3
@@ -132,8 +114,8 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
           },
           emphasis: {
             itemStyle: {
-              color: tinyColor('#9c27b0').toString(),
-              borderColor: tinyColor('#9c27b0').setAlpha(.4).toString(),
+              color: tinyColor('#1976d2').toString(),
+              borderColor: tinyColor('#1976d2').setAlpha(.4).toString(),
               opacity: 1,
               borderWidth: 8
             },
@@ -144,24 +126,35 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
           }
         },
         {
-          data: [
-            4,
-            8,
-            8,
-            10,
-            30,
-            32,
-            33,
-            34,
-            70,
-            72,
-            80,
-            81,
-            85,
-            90
-          ],
+          data: this.ejecutadoAvanceFisico,
           type: "line",
-          name: "Ethereum (ETH)",
+          name: "Ejecutado",
+          smooth: true,
+          color: tinyColor('#ef6c00').toString(),
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: tinyColor('#ef6c00').toString(),
+              borderColor: tinyColor('#ef6c00').setAlpha(.4).toString(),
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        },
+        {
+          data: this.validadoAvanceFisico,
+          type: "line",
+          name: "Validado",
           smooth: true,
           color: "rgba(0, 0, 0, .3)",
           lineStyle: {
@@ -204,28 +197,13 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
       },
       grid: {
         top: "10%",
-        left: "60",
+        left: "100",
         right: "20",
         bottom: "60"
       },
       xAxis: {
         type: "category",
-        data: [
-          "Semana 1",
-          "Semana 2",
-          "3",
-          "4",
-          "5",
-          "6",
-          "7",
-          "8",
-          "9",
-          "10",
-          "11",
-          "12",
-          "13",
-          "14"
-        ],
+        data: this.periodos,
         axisLine: {
           show: false
         },
@@ -273,26 +251,11 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
       },
       series: [
         {
-          data: [
-            100000,
-            130000,
-            200000,
-            1000000,
-            2000000,
-            2500000,
-            2900000,
-            3200000,
-            3500000,
-            3800000,
-            4000000,
-            4500000,
-            4700000,
-            6000000
-          ],
+          data: this.programadoCostoObra,
           type: "line",
-          name: "Bitcoin",
+          name: "Programado",
           smooth: true,
-          color: tinyColor('#9c27b0').toString(),
+          color: tinyColor('#1976d2').toString(),
           lineStyle: {
             opacity: 1,
             width: 3
@@ -302,8 +265,8 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
           },
           emphasis: {
             itemStyle: {
-              color: tinyColor('#9c27b0').toString(),
-              borderColor: tinyColor('#9c27b0').setAlpha(.4).toString(),
+              color: tinyColor('#1976d2').toString(),
+              borderColor: tinyColor('#1976d2').setAlpha(.4).toString(),
               opacity: 1,
               borderWidth: 8
             },
@@ -314,26 +277,11 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
           }
         },
         {
-          data: [
-            90000,
-            100000,
-            150000,
-            800000,
-            1000000,
-            1500000,
-            1900000,
-            2200000,
-            2500000,
-            2800000,
-            3000000,
-            3500000,
-            3700000,
-            5000000
-          ],
+          data: this.realCostoObra,
           type: "line",
-          name: "Ethereum (ETH)",
+          name: "Real",
           smooth: true,
-          color: "rgba(0, 0, 0, .3)",
+          color: tinyColor('#ef6c00').toString(),
           lineStyle: {
             opacity: 1,
             width: 3
@@ -343,8 +291,8 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
           },
           emphasis: {
             itemStyle: {
-              color: "rgba(0, 0, 0, .5)",
-              borderColor: "rgba(0, 0, 0, .2)",
+              color: tinyColor('#ef6c00').toString(),
+              borderColor: tinyColor('#ef6c00').setAlpha(.4).toString(),
               opacity: 1,
               borderWidth: 8
             },

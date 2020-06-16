@@ -1,9 +1,9 @@
 <div class="container-reporte" *ngIf="obra; else loading">
   <mat-card class="rep-card p-0">
-    <mat-card-title> 
+    <mat-card-title>
       <div class="container-title">
         <img class="icon" src="assets/images/faces/10.jpg" alt="icono" />
-        <h2 class="title-component">Control de Avance Semanal</h2>
+        <h2 class="title-component">Resumen de Subcontrato</h2>
         <img class="logo" src="http://{{host}}/Sicap/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="logo">
       </div>
     </mat-card-title>
@@ -18,7 +18,7 @@
           <div class="title"> Cliente: </div>
           <div class="description">{{obra.cliente.nombre}}</div>
           <div class="title"> No. de Contrato: </div>
-          <div class="description multiple">  
+          <div class="description multiple">
             {{obra.noContrato}}
             <div class="title"> No. de Licitación: </div>
             <div class="description">{{obra.noLicitacion}}</div>
@@ -29,14 +29,13 @@
           <div class="description">{{obra.lugarTrabajo}}</div>
         </div>
       </div>
-  
+
       <form [formGroup]="reporteForm" (submit)="buscarDatos()">
         <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-search">
-  
+
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio"
-                (dateChange)="onFechaInicio($event)">
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
               <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
               <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
             </mat-form-field>
@@ -51,7 +50,7 @@
               </small>
             </div>
           </div>
-  
+
           <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
@@ -64,48 +63,25 @@
               </small>
             </div>
           </div>
-          
+
           <div class="wrap-button">
             <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Buscar</button>
           </div>
-    
+
         </div>
       </form>
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="rep-card seccion-alcance p-0"  *ngIf="ver && !dataSemanas">
+  <!-- <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
     <mat-card-content class="cargando-componente">
-    <mat-spinner [diameter]="60"></mat-spinner>
+      <mat-spinner [diameter]="60"></mat-spinner>
     </mat-card-content>
-  </mat-card>
-  
-  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataSemanas">
+  </mat-card> -->
+
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
     <mat-card-content>
-      <div class="wrap-button">
-        <button mat-raised-button color="primary" (click) = "generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
-      </div>
-      <app-alcance-reporte-costo-avance-general [semanas] = "dataSemanas" [alcanceGeneral] = "dataAlcanceGral" ></app-alcance-reporte-costo-avance-general>
-    </mat-card-content>
-  </mat-card>
-  
-  <mat-card class="rep-card seccion-costo p-0" *ngIf="dataSemanas">
-    <mat-card-content>
-      <app-costo-reporte-costo-avance-general [semanas] = "dataSemanas" [costoGeneral] = "dataCostoGral"></app-costo-reporte-costo-avance-general>
-    </mat-card-content>
-  </mat-card>
-  
-  <mat-card class="rep-card seccion-graficas p-0" *ngIf="dataSemanas">
-    <mat-card-content>
-      <app-graficas-reporte-costo-avance-general
-      [programadoAvanceFisico] = "programadoAvanceFisico"
-      [ejecutadoAvanceFisico] = "ejecutadoAvanceFisico"
-      [validadoAvanceFisico] = "validadoAvanceFisico"
-      [programadoCostoObra] = "programadoCostoObra"
-      [realCostoObra] = "realCostoObra"
-      [periodos] = "periodos"
-      >
-    </app-graficas-reporte-costo-avance-general>
+        <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato>
     </mat-card-content>
   </mat-card>
 

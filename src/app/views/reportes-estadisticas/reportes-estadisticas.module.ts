@@ -29,6 +29,8 @@ import { ReporteAvanceSemanalComponent } from './components/reporte-avance-seman
 import { AlcanceReporteCostoAvanceGeneralComponent } from './components/alcance-reporte-costo-avance-general/alcance-reporte-costo-avance-general.component';
 import { CostoReporteCostoAvanceGeneralComponent } from './components/costo-reporte-costo-avance-general/costo-reporte-costo-avance-general.component';
 import { GraficasReporteCostoAvanceGeneralComponent } from './components/graficas-reporte-costo-avance-general/graficas-reporte-costo-avance-general.component';
+import { ResumenSubcontratoComponent } from './components/resumen-subcontrato/resumen-subcontrato.component';
+import { AlcanceResumenSubcontratoComponent } from './components/alcance-resumen-subcontrato/alcance-resumen-subcontrato.component';
 // import { ModalEliminarComponent } from './../alta-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -39,7 +41,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ReporteAvanceSemanalComponent,
     AlcanceReporteCostoAvanceGeneralComponent,
     CostoReporteCostoAvanceGeneralComponent,
-    GraficasReporteCostoAvanceGeneralComponent
+    GraficasReporteCostoAvanceGeneralComponent,
+    ResumenSubcontratoComponent,
+    AlcanceResumenSubcontratoComponent
   ],
   imports: [
     CommonModule,

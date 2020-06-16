@@ -1,15 +1,3 @@
-<!-- <div class="wrap-leyenda">
-  <p *ngIf="option==='plan-trabajo'">PLAN DE TRABAJO</p>
-  <p *ngIf="option==='reporte-conceptos-ejecutados'">REPORTE DE CONCEPTOS EJECUTADOS</p>
-  <p *ngIf="option==='reporte-subcontratos'">REPORTE DE SUBCONTRATOS</p>
-  <p *ngIf="option==='reporte-mano-obra'">REPORTE DE MANO DE OBRA</p>
-  <p *ngIf="option==='reporte-maquinaria-equipo'">REPORTE DE MAQUINARIA Y EQUIPO</p>
-  <p *ngIf="option==='reporte-materiales'">REPORTE DE MATERIALES</p>
-  <p *ngIf="option==='reporte-ingresos-egresos'">REPORTE DE INGRESOS Y EGRESOS</p>
-  <p *ngIf="option==='validacion'">OBRAS PARA VALIDACIONES</p>
-  <p *ngIf="option==='bitacora-obra'">BITÁCORA DE OBRA</p>
-</div> -->
-
 <mat-form-field class="margin-333" style="width: 98%">
   <input matInput placeholder="Filtrar Obras" value="" (keyup)='updateFilter($event)'>
 </mat-form-field>
@@ -36,7 +24,10 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <button *ngIf="option==='control-avance-semanal'" mat-menu-item [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
-                Reporte de Avance Semanal
+                Control de Avance Semanal
+              </button>
+              <button *ngIf="option==='resumen-subcontrato'" mat-menu-item [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
+                Control de Avance Semanal
               </button>
               <!-- 
               <div id="validar-reporte-conceptos" #myIdVC>

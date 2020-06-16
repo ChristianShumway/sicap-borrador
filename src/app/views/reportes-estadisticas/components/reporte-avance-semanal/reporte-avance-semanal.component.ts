@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import { ObraService } from '../../../../shared/services/obra.service';
@@ -9,7 +10,6 @@ import { ReportesEstadisticasService } from '../../../../shared/services/reporte
 
 import { Obra } from './../../../../shared/models/obra';
 import { environment } from 'environments/environment';
-import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutado';
 
 @Component({
   selector: 'app-reporte-avance-semanal',
@@ -32,13 +32,20 @@ export class ReporteAvanceSemanalComponent implements OnInit {
   dataSemanas: any[];
   dataAlcanceGral: any;
   dataCostoGral: any;
+  programadoAvanceFisico:any[] = [];
+  ejecutadoAvanceFisico:any[] = [];
+  validadoAvanceFisico:any[] = [];
+  programadoCostoObra:any[] = [];
+  realCostoObra:any[] = [];
+  periodos:any[] = [];
   ver = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private autenticacionService: AutenticacionService,
     private obraService: ObraService,
-    private reportesEstadisticasService: ReportesEstadisticasService
+    private reportesEstadisticasService: ReportesEstadisticasService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -109,12 +116,6 @@ export class ReporteAvanceSemanalComponent implements OnInit {
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
 
-      const periodo = {
-        fechaInicio: nuevaFechaInicio,
-        fechaFinal: nuevaFechaFin
-      }
-      // console.log(periodo);
-
       this.reportesEstadisticasService.getControlAvanceSemanal(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
         result => {
           const semanas = [];
@@ -143,6 +144,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
             var datosSemana = result.detalle[noSemana];
             // console.log(noSemana);
             // console.log(datosSemana);
+            this.periodos.push(datosSemana.periodo);
             datosSemana.programacion.map( presupuesto => {
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 1){
                 dataPresupuestoObra = {
@@ -152,6 +154,11 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                   totalRealObra: presupuesto.totalReal,
                   totalValidadoObra: presupuesto.validado
                 }
+                this.programadoAvanceFisico.push(presupuesto.programado);
+                this.ejecutadoAvanceFisico.push(presupuesto.ejecutado);
+                this.validadoAvanceFisico.push(presupuesto.validado);
+                this.programadoCostoObra.push(presupuesto.acumuladoProgramado);
+                this.realCostoObra.push(presupuesto.totalReal);
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 2){
                 dataPresupuestoMateriales = {
@@ -212,10 +219,52 @@ export class ReporteAvanceSemanalComponent implements OnInit {
           });
           this.dataSemanas = semanas;
           console.log(semanas);
+          // console.log(this.programadoAvanceFisico);
+          // console.log(this.ejecutadoAvanceFisico);
+          // console.log(this.validadoAvanceFisico);
+          // console.log(this.programadoCostoObra);
+          // console.log(this.realCostoObra);
         },
         error => console.log(error)
       );
     }
+  }
+
+  generarReporte(){
+    const format = 'yyyy-MM-dd';
+    const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
+    const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
+    this.reportesEstadisticasService.descargarControlAvanceGeneral(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download","control-avance-semanal.xlsx");
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
+    );
+
+  }
+
+  useAlerts(message, action, className) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 
 }

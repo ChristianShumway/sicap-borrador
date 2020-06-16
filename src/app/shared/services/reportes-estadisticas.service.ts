@@ -16,4 +16,13 @@ export class ReportesEstadisticasService {
   getControlAvanceSemanal(idObra:number, fechaInicio, fechaFin): Observable<any>  {
     return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getReportsandstatistics/${idObra}/${fechaInicio}/${fechaFin}`); 
   }
+
+  descargarControlAvanceGeneral(idObra:number, fechaInicio, fechaFin): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/reportsandstatistics/printReportsandstatistics/${idObra}/${fechaInicio}/${fechaFin}`, {headers: headerss, responseType: 'blob',});
+  }
+
+  getResumenSubcontrato(idObra:number, fechaInicio, fechaFin): Observable<any>  {
+    return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getReportsandstatistics/${idObra}/${fechaInicio}/${fechaFin}`); 
+  }
 }
