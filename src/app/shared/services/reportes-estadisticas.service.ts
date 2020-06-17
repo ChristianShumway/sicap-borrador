@@ -23,6 +23,6 @@ export class ReportesEstadisticasService {
   }
 
   getResumenSubcontrato(idObra:number, fechaInicio, fechaFin): Observable<any>  {
-    return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getReportsandstatistics/${idObra}/${fechaInicio}/${fechaFin}`); 
+    return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getReportSubcontract/${idObra}/${fechaInicio}/${fechaFin}`); 
   }
 }

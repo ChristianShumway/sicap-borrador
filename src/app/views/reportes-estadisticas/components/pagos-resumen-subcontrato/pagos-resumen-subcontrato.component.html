@@ -23,23 +23,23 @@
         <div>Pendiente de Pago</div>
       </div>
     </div>
-    <div class="wrap-pagos-resumen content-wrap">
-      <div class="col-1">
-        <div>0</div>
+    <div class="wrap-pagos-resumen content-wrap" *ngFor="let pago of pagos">
+      <div class="col-1 info-resumen">
+        <div>{{pago.no}}</div>
       </div>
-      <div class="col-2">
-        <div>15/07/2018</div>
+      <div class="col-2 info-resumen">
+        <div>{{pago.fecha}}</div>
       </div>
-      <div class="col-3">
-        <div>Destajista</div>
+      <div class="col-3 info-resumen">
+        <div>{{pago.categoriaMovimientoMonetario.descripcion}}</div>
       </div>
-      <div class="col-4">
+      <div class="col-4 info-resumen">
         <div>Gustavo Galindo</div>
       </div>
-      <div class="col-5">
-        <div>$15,000</div>
+      <div class="col-5 info-resumen">
+        <div>{{pago.monto | currency}}</div>
       </div>
-      <div class="col-6">
+      <div class="col-6 info-resumen">
         <div>$530,100</div>
       </div>
     </div>

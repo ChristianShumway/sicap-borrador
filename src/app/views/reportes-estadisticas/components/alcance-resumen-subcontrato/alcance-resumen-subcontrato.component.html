@@ -17,40 +17,18 @@
         </div>
       </div>
     </div>
-
-    <div class="wrap-alcance-resumen content-wrap">
-      <div class="col-1 tipo-1">
-        <div>SEMANA 1</div>
-        <div>15/07/2018</div>
-      </div>
-      <div class="col-2  tipo-2">
-        <div>9.28%</div>
-        <div>0.00%</div>
-        <div>9.28%</div>
-      </div>
-
-      <div class="col-1 tipo-1">
-        <div>SEMANA 2</div>
-        <div>22/07/2018</div>
-      </div>
-      <div class="col-2  tipo-2">
-        <div>18.57%</div>
-        <div>4.22%</div>
-        <div>14.35%</div>
-      </div>
-    </div>
     
-    <!-- <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of semanas">
+    <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of semanas">
       <div class="col-1 tipo-1">
         <div>{{semana.periodo}}</div>
         <div>{{semana.corte}}</div>
       </div>
       <div class="col-2  tipo-2">
-        <div>{{semana.programadoObra}}%</div>
-        <div>{{semana.ejecutadoObra}}%</div>
-        <div>{{semana.totalValidadoObra}}%</div>
+        <div>{{semana.programado}}%</div>
+        <div>{{semana.ejecutado}}%</div>
+        <div>{{semana.diferencia}}%</div>
       </div>
-    </div> -->
+    </div>
   </div>
 
 </div>

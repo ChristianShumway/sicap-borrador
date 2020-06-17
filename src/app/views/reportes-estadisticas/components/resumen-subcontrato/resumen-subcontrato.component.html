@@ -73,21 +73,24 @@
     </mat-card-content>
   </mat-card>
 
-  <!-- <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
     <mat-card-content class="cargando-componente">
       <mat-spinner [diameter]="60"></mat-spinner>
     </mat-card-content>
-  </mat-card> -->
+  </mat-card>
 
-  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataSemanas">
     <mat-card-content>
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" (click) = "generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
+      </div>
       <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato>
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && !dataSemanas">
+  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && dataPagos">
     <mat-card-content>
-      <app-pagos-resumen-subcontrato  ></app-pagos-resumen-subcontrato>
+      <app-pagos-resumen-subcontrato [pagos] = "dataPagos"></app-pagos-resumen-subcontrato>
     </mat-card-content>
   </mat-card>
 

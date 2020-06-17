@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Params } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material';
 
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import { ObraService } from '../../../../shared/services/obra.service';
@@ -29,13 +30,15 @@ export class ResumenSubcontratoComponent implements OnInit {
   pipe = new DatePipe('en-US');
   reporteForm: FormGroup;
   dataSemanas: any[];
+  dataPagos: any[];
   ver = false;
 
   constructor(
     private activatedRoute: ActivatedRoute,
     private autenticacionService: AutenticacionService,
     private obraService: ObraService,
-    private reportesEstadisticasService: ReportesEstadisticasService
+    private reportesEstadisticasService: ReportesEstadisticasService,
+    private snackBar: MatSnackBar,
   ) { }
 
   ngOnInit() {
@@ -107,9 +110,79 @@ export class ResumenSubcontratoComponent implements OnInit {
 
       console.log(nuevaFechaInicio);
       console.log(nuevaFechaFin);
-      
-      
 
+      this.reportesEstadisticasService.getResumenSubcontrato(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
+        result => {
+          console.log(result);
+          let dataSemana:any;
+          let objSemanas:any = [];
+          Object.keys(result).forEach( item => {
+            var data = result[item];
+            // console.log(item);
+            if (item === 'costos') {
+              // console.log(data);
+              Object.keys(data).forEach( itemSemana => {
+                var semana = data[itemSemana];
+                // console.log(semana);
+                semana.programacion.map( alcance => {
+                  dataSemana = {
+                    periodo: semana.periodo,
+                    corte: semana.corte,
+                    programado: alcance.programado*100,
+                    ejecutado: alcance.ejecutado*100,
+                    diferencia: alcance.diferencia*100
+                  }
+                  objSemanas.push(dataSemana);
+                  this.dataSemanas = objSemanas;
+                });
+
+              })
+            }
+            if (item === 'pagos') {
+              // console.log(data);
+              this.dataPagos = data;
+            }
+          });
+        },
+        error => console.log(error)
+      );
     }
+  }
+
+  generarReporte(){
+    const format = 'yyyy-MM-dd';
+    const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
+    const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
+    this.reportesEstadisticasService.descargarControlAvanceGeneral(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
+      
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download","resumen-subcontrato.xlsx");
+          
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
+    );
+
+  }
+
+  useAlerts(message, action, className) {
+    this.snackBar.open(message, action, {
+      duration: 4000,
+      verticalPosition: 'bottom',
+      horizontalPosition: 'right',
+      panelClass: [className]
+    });
   }
 }

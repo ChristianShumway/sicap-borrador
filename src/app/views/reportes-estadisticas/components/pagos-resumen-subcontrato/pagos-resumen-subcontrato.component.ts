@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 
 @Component({
   selector: 'app-pagos-resumen-subcontrato',
@@ -6,10 +6,12 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./pagos-resumen-subcontrato.component.scss']
 })
 export class PagosResumenSubcontratoComponent implements OnInit {
-
+  @Input() pagos: any;
   constructor() { }
 
   ngOnInit() {
+    console.log(this.pagos);
+    
   }
 
 }

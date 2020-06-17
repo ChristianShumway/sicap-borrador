@@ -15,7 +15,7 @@
     display: grid;
     grid-template-columns: repeat(6, 1fr);
     // grid-gap: 8px;
-    width: 1850px;
+    // width: 1240px;
     // padding: 5px;
     &.title-wrap{
       background: #f2f2f2;
@@ -25,15 +25,18 @@
       font-size: 13px;
       padding: 10px 3px;
       font-weight: 500;
+      text-align: center;
+    }
+    .info-resumen{
+      text-align: center;
+      padding: 10px 0;
     }
 
   }
 }
 
-// @media screen and (max-width:1024px){
-//   .wrap-alcance-resumen{
-//     display: grid;
-//     grid-template-columns: repeat(2, 1fr);
-//     width: 1024px;
-//   }
-// }
+@media screen and (max-width:1024px){
+  .wrap-pagos-resumen{
+    width: 1024px;
+  }
+}
