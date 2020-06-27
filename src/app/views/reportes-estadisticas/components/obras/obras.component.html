@@ -29,6 +29,12 @@
               <button *ngIf="option==='resumen-subcontrato'" mat-menu-item [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
                 Resumen de Subcontrato
               </button>
+              <button *ngIf="option==='estado-cuenta-obra'" mat-menu-item [routerLink]="['/reportes-estadisticas/estado-cuenta-obra', obra.idObra]">
+                Estado de Cuenta de Obra
+              </button>
+              <button *ngIf="option==='expediente-unico-obra'" mat-menu-item [routerLink]="['/reportes-estadisticas/expediente-unico-obra', obra.idObra]">
+                Expediente Único de Obra
+              </button>
               <!-- 
               <div id="validar-reporte-conceptos" #myIdVC>
                 <button mat-menu-item [routerLink]="['/reportes-estadisticas/validacion-conceptos-ejecutados', obra.idObra]" *ngIf="option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id)">

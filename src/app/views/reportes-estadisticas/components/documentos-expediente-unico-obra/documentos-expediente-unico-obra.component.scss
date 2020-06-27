@@ -1,0 +1,53 @@
+.container-documentos-expediente{
+  .title-section{
+    background: #3f3f3f;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+    margin: 0;
+  }
+  .scrollable-wrap{
+    width: 100%;
+    overflow: auto;
+  }
+  .wrap-documentos-expediente{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    // grid-gap: 8px;
+    // width: 1240px;
+    // padding: 5px;
+    &.title-wrap{
+      background: #f2f2f2;
+    }
+    .title-prog{
+      text-transform: uppercase;
+      font-size: 13px;
+      padding: 10px 3px;
+      font-weight: 500;
+      text-align: center;
+    }
+    .info-doc{
+      text-align: center;
+      padding: 10px 0;
+      .align-left{
+        text-align: left;
+      }
+    }
+
+  }
+  .title-wrap{
+    padding: 10px 5px;
+    background: #f2f2f2;
+    .title{
+      margin: 0 !important;
+      font-weight: 500;
+    }
+  }
+}
+
+@media screen and (max-width:1024px){
+  .wrap-documentos-expediente, .title-wrap{
+    width: 1024px;
+  }
+}

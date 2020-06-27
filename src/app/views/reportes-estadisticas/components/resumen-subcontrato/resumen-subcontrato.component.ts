@@ -29,6 +29,7 @@ export class ResumenSubcontratoComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   pipe = new DatePipe('en-US');
   reporteForm: FormGroup;
+  datagral: any[];
   dataSemanas: any[];
   dataPagos: any[];
   ver = false;
@@ -91,11 +92,9 @@ export class ResumenSubcontratoComponent implements OnInit {
     const controlFechaFin = new Date(this.reporteForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial de busqueda no puede ser mayor a la fecha final'};
-      this.reporteForm.controls['fechaInicio'].setValue(new Date(this.reporteForm.controls['fechaFinal'].value));
-      this.fechaInicio =  new Date(this.reporteForm.controls['fechaInicio'].value);
-      const controlFechaInicio = new Date(this.reporteForm.controls['fechaInicio'].value);
-      const controlFechaFin = new Date(this.reporteForm.controls['fechaFinal'].value);
+      this.error={isError:true,errorMessage:'Fecha de busqueda no puede ser menor a la fecha de inicio de la obra'};
+      this.reporteForm.controls['fechaFinal'].setValue(new Date());
+      this.fechaFinal =  new Date(this.reporteForm.controls['fechaFinal'].value);
     } else {
       this.error={isError:false};
     }
@@ -113,17 +112,19 @@ export class ResumenSubcontratoComponent implements OnInit {
 
       this.reportesEstadisticasService.getResumenSubcontrato(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
         result => {
+          this.datagral = result;
           console.log(result);
           let dataSemana:any;
           let objSemanas:any = [];
+          this.dataSemanas = [];
           Object.keys(result).forEach( item => {
             var data = result[item];
             // console.log(item);
             if (item === 'costos') {
-              // console.log(data);
+              console.log(data);
               Object.keys(data).forEach( itemSemana => {
                 var semana = data[itemSemana];
-                // console.log(semana);
+                console.log(semana);
                 semana.programacion.map( alcance => {
                   dataSemana = {
                     periodo: semana.periodo,
@@ -135,6 +136,7 @@ export class ResumenSubcontratoComponent implements OnInit {
                   objSemanas.push(dataSemana);
                   this.dataSemanas = objSemanas;
                 });
+                console.log(this.dataSemanas);
 
               })
             }
@@ -153,7 +155,7 @@ export class ResumenSubcontratoComponent implements OnInit {
     const format = 'yyyy-MM-dd';
     const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
     const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
-    this.reportesEstadisticasService.descargarControlAvanceGeneral(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
+    this.reportesEstadisticasService.descargarResumenSubcontrato(this.idObra, nuevaFechaInicio, nuevaFechaFin).subscribe(
       response => {
         var blob = new Blob([response], {type: 'application/xlsx'});
         var link=document.createElement('a');

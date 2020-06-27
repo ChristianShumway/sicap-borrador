@@ -1,0 +1,26 @@
+.container-alcance-general{
+  .title-section{
+    background: #3f3f3f;
+    color: white;
+    text-align: center;
+    padding: 5px;
+    text-transform: uppercase;
+  }
+  .wrap-alcance-general{
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    grid-gap: 5px;
+    .avance{
+      text-align: center;
+      padding: 5px;
+      .porcentaje{
+        font-size: 2rem;
+      }
+      .leyenda{
+        text-transform: uppercase
+      }
+    }
+  }
+}

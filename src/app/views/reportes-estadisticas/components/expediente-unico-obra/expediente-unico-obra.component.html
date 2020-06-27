@@ -1,0 +1,66 @@
+<div class="container-reporte" *ngIf="obra; else loading">
+  <mat-card class="rep-card p-0">
+    <mat-card-title>
+      <div class="container-title">
+        <img class="icon" src="assets/images/faces/10.jpg" alt="icono" />
+        <h2 class="title-component">Expediente Único de Obra</h2>
+        <img class="logo" src="http://{{host}}/Sicap/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="logo">
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="container-data-company">
+        <p class="title-section">
+          DATOS GENERALES
+        </p>
+        <div class="wrap-data-company">
+          <div class="title"> Empresa: </div>
+          <div class="description">{{obra.empresa.descripcion}}</div>
+          <div class="title"> Cliente: </div>
+          <div class="description">{{obra.cliente.nombre}}</div>
+          <div class="title"> No. de Contrato: </div>
+          <div class="description multiple">
+            {{obra.noContrato}}
+            <div class="title"> No. de Licitación: </div>
+            <div class="description">{{obra.noLicitacion}}</div>
+          </div>
+          <div class="title"> Nombre de la Obra: </div>
+          <div class="description">{{obra.nombreObra}}</div>
+          <div class="title"> Lugar: </div>
+          <div class="description">{{obra.lugarTrabajo}}</div>
+        </div>
+      </div>
+
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" class="btn-accept" (click)="buscarDatos()">Buscar</button>
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataExpediente">
+    <mat-card-content class="cargando-componente">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataExpediente">
+    <mat-card-content>
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" (click)="generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
+      </div>
+      <app-documentos-expediente-unico-obra [fases] = "listaFases"></app-documentos-expediente-unico-obra>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-costo p-0" *ngIf="ver && dataExpediente">
+    <mat-card-content>
+      <app-validacion-expediente-unico-obra></app-validacion-expediente-unico-obra>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+<ng-template #loading>
+  <div class="wrap-loading-catalog">
+    <mat-spinner [diameter]="60"></mat-spinner>
+  </div>
+</ng-template>

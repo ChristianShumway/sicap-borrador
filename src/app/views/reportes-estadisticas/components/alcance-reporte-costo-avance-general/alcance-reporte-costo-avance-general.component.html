@@ -4,15 +4,15 @@
   </p>
   <div class="wrap-alcance-general">
     <div class="avance programado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceProgramado}}%</p>
+      <p class="porcentaje">{{alcanceGeneral.avanceProgramado | number:'1.2-2'}}%</p>
       <p class="leyenda">Avance programado a la fecha</p>
     </div>
     <div class="avance ejecutado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceEjecutado}}%</p>
+      <p class="porcentaje">{{alcanceGeneral.avanceEjecutado | number:'1.2-2'}}%</p>
       <p class="leyenda">Avance ejecutado a la fecha</p>
     </div>
     <div class="avance diferencia">
-      <p class="porcentaje" [ngStyle] = "{'color':alcanceGeneral.diferenciaAlcance >= 0 ? 'green' : 'red' }">{{alcanceGeneral.diferenciaAlcance}}%</p>
+      <p class="porcentaje" [ngStyle] = "{'color':alcanceGeneral.diferenciaAlcance >= 0 ? 'green' : 'red' }">{{alcanceGeneral.diferenciaAlcance | number:'1.2-2'}}%</p>
       <p class="leyenda">Diferencia</p>
     </div>
   </div>
@@ -78,29 +78,29 @@
         <div>{{semana.corte}}</div>
       </div>
       <div class="col-2  tipo-2">
-        <div>{{semana.programadoObra}}%</div>
-        <div>{{semana.ejecutadoObra}}%</div>
-        <div>{{semana.totalValidadoObra}}%</div>
+        <div>{{semana.programadoObra | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoObra | number:'1.2-2'}}%</div>
+        <div>{{semana.totalValidadoObra | number:'1.2-2'}}%</div>
       </div>
       <div class="col-3 tipo-1">
-        <div>{{semana.programadoMateriales}}%</div>
-        <div>{{semana.ejecutadoMateriales}}%</div>
+        <div>{{semana.programadoMateriales | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoMateriales | number:'1.2-2'}}%</div>
       </div>
       <div class="col-4 tipo-1">
-        <div>{{semana.programadoManoObra}}%</div>
-        <div>{{semana.ejecutadoManoObra}}%</div>
+        <div>{{semana.programadoManoObra | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoManoObra | number:'1.2-2'}}%</div>
       </div>
       <div class="col-5 tipo-1">
-        <div>{{semana.programadoSubcontratos}}%</div>
-        <div>{{semana.ejecutadoSubcontratos}}%</div>
+        <div>{{semana.programadoSubcontratos | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoSubcontratos | number:'1.2-2'}}%</div>
       </div>
       <div class="col-6 tipo-1">
-        <div>{{semana.programadoMaquinariaEquipo}}%</div>
-        <div>{{semana.ejecutadoMaquinariaEquipo}}%</div>
+        <div>{{semana.programadoMaquinariaEquipo | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoMaquinariaEquipo | number:'1.2-2'}}%</div>
       </div>
       <div class="col-7 tipo-1">
-        <div>{{semana.programadoSobreCosto}}%</div>
-        <div>{{semana.ejecutadoSobreCosto}}%</div>
+        <div>{{semana.programadoSobreCosto | number:'1.2-2'}}%</div>
+        <div>{{semana.ejecutadoSobreCosto | number:'1.2-2'}}%</div>
       </div>
     </div>
   </div>

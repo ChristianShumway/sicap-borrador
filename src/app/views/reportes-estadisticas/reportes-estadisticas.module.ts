@@ -32,6 +32,14 @@ import { GraficasReporteCostoAvanceGeneralComponent } from './components/grafica
 import { ResumenSubcontratoComponent } from './components/resumen-subcontrato/resumen-subcontrato.component';
 import { AlcanceResumenSubcontratoComponent } from './components/alcance-resumen-subcontrato/alcance-resumen-subcontrato.component';
 import { PagosResumenSubcontratoComponent } from './components/pagos-resumen-subcontrato/pagos-resumen-subcontrato.component';
+import { EstadoCuentaObraComponent } from './components/estado-cuenta-obra/estado-cuenta-obra.component';
+import { AlcanceEstadoCuentaObraComponent } from './components/alcance-estado-cuenta-obra/alcance-estado-cuenta-obra.component';
+import { IeResumenEstadoCuentaObraComponent } from './components/ie-resumen-estado-cuenta-obra/ie-resumen-estado-cuenta-obra.component';
+import { IeGralEstadoCuentaObraComponent } from './components/ie-gral-estado-cuenta-obra/ie-gral-estado-cuenta-obra.component';
+import { GraficasEstadoCuentaObraComponent } from './components/graficas-estado-cuenta-obra/graficas-estado-cuenta-obra.component';
+import { ExpedienteUnicoObraComponent } from './components/expediente-unico-obra/expediente-unico-obra.component';
+import { DocumentosExpedienteUnicoObraComponent } from './components/documentos-expediente-unico-obra/documentos-expediente-unico-obra.component';
+import { ValidacionExpedienteUnicoObraComponent } from './components/validacion-expediente-unico-obra/validacion-expediente-unico-obra.component';
 // import { ModalEliminarComponent } from './../alta-proyecto/components/modal-eliminar/modal-eliminar.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
@@ -45,7 +53,15 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     GraficasReporteCostoAvanceGeneralComponent,
     ResumenSubcontratoComponent,
     AlcanceResumenSubcontratoComponent,
-    PagosResumenSubcontratoComponent
+    PagosResumenSubcontratoComponent,
+    EstadoCuentaObraComponent,
+    AlcanceEstadoCuentaObraComponent,
+    IeResumenEstadoCuentaObraComponent,
+    IeGralEstadoCuentaObraComponent,
+    GraficasEstadoCuentaObraComponent,
+    ExpedienteUnicoObraComponent,
+    DocumentosExpedienteUnicoObraComponent,
+    ValidacionExpedienteUnicoObraComponent
   ],
   imports: [
     CommonModule,

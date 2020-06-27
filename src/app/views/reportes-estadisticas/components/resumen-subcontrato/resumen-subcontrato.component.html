@@ -33,7 +33,7 @@
       <form [formGroup]="reporteForm" (submit)="buscarDatos()">
         <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-search">
 
-          <div class="pb-1">
+          <!-- <div class="pb-1">
             <mat-form-field class="full-width">
               <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
               <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
@@ -49,7 +49,7 @@
                 {{ error.errorMessage }}
               </small>
             </div>
-          </div>
+          </div> -->
 
           <div class="pb-1">
             <mat-form-field class="full-width">
@@ -60,6 +60,11 @@
             <div class="validaciones">
               <small *ngIf="reporteForm.controls['fechaFinal'].hasError('required') && reporteForm.controls['fechaFinal'].touched" class="form-error-msg">
                 Fecha Final del reporte es un campo requerido
+              </small>
+            </div>
+            <div class="validaciones">
+              <small *ngIf="error.isError" class="form-error-msg">
+                {{ error.errorMessage }}
               </small>
             </div>
           </div>
@@ -73,22 +78,56 @@
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataSemanas">
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !datagral">
     <mat-card-content class="cargando-componente">
       <mat-spinner [diameter]="60"></mat-spinner>
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataSemanas">
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && datagral">
     <mat-card-content>
       <div class="wrap-button">
         <button mat-raised-button color="primary" (click) = "generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
       </div>
-      <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato>
+      <!-- <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato> -->
+      <div class="container-alcance-resumen">
+        <p class="title-section">
+          ALCANCE
+        </p>
+        <div class="scrollable-wrap">
+          <div class="wrap-alcance-resumen title-wrap">
+            <div class="col-1 title-prog tipo-1">
+              <div>Periodo</div>
+              <div>Corte</div>
+            </div>
+            <div class="col-2 title-prog">
+              <p class="encabezado-col">Programa de Subcontrato</p>
+              <div class="tipo-2">
+                <div>Programado</div>
+                <div>Ejecutado</div>
+                <div>Diferencia</div>
+              </div>
+            </div>
+          </div>
+          
+          <div class="wrap-alcance-resumen content-wrap" *ngFor="let semana of dataSemanas">
+            <div class="col-1 tipo-1">
+              <div>{{semana.periodo}}</div>
+              <div>{{semana.corte}}</div>
+            </div>
+            <div class="col-2  tipo-2">
+              <div>{{semana.programado | number:'1.2-2'}}%</div>
+              <div>{{semana.ejecutado | number:'1.2-2'}}%</div>
+              <div>{{semana.diferencia | number:'1.2-2'}}%</div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
     </mat-card-content>
   </mat-card>
 
-  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && dataPagos">
+  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && datagral">
     <mat-card-content>
       <app-pagos-resumen-subcontrato [pagos] = "dataPagos"></app-pagos-resumen-subcontrato>
     </mat-card-content>

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges } from '@angular/core';
 import { egretAnimations } from "app/shared/animations/egret-animations";
 import tinyColor from 'tinycolor2';
 
@@ -8,7 +8,7 @@ import tinyColor from 'tinycolor2';
   styleUrls: ['./graficas-reporte-costo-avance-general.component.scss'],
   animations: egretAnimations
 })
-export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
+export class GraficasReporteCostoAvanceGeneralComponent implements OnInit, OnChanges {
   avanceFisico: any;
   costoObra: any;
   @Input() programadoAvanceFisico: any;
@@ -23,12 +23,21 @@ export class GraficasReporteCostoAvanceGeneralComponent implements OnInit {
   ngOnInit() {
     this.getAvanceFisico();
     this.getCostoObra();
-    // console.log(this.programadoAvanceFisico);
-    // console.log(this.ejecutadoAvanceFisico);
-    // console.log(this.validadoAvanceFisico);
-    // console.log(this.programadoCostoObra);
-    // console.log(this.realCostoObra);
-    // console.log(this.periodos);     
+    console.log('hola');
+    // this.logs();
+  }
+
+  ngOnChanges(){
+    this.logs();
+  }
+
+  logs(){
+    console.log(this.programadoAvanceFisico);
+    console.log(this.ejecutadoAvanceFisico);
+    console.log(this.validadoAvanceFisico);
+    console.log(this.programadoCostoObra);
+    console.log(this.realCostoObra);
+    console.log(this.periodos);     
   }
 
   getAvanceFisico() {

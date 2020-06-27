@@ -10,11 +10,14 @@ import { ReportesEstadisticasService } from '../../../../shared/services/reporte
 
 import { Obra } from './../../../../shared/models/obra';
 import { environment } from 'environments/environment';
+import { egretAnimations } from "app/shared/animations/egret-animations";
+import tinyColor from 'tinycolor2';
 
 @Component({
   selector: 'app-reporte-avance-semanal',
   templateUrl: './reporte-avance-semanal.component.html',
-  styleUrls: ['./reporte-avance-semanal.component.scss']
+  styleUrls: ['./reporte-avance-semanal.component.scss'],
+  animations: egretAnimations
 })
 export class ReporteAvanceSemanalComponent implements OnInit {
 
@@ -32,13 +35,16 @@ export class ReporteAvanceSemanalComponent implements OnInit {
   dataSemanas: any[];
   dataAlcanceGral: any;
   dataCostoGral: any;
-  programadoAvanceFisico:any[] = [];
-  ejecutadoAvanceFisico:any[] = [];
-  validadoAvanceFisico:any[] = [];
-  programadoCostoObra:any[] = [];
-  realCostoObra:any[] = [];
-  periodos:any[] = [];
+  programadoAvanceFisico:any[];
+  ejecutadoAvanceFisico:any[];
+  validadoAvanceFisico:any[];
+  programadoCostoObra:any[];
+  realCostoObra:any[];
+  periodos:any[]=[];
   ver = false;
+
+  avanceFisico: any;
+  costoObra: any;
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -99,11 +105,9 @@ export class ReporteAvanceSemanalComponent implements OnInit {
     const controlFechaFin = new Date(this.reporteForm.controls['fechaFinal'].value);
 
     if( controlFechaFin < controlFechaInicio){
-      this.error={isError:true,errorMessage:'Fecha inicial de busqueda no puede ser mayor a la fecha final'};
-      this.reporteForm.controls['fechaInicio'].setValue(new Date(this.reporteForm.controls['fechaFinal'].value));
-      this.fechaInicio =  new Date(this.reporteForm.controls['fechaInicio'].value);
-      const controlFechaInicio = new Date(this.reporteForm.controls['fechaInicio'].value);
-      const controlFechaFin = new Date(this.reporteForm.controls['fechaFinal'].value);
+      this.error={isError:true,errorMessage:'Fecha de busqueda no puede ser menor a la fecha de inicio de la obra'};
+      this.reporteForm.controls['fechaFinal'].setValue(new Date());
+      this.fechaFinal =  new Date(this.reporteForm.controls['fechaFinal'].value);
     } else {
       this.error={isError:false};
     }
@@ -111,6 +115,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
 
   buscarDatos(){
     if (this.reporteForm.valid){
+      this.clearArrays();
       this.ver = true;
       const format = 'yyyy-MM-dd';
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
@@ -127,6 +132,8 @@ export class ReporteAvanceSemanalComponent implements OnInit {
           let dataPresupuestoSobreCosto;
           let newPresupuestoSemana;
           console.log(result);
+
+          newPresupuestoSemana = [];
 
           this.dataAlcanceGral = {
             avanceProgramado: result.avanceProgramado,
@@ -218,12 +225,16 @@ export class ReporteAvanceSemanalComponent implements OnInit {
            
           });
           this.dataSemanas = semanas;
-          console.log(semanas);
+          this.getAvanceFisico();
+          this.getCostoObra();
+          // console.log(this.dataSemanas);
           // console.log(this.programadoAvanceFisico);
           // console.log(this.ejecutadoAvanceFisico);
           // console.log(this.validadoAvanceFisico);
           // console.log(this.programadoCostoObra);
           // console.log(this.realCostoObra);
+          // console.log(this.periodos);
+          
         },
         error => console.log(error)
       );
@@ -258,6 +269,15 @@ export class ReporteAvanceSemanalComponent implements OnInit {
 
   }
 
+  clearArrays(){
+    this.programadoAvanceFisico = [];
+    this.ejecutadoAvanceFisico = [];
+    this.validadoAvanceFisico = [];
+    this.programadoCostoObra = [];
+    this.realCostoObra = [];
+    this.periodos = [];
+  }
+
   useAlerts(message, action, className) {
     this.snackBar.open(message, action, {
       duration: 4000,
@@ -265,6 +285,280 @@ export class ReporteAvanceSemanalComponent implements OnInit {
       horizontalPosition: 'right',
       panelClass: [className]
     });
+  }
+
+  getAvanceFisico() {
+    // console.log(theme);
+    this.avanceFisico = {
+      tooltip: {
+        show: true,
+        trigger: "axis",
+        backgroundColor: "#fff",
+        extraCssText: "box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); color: #444",
+        axisPointer: {
+          type: "line",
+          animation: true
+        }
+      },
+      grid: {
+        top: "10%",
+        left: "60",
+        right: "20",
+        bottom: "60"
+      },
+      xAxis: {
+        type: "category",
+        data: this.periodos,
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          margin: 30,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: "value",
+        data: [
+          "10",
+          "20",
+          "30",
+          "40",
+          "50",
+          "60",
+          "70",
+          "80",
+          "90",
+          "100",
+          "120"
+        ],
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          margin: 20,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: "dashed"
+          }
+        }
+      },
+      series: [
+        {
+          data: this.programadoAvanceFisico,
+          type: "line",
+          name: "Programado",
+          smooth: true,
+          color: tinyColor('#1976d2').toString(),
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: tinyColor('#1976d2').toString(),
+              borderColor: tinyColor('#1976d2').setAlpha(.4).toString(),
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        },
+        {
+          data: this.ejecutadoAvanceFisico,
+          type: "line",
+          name: "Ejecutado",
+          smooth: true,
+          color: tinyColor('#ef6c00').toString(),
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: tinyColor('#ef6c00').toString(),
+              borderColor: tinyColor('#ef6c00').setAlpha(.4).toString(),
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        },
+        {
+          data: this.validadoAvanceFisico,
+          type: "line",
+          name: "Validado",
+          smooth: true,
+          color: "rgba(0, 0, 0, .3)",
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: "rgba(0, 0, 0, .5)",
+              borderColor: "rgba(0, 0, 0, .2)",
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  getCostoObra() {
+    // console.log(theme);
+    this.costoObra = {
+      tooltip: {
+        show: true,
+        trigger: "axis",
+        backgroundColor: "#fff",
+        extraCssText: "box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); color: #444",
+        axisPointer: {
+          type: "line",
+          animation: true
+        }
+      },
+      grid: {
+        top: "10%",
+        left: "100",
+        right: "20",
+        bottom: "60"
+      },
+      xAxis: {
+        type: "category",
+        data: this.periodos,
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          margin: 30,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: "value",
+        data: [
+          "10",
+          "20",
+          "30",
+          "40",
+          "50",
+          "60",
+          "70",
+          "80",
+          "90",
+          "100",
+          "120"
+        ],
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          margin: 20,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: "dashed"
+          }
+        }
+      },
+      series: [
+        {
+          data: this.programadoCostoObra,
+          type: "line",
+          name: "Programado",
+          smooth: true,
+          color: tinyColor('#1976d2').toString(),
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: tinyColor('#1976d2').toString(),
+              borderColor: tinyColor('#1976d2').setAlpha(.4).toString(),
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        },
+        {
+          data: this.realCostoObra,
+          type: "line",
+          name: "Real",
+          smooth: true,
+          color: tinyColor('#ef6c00').toString(),
+          lineStyle: {
+            opacity: 1,
+            width: 3
+          },
+          itemStyle: {
+            opacity: 0
+          },
+          emphasis: {
+            itemStyle: {
+              color: tinyColor('#ef6c00').toString(),
+              borderColor: tinyColor('#ef6c00').setAlpha(.4).toString(),
+              opacity: 1,
+              borderWidth: 8
+            },
+            label: {
+              show: false,
+              backgroundColor: "#fff"
+            }
+          }
+        }
+      ]
+    };
   }
 
 }

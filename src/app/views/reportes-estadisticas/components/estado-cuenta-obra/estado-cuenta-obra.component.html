@@ -1,0 +1,504 @@
+<div class="container-reporte" *ngIf="obra; else loading">
+  <mat-card class="rep-card p-0">
+    <mat-card-title>
+      <div class="container-title">
+        <img class="icon" src="assets/images/faces/10.jpg" alt="icono" />
+        <h2 class="title-component">Estado de Cuenta de Obra</h2>
+        <img class="logo" src="http://{{host}}/Sicap/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="logo">
+      </div>
+    </mat-card-title>
+    <mat-card-content>
+      <div class="container-data-company">
+        <p class="title-section">
+          DATOS GENERALES
+        </p>
+        <div class="wrap-data-company">
+          <div class="title"> Empresa: </div>
+          <div class="description">{{obra.empresa.descripcion}}</div>
+          <div class="title"> Cliente: </div>
+          <div class="description">{{obra.cliente.nombre}}</div>
+          <div class="title"> No. de Contrato: </div>
+          <div class="description multiple">
+            {{obra.noContrato}}
+            <div class="title"> No. de Licitación: </div>
+            <div class="description">{{obra.noLicitacion}}</div>
+          </div>
+          <div class="title"> Nombre de la Obra: </div>
+          <div class="description">{{obra.nombreObra}}</div>
+          <div class="title"> Lugar: </div>
+          <div class="description">{{obra.lugarTrabajo}}</div>
+        </div>
+      </div>
+
+      <form [formGroup]="reporteForm" (submit)="buscarDatos()">
+        <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-search">
+
+          <!-- <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+              <mat-datepicker #fechaInicio (selectedChange)="onFechaInicio($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="reporteForm.controls['fechaInicio'].hasError('required') && reporteForm.controls['fechaInicio'].touched" class="form-error-msg">
+                Fecha Inicio del reporte es un campo requerido
+              </small>
+            </div>
+            <div class="validaciones">
+              <small *ngIf="error.isError" class="form-error-msg">
+                {{ error.errorMessage }}
+              </small>
+            </div>
+          </div> -->
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFinal" name="date" placeholder="Fecha Fin" (dateChange)="onFechaFinal($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+              <mat-datepicker #fechaFin (selectedChange)="onFechaFinal($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="reporteForm.controls['fechaFinal'].hasError('required') && reporteForm.controls['fechaFinal'].touched" class="form-error-msg">
+                Fecha Final del reporte es un campo requerido
+              </small>
+            </div>
+            <div class="validaciones">
+            <small *ngIf="error.isError" class="form-error-msg">
+              {{ error.errorMessage }}
+            </small>
+          </div>
+          </div>
+
+          <div class="wrap-button">
+            <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Buscar</button>
+          </div>
+
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && !dataRep">
+    <mat-card-content class="cargando-componente">
+      <mat-spinner [diameter]="60"></mat-spinner>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataRep">
+    <mat-card-content>
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" (click)="generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
+      </div>
+      <!-- <app-alcance-estado-cuenta-obra></app-alcance-estado-cuenta-obra> -->
+      <div class="container-alcance-general">
+        <p class="title-section">
+          ALCANCE
+        </p>
+        <div class="wrap-alcance-general">
+          <div class="avance programado-fecha">
+            <p class="porcentaje">{{totalIngresosFecha | currency}}</p>
+            <p class="leyenda">Ingresos Totales a la fecha</p>
+          </div>
+          <div class="avance ejecutado-fecha">
+            <p class="porcentaje">{{totalEgresosFecha | currency}}</p>
+            <p class="leyenda">Egresos Totales a la fecha</p>
+          </div>
+          <div class="avance diferencia">
+            <p class="porcentaje" [ngStyle]="{'color':diferenciaTotales >= 0 ? 'green' : 'red' }">{{diferenciaTotales | currency}}</p> 
+            <p class="leyenda">Diferencia</p>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-ingresos-egresos-resumen p-0" *ngIf="ver && dataRep">
+    <mat-card-content>
+      <!-- <app-ie-resumen-estado-cuenta-obra [data] = "dataAlcanceGral"></app-ie-resumen-estado-cuenta-obra> -->
+      <div class="container-alcance-resumen">
+        <p class="title-section">
+          INGRESOS Y EGRESOS
+        </p>
+        <div class="scrollable-wrap">
+          <div class="wrap-alcance-resumen title-wrap">
+            <div class="col-1 title-prog tipo-1">
+              <div>Periodo</div>
+              <div>Corte</div>
+            </div>
+            <div class="col-2 title-prog">
+              <div>INGRESOS</div>
+            </div>
+            <div class="col-3 title-prog">
+              <div>COSTOS DE OBRA</div>
+            </div>
+            <div class="col-4 title-prog">
+              <div>Costos Administrativos</div>
+            </div>
+            <div class="col-5 title-prog">
+              <div>Credito / Prestamo</div>
+            </div>
+            <div class="col-6 title-prog">
+              <div>Impuestos</div>
+            </div>
+            <div class="col-7 title-prog">
+              <div>Inversión</div>
+            </div>
+            <div class="col-8 title-prog">
+              <div>Totales</div>
+            </div>
+          </div>
+      
+          <div class="wrap-alcance-resumen content-wrap" *ngFor = "let semana of dataAlcanceGral">
+            <div class="col-1 tipo-1">
+              <div>{{semana.periodo}}</div>
+              <div>{{semana.corte}}</div>
+            </div>
+            <div class="col-2 info-ingreso">
+              <div>{{semana.acumuladoING | currency}}</div>
+            </div>
+            <div class="col-3 info-ingreso">
+              <div>{{semana.acumuladoCO | currency}}</div>
+            </div>
+            <div class="col-4 info-ingreso">
+              <div>{{semana.acumuladoCA | currency}}</div>
+            </div>
+            <div class="col-5 info-ingreso">
+              <div>{{semana.acumuladoCP | currency}}</div>
+            </div>
+            <div class="col-6 info-ingreso">
+              <div>{{semana.acumuladoIMP | currency}}</div>
+            </div>
+            <div class="col-7 info-ingreso">
+              <div>{{semana.acumuladoEGR | currency}}</div>
+            </div>
+            <div class="col-8 info-ingreso">
+              <div>{{semana.acumuladoTOT | currency}}</div>
+            </div>
+          </div>
+        </div>
+      
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card *ngIf="dataRep">
+    <mat-card-content>
+      <div class="container-ingresos-egresos-gral">
+        <p class="title-section"> INGRESOS Y EGRESOS</p>
+
+        <!-- <div class="scrollable-wrap">
+          <div class="wrap-ingresos-egresos-gral title-wrap">
+            <div class="col-tipo title-prog">
+              <div>Tipo</div>
+            </div>
+            <div class="col-meses title-prog num-col-{{totalColumnas}}">
+              <div *ngFor = "let col of columnasFlex">{{col.descripcion}}</div>
+            </div>
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataIngresos.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataIngresos.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat ingreso">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-tipo row-totales">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-totales num-col-{{totalColumnas}}"> 
+              <div>TOTALES</div>
+              <div *ngFor = "let monto of totalIngresos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+
+            <div class="col-tipo row-utilidad" *ngIf="dataIngresos.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataIngresos.utilidad"> 
+              <div>{{dataIngresos.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataIngresos.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataCostosObra.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataCostosObra.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat costo-obra">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-tipo row-utilidad" *ngIf="dataCostosObra.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCostosObra.utilidad"> 
+              <div>{{dataCostosObra.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataCostosObra.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataCostosAdministrativos.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataCostosAdministrativos.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat costo-administrativo">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-tipo row-utilidad" *ngIf="dataCostosAdministrativos.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCostosAdministrativos.utilidad"> 
+              <div>{{dataCostosAdministrativos.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataCostosAdministrativos.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataCreditoPrestamo.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataCreditoPrestamo.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat credito-prestamo">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-tipo row-utilidad" *ngIf="dataCreditoPrestamo.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCreditoPrestamo.utilidad"> 
+              <div>{{dataCreditoPrestamo.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataCreditoPrestamo.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataImpuestos.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataImpuestos.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat impuesto">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="col-tipo row-utilidad" *ngIf="dataImpuestos.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataImpuestos.utilidad"> 
+              <div>{{dataImpuestos.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataImpuestos.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{dataInversion.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of dataInversion.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat inversion">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-tipo row-utilidad" *ngIf="dataInversion.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataInversion.utilidad"> 
+              <div>{{dataInversion.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of dataInversion.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
+              </div>
+            </div>
+          </div>
+
+
+        </div>
+         -->
+        <!-- END SCROLLABLE -->
+        
+        <div class="scrollable-wrap" *ngFor = "let tipoCuenta of dataIngresosEgresos">
+          
+          <!-- TITULOS -->
+          <div class="wrap-ingresos-egresos-gral title-wrap">
+            <div class="col-tipo title-prog">
+              <div>Tipo</div>
+            </div>
+            <div class="col-meses title-prog num-col-{{totalColumnas}}">
+              <div *ngFor = "let col of columnasFlex">{{col.descripcion}}</div>
+            </div>
+          </div>
+          <!-- END TITULOS -->
+
+          <div class="wrap-ingresos-egresos-gral">
+            <div class="col-tipo">
+              <div class="title-cat">{{tipoCuenta.decripcion}}</div>
+            </div>
+            <div class="cont-meses">
+              <div *ngFor="let tipo of tipoCuenta.categorias">
+                <div class="col-meses num-col-{{totalColumnas}}">
+                  <div class="inf-cat tipo-{{tipoCuenta.idTipo}}">{{tipo.descripcion}}</div>
+                  <div class="inf-cat" *ngFor = "let monto of tipo.montos">
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+              
+              <div class="col-tipo row-totales">
+                <div class="flag">-</div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 1"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalCostosAdministrativos">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 2"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalCostosObra">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 3"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalCreditoPrestamo">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 4"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalImpuestos">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 5"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalInversion">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 6"> 
+                <div>TOTALES</div>
+                <div *ngFor = "let monto of totalIngresos">
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+                </div>
+              </div>
+              
+            <div class="col-tipo row-utilidad" *ngIf="tipoCuenta.utilidad">
+              <div class="flag">-</div>
+            </div>
+            <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="tipoCuenta.utilidad"> 
+              <div>{{tipoCuenta.utilidad.descripcion}}</div>
+              <div *ngFor = "let monto of tipoCuenta.utilidad.montos">
+                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
+              </div>
+            </div>
+
+          </div>
+          <!-- end ingresos -->
+        </div>
+
+      </div>
+
+    </mat-card-content>
+  </mat-card>
+
+  <mat-card class="rep-card seccion-graficas p-0" *ngIf="ver && dataRep">
+    <mat-card-content>
+    <p class="title-section">Gráficas</p>
+
+    <div fxLayout="row wrap">
+      <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="50" [@animate]="{value:'*',params:{delay:'400ms',scale:'.9'}}">
+        <mat-card>
+          <div fxLayout="row wrap" fxLayoutAlign="start center">
+            <div class="wrap-title">
+              <h1 class="title-graphic">Estado de Cuenta Acumulado</h1>
+            </div>
+            <h6 class="m-0">Totales / Semana </h6>
+          </div>
+
+          <div echarts [options]="graficaEstadoCuentaObra" [autoResize]="true"  style="height: 340px;"></div>
+        </mat-card>
+      </div>
+    </div>
+    </mat-card-content>
+  </mat-card>
+
+</div>
+<ng-template #loading>
+  <div class="wrap-loading-catalog">
+    <mat-spinner [diameter]="60"></mat-spinner>
+  </div>
+</ng-template>
