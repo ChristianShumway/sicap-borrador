@@ -43,4 +43,9 @@ export class ReportesEstadisticasService {
   getExpedienteUnicoObra(idObra:number): Observable<any>  {
     return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getProceedings/${idObra}`); 
   }
+
+  descargarExpedienteUnicoObra(idObra:number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/reportsandstatistics/printProceedings/${idObra}`, {headers: headerss, responseType: 'blob',});
+  }
 }

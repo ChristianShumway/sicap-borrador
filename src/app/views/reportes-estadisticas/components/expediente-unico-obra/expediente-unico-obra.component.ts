@@ -75,27 +75,27 @@ export class ExpedienteUnicoObraComponent implements OnInit {
   }
 
   generarReporte(){
-    // this.reportesEstadisticasService.descargarControlAvanceGeneral(this.idObra).subscribe(
-    //   response => {
-    //     var blob = new Blob([response], {type: 'application/xlsx'});
-    //     var link=document.createElement('a');
+    this.reportesEstadisticasService.descargarExpedienteUnicoObra(this.idObra).subscribe(
+      response => {
+        var blob = new Blob([response], {type: 'application/xlsx'});
+        var link=document.createElement('a');
       
-    //     var obj_url = window.URL.createObjectURL(blob);		    
-    //     var link = document.createElement("a");
-    //     link.setAttribute("target", "_blank");
-    //     link.setAttribute("href", obj_url);
-    //     link.setAttribute("download","control-avance-semanal.xlsx");
+        var obj_url = window.URL.createObjectURL(blob);		    
+        var link = document.createElement("a");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("href", obj_url);
+        link.setAttribute("download","expediente-unico-obra.xlsx");
           
-    //     link.style.visibility = "hidden";
-    //     document.body.appendChild(link);
-    //     link.click();
-    //     document.body.removeChild(link);
-    //   },
-    //   error => {
-    //     console.log(error);
-    //     this.useAlerts(error.message, ' ', 'error-dialog');
-    //   }
-    // );
+        link.style.visibility = "hidden";
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      },
+      error => {
+        console.log(error);
+        this.useAlerts(error.message, ' ', 'error-dialog');
+      }
+    );
 
   }
 
