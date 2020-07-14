@@ -37,6 +37,7 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   accesoBitacora = false;
   reports: ReporteIngresosEgresos[] = [];
   reportsTemp: ReporteIngresosEgresos[] = [];
+  obra: Obra;
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
@@ -85,13 +86,18 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
       this.idObra = data.idObra;
 
       this.obraService.getObraObservable(this.idObra);
-        this.obraObs$ = this.obraService.getDataObra();
+      this.obraObs$ = this.obraService.getDataObra();
+
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra: Obra) => this.obra = obra,
+        error => console.log(error)
+      );
         
-        this.obraService.getDataObra().subscribe((data:Obra) => {
-          if (data !== null) {
-            this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
-          }
-        });
+      this.obraService.getDataObra().subscribe((data:Obra) => {
+        if (data !== null) {
+          this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
+        }
+      });
     });
   }
 

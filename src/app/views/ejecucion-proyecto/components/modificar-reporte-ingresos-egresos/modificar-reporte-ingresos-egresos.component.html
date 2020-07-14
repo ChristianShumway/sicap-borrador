@@ -106,7 +106,7 @@
           </div>
     
           <div class="wrap-button">
-            <button  mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Registrar</button>
+            <button  mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept" *ngIf="obra.cierre===0">Modificar</button>
             <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Cancelar</button>
           </div>
         </mat-card-content>

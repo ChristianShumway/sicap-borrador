@@ -1,5 +1,5 @@
 <div class="wrap-add-montos">
-  <mat-accordion>
+  <mat-accordion *ngIf='obra.cierre === 0'>
     <mat-expansion-panel [(expanded)]="panelOpenState">
 
       <mat-expansion-panel-header>
@@ -88,8 +88,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -114,8 +114,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -140,8 +140,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -166,8 +166,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -192,8 +192,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -218,8 +218,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>

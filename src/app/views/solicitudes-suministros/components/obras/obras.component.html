@@ -22,17 +22,17 @@
             <mat-menu #userMenu="matMenu">
 
               <div id="solicitud-recursos" #myIdSR>
-                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-recursos', obra.idObra]" *ngIf="permisosEspecialesPermitidos.includes(myIdSR?.id)">
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-recursos', obra.idObra]" *ngIf="permisosEspecialesPermitidos.includes(myIdSR?.id) && obra.cierre===0">
                   Solicitar Recursos</button>
               </div>
 
               <div id="solicitud-materiales" #myIdSM>
-                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-materiales-herramientas', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSM?.id)">
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-materiales-herramientas', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSM?.id) && obra.cierre===0">
                   Solicitar Materiales / Herramientas</button>
               </div>
 
               <div id="solicitud-vehiculos" #myIdSV>
-                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-vehiculos', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSV?.id)">
+                <button mat-menu-item [routerLink]="['/solicitudes-suministros/solicitar-vehiculos', obra.idObra]" *ngIf=" permisosEspecialesPermitidos.includes(myIdSV?.id) && obra.cierre===0">
                   Solicitar Maquinaria / Equipo</button>
               </div>
 

@@ -1,5 +1,5 @@
 <div class="wrap-add-montos">
-  <mat-accordion>
+  <mat-accordion *ngIf='obra.cierre === 0'>
     <mat-expansion-panel [(expanded)]="panelOpenState">
 
       <mat-expansion-panel-header>
@@ -77,8 +77,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(periodo)">Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(periodo)">Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(periodo)" *ngIf='obra.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(periodo)" *ngIf='obra.cierre === 0'>Eliminar</button>
           </mat-menu>
           <h2 mat-line><b>{{periodo.nombre}}</b></h2>
           <p mat-line> Porcentaje: {{periodo.porcentaje}} % </p>

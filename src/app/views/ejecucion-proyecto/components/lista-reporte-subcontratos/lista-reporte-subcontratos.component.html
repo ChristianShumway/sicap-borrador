@@ -28,10 +28,10 @@
               </button>
               <mat-menu #reporteMenu="matMenu">
                 <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-reporte-subcontrato/{{reporte.idReporteSubContrato}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Reporte de Subcontrato</a>
+                  <a mat-menu-item routerLink="modificar-reporte-subcontrato/{{reporte.idReporteSubContrato}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Reporte de Subcontrato</a>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
-                  <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Reporte</button>
+                  <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0">Eliminar Reporte</button>
                 </div>
               </mat-menu>
             </div>

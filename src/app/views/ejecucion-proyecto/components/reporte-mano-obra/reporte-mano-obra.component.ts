@@ -23,6 +23,7 @@ export class ReporteManoObraComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
   idUsuarioLogeado;
+  obra: Obra;
   idObra;
   catalogo: ConceptoManoObra[] = [];
   temp: ConceptoManoObra[] = [];
@@ -69,6 +70,11 @@ export class ReporteManoObraComponent implements OnInit {
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
+
+        this.obraService.getObra(this.idObra).subscribe(
+          (obra: Obra) => this.obra = obra,
+          error => console.log(error)
+        );
         
         this.obraService.getDataObra().subscribe(data => {
           if (data !== null) {

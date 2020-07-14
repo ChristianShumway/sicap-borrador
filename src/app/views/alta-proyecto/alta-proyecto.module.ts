@@ -101,6 +101,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
   exports:[
     TimeLineObservacionesObraComponent,
     LoadingImageComponent,
+    BibliotecaComponent
   ],
   entryComponents: [
     ModalEliminarComponent,

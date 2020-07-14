@@ -68,7 +68,7 @@
           </div> -->
 
           <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept" *ngIf="obra.cierre===0">Crear Solicitud</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
           </div>
 
@@ -153,7 +153,7 @@
         <ngx-datatable-column name="Categoría" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial === 0">
-              Obra
+              Materiales
             </p>
             <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial !== 0">
               {{row?.categoriaSolicitudMateria.descripcion}}

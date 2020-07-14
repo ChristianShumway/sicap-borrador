@@ -1,0 +1,21 @@
+<mat-card class="p-0" *ngIf="dataCierreObra">
+  <mat-tab-group>
+    <mat-tab label="Datos Cierre de Obra">
+      <mat-card-content class="mt-1">
+        <app-cierre-obra-data [cierreObra]="dataCierreObra"></app-cierre-obra-data>
+      </mat-card-content>
+    </mat-tab>
+  
+    <mat-tab label="Expediente Único de Obra">
+      <mat-card-content>
+        <app-biblioteca [obra]="dataCierreObra"></app-biblioteca>
+      </mat-card-content>
+    </mat-tab>
+  </mat-tab-group>
+</mat-card>
+
+<mat-card class="p-0" *ngIf="!dataCierreObra" class="wrapper-settings">
+  <mat-card-content>
+    <mat-spinner></mat-spinner>
+  </mat-card-content>
+</mat-card>

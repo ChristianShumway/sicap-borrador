@@ -37,13 +37,13 @@
 
               <button 
               mat-menu-item 
-              *ngIf="option === 'registro'"
+              *ngIf="option === 'registro' && obra.cierre === 0"
               [routerLink]="['/alta-proyecto/modificar-obra', obra.idObra]">
               Editar</button>
 
               <button
                mat-menu-item 
-               *ngIf="option === 'registro'"
+               *ngIf="option === 'registro' && obra.cierre === 0"
                (click)="openDialoAlertDelete(obra.idObra)">
                Eliminar</button>
                <button 

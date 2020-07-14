@@ -388,7 +388,7 @@
             </div>
           </div>
 
-          <div class="pb-1">
+          <div class="pb-1" *ngIf='obra.cierre === 0'>
             <mat-form-field class="full-width wrap-input-observaciones">
               <input matInput  name="observacionesGenerales"  placeholder="Observación General"  [(ngModel)] = "observacionText"  [ngModelOptions]="{standalone: true}"  >
               <a 
@@ -410,6 +410,7 @@
                   <span 
                   matTooltip="Eliminar Observación" 
                   matTooltipPosition="left"
+                  *ngIf='obra.cierre === 0'
                   (click)="deleteObservation(observacion)">
                   <mat-icon>delete</mat-icon></span>
                 </p>
@@ -422,7 +423,7 @@
       </div>
 
       <div class="cont-btns">
-        <button mat-raised-button color="primary" [disabled]="updateObraForm.invalid" type="submit">Modificar</button>
+        <button mat-raised-button color="primary" [disabled]="updateObraForm.invalid" type="submit" *ngIf='obra.cierre === 0'>Modificar</button>
         <button mat-raised-button [routerLink]="'/alta-proyecto/obras/registro'">Cancelar</button>
       </div>
     </form>

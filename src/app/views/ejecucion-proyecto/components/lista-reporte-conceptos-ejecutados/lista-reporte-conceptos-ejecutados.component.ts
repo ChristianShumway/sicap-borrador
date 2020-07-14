@@ -41,6 +41,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   accesoBitacora = false;
   reporte: ReporteConceptosEjecutados[] = [];
   reporteTemp: ReporteConceptosEjecutados[] = [];
+  obra: Obra;
   idObra;
   panelOpenState = false;
   montoTotal: number = 0;
@@ -88,14 +89,19 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       this.idObra = data.id;
 
       this.obraService.getObraObservable(this.idObra);
-        this.obraObs$ = this.obraService.getDataObra();
+      this.obraObs$ = this.obraService.getDataObra();
+
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra: Obra) => this.obra = obra,
+        error => console.log(error)
+      );
         
-        this.obraService.getDataObra().subscribe((data: Obra) => {
-          // console.log(data);
-          if (data !== null) {
-            this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
-          }
-        });
+      this.obraService.getDataObra().subscribe((data: Obra) => {
+        // console.log(data);
+        if (data !== null) {
+          this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
+        }
+      });
     });
   }
 

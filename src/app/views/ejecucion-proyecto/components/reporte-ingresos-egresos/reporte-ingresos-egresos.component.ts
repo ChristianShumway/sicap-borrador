@@ -21,6 +21,7 @@ export class ReporteIngresosEgresosComponent implements OnInit {
 
   private obraObs$: Observable<Obra>;
   idUsuarioLogeado;
+  obra: Obra;
   idObra;
   fecha = new Date();
   fechaCaptura;
@@ -72,6 +73,11 @@ export class ReporteIngresosEgresosComponent implements OnInit {
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
+
+        this.obraService.getObra(this.idObra).subscribe(
+          (obra: Obra) => this.obra = obra,
+          error => console.log(error)
+        );
         
         this.obraService.getDataObra().subscribe(data => {
           if (data !== null) {

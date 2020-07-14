@@ -24,49 +24,49 @@
           <div class="card-title-text obra">
 
             
-            <a *ngIf="obra && accesoBitacora && option==='plan-trabajo'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='plan-trabajo' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='plan-trabajo'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-conceptos-ejecutados'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-conceptos-ejecutados' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-conceptos-ejecutados'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-subcontratos'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-subcontratos' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-subcontratos'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-mano-obra'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-mano-obra', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-mano-obra' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-mano-obra', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-mano-obra'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-materiales'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-materiales', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-materiales' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-materiales', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-materiales'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-maquinaria-equipo'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-maquinaria-equipo', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-maquinaria-equipo' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-maquinaria-equipo', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-maquinaria-equipo'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='reporte-ingresos-egresos'" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]" >
+            <a *ngIf="obra && accesoBitacora && option==='reporte-ingresos-egresos' && obra.cierre === 0" class="toolbar-avatar md mr-1" [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]" >
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <a *ngIf="obra && !accesoBitacora && option==='reporte-ingresos-egresos'" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
-            <a *ngIf="obra && accesoBitacora && option==='validacion'" class="toolbar-avatar md mr-1">
+            <a *ngIf="obra && accesoBitacora && option==='validacion' && obra.cierre === 0" class="toolbar-avatar md mr-1">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
             <span class="title-card-catalogs">{{obra.noContrato}} - <span> {{obra.nombreObra}} </span></span>
@@ -75,11 +75,9 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #userMenu="matMenu">
-              <!-- <a mat-menu-item routerLink="/alta-proyecto/ver-obra/{{obra.idObra}}/bitacora/{{obra.idObra}}">Ver</a> -->
-  
 
               <button 
-              *ngIf="accesoBitacora && option==='plan-trabajo'" 
+              *ngIf="accesoBitacora && option==='plan-trabajo' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]">
               Plan de Trabajo</button>
@@ -91,7 +89,7 @@
               Ver Plan de Trabajo</button>
               
               <button 
-              *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados'" 
+              *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
               Reporte de Conceptos Ejecutados</button>
@@ -109,7 +107,7 @@
               Exportar Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-subcontratos'" 
+              *ngIf="accesoBitacora && option==='reporte-subcontratos' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]">
               Reporte Subcontratos</button>
@@ -127,7 +125,7 @@
               Exportar Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-mano-obra'" 
+              *ngIf="accesoBitacora && option==='reporte-mano-obra' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-mano-obra', obra.idObra]">
               Reporte Mano Obra</button>
@@ -145,7 +143,7 @@
               Exportar Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-materiales'" 
+              *ngIf="accesoBitacora && option==='reporte-materiales' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-materiales', obra.idObra]">
               Reporte Materiales</button>
@@ -163,7 +161,7 @@
               Exportar Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-maquinaria-equipo'" 
+              *ngIf="accesoBitacora && option==='reporte-maquinaria-equipo' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-maquinaria-equipo', obra.idObra]">
               Reporte Maquinaria y Equipo</button>
@@ -181,7 +179,7 @@
               Exportar Reportes</button>
 
               <button 
-              *ngIf="accesoBitacora && option==='reporte-ingresos-egresos'" 
+              *ngIf="accesoBitacora && option==='reporte-ingresos-egresos' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]">
               Reporte Ingresos y Egresos</button>
@@ -208,7 +206,7 @@
                 <button 
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]"
-                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id)">
+                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id) && obra.cierre === 0">
                 Validación de Conceptos Ejecutados</button>
               </div>
 
@@ -222,7 +220,7 @@
                 <button 
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]"
-                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVS?.id)">
+                *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVS?.id) && obra.cierre === 0">
                 Validación de Subcontratos</button>
               </div>
 
@@ -233,7 +231,7 @@
               Exportar Validaciones</button>
               
               <button 
-              *ngIf="option==='bitacora-obra'" 
+              *ngIf="option==='bitacora-obra' && obra.cierre === 0" 
               mat-menu-item 
               (click)="abrirAltaComentario(obra.idObra)">
               Agregar Nota</button>

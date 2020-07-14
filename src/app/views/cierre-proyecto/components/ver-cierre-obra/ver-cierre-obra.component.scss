@@ -1,0 +1,108 @@
+.mat-card{
+  padding: 0 16px !important;
+}
+
+.wrap-spiner{
+  display: flex;
+  justify-content: center;
+  height: 452px;
+  align-items: center;
+}
+
+.wrap-message{
+  background: #d9534f;
+  padding: 15px;
+  width: 75%;
+  color: white;
+  display: grid;
+  grid-template-columns: 25% 75%;
+  align-items: center;
+  border-radius: 5px;
+}
+
+.icon{
+  width: 80%;
+  margin: 0 auto;
+}
+
+.icon .mat-icon{
+  font-size: 100px;
+}
+
+.message{
+  text-align: center;
+}
+
+.message h1{
+  margin: 10px 0 5px;
+}
+
+.message p {
+  margin: 5px 0 10px;
+}
+
+.direction{
+  text-align: right;
+}
+
+.wrap-data-obra{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.span-info{
+  margin-right: 10px;
+  font-weight: 600;
+}
+
+.submenu{
+  width: 100% !important;
+}
+
+@media screen and (max-width: 1280px){
+  .wrap-data-obra{
+    grid-template-columns: 1fr;
+    grid-gap: 0;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .wrap-message{
+    grid-template-columns: 1fr;
+    padding: 30px 15px;
+  }
+
+  .icon {
+    width: 100px;
+  }
+}
+
+@media screen and (max-width: 599px){
+  .list-supervisores{
+    height: auto !important;
+  }
+}
+
+@media screen and (max-width: 480px){
+  .wrap-message[_ngcontent-sqp-c11] {
+    padding: 30px 10px;
+  }
+  .icon {
+    width: 80px;
+  }
+
+  .icon .mat-icon{  
+    font-size: 80px;
+  }
+
+  .message h1 {
+    margin: 0;
+    font-size: 20px;
+  }
+
+  .message p{
+    margin: 10px 0 5px;
+    font-size: 12px;
+  }
+}

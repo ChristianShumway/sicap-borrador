@@ -44,4 +44,5 @@ export interface Obra {
   observacion?: any[];
   activo?: number;
   idUsuarioModifico?: number;
+  cierre: number;
 }

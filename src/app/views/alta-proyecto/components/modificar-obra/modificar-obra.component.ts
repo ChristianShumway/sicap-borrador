@@ -87,6 +87,8 @@ export class ModificarObraComponent implements OnInit {
             this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
             this.fechaFinObra = new Date(finString);
             this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
+            // console.log(this.fechaInicioObra);
+            // console.log(this.fechaFinObra);
             this.updateObraForm.patchValue(obra);
             this.supervisoresSeleccionados = obra.supervisor;
             this.destajistasSeleccionados = obra.destajista;

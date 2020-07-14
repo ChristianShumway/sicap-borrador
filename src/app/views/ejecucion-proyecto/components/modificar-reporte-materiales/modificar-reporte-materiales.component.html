@@ -52,7 +52,7 @@
       </div>
 
       <div class="wrap-button">
-        <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" *ngIf="catalogo.length" class="btn-accept">Modificar</button>
+        <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" *ngIf="catalogo.length && obra.cierre===0" class="btn-accept">Modificar</button>
         <button mat-raised-button [routerLink]="['/ejecucion-proyecto/lista-reporte-plan-trabajo', obra.idObra]">Cancelar</button>
       </div>
 

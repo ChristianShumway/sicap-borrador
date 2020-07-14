@@ -37,10 +37,12 @@ export class ListaPlanTrabajoComponent implements OnInit {
   workPlans: PlanTrabajo[] = [];
   workPlansTemp: PlanTrabajo[] = [];
   idObra;
+  obra: Obra;
   panelOpenState = false;
   montoTotal: number = 0;
   total:any[] = [];
   permisoAcceso: boolean = false;
+  totalObra;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -82,13 +84,18 @@ export class ListaPlanTrabajoComponent implements OnInit {
       this.idObra = data.id;
 
       this.obraService.getObraObservable(this.idObra);
-        this.obraObs$ = this.obraService.getDataObra();
-        
-        this.obraService.getDataObra().subscribe((data:Obra) => {
-          if (data !== null) {
-            this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
-          }
-        });
+      this.obraObs$ = this.obraService.getDataObra();
+
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra: Obra) => this.obra = obra,
+        error => console.log(error)
+      );
+      
+      this.obraService.getDataObra().subscribe((data:Obra) => {
+        if (data !== null) {
+          this.validateAccessObra(data.supervisor, data.idGerente, data.idPlaneacionPresupuesto, data.idControlObra, data.idCompras);
+        }
+      });
     });
   }
 
@@ -128,6 +135,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   
           planes.map( plan => {
             console.log(plan);
+            this.totalObra = plan.totalObra
             const total = plan.viewConceptWorkPlan.reduce((acc,obj) => acc + (obj.importePlaneado),0);
             const art = {
               idPlan: plan.idPlanTrabajo, 

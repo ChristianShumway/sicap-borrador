@@ -10,7 +10,11 @@
   <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
     <ng-container *ngIf="worksPlan.length; else loading">
       <div class="monto-total">
-        <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p>
+        <!-- <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p> -->
+        <p>
+          Se han capturado {{worksPlan.length}} reportes que suman un importe acumulado de <b>{{montoTotal | currency}}</b> 
+          y representa el {{(montoTotal / totalObra) * 100 | number:'1.2-2'}}% del total de la obra
+        </p>
       </div>
       
       <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
@@ -24,10 +28,10 @@
               </button>
               <mat-menu #planMenu="matMenu">
                 <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Plan de Trabajo</a>
+                  <a mat-menu-item routerLink="modificar-plan-trabajo/{{plan.idPlanTrabajo}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Plan de Trabajo</a>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
-                  <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Plan</button>
+                  <button mat-menu-item (click)="openDialoAlertDelete(plan)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0">Eliminar Plan</button>
                 </div>
                 <div>
                   <button mat-menu-item (click)="exportarReporte(plan.idPlanTrabajo)">Exportar Plan de Trabajo</button>

@@ -38,6 +38,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   address: string;
   private geoCoder;
   idUsuarioLogeado;
+  obra: Obra;
   idObra;
   idReporteConceptos
   fechaInicio;
@@ -151,6 +152,11 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
 
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
+
+        this.obraService.getObra(this.idObra).subscribe(
+          (obra: Obra) => this.obra = obra,
+          error => console.log(error)
+        );
         
         this.obraService.getDataObra().subscribe( data => {
           if(data !== null){

@@ -2,7 +2,7 @@
   <mat-card class="rep-card p-0">
     <mat-card-title>
       <div class="container-title">
-        <img class="icon" src="assets/images/faces/10.jpg" alt="icono" />
+        <img class="icon" src="assets/images/icons/worker.png" alt="icono" />
         <h2 class="title-component">Expediente Único de Obra</h2>
         <img class="logo" src="http://{{host}}/Sicap/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="logo">
       </div>
@@ -31,7 +31,7 @@
       </div>
 
       <div class="wrap-button">
-        <button mat-raised-button color="primary" class="btn-accept" (click)="buscarDatos()">Buscar</button>
+        <button mat-raised-button color="primary" class="btn-accept" (click)="buscarDatos()">Generar Reporte</button>
       </div>
 
     </mat-card-content>
@@ -46,7 +46,7 @@
   <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && dataExpediente">
     <mat-card-content>
       <div class="wrap-button">
-        <button mat-raised-button color="primary" (click)="generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
+        <button mat-raised-button color="primary" (click)="generarReporte()" class="btn-accept btn-generar-reporte">Exportar Reporte</button>
       </div>
       <app-documentos-expediente-unico-obra [fases] = "listaFases"></app-documentos-expediente-unico-obra>
     </mat-card-content>

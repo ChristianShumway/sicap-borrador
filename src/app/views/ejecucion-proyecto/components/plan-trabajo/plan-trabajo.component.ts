@@ -22,6 +22,7 @@ export class PlanTrabajoComponent implements OnInit {
   private obraObs$: Observable<Obra>;
   idUsuarioLogeado;
   idObra;
+  obra: Obra;
   catalogo: ConceptoPlanTrabajo[] = [];
   temp: ConceptoPlanTrabajo[] = [];
   fecha = new Date();
@@ -94,6 +95,11 @@ export class PlanTrabajoComponent implements OnInit {
         this.idObra = data.id;
         this.obraService.getObraObservable(this.idObra);
         this.obraObs$ = this.obraService.getDataObra();
+
+        this.obraService.getObra(this.idObra).subscribe(
+          (obra: Obra) => this.obra = obra,
+          error => console.log(error)
+        );
         
         this.obraService.getDataObra().subscribe(data => {
           if (data !== null) {

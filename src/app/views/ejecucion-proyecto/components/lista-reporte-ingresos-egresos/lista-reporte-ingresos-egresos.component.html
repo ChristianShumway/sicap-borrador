@@ -79,12 +79,12 @@
             <ng-template let-row="row" ngx-datatable-cell-template>
               <div  class="content-center buttons-report">
                 <div id="modificar-reporte" #myIdM>
-                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)" routerLink="modificar-reporte-ingresos-egresos/{{row?.idMovimientoMonetario}}" > 
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0" routerLink="modificar-reporte-ingresos-egresos/{{row?.idMovimientoMonetario}}" > 
                     <mat-icon>edit</mat-icon> 
                   </button>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
-                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)" (click)="openDialoAlertDelete(row)" >
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0" (click)="openDialoAlertDelete(row)" >
                     <mat-icon>delete_sweep</mat-icon>
                   </button>
                 </div>

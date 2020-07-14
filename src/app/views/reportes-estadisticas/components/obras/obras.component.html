@@ -14,6 +14,18 @@
             <a *ngIf="obra && option==='control-avance-semanal'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
+
+            <a *ngIf="obra && option==='resumen-subcontrato'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+
+            <a *ngIf="obra && option==='estado-cuenta-obra'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/estado-cuenta-obra', obra.idObra]">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
+
+            <a *ngIf="obra && option==='expediente-unico-obra'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/expediente-unico-obra', obra.idObra]">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
+            </a>
            
             <span class="title-card-catalogs">{{obra.noContrato}} -
               <span> {{obra.nombreObra}} </span>

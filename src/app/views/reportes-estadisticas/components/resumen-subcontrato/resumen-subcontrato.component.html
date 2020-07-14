@@ -2,7 +2,7 @@
   <mat-card class="rep-card p-0">
     <mat-card-title>
       <div class="container-title">
-        <img class="icon" src="assets/images/faces/10.jpg" alt="icono" />
+        <img class="icon" src="assets/images/icons/worker.png" alt="icono" />
         <h2 class="title-component">Resumen de Subcontrato</h2>
         <img class="logo" src="http://{{host}}/Sicap/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="logo">
       </div>
@@ -70,7 +70,7 @@
           </div>
 
           <div class="wrap-button">
-            <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Buscar</button>
+            <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Generar Reporte</button>
           </div>
 
         </div>
@@ -87,7 +87,7 @@
   <mat-card class="rep-card seccion-alcance p-0" *ngIf="ver && datagral">
     <mat-card-content>
       <div class="wrap-button">
-        <button mat-raised-button color="primary" (click) = "generarReporte()" class="btn-accept btn-generar-reporte">Generar Reporte</button>
+        <button mat-raised-button color="primary" (click) = "generarReporte()" class="btn-accept btn-generar-reporte">Exportar Reporte</button>
       </div>
       <!-- <app-alcance-resumen-subcontrato [semanas] = "dataSemanas" ></app-alcance-resumen-subcontrato> -->
       <div class="container-alcance-resumen">

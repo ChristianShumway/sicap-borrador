@@ -1,0 +1,46 @@
+.wrap-buttons{
+  text-align: right;
+}
+
+.wrap-detalles-obra{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-gap: 10px;
+}
+
+.wrap-detalles-obra p{
+  margin-bottom: 0;
+}
+
+.wrap-detalles-obra p span{
+  font-weight: bold;
+}
+
+.text-supervisor-obra{
+  display: block;
+  font-weight: 400;
+  padding-left: 10px;
+}
+
+.card-title-text.status-perfecto{
+  background: green;
+}
+
+.card-title-text.status-estable{
+  background: greenyellow;
+}
+
+.card-title-text.status-alerta{
+  background: orange;
+}
+
+.card-title-text.status-peligro{
+  background: red;
+}
+
+@media screen and (max-width:599px){
+  .wrap-detalles-obra{
+    grid-template-columns: 1fr;
+    grid-gap: 10px 0;
+  }
+}

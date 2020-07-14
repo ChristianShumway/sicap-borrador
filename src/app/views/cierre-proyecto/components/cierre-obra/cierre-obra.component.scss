@@ -1,0 +1,90 @@
+.wrap-loading-catalog{
+  height: 80vh;
+  justify-content: center;
+  align-items: center;
+}
+
+.validaciones{
+  padding-bottom: 4px;
+  height: 0px;
+}
+
+.validaciones small{
+  padding: 0 !important;
+}
+
+.cont-btns{
+  text-align: right;
+  // display: grid;
+  // grid-template-columns: repeat(3, 180px);
+  // grid-gap: 10px;
+  // justify-content: end;
+}
+
+.cont-btns button, .cont-btns a{
+  margin-right: 10px;
+}
+
+.cont-btns button:last-child{
+  margin-right: 0px;
+}
+
+.mat-cierre{
+  background:#c62828 ;
+  color: white;
+}
+
+.btn-add-observacion{
+  position: absolute;
+  top: -25px;
+  right: 0px;
+}
+
+.title-observaciones{
+  border-bottom: 1px solid lightgray;
+  margin: 0;
+  padding-bottom: 5px;
+  color: darkgray;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.wrap-observaciones-generales p {
+  margin: 0;
+  color: #3b9a4a;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 7px 10px;
+}
+
+.wrap-observaciones-generales li:nth-child(even){
+  background: #d3d3d338;
+  border-radius: 5px;
+}
+
+.observacion p span{
+  display: inherit;
+  cursor: pointer;
+}
+
+.wrap-observaciones-generales li{
+  list-style-type: decimal;
+}
+
+.wrap-observaciones-generales li:hover{
+  background: lightgrey;
+}
+
+.wrap-observaciones-generales li:hover p{
+  color: white;
+}
+
+@media screen and (max-width: 599px){
+  .cont-btns{
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+    justify-content: center;
+  }
+}

@@ -1,0 +1,214 @@
+<mat-card class="p-0 container-create-user" *ngIf="dataCierreObra; else loading">
+  <mat-card-title class="">
+    <div class="card-title-text">Formulario para ficha de cierre de obra.</div>
+    <mat-divider></mat-divider>
+  </mat-card-title>
+
+  <mat-card-content>
+    <form [formGroup]="cierreObraForm" (submit)="updateObra()">
+      <div fxLayout="row wrap">
+
+        <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
+         
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+                (dateChange)="onFechaInicioObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
+              <mat-datepicker #fechaInicio (selectedChange)="onFechaInicioObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['fechaInicio'].hasError('required') && cierreObraForm.controls['fechaInicio'].touched"
+                class="form-error-msg">
+                Fecha de inicio real de la obra es un campo requerido
+              </small>
+            </div>
+            <div class="validaciones">
+              <small *ngIf="error.isError" class="form-error-msg">
+                {{ error.errorMessage }}
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Fecha Fin de Obra" (dateChange)="onFechaFinObra($event)">
+              <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
+              <mat-datepicker #fechaFin (selectedChange)="onFechaFinObra($event)"></mat-datepicker>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['fechaFin'].hasError('required') && cierreObraForm.controls['fechaFin'].touched" class="form-error-msg">
+                Fecha de termino real de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="diasTotales" formControlName="diasTotales" placeholder="Plazo de Ejecución" readonly>
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['diasTotales'].hasError('required') && cierreObraForm.controls['diasTotales'].touched"
+                class="form-error-msg">
+                Plazo de ejecución es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalObra" formControlName="totalObra" placeholder="Monto Ejecutado Total de la Obra" mask="separator.2"
+                thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalObra'].hasError('required') && cierreObraForm.controls['totalObra'].touched"
+                class="form-error-msg">
+                El monto ejecutado total de la obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalMaterial" formControlName="totalMaterial" placeholder="Total Ejecutado de Materiales"
+                mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalMaterial'].hasError('required') && cierreObraForm.controls['totalMaterial'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de materiales es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalMaquinariaEquipo" formControlName="totalMaquinariaEquipo" placeholder="Total Ejecutado de Maquinaria y Equipo"
+                mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalMaquinariaEquipo'].hasError('required') && cierreObraForm.controls['totalMaquinariaEquipo'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de maquinaria y Equipo es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalManoObra" formControlName="totalManoObra" placeholder="Total Ejecutado Mano de Obra" mask="separator.2"
+                thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalManoObra'].hasError('required') && cierreObraForm.controls['totalManoObra'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado mano de obra es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalSubcontrato" formControlName="totalSubcontrato" placeholder="Total Ejecutado de Subcontratos"
+                mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalSubcontrato'].hasError('required') && cierreObraForm.controls['totalSubcontrato'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de subcontratos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalIndirecto" formControlName="totalIndirecto" placeholder="Total Ejecutado de Indirectos" mask="separator.2"
+                thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalIndirecto'].hasError('required') && cierreObraForm.controls['totalIndirecto'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de indirectos es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalFinanciamiento" formControlName="totalFinanciamiento" placeholder="Total Ejecutado de Financiamiento"
+                mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalFinanciamiento'].hasError('required') && cierreObraForm.controls['totalFinanciamiento'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de financiamiento es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalUtilidadEsperada" formControlName="totalUtilidadEsperada" placeholder="Total Ejecutado de Utilidad Esperada" mask="separator.2"
+                thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalUtilidadEsperada'].hasError('required') && cierreObraForm.controls['totalUtilidadEsperada'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de utilidad esperada es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalCargoAdicional" formControlName="totalCargoAdicional" placeholder="Total Ejecutado deCargos Adicionales" mask="separator.2"
+                thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalCargoAdicional'].hasError('required') && cierreObraForm.controls['totalCargoAdicional'].touched"
+                class="form-error-msg">
+                Presupuesto total ejecutado de cargos adicionales es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1" *ngIf = "dataCierreObra.idCierreObra !== 0 && dataCierreObra.estatus === 0">
+            <mat-form-field class="full-width wrap-input-observaciones">
+              <input matInput name="leccionesAprendidas" placeholder="Leeción Aprendida" [(ngModel)]="leccionAprendidaText" [ngModelOptions]="{standalone: true}">
+              <a mat-mini-fab color="primary" class="btn-add-observacion" matTooltip="Agregar Observación" matTooltipPosition="left" (click)="addLeccion(leccionAprendidaText)">
+                <mat-icon>add</mat-icon>
+              </a>
+            </mat-form-field>
+          </div>
+
+          <div class="pb-1" *ngIf="leccionesAprendidas.length">
+            <p class="title-observaciones">Lecciones Aprendidas:</p>
+            <ul class="wrap-observaciones-generales">
+              <li *ngFor="let leccion of leccionesAprendidas" class="observacion">
+                <p>
+                  {{leccion.comentario}}
+                  <span matTooltip="Eliminar Lección Aprendida" matTooltipPosition="left" (click)="deleteLeccion(leccion)" *ngIf = "dataCierreObra.estatus === 0">
+                    <mat-icon>delete</mat-icon>
+                  </span>
+                </p>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="cont-btns">
+        <a mat-raised-button [color]="'cierre'" (click)="cerrarObra()" *ngIf = "dataCierreObra.idCierreObra !== 0 && dataCierreObra.estatus === 0">Cerrar Obra</a>
+        <button mat-raised-button color="primary" [disabled]="cierreObraForm.invalid"  *ngIf = "dataCierreObra.estatus === 0" type="submit">Modificar</button>
+        <button mat-raised-button [routerLink]="'/cierre-proyecto/obras'">Cancelar</button>
+      </div>
+    </form>
+  </mat-card-content>
+</mat-card>
+
+<ng-template #loading>
+  <div class="wrap-loading-catalog">
+    <mat-spinner [diameter]="60"></mat-spinner>
+  </div>
+</ng-template>

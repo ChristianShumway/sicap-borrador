@@ -145,7 +145,7 @@
         <ngx-datatable-column name="Categoría" [flexGrow]="1">
           <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
               <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial === 0">
-                Obra
+                Materiales
               </p>
               <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial !== 0">
                 {{row?.categoriaSolicitudMateria.descripcion}}

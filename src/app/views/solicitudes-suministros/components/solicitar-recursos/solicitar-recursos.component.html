@@ -225,7 +225,7 @@
           </div>
         
           <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Crear Solicitud</button>
+            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept" *ngIf="obra.cierre===0">Crear Solicitud</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/obras'">Cancelar</button>
           </div>
         

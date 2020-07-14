@@ -1,0 +1,103 @@
+<div fxLayout="row wrap" *ngIf="!(obraObs$ | async) as obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <mat-card class="profile-sidebar mb-1 pb-0">
+      <div class="wrap-spiner">
+        <mat-spinner></mat-spinner>
+      </div>
+    </mat-card>
+  </div>
+</div>
+
+<div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
+  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
+    <mat-card class="profile-sidebar mb-1 pb-0 wrap-data-obra">
+      <div class="col-left">
+        <div class="propic text-center">
+          <img src="http://{{host}}/{{urlImg}}/files/{{obra.empresa.imagen}}" [alt]="obra.nombre">
+        </div>
+        <div class="profile-title text-center mb-1">
+          <div class="main-title">{{obra.noContrato}}
+          </div>
+          <div class="subtitle mb-05">{{obra.nombreObra}}</div>
+          <div class="subtitle mb-05">Días Faltantes: {{obra.fechaFin | diasFaltantes}} días</div>
+        </div>
+        <div class="profile-actions mb-1" fxLayoutAlign="center center">
+          <span fxFlex="8px"></span>
+        </div>
+      </div>
+      <div class="col-right wrap-info-obra">
+        <!-- <h2>Información de la obra</h2> -->
+        <mat-list>
+          <!-- {{obra | json}} -->
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon>
+            <span class="span-info">Fecha Inicio:</span> {{obra.fechaInicio | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">date_range</mat-icon>
+            <span class="span-info">Fecha Fin:</span> {{obra.fechaFin | date}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">map</mat-icon>
+            <span class="span-info">Lugar de Trabajo:</span> {{obra.lugarTrabajo}}</mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">timer</mat-icon>
+            <span class="span-info">Plazo Ejecución:</span> {{obra.plazoEjecucion +1}} días</mat-list-item>
+          <mat-list-item class="list-supervisores">
+            <mat-icon class="mr-1">person</mat-icon>
+            <span class="span-info">Supervisor:</span>
+            <div *ngIf="obra.supervisor.length > 1" class="multiple-supervisor">
+              <ul class="text">
+                <li *ngFor="let supervisor of obra.supervisor"> {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}} </li>
+              </ul>
+            </div>
+            <div *ngIf="obra.supervisor.length === 1">
+              <span *ngFor="let supervisor of obra.supervisor"> {{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}} </span>
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">business_center</mat-icon>
+            <span class="span-info">Cliente:</span> {{obra.cliente.nombre}}</mat-list-item>
+          <mat-list-item class="list-supervisores">
+            <mat-icon class="mr-1">emoji_people</mat-icon>
+            <span class="span-info">Destajista:</span>
+            <div *ngIf="obra.destajista.length > 1">
+              <ul class="text">
+                <li *ngFor="let destajista of obra.destajista"> {{destajista.nombre}}</li>
+              </ul>
+            </div>
+            <div *ngIf="obra.destajista.length === 1">
+              <span *ngFor="let destajista of obra.destajista"> {{destajista.nombre}} </span>
+            </div>
+          </mat-list-item>
+          <mat-list-item>
+            <mat-icon class="mr-1">attach_money</mat-icon>
+            <span class="span-info">Monto Total:</span> {{obra.presupuestoTotal | currency}}</mat-list-item>
+        </mat-list>
+      </div>
+    </mat-card>
+  </div>
+
+  <div xFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="100" class="submenu">
+    <mat-card>
+      <div class="profile-nav">
+        <mat-nav-list>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="ficha-cierre-obra/{{obra.idObra}}" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">folder</mat-icon>
+            Ficha de Cierre de Obra
+          </mat-list-item>
+          <mat-divider></mat-divider>
+          <mat-list-item routerLink="../../obras" routerLinkActive="list-item-active">
+            <mat-icon class="mr-1">arrow_back</mat-icon>
+            Regresar Obras
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+    </mat-card>
+  </div>
+
+  <!-- Profile Views -->
+  <div fxFlex="100" fxFlex.gt-sm="100" fxFlex.gt-md="100">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>

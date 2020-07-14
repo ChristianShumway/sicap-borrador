@@ -62,7 +62,7 @@
     <div class="tit">Descripción:</div>
     <div class="desc">{{material.descripcion}}</div>
     <div class="tit">Categoría:</div>
-    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial === 0">Obra</div>
+    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial === 0">Materiales</div>
     <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial !== 0">{{material.categoriaSolicitudMaterial.descripcion}}</div>
     <div class="tit">Unidad:</div>
     <div class="desc">{{material.unidad}}</div>
