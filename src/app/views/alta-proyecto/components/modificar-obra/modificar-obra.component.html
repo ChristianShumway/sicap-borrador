@@ -1,4 +1,4 @@
-<mat-card class="p-0 container-create-user">
+<mat-card class="p-0 container-create-user" *ngIf="obra">
   <mat-card-title class="">
     <div class="card-title-text">Formulario para la modificación de obras</div>
     <mat-divider></mat-divider>
@@ -388,7 +388,7 @@
             </div>
           </div>
 
-          <div class="pb-1" *ngIf='obra.cierre === 0'>
+          <div class="pb-1" *ngIf="obra.cierre === 0">
             <mat-form-field class="full-width wrap-input-observaciones">
               <input matInput  name="observacionesGenerales"  placeholder="Observación General"  [(ngModel)] = "observacionText"  [ngModelOptions]="{standalone: true}"  >
               <a 

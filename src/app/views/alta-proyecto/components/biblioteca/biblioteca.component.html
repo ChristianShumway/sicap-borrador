@@ -9,32 +9,39 @@
     <div class="container-list">
       <div *ngFor="let documento of documentos">
         <mat-list-item>
-          <!-- {{documento.detExpedienteUnicoObra | json}} -->
+          <!-- {{documento.idExpedienteUnicoObra | json}} -->
           <div class="cont">
             <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
               <mat-icon class="">more_vert</mat-icon>
             </button>
           </div>
           <mat-menu #documentMenu="matMenu">
-            <a mat-menu-item *ngIf="documento.detExpedienteUnicoObra" (click)="vistaPreviaArchivo(documento.detExpedienteUnicoObra)" target="blank">Ver</a>
-            <a mat-menu-item *ngIf="!documento.detExpedienteUnicoObra && obra.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
-            <a mat-menu-item *ngIf="documento.detExpedienteUnicoObra" href="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{documento.detExpedienteUnicoObra.nombreArchivo}}" target="blank">Descargar</a>
-            <button mat-menu-item *ngIf="documento.detExpedienteUnicoObra && obra.cierre === 0" (click)="openDialoAlertDelete(documento.detExpedienteUnicoObra.idDetExpedienteUnicoObra)">Eliminar</button>
+            <ng-container *ngIf="!documento.multiple">
+              <a mat-menu-item *ngIf="!documento.detExpedienteUnicoObra && obra.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
+              <div *ngIf="documento.detExpedienteUnicoObra">
+                <ng-container *ngFor ="let detExpediente of documento.detExpedienteUnicoObra">
+                  <a mat-menu-item (click)="vistaPreviaArchivo(detExpediente)" target="blank">Ver</a>
+                  <a mat-menu-item href="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{detExpediente.nombreArchivo}}" target="blank">Descargar</a>
+                  <button mat-menu-item *ngIf="obra.cierre === 0" (click)="openDialoAlertDelete(detExpediente.idDetExpedienteUnicoObra)">Eliminar</button>
+                </ng-container>
+              </div>
+            </ng-container>
+            
+            <ng-container *ngIf="documento.multiple">
+              <a mat-menu-item *ngIf="obra.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
+              <div *ngIf="documento.detExpedienteUnicoObra">
+                <ng-container *ngFor ="let detExpediente of documento.detExpedienteUnicoObra">
+                  <a mat-menu-item (click)="vistaPreviaArchivo(detExpediente)" target="blank">Ver Archivo {{detExpediente.nombreArchivo}}</a>
+                  <a mat-menu-item href="http://{{host}}/{{rutaSicap}}/files/files-log-obra/{{detExpediente.nombreArchivo}}" target="blank">Descargar Archivo {{detExpediente.nombreArchivo}}</a>
+                  <button mat-menu-item *ngIf="obra.cierre === 0" (click)="openDialoAlertDelete(detExpediente.idDetExpedienteUnicoObra)">Eliminar Archivo {{detExpediente.nombreArchivo}}</button>
+                </ng-container>
+              </div>
+            </ng-container>
+            
           </mat-menu>
           <mat-icon mat-list-icon class="upload" *ngIf="documento.detExpedienteUnicoObra">done</mat-icon>
           <mat-icon mat-list-icon class="no-upload" *ngIf="!documento.detExpedienteUnicoObra">close</mat-icon>
-  
-          <a mat-line *ngIf="documento.detExpedienteUnicoObra"  (click)="vistaPreviaArchivo(documento.detExpedienteUnicoObra)" class="title-doc" >
-            {{documento.descripcion}}
-          </a>
-          <a mat-line *ngIf="!documento.detExpedienteUnicoObra && obra.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" class="title-doc" >
-            {{documento.descripcion}}
-          </a>
-          <a mat-line *ngIf="!documento.detExpedienteUnicoObra && obra.cierre !== 0" class="title-doc" >
-            {{documento.descripcion}}
-          </a>
-          <!-- <p mat-line mat-line class="show-date"  *ngIf="documento.detExpedienteUnicoObra"> {{documento.detExpedienteUnicoObra.fecha | date:mediumDate}} </p>
-          <p mat-line mat-line class="show-date"  *ngIf="!documento.detExpedienteUnicoObra"> Sin fecha de registro </p> -->
+          <a mat-line class="title-doc" > {{documento.descripcion}} </a>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>

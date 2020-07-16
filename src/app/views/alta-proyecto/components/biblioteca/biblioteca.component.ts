@@ -90,6 +90,11 @@ export class BibliotecaComponent implements OnInit {
 
     this.obraService.getArchivosValidosObraObservable(this.obra.idObra);
     this.listadocumentosValidosObs$ = this.obraService.getDataArchivosValidosObra();
+
+    this.obraService.viewArchivos(this.obra.idObra).subscribe(
+      response => console.log(response),
+      error => console.log(error)
+    );
   }
 
   abrirAltaDocumento(idTipoDocumento): void {

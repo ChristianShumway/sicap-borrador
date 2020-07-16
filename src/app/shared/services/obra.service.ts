@@ -113,6 +113,10 @@ export class ObraService {
     );
   }
 
+  viewArchivos(idObra:number){
+    return this.http.get<any>(`${environment.apiURL}/projectExecution/getExpedienteUnicoObra/${idObra}`);
+  }
+
 
   // eND NUEVO LISTA DOCUMENTOS
 

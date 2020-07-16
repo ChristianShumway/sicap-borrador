@@ -28,6 +28,7 @@ export class AltaDocumentoComponent implements OnInit {
 
   ngOnInit() {
     this.initUploadCatalogo();
+    console.log(this.data.idTipoDocumento);
   }
 
   initUploadCatalogo() {

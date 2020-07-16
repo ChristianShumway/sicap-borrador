@@ -43,6 +43,7 @@ export class ModificarObraComponent implements OnInit {
   pipe = new DatePipe('en-US');
   error:any={isError:false,errorMessage:''};
   obraId;
+  obra: Obra;
   idUsuarioLogeado;
   idClienteObra;
   observacionText: string;
@@ -79,6 +80,7 @@ export class ModificarObraComponent implements OnInit {
         this.obraService.getObra(this.obraId).subscribe(
           (obra: Obra) => {
             console.log(obra);
+            this.obra = obra;
             this.idClienteObra = obra.idCliente;
             this.observacionesGenerales = obra.observacion;
             let inicioString = obra.fechaInicio;
