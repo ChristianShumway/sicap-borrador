@@ -264,14 +264,14 @@ export class ListaPlanTrabajoComponent implements OnInit {
   exportarReporte(idPlanTrabajo) {
     this.planTrabajoService.getExportable(idPlanTrabajo).subscribe(
       response => {
-        var blob = new Blob([response], {type: 'application/xlsx'});
+        var blob = new Blob([response], {type: 'application/pdf'});
         var link=document.createElement('a');
       
         var obj_url = window.URL.createObjectURL(blob);		    
         var link = document.createElement("a");
         link.setAttribute("target", "_blank");
         link.setAttribute("href", obj_url);
-        link.setAttribute("download","reporte-plan-trabajo.xlsx");
+        link.setAttribute("download","reporte-plan-trabajo.pdf");
           
         link.style.visibility = "hidden";
         document.body.appendChild(link);
