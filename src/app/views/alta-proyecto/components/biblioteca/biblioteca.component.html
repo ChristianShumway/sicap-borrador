@@ -7,7 +7,7 @@
   <div *ngIf="(listadocumentosValidosObs$ | async) as documentos">
     <!-- {{documento | json}} -->
     <div class="container-list">
-      <div *ngFor="let documento of documentos">
+      <div *ngFor="let documento of documentos; let i = index">
         <mat-list-item>
           <!-- {{documento.idExpedienteUnicoObra | json}} -->
           <div class="cont">
@@ -41,7 +41,7 @@
           </mat-menu>
           <mat-icon mat-list-icon class="upload" *ngIf="documento.detExpedienteUnicoObra">done</mat-icon>
           <mat-icon mat-list-icon class="no-upload" *ngIf="!documento.detExpedienteUnicoObra">close</mat-icon>
-          <a mat-line class="title-doc" > {{documento.descripcion}} </a>
+          <a mat-line class="title-doc" > {{i+1}}. {{documento.descripcion}} </a>
           <mat-divider></mat-divider>
         </mat-list-item>
       </div>
