@@ -157,7 +157,13 @@ export class ListaSolicitudesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
 
-        this.solicitudesService.deleteSolicitud(idSolicitud, tipoSolicitud).subscribe(
+        const dataCancel = {
+          idUsuarioRechazo: this.idUsuarioLogeado,
+	        idSolicitud: idSolicitud,
+	        idTipo: tipoSolicitud
+        }
+
+        this.solicitudesService.rechazarSolicitud(dataCancel).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
@@ -323,13 +329,14 @@ export class ListaSolicitudesComponent implements OnInit {
       } else if (opcion === 'rechazar') {        
         datosAutorizar = {
           idUsuarioRechazo: this.idUsuarioLogeado,
-          idSolicitud: idSolicitud,
+          idOrdenCompra: idOrdenTrabajo,
           idTipo: idTipoSolicitud,
+          // idSolicitud: idSolicitud,
           // idBitacoraSolicitud: 0,
         };
 
         console.log(datosAutorizar);
-        this.solicitudesService.rechazarSolicitud(datosAutorizar).subscribe(
+        this.solicitudesService.cancelarOrdenTrabajo(datosAutorizar).subscribe(
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
