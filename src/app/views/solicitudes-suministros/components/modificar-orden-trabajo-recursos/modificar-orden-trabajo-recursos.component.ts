@@ -37,7 +37,6 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
   totalImporteValidadoConFactura: number;
   rutaImg: string;
   host: string;
-
   opcionesPermitidas = true;
 
   constructor(
@@ -139,7 +138,8 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
       folio: this.solicitud.folio,
       idUsuarioModifico: this.idUsuarioLogeado,
       detOrdenTrabajoRecurso: detallesOrdenTrabajoRecurso,
-      idSolicitud: this.solicitud.idSolicitudRecurso
+      idSolicitud: this.solicitud.idSolicitudRecurso,
+      observacion: this.solicitud.observacion
     };
 
     // console.log(JSON.stringify(ordenTrabajo));

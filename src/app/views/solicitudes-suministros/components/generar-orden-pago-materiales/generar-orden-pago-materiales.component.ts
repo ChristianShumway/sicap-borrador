@@ -92,9 +92,10 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
   
   getValidations(){
     this.solicitudForm = new FormGroup({
-      fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
-      lugarRecepcion: new FormControl('', Validators.required),
-      descripcion: new FormControl('', Validators.required),
+      // fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
+      // lugarRecepcion: new FormControl('', Validators.required),
+      // descripcion: new FormControl('', Validators.required),
+      observacion: new FormControl(''),
     });
   }
   
@@ -150,6 +151,7 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
     // console.log(detOrdenTrabajoMateriales);
 
     const ordenTrabajo  = {
+      ...this.solicitudForm.value,
       idSolicitudMaterial: this.solicitud.idSolicitudMaterial,
       idUsuarioModifico: this.idUsuarioLogeado,
       idSolicitud: this.solicitud.idSolicitudMaterial,

@@ -148,7 +148,7 @@
                 Materiales
               </p>
               <p class="content-center" [ngStyle]="{'color':row?.noMaterial === 99999 ? 'green' : 'black' }" *ngIf="row?.idCategoriaSolicitudMaterial !== 0">
-                {{row?.categoriaSolicitudMateria.descripcion}}
+                {{row?.categoriaSolicitudMaterial.descripcion}}
               </p>
           </ng-template>
         </ngx-datatable-column>

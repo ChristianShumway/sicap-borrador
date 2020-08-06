@@ -75,7 +75,7 @@
               <ngx-datatable-column name="Categoría" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <p class="content-center">
-                    {{row?.categoria}} 
+                    {{row?.categoria.descripcion}} 
                   </p>
                 </ng-template>
               </ngx-datatable-column>
@@ -146,6 +146,18 @@
             <div class="wrap-descripcion-solicitud">
               <div class="pb-1">
                 {{ordenTrabajo.solicitud.observacion}}
+              </div>
+            </div>
+          </div>
+
+          <div class="fields-form-ad">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <div class="desc">
+                  <mat-form-field class="comentario">
+                    <textarea matInput [(ngModel)]="ordenTrabajo.observacion" [ngModelOptions]="{standalone: true}" ></textarea>
+                  </mat-form-field>
+                </div>
               </div>
             </div>
           </div>

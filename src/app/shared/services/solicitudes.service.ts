@@ -101,8 +101,8 @@ export class SolicitudesService {
 
   // GENERAL
   // /getWorkOrden/{idUserio}/{etapa}/{tipoSolicitud}"
-  getSolicitudesPorUsuario(idUsuario: number, etapa: number, tipoSolicitud: number): Observable<any> {
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${etapa}/${tipoSolicitud}`);
+  getSolicitudesPorUsuario(idUsuario: number, etapa: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${etapa}`);
   }
   showStepByStepInResource(idSolicitud: number): Observable<any> {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getEstatusRequest/${idSolicitud}`);
@@ -114,6 +114,11 @@ export class SolicitudesService {
 
   getLogRequest(): Observable<any>{
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getLogRequest`);
+  }
+
+  async getViewDetLogRequest(idRequest:number, typeRequest: number){
+    const asyncResult = await this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getViewDetLogRequest/${idRequest}/${typeRequest}`).toPromise();
+    return asyncResult;
   }
 
   getSolicitudesParaValidar(): Observable<any> {
@@ -129,6 +134,10 @@ export class SolicitudesService {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${idEstado}/${idTipo}`);
   }
 
+  async getWorkOrdenByRequest (idUsuario: number,  idRequest: number, idTipo: number) {
+    const asyncResult = await this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrdenByRequest/${idUsuario}/${idRequest}/${idTipo}`).toPromise();
+    return asyncResult;
+  }
 
   // ORDEN TRABAJO RECURSOS
   getSolicitudParaOrdenTrabajo(tipoSolicitud: number, idSolicitud: number): Observable<any>{
@@ -199,6 +208,11 @@ export class SolicitudesService {
   rechazarSolicitud(solicitud): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setReject`, JSON.stringify(solicitud), { headers: headerss});
+  }
+
+  cancelarOrdenTrabajo(data): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setRejectOrder`, JSON.stringify(data), { headers: headerss});
   }
 
   // descargarSolicitud(idSolicitud: number, tipoSolicitud: number): Observable<any>{

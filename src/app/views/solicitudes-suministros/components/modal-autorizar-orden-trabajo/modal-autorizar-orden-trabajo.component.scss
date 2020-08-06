@@ -147,6 +147,19 @@
   }
 }
 
+.wrap-observacion{
+  margin: 20px 10px 0px 10px;
+  p {
+    margin: 0;
+    text-transform: uppercase;
+  }
+  .comentario {
+    width:100%;
+  }
+}
+
+
+
 .wrap-buttons{
   display: flex;
   justify-content: space-around;

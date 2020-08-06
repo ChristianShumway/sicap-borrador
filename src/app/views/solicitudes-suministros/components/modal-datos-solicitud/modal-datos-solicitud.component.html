@@ -1,116 +1,135 @@
-<div class="wrap-datos-obra">
-  <h3>{{data.tipo}}</h3>
-  <span>Grupo Empresasial CIMA</span>
-  <div class="col-obra">
-    <div class="logo">
-      <app-loading-image [url]="imgEmpresa"></app-loading-image>
-      <!-- <img src="http://{{host}}/{{rutaImg}}/files/{{data.solicitud.obra.empresa.imagen}}" alt="empresa"  /> -->
+<ng-container *ngIf="solicitud">
+  <div class="wrap-datos-obra">
+    <div class="col-title">
+      <div class="logo">
+        <!-- <app-loading-image [url]="imgEmpresa"></app-loading-image> -->
+        <img src="{{imgEmpresa}}" alt="empresa"  />
+      </div>
+      <p class="tipo-solicitud" *ngIf="data.idTipo===1">SOLICITUD DE RECURSOS</p>
+      <p class="tipo-solicitud" *ngIf="data.idTipo===2">SOLICITUD DE MATERIALES / HERRAMIENTAS</p>
+      <p class="tipo-solicitud" *ngIf="data.idTipo===3">SOLICITUD DE MAQUINARIA / EQUIPO</p>
     </div>
-    <div class="nombre">
-      <p>{{data.solicitud.obra.nombreObra}}</p>
+  
+    <div class="col-solicitante">
+      <p class="inf"><b>Solicitante: </b> {{solicitud.usuarioSolicito.nombreCompleto}}</p>
+      <p class="inf folio"><b>Folio: </b> {{solicitud.folio}}</p>
+      <p class="inf" *ngIf="data.idTipo!==3"><b>Fecha Solicitud: </b>{{solicitud.fechaSolicito | date}}</p> 
+      <p class="inf" *ngIf="data.idTipo===3"><b>Fecha Solicitud: </b>{{solicitud.fechaSolicitud | date}}</p> 
+    </div> 
+    
+    <div class="col-solicitante"  *ngIf="data.idTipo===2">
+      <p class="inf"><b>Lugar donde se Entrega: </b> {{solicitud.lugarRecepcion}}</p>
+      <p></p>
+      <p class="inf"><b>Fecha en la que se Requiere: </b> {{solicitud.fechaRequiere | date}}</p> 
+    </div> 
+    
+    <div class="col-solicitante"  *ngIf="data.idTipo===3">
+      <p class="inf"><b>Periodo de Uso: </b> {{solicitud.fechaInicialUso | date}} al {{solicitud.fechaFinalUso | date}}</p> 
+      <p></p>
+      <p class="inf"><b>Lugar donde se Requiere: </b> {{solicitud.lugar}}</p>
     </div>
-  </div>
-</div>
-<div class="wrap-datos-solicitud" *ngIf="data.idTipo===1">
-  <p class="inf">No. Folio: <span>{{data.solicitud.serieFolio}}-{{data.idSolicitud}}</span></p> 
-  <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicito | date}}</span></p>  
-  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-  <div class="col-descripcion">
-    <p>Observaciones Adicionales:</p>
-    <div class="desc">
-      <span>{{data.solicitud.observacionesAdicionales}}</span>
-    </div>
-  </div>
-</div>
-
-<div class="wrap-materiales" *ngIf="data.idTipo===1">
-  <p class="title">Lista Peticiones</p>
-  <div class="material" *ngFor="let peticion of peticionesSeleccionadas">
-    <div class="tit">Tipo de Movimiento:</div>
-    <div class="desc">{{peticion.tipoMovimientoMonetario.descripcion}}</div>
-    <div class="tit">Categoría:</div>
-    <div class="desc">{{peticion.categoriaMovimientoMonetario.descripcion}}</div>
-    <div class="tit">Desglose:</div>
-    <div class="desc">{{peticion.desglose}}</div>
-    <div class="tit">Importe Solicitado sin Factura:</div>
-    <div class="desc">{{peticion.importeSolicitadoSinFactura | currency}}</div>
-    <div class="tit">Importe Seleccionado con Factura:</div>
-    <div class="desc">{{peticion.importeSolicitadoConFactura | currency}}</div>
-    <div class="tit">Comentario</div>
-    <div class="desc">{{peticion.comentario}}</div>
-  </div>
-</div>
-
-<div class="wrap-datos-solicitud" *ngIf="data.idTipo===2">
-  <p class="inf">No. Folio: <span>MAT-{{data.idSolicitud}}</span></p> 
-  <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicito | date}}</span></p>
-  <p class="inf">Fecha Requiere en Obra: <span>{{data.solicitud.fechaRequiere | date}}</span></p>
-  <p class="inf">Lugar de Recepción del Material: <span>{{data.solicitud.lugarRecepcion}}</span></p>
-  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-
-  <div class="col-descripcion">
-    <p>Observaciones Adicionales:</p>
-    <div class="desc">
-      <span>{{data.solicitud.observacionesAdicionales}}</span>
+    
+    <div class="col-obra">
+      <div class="title-section">Datos Generales</div>
+      <div class="data-obra">
+        <div class="tit">Empresa: </div>
+        <div class="inf">{{solicitud.obra.empresa.descripcion}}</div>
+        <div class="tit">Cliente: </div>
+        <div class="inf">{{solicitud.obra.empresa.descripcion}}</div>
+        <div class="tit">Número de Contrato: </div>
+        <div class="inf especial">
+          {{solicitud.obra.noContrato}}
+          <div class="tit">Número de Licitación:</div>
+          <div class="inf">{{solicitud.obra.noLicitacion}}</div>
+        </div>
+        <div class="tit">Nombre Obra: </div>
+        <div class="inf">{{solicitud.obra.nombreObra}}</div>
+        <div class="tit">Lugar: </div>
+        <div class="inf">{{solicitud.obra.lugarTrabajo}}</div>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="wrap-materiales" *ngIf="data.idTipo===2 && materialesSeleccionados.length">
-  <p class="title">Lista Materiales</p>
-  <div class="material" *ngFor="let material of materialesSeleccionados">
-    <div class="tit">Descripción:</div>
-    <div class="desc">{{material.descripcion}}</div>
-    <div class="tit">Categoría:</div>
-    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial === 0">Materiales</div>
-    <div class="desc" *ngIf="material.idCategoriaSolicitudMaterial !== 0">{{material.categoriaSolicitudMaterial.descripcion}}</div>
-    <div class="tit">Unidad:</div>
-    <div class="desc">{{material.unidad}}</div>
-    <div class="tit">Familia:</div>
-    <div class="desc">{{material.familia}}</div>
-    <div class="tit">Cantidad:</div>
-    <div class="desc">{{material.cantidadSolictada}}</div>
-    <div class="tit" *ngIf="material.comentario">Observación</div>
-    <div class="desc" *ngIf="material.comentario">{{material.comentario}}</div>
-  </div>
-</div>
-
-<div class="wrap-datos-solicitud" *ngIf="data.idTipo===3">
-  <p class="inf">No Folio: <span>{{data.solicitud.folio}}</span></p>
-  <p class="inf">Fecha Solicitud: <span>{{data.solicitud.fechaSolicitud | date}}</span></p>
-  <p class="inf">Teléfono Contácto: <span>{{data.solicitud.telefonoContacto}}</span></p>
-  <p class="inf">Correo Electrónico: <span>{{data.solicitud.correoElectronico}}</span></p>
-  <p class="inf">Periodo de Uso del Equipo: <span>{{data.solicitud.fechaInicialUso | date}} al {{data.solicitud.fechaFinalUso | date}} </span></p>
-  <p class="inf">Lugar donde se Requiere: <span>{{data.solicitud.lugar}}</span></p>
-  <p class="inf">Usuario Solicito: <span>{{data.solicitud.usuarioSolicito.nombre}} {{data.solicitud.usuarioSolicito.apellidoPaterno}} {{data.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
-  <div class="col-descripcion" *ngIf="data.solicitud.observacion">
-    <p>Observaciones Adicionales:</p>
-    <div class="desc">
-      <span>{{data.solicitud.observacion}}</span>
+  
+  <div class="wrap-materiales" *ngIf="data.idTipo===1">
+    <p class="title">Desglose Solicitud</p>
+    <div class="col-solicitud">
+      <div class="material titulo">
+        <div class="tit-col">No.</div>
+        <div class="tit-col">Categoría</div>
+        <div class="tit-col">Desglose</div>
+        <div class="tit-col">Solicitado con Factura</div>
+        <div class="tit-col">Solicitado sin Factura</div>
+        <div class="tit-col">Comentarios</div>
+      </div>
+      <div class="material" *ngFor="let peticion of peticionesSeleccionadas; let i = index">
+        <div class="desc">{{i+1}}</div>
+        <div class="desc categoria">{{peticion.categoriaMovimientoMonetario.descripcion}}</div>
+        <div class="desc">{{peticion.desglose}}</div>
+        <div class="desc">{{peticion.importeSolicitadoConFactura | currency}}</div>
+        <div class="desc">{{peticion.importeSolicitadoSinFactura | currency}}</div>
+        <div class="desc">{{peticion.comentario}}</div>
+      </div>
+      <div class="material totales">
+        <div></div>
+        <div></div>
+        <div>Totales</div>
+        <div>{{totalSolicitadoConFactura | currency}}</div>
+        <div>{{totalSolicitadoSinFactura | currency}}</div>
+        <div></div>
+      </div>
     </div>
   </div>
-</div>
-
-<div class="wrap-materiales" *ngIf="data.idTipo===3">
-  <p class="title">Lista Peticiones</p>
-  <div class="material" *ngFor="let peticion of peticionesMaquinariaSeleccionadas">
-    <div class="tit">Categoría:</div>
-    <div class="desc">{{peticion.categoriaSolicitudMaquinariaEquipo.descripcion}}</div>
-    <div class="tit">Descripción:</div>
-    <div class="desc">{{peticion.descripcion}}</div>
-    <div class="tit">Tipo de Servicio:</div>
-    <div class="desc">{{peticion.tipoServicio}}</div>
-    <div class="tit">Comentarios:</div>
-    <div class="desc">{{peticion.comentario}}</div>
+  
+  <div class="wrap-materiales" *ngIf="data.idTipo===2 && materialesSeleccionados.length">
+    <p class="title">Desglose Solicitud</p>
+    <div class="col-solicitud">
+      <div class="cmaterial titulo">
+        <div class="tit-col">No.</div>
+        <div class="tit-col">Categoría</div>
+        <div class="tit-col">Descripción Material</div>
+        <div class="tit-col">Familia</div>
+        <div class="tit-col">Unidad</div>
+        <div class="tit-col">Cantidad</div>
+        <div class="tit-col">Comentarios</div>
+      </div>
+      <div class="cmaterial" *ngFor="let material of materialesSeleccionados; let i = index">
+        <div class="desc">{{i+1}}</div>
+        <div class="desc categoria" *ngIf="material.idCategoriaSolicitudMaterial === 0">Materiales</div>
+        <div class="desc categoria" *ngIf="material.idCategoriaSolicitudMaterial !== 0">{{material.categoriaSolicitudMaterial.descripcion}}</div>
+        <div class="desc">{{material.descripcion}}</div>
+        <div class="desc">{{material.familia}}</div>
+        <div class="desc">{{material.unidad}}</div>
+        <div class="desc">{{material.cantidadSolictada}}</div>
+        <div class="desc">{{material.comentario}}</div>
+      </div>
+    </div>
   </div>
-</div>
+  
+  <div class="wrap-materiales" *ngIf="data.idTipo===3">
+    <p class="title">Desglose Solicitud</p>
+    <div class="col-solicitud">
+      <div class="mmaterial titulo">
+        <div class="tit-col">No.</div>
+        <div class="tit-col">Categoría</div>
+        <div class="tit-col">Descripción</div>
+        <div class="tit-col">Tipo de Servicio</div>
+        <div class="tit-col">Comentarios</div>
+      </div>
+      <div class="mmaterial" *ngFor="let peticion of peticionesMaquinariaSeleccionadas; let i = index">
+        <div class="desc">{{i+1}}</div>
+        <div class="desc categoria">{{peticion.categoriaSolicitudMaquinariaEquipo.descripcion}}</div>
+        <div class="desc">{{peticion.descripcion}}</div>
+        <div class="desc">{{peticion.tipoServicio}}</div>
+        <div class="desc">{{peticion.comentario}}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="wrap-observaciones-adicionales">
+    <div class="title-section">Observaciones Adicionales</div>
+    <div class="observacion">
+        <span>{{solicitud.observacionesAdicionales}}</span>
+    </div>
+  </div>
+</ng-container>  
 
-<div class="wrap-buttons">
-  <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->
-  <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]" matTooltip="Rechazar Solicitud" matTooltipPosition="left">
-    <mat-icon>thumb_down</mat-icon>
-  </button>
-  <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'validar'}]" matTooltip="Validar Solicitud" matTooltipPosition="right">
-    <mat-icon>thumb_up</mat-icon>
-  </button>
-</div>

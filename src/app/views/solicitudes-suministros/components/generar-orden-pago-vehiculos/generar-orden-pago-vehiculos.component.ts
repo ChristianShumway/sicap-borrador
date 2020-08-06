@@ -43,6 +43,7 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
   panelOpenState: boolean = false;
   totalPrecio: number;
   totalImporte: number;
+  observacionOrden: string = '';
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -166,7 +167,8 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
         detOrdenTrabajoMaquinariaEquipo: detOrdenTrabajo,
         observaciones: "dasads update",
         idSolicitud: this.solicitud.idSolicitudMaquinariaEquipo,
-        serieFolio: "MAQ"
+        serieFolio: "MAQ",
+        observacion: this.observacionOrden,
       };
 
       console.log(ordenTrabajo);

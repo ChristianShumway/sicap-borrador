@@ -1,14 +1,14 @@
 <mat-card class="p-0 container-create-user" *ngIf="cierreObra; else loading">
 
   <mat-card-content>
-    <form [formGroup]="cierreObraForm" (submit)="updateObra()">
+    <form [formGroup]="cierreObraForm" (submit)="updateObra()" class="wrap-form">
       <div fxLayout="row wrap">
 
         <div fxFlex="100" fxFlex.gt-xs="100" class="pr-1 wrap-form-1">
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra Real"
                 (dateChange)="onFechaInicioObra($event)">
               <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
               <mat-datepicker #fechaInicio (selectedChange)="onFechaInicioObra($event)"></mat-datepicker>
@@ -16,7 +16,7 @@
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['fechaInicio'].hasError('required') && cierreObraForm.controls['fechaInicio'].touched"
                 class="form-error-msg">
-                Fecha de inicio real de la obra es un campo requerido
+                Fecha de inicio de obra real es un campo requerido
               </small>
             </div>
             <div class="validaciones">
@@ -28,142 +28,142 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Fecha Fin de Obra" (dateChange)="onFechaFinObra($event)">
+              <input matInput [matDatepicker]="fechaFin" formControlName="fechaFin" name="date" placeholder="Fecha Fin de Obra Real" (dateChange)="onFechaFinObra($event)">
               <mat-datepicker-toggle matSuffix [for]="fechaFin"></mat-datepicker-toggle>
               <mat-datepicker #fechaFin (selectedChange)="onFechaFinObra($event)"></mat-datepicker>
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['fechaFin'].hasError('required') && cierreObraForm.controls['fechaFin'].touched" class="form-error-msg">
-                Fecha de termino real de la obra es un campo requerido
+                Fecha fin de obra real es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="diasTotales" formControlName="diasTotales" placeholder="Plazo de Ejecución" readonly>
+              <input matInput name="diasTotales" formControlName="diasTotales" placeholder="Plazo de Ejecución Real" readonly>
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['diasTotales'].hasError('required') && cierreObraForm.controls['diasTotales'].touched"
                 class="form-error-msg">
-                Plazo de ejecución es un campo requerido
+                Plazo de ejecución real es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalObra" formControlName="totalObra" placeholder="Monto Ejecutado Total de la Obra" mask="separator.2"
+              <input matInput name="totalObra" formControlName="totalObra" placeholder="Monto Ejecutado Total de Obra" mask="separator.2"
                 thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalObra'].hasError('required') && cierreObraForm.controls['totalObra'].touched"
                 class="form-error-msg">
-                El monto ejecutado total de la obra es un campo requerido
+                El monto ejecutado total de obra es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalMaterial" formControlName="totalMaterial" placeholder="Total Ejecutado de Materiales" mask="separator.2"
+              <input matInput name="totalMaterial" formControlName="totalMaterial" placeholder="Monto Suministrado de Materiales" mask="separator.2"
                 thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalMaterial'].hasError('required') && cierreObraForm.controls['totalMaterial'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de materiales es un campo requerido
+                Monto suministrado de materiales es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalMaquinariaEquipo" formControlName="totalMaquinariaEquipo" placeholder="Total Ejecutado de Maquinaria y Equipo"
-                mask="separator.2" thousandSeparator=",">
-            </mat-form-field>
-            <div class="validaciones">
-              <small *ngIf="cierreObraForm.controls['totalMaquinariaEquipo'].hasError('required') && cierreObraForm.controls['totalMaquinariaEquipo'].touched"
-                class="form-error-msg">
-                Presupuesto total ejecutado de maquinaria y Equipo es un campo requerido
-              </small>
-            </div>
-          </div>
-
-          <div class="pb-1">
-            <mat-form-field class="full-width">
-              <input matInput name="totalManoObra" formControlName="totalManoObra" placeholder="Total Ejecutado Mano de Obra" mask="separator.2"
+              <input matInput name="totalManoObra" formControlName="totalManoObra" placeholder="Monto Ejecutado de Mano de Obra" mask="separator.2"
                 thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalManoObra'].hasError('required') && cierreObraForm.controls['totalManoObra'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado mano de obra es un campo requerido
+                Monto ejecutado de mano de obra es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalSubcontrato" formControlName="totalSubcontrato" placeholder="Total Ejecutado de Subcontratos"
+              <input matInput name="totalSubcontrato" formControlName="totalSubcontrato" placeholder="Monto Ejecutado de Subcontratos"
                 mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalSubcontrato'].hasError('required') && cierreObraForm.controls['totalSubcontrato'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de subcontratos es un campo requerido
+                Monto ejecutado de subcontratos es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalIndirecto" formControlName="totalIndirecto" placeholder="Total Ejecutado de Indirectos" mask="separator.2"
+              <input matInput name="totalMaquinariaEquipo" formControlName="totalMaquinariaEquipo" placeholder="Monto Ejecutado de Maquinaria y Equipo"
+                mask="separator.2" thousandSeparator=",">
+            </mat-form-field>
+            <div class="validaciones">
+              <small *ngIf="cierreObraForm.controls['totalMaquinariaEquipo'].hasError('required') && cierreObraForm.controls['totalMaquinariaEquipo'].touched"
+                class="form-error-msg">
+                Monto ejecutado de maquinaria y equipo es un campo requerido
+              </small>
+            </div>
+          </div>
+
+          <div class="pb-1">
+            <mat-form-field class="full-width">
+              <input matInput name="totalIndirecto" formControlName="totalIndirecto" placeholder="Importe de Indirectos Real" mask="separator.2"
                 thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalIndirecto'].hasError('required') && cierreObraForm.controls['totalIndirecto'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de indirectos es un campo requerido
+                Importe de indirectos real es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalFinanciamiento" formControlName="totalFinanciamiento" placeholder="Total Ejecutado de Financiamiento"
+              <input matInput name="totalFinanciamiento" formControlName="totalFinanciamiento" placeholder="Importe de Financiamiento Real"
                 mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalFinanciamiento'].hasError('required') && cierreObraForm.controls['totalFinanciamiento'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de financiamiento es un campo requerido
+                Importe de financiamiento real es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalUtilidadEsperada" formControlName="totalUtilidadEsperada" placeholder="Total Ejecutado de Utilidad Esperada"
+              <input matInput name="totalUtilidadEsperada" formControlName="totalUtilidadEsperada" placeholder="Utilidad Real"
                 mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalUtilidadEsperada'].hasError('required') && cierreObraForm.controls['totalUtilidadEsperada'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de utilidad esperada es un campo requerido
+                Utilidad real es un campo requerido
               </small>
             </div>
           </div>
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="totalCargoAdicional" formControlName="totalCargoAdicional" placeholder="Total Ejecutado deCargos Adicionales"
+              <input matInput name="totalCargoAdicional" formControlName="totalCargoAdicional" placeholder="Importe de Cargos Adicionales"
                 mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['totalCargoAdicional'].hasError('required') && cierreObraForm.controls['totalCargoAdicional'].touched"
                 class="form-error-msg">
-                Presupuesto total ejecutado de cargos adicionales es un campo requerido
+                Importe de cargos adicionales es un campo requerido
               </small>
             </div>
           </div>

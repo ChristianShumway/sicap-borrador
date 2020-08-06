@@ -29,6 +29,9 @@ import {
   MatToolbarModule,
    } from '@angular/material';
 
+import {MatSortModule} from '@angular/material/sort';
+
+
 
 @NgModule({
   declarations: [],
@@ -59,7 +62,8 @@ import {
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSortModule
   ], 
   exports: [
     MatIconModule,
@@ -87,7 +91,8 @@ import {
     MatSnackBarModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSortModule
   ]
 })
 export class MaterialModule { }

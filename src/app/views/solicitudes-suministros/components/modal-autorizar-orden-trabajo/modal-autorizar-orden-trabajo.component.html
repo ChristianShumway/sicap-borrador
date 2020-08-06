@@ -20,9 +20,21 @@
     <p class="inf">Fecha Solicitud: <span>{{ordenTrabajo.solicitud.fechaSolicito | date}}</span></p>  
     <p class="inf">Beneficiario: <span>{{ordenTrabajo.solicitud.usuarioSolicito.nombre}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoPaterno}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
     <div class="col-descripcion">
-      <p>Observaciones Adicionales:</p>
+      <p>Observaciones Solicitud:</p>
       <div class="desc">
         <span>{{ordenTrabajo.solicitud.observacionesAdicionales}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacion">
+      <p>Observaciones Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacion}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacionAutorizacion && data.tipoAccion === 'suministrar' ">
+      <p>Observaciones Autorización Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacionAutorizacion}}</span>
       </div>
     </div>
   </div>
@@ -61,9 +73,21 @@
     <p class="inf">Beneficiario <span>{{ordenTrabajo.solicitud.usuarioSolicito.nombre}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoPaterno}} {{ordenTrabajo.solicitud.usuarioSolicito.apellidoMaterno}}</span></p> 
 
     <div class="col-descripcion">
-      <p>Observaciones Adicionales:</p>
+      <p>Observaciones Solicitud:</p>
       <div class="desc">
         <span>{{ordenTrabajo.solicitud.observacionesAdicionales}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacion">
+      <p>Observaciones Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacion}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacionAutorizacion && data.tipoAccion === 'suministrar' ">
+      <p>Observaciones Autorización Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacionAutorizacion}}</span>
       </div>
     </div>
   </div>
@@ -100,9 +124,21 @@
     <p class="inf">Lugar donde se Requiere: <span>{{ordenTrabajo.solicitud.lugar}}</span></p>  
 
     <div class="col-descripcion" *ngIf="ordenTrabajo.solicitud.observacion">
-      <p>Observaciones Adicionales:</p>
+      <p>Observaciones Solicitud:</p>
       <div class="desc">
         <span>{{ordenTrabajo.solicitud.observacion}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacion">
+      <p>Observaciones Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacion}}</span>
+      </div>
+    </div>
+    <div class="col-descripcion" *ngIf="ordenTrabajo.observacionAutorizacion && data.tipoAccion === 'suministrar' ">
+      <p>Observaciones Autorización Orden de Trabajo:</p>
+      <div class="desc">
+        <span>{{ordenTrabajo.observacionAutorizacion}}</span>
       </div>
     </div>
   </div>
@@ -126,14 +162,20 @@
       <div class="desc">{{peticion.importe | currency}}</div>
     </div>
   </div>
-    
-  
+
+  <div class="wrap-observacion" *ngIf="data.tipoAccion === 'autorizar'">
+    <p>Observaciones Adicionales:</p>
+    <mat-form-field class="comentario">
+      <textarea matInput [(ngModel)]="ordenTrabajo.observacionAutorizacion" [ngModelOptions]="{standalone: true}" ></textarea>
+    </mat-form-field>
+  </div>
+
   <div class="wrap-buttons">
     <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->
-    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]" matTooltip="Rechazar Orden de Trabajo" matTooltipPosition="left">
+    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar', 'ot':ordenTrabajo}]" matTooltip="Rechazar Orden de Trabajo" matTooltipPosition="left">
       <mat-icon>thumb_down</mat-icon>
     </button>
-    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'validar'}]">
+    <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'validar', 'ot':ordenTrabajo}]">
       <mat-icon>thumb_up</mat-icon>
     </button>
   </div>  

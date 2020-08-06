@@ -1,493 +1,228 @@
+<!-- FILTRO -->
+<mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;">
+    <input matInput (keyup)="applyFilterRequest($event.target.value)" placeholder="Filtro Solicitud">
+</mat-form-field>
+<!-- END FILTRO -->
+
+<div class="container-table">
+  <table #innerTableRequest mat-table #outerSort="matSort" [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 mb" matSort >
+    <ng-container matColumnDef="folio">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Folio </th>
+      <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.folio}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="tipo">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo </th>
+      <td mat-cell *matCellDef="let element">  <span class="col-center"> {{element.tipo}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="empresa">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Empresa </th>
+      <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.empresa}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="contrato">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contrato </th>
+      <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.contrato}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="solicitante">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Solicitante </th>
+      <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.solicitante}} </span> </td>
+    </ng-container>
+    <ng-container matColumnDef="verSolicitud">
+      <th mat-header-cell *matHeaderCellDef> Ver Solicitud </th>
+      <td mat-cell *matCellDef="let element"> 
+        <span class="col-center"> 
+          <button *ngIf="element.colorVerSolicitud ===  'green'" (click)="openDialogRequest(element.idSolicitud, element.idTipo)" mat-icon-button color="primary" matTooltip="Ver Solicitud" matTooltipPosition="left">
+            <mat-icon>visibility</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="element.colorVerSolicitud ===  'gray'" color="accent" matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>visibility</mat-icon></button>
+          <button mat-icon-button *ngIf="element.colorVerSolicitud ===  'yellow'" color="warn" matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>visibility</mat-icon></button>
+          <button mat-icon-button *ngIf="element.colorVerSolicitud ===  'red'" [color]="'cancel'" matTooltip="Solicitud Cancelada" matTooltipPosition="left"><mat-icon>visibility</mat-icon></button>
+        </span> 
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="editarSolicitud">
+      <th mat-header-cell *matHeaderCellDef> Editar Solicitud </th>
+      <td mat-cell *matCellDef="let element"> 
+        <span class="col-center"> 
+          <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-recursos', element.idSolicitud]" mat-icon-button 
+          *ngIf="element.colorEditarSolicitud ===  'green' && element.idTipo === 1" color="primary" matTooltip="Modificar Solicitud" matTooltipPosition="left">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-materiales', element.idSolicitud]" mat-icon-button 
+          *ngIf="element.colorEditarSolicitud ===  'green' && element.idTipo === 2" color="primary" matTooltip="Modificar Solicitud" matTooltipPosition="left">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button [routerLink]="['/solicitudes-suministros/modificar-solicitud-vehiculos', element.idSolicitud]" mat-icon-button 
+          *ngIf="element.colorEditarSolicitud ===  'green' && element.idTipo === 3" color="primary" matTooltip="Modificar Solicitud" matTooltipPosition="left">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="element.colorEditarSolicitud ===  'gray'" color="accent"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button *ngIf="element.colorEditarSolicitud ===  'yellow'" color="warn"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>edit</mat-icon></button>
+          <button mat-icon-button *ngIf="element.colorEditarSolicitud ===  'red'" [color]="'cancel'"  matTooltip="Solicitud Cancelada" matTooltipPosition="left"><mat-icon>edit</mat-icon></button>
+        </span> 
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="cancelarSolicitud">
+      <th mat-header-cell *matHeaderCellDef> Cancelar Solicitud </th>
+      <td mat-cell *matCellDef="let element"> 
+        <span class="col-center"> 
+          <button (click)="openDialoAlertDelete(element.idSolicitud, element.idTipo)" mat-icon-button *ngIf="element.colorEliminarSolicitud ===  'green'" color="primary" matTooltip="Cancelar Solicitud" matTooltipPosition="left">
+            <mat-icon>block</mat-icon>
+          </button>
+          <button mat-icon-button *ngIf="element.colorEliminarSolicitud ===  'gray'" color="accent"  matTooltip="Proceso Inactivo" matTooltipPosition="left"> <mat-icon>block</mat-icon> </button>
+          <button mat-icon-button *ngIf="element.colorEliminarSolicitud ===  'yellow'" color="warn"  matTooltip="Proceso Finalizado" matTooltipPosition="left"> <mat-icon>block</mat-icon> </button>
+          <button mat-icon-button *ngIf="element.colorEliminarSolicitud ===  'red'" [color]="'cancel'"  matTooltip="Solicitud Cancelada" matTooltipPosition="left"><mat-icon>block</mat-icon></button>
+        </span> 
+      </td>
+    </ng-container>
+    <ng-container matColumnDef="ordenTrabajo">
+      <th mat-header-cell *matHeaderCellDef> Orden de Trabajo </th>
+      <td mat-cell *matCellDef="let element"> 
+        <span class="col-center"> 
+          <button *ngIf="element.colorCrearOrden ===  'green' && element.idTipo === 1" [routerLink]="['/solicitudes-suministros/orden-pago-recursos', element.idSolicitud]" 
+          mat-icon-button color="primary" matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
+            <mat-icon>description</mat-icon>
+          </button>
+          <button *ngIf="element.colorCrearOrden ===  'green' && element.idTipo === 2" [routerLink]="['/solicitudes-suministros/orden-pago-materiales', element.idSolicitud]" 
+          mat-icon-button color="primary" matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
+            <mat-icon>description</mat-icon>
+          </button>
+          <button *ngIf="element.colorCrearOrden ===  'green' && element.idTipo === 3" [routerLink]="['/solicitudes-suministros/orden-pago-vehiculos', element.idSolicitud]" 
+          mat-icon-button color="primary" matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
+            <mat-icon>description</mat-icon>
+          </button>
+          <button mat-icon-button color="accent" *ngIf="element.colorCrearOrden ===  'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"> <mat-icon>description</mat-icon> </button>
+          <button mat-icon-button color="warm" *ngIf="element.colorCrearOrden ===  'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"> <mat-icon>description</mat-icon> </button>
+          <button mat-icon-button *ngIf="element.colorCrearOrden ===  'red'" [color]="'cancel'"  matTooltip="Solicitud Cancelada" matTooltipPosition="left"><mat-icon>description</mat-icon></button>
+        </span> 
+      </td>
+    </ng-container>
+  
+    <!-- Expanded Content Column  -->
+    <ng-container matColumnDef="expandedDetail">
+      <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+        <div class="example-element-detail" *ngIf="element.workOrders?.data.length" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+          <div class="inner-table mat-elevation-z8" *ngIf="expandedElement">
+            <mat-form-field>
+              <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro Orden de Trabajo">
+            </mat-form-field>
+            <table #innerTables mat-table #innerSort="matSort" class="orders-table" [dataSource]="element.workOrders" matSort>
+              <ng-container matColumnDef="folio">
+                <th mat-header-cell *matHeaderCellDef  > Folio </th>
+                <td mat-cell *matCellDef="let element"> <span class="col-center"> OT-REC{{element.idOrdenTrabajo}} </span> </td>
+              </ng-container>
+              <ng-container matColumnDef="fecha">
+                <th mat-header-cell *matHeaderCellDef > Fecha </th>
+                <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.fechaOrdenTrabajo | date}} </span> </td>
+              </ng-container>
+              <ng-container matColumnDef="estatus">
+                <th mat-header-cell *matHeaderCellDef > Estatus </th>
+                <td mat-cell *matCellDef="let element"> <span class="col-center"> {{element.estatus}} </span> </td>
+              </ng-container>
+              <ng-container matColumnDef="editarOrden">
+                <th mat-header-cell *matHeaderCellDef> Editar </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <span class="col-center"> 
+                    <button [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-recursos', element.idOrdenTrabajo]" mat-icon-button
+                      *ngIf="element.colorEditarOrdenTrabajo === 'green' && element.idTipo === 1" color="primary" matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-materiales', element.idOrdenTrabajo]" mat-icon-button
+                      *ngIf="element.colorEditarOrdenTrabajo === 'green' && element.idTipo === 2" color="primary" matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-vehiculos', element.idOrdenTrabajo]" mat-icon-button
+                      *ngIf="element.colorEditarOrdenTrabajo === 'green' && element.idTipo === 3" color="primary" matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
+                      <mat-icon>edit</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.colorEditarOrdenTrabajo === 'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>edit</mat-icon> </button>
+                    <button mat-icon-button color="warm" *ngIf="element.colorEditarOrdenTrabajo === 'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>edit</mat-icon> </button> 
+                    <button mat-icon-button *ngIf="element.colorEditarOrdenTrabajo ===  'red'" [color]="'cancel'"  matTooltip="Orden de Trabajo Cancelada" matTooltipPosition="left"><mat-icon>edit</mat-icon></button> 
+                  </span> 
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="cancelarOrden">
+                <th mat-header-cell *matHeaderCellDef> Cancelar </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <span class="col-center"> 
+                    <button (click)="openDialogDeleteOrden(element.idOrdenTrabajo, element.idTipo)" mat-icon-button *ngIf="element.colorEliminarOrdenTrabajo === 'green'"
+                      color="primary" matTooltip="Cancelar Orden de Trabajo" matTooltipPosition="left">
+                      <mat-icon>block</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.colorEliminarOrdenTrabajo === 'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>block</mat-icon></button>
+                    <button mat-icon-button color="warm" *ngIf="element.colorEliminarOrdenTrabajo === 'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>block</mat-icon></button>
+                    <button mat-icon-button *ngIf="element.colorEliminarOrdenTrabajo ===  'red'" [color]="'cancel'"  matTooltip="Orden de Trabajo Cancelada" matTooltipPosition="left"><mat-icon>block</mat-icon></button> 
+                  </span> 
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="autorizarOrden">
+                <th mat-header-cell *matHeaderCellDef> Autorizar </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <span class="col-center"> 
+                    <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud)" mat-icon-button *ngIf="element.colorAutorizar === 'green'"
+                      color="primary" matTooltip="Autorizar Orden de Trabajo" matTooltipPosition="left">
+                      <mat-icon>spellcheck</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.colorAutorizar === 'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>spellcheck</mat-icon></button>
+                    <button mat-icon-button color="warm" *ngIf="element.colorAutorizar === 'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>spellcheck</mat-icon></button>
+                    <button mat-icon-button *ngIf="element.colorAutorizar ===  'red'" [color]="'cancel'"  matTooltip="Orden de Trabajo Cancelada" matTooltipPosition="left"><mat-icon>spellcheck</mat-icon></button>
+                  </span> 
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="exportarOrden">
+                <th mat-header-cell *matHeaderCellDef> Exportar </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <span class="col-center"> 
+                    <button  mat-icon-button  (click) = "descargarOrdenTrabajo(element.idOrdenTrabajo, element.idTipo)" *ngIf = "element.colorExportanOrden === 'green'" 
+                    color="primary" matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
+                      <mat-icon>cloud_download</mat-icon> 
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.colorExportanOrden === 'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>cloud_download</mat-icon></button>
+                    <button mat-icon-button color="warm" *ngIf="element.colorExportanOrden === 'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>cloud_download</mat-icon></button>
+                    <button mat-icon-button *ngIf="element.colorExportanOrden ===  'red'" [color]="'cancel'"  matTooltip="Orden de Trabajo Cancelada" matTooltipPosition="left"><mat-icon>cloud_download</mat-icon></button> 
+                  </span> 
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="verificarOrden">
+                <th mat-header-cell *matHeaderCellDef> Verificar </th>
+                <td mat-cell *matCellDef="let element"> 
+                  <span class="col-center"> 
+                    <button (click)="openDialogSupply(element.idOrdenTrabajo, element.idTipo, element.idSolicitud)" mat-icon-button *ngIf="element.colorSuministrar === 'green' && element.estatus !== 'Completa'"
+                      color="primary" matTooltip="Verificar Suministro" matTooltipPosition="left">
+                      <mat-icon>{{element.icono}}</mat-icon>
+                    </button>
+                    <button mat-icon-button *ngIf="element.colorSuministrar === 'green' && element.estatus === 'Completa'" color="primary" matTooltip="Suministrado" matTooltipPosition="left">
+                    <mat-icon>{{element.icono}}</mat-icon>
+                    </button>
+                    <button mat-icon-button color="accent" *ngIf="element.colorSuministrar === 'gray'"  matTooltip="Proceso Inactivo" matTooltipPosition="left"><mat-icon>{{element.icono}}</mat-icon></button>
+                    <button mat-icon-button color="warm" *ngIf="element.colorSuministrar === 'yellow'"  matTooltip="Proceso Finalizado" matTooltipPosition="left"><mat-icon>{{element.icono}}</mat-icon></button>
+                    <button mat-icon-button *ngIf="element.colorSuministrar ===  'red'" [color]="'cancel'"  matTooltip="Orden de Trabajo Cancelada" matTooltipPosition="left"><mat-icon>{{element.icono}}</mat-icon></button>  
+                  </span> 
+                </td>
+              </ng-container>
+  
+              <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
+            </table>
+          </div>
+        </div>
+      </td>
+    </ng-container>
+  
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" [class.example-element-row]="element.workOrders?.data.length"
+      [class.example-expanded-row]="expandedElement === element" (click)="toggleRow(element)">
+    </tr>
+    <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+  </table>
+</div>
+
+
 <div fxLayout="row wrap" *ngIf="!solicitudes.length">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
-      <mat-spinner></mat-spinner>
+      <mat-spinner [diameter]="40"></mat-spinner>
     </div>
   </div>
 </div>
 
-<mat-tab-group *ngIf="solicitudes.length">
-  <mat-tab label="Recursos">
-    <div class="container-solicitudes recursos" fxLayout="row wrap" *ngIf="solicitudesRecursos">
-      <h1>Solicitudes:</h1>
-      <div class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-        <mat-card class="solicitud-card p-0">
-          <mat-card-content class="mat-card-cont">
-            <div class="card-info">
-              <div class="col-tit-descripcion">
-                Folio
-              </div>
-              <div class="col-tit-descripcion">
-                Empresa
-              </div>
-              <div class="col-tit-descripcion">
-                Contrato
-              </div>
-              <div class="col-tit-descripcion">
-                Solicitante
-              </div>
-              <div class="col-tit-actions">
-                Acciones
-              </div>
-            </div>
-            <div class="card-info" *ngFor="let solicitud of solicitudesRecursos">
-              <div class="col-description">
-                {{solicitud.solicitud.serieFolio}}-{{solicitud.idSolicitud}}
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.obra.empresa.nombre}}
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.obra.noContrato}}
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
-              </div>
-              <div class="col-actions">
-                <!-- BOTON DESCARGAR SOLICITUD -->
-                <button 
-                (click) = "descargarSolicitud(solicitud.idSolicitud, 1)"
-                mat-icon-button
-                color="warn"
-                matTooltip="Descargar Solicitud" matTooltipPosition="left">
-                  <mat-icon>cloud_download</mat-icon>
-                </button>
-                <!-- END BOTON DESCARGAR SOLICITUD -->
-
-                <!-- BOTON EDITAR SOLICITUD -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/modificar-solicitud-recursos', solicitud.idSolicitud]" 
-                mat-icon-button
-                *ngIf = "solicitud.editarSolicitud"
-                color="primary"
-                matTooltip="Modificar Solicitud" matTooltipPosition="left">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf = "!solicitud.editarSolicitud" color="accent"> <mat-icon>edit</mat-icon> </button>
-                <!-- END BOTON EDITAR SOLICITUD -->
-
-                <!-- BOTON ELIMINAR SOLICITUD -->
-                <button 
-                (click)="openDialoAlertDelete(solicitud.idSolicitud, 1)" 
-                mat-icon-button 
-                *ngIf = "solicitud.eliminarSolicitud"
-                color="primary" 
-                matTooltip="Eliminar Solicitud" matTooltipPosition="left">
-                  <mat-icon>delete</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarSolicitud"> <mat-icon>delete</mat-icon> </button>
-                <!-- END BOTON ELIMINAR SOLICITUD -->
-
-                <!-- BOTON VALIDAR SOLICITUD -->
-                <button 
-                (click) = "openDialogRequest(solicitud)" 
-                mat-icon-button 
-                *ngIf = "solicitud.validar"
-                color="primary" 
-                matTooltip="Validar Solicitud" matTooltipPosition="left">
-                  <mat-icon>visibility</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.validar"> <mat-icon>visibility</mat-icon> </button>
-                <!-- END BOTON VALIDAR SOLICITUD -->
-
-                <!-- BOTON GENERAR ORDEN DE TRABAJO -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/orden-pago-recursos', solicitud.idSolicitud]"
-                mat-icon-button 
-                *ngIf = "solicitud.ordenTrabajo" 
-                color="primary" 
-                matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>description</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
-                <button 
-                mat-icon-button 
-                (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 1)"
-                *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
-                color="warn" 
-                matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
-                  <mat-icon>cloud_download</mat-icon> 
-                </button>
-                <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-recursos', solicitud.idOrdenTrabajo]"
-                mat-icon-button 
-                *ngIf = "solicitud.editarOrdenTrabajo"
-                color="primary" 
-                matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.editarOrdenTrabajo" > <mat-icon>edit</mat-icon> </button>
-                <!-- END BOTON MODIFICAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
-                <button 
-                (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 1)" 
-                mat-icon-button 
-                *ngIf = "solicitud.eliminarOrdenTrabajo"
-                color="primary" 
-                matTooltip="Eliminar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>delete_sweep</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarOrdenTrabajo"> <mat-icon>delete_sweep</mat-icon> </button>
-                <!-- END BOTON ELIMINAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
-                <button 
-                (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 1, solicitud.idSolicitud)"
-                mat-icon-button 
-                *ngIf = "solicitud.autorizar"
-                color="primary" 
-                matTooltip="Autorizar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>spellcheck</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.autorizar"> <mat-icon>spellcheck</mat-icon> </button>
-                <!-- END BOTON AUTORIZAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON SUMINISTRAR SOLICITUD -->
-                <button 
-                (click)="openDialogSupply(solicitud.idOrdenTrabajo, 1, solicitud.idSolicitud)"
-                mat-icon-button 
-                *ngIf = "solicitud.suministrar"
-                color="primary" 
-                matTooltip="Verificar Suministro" matTooltipPosition="left">
-                  <mat-icon>{{solicitud.icono}}</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-                <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-                <!-- END BOTON SUMINISTRAR SOLICITUD -->
-              </div>
-            </div>
-
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="Materiales / Herramientas">
-    <div class="container-solicitudes material" fxLayout="row wrap" *ngIf="solicitudesMateriales">
-      <h1>Solicitudes:</h1>
-      <div class="wrap-solicitudes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-        <mat-card class="solicitud-card p-0">
-          <mat-card-content class="mat-card-cont">
-            <div class="card-info">
-              <div class="col-tit-descripcion">
-                Folio
-              </div>
-              <div class="col-tit-descripcion">
-                Empresa
-              </div>
-              <div class="col-tit-descripcion">
-                Contrato
-              </div>
-              <div class="col-tit-descripcion">
-                Solicitante
-              </div>
-              <div class="col-tit-actions">
-                Acciones
-              </div>
-            </div>
-            <div class="card-info" *ngFor="let solicitud of solicitudesMateriales">
-              <div class="col-description">
-                  MAT-{{solicitud.idSolicitud}}
-                <!-- {{solicitud.solicitud.serieFolio}}-{{solicitud.idSolicitud}} -->
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.obra.empresa.nombre}}
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.obra.noContrato}}
-              </div>
-              <div class="col-description">
-                {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
-              </div>
-              <div class="col-actions">
-
-                <!-- BOTON DESCARGAR SOLICITUD -->
-                <button 
-                (click) = "descargarSolicitud(solicitud.idSolicitud, 2)"
-                mat-icon-button
-                color="warn"
-                matTooltip="Descargar Solicitud" matTooltipPosition="left">
-                  <mat-icon>cloud_download</mat-icon>
-                </button>
-                <!-- END BOTON DESCARGAR SOLICITUD -->
-                
-                <!-- BOTON EDITAR SOLICITUD -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/modificar-solicitud-materiales', solicitud.idSolicitud]" 
-                mat-icon-button
-                *ngIf = "solicitud.editarSolicitud"
-                color="primary"
-                matTooltip="Modificar Solicitud" matTooltipPosition="left">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button *ngIf = "!solicitud.editarSolicitud" color="accent"> <mat-icon>edit</mat-icon> </button>
-                <!-- END BOTON EDITAR SOLICITUD -->
-
-                <!-- BOTON ELIMINAR SOLICITUD -->
-                <button 
-                (click)="openDialoAlertDelete(solicitud.idSolicitud, 2)" 
-                mat-icon-button 
-                *ngIf = "solicitud.eliminarSolicitud"
-                color="primary" 
-                matTooltip="Eliminar Solicitud" matTooltipPosition="left">
-                  <mat-icon>delete</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarSolicitud"> <mat-icon>delete</mat-icon> </button>
-                <!-- END BOTON ELIMINAR SOLICITUD -->
-
-                <!-- BOTON VALIDAR SOLICITUD -->
-                <button 
-                (click) = "openDialogRequest(solicitud)" 
-                mat-icon-button 
-                *ngIf = "solicitud.validar"
-                color="primary" 
-                matTooltip="Validar Solicitud" matTooltipPosition="left">
-                  <mat-icon>visibility</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.validar"> <mat-icon>visibility</mat-icon> </button>
-                <!-- END BOTON VALIDAR SOLICITUD -->
-
-                <!-- BOTON GENERAR ORDEN DE TRABAJO -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/orden-pago-materiales', solicitud.idSolicitud]"
-                mat-icon-button 
-                *ngIf = "solicitud.ordenTrabajo" 
-                color="primary" 
-                matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>description</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
-                <button 
-                mat-icon-button 
-                (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 2)"
-                *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
-                color="warn" 
-                matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
-                  <mat-icon>cloud_download</mat-icon> 
-                </button>
-                <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
-                <button 
-                [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-materiales', solicitud.idOrdenTrabajo]"
-                mat-icon-button 
-                *ngIf = "solicitud.editarOrdenTrabajo"
-                color="primary" 
-                matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>edit</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.editarOrdenTrabajo" > <mat-icon>edit</mat-icon> </button>
-                <!-- END BOTON MODIFICAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
-                <button 
-                (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 2)" 
-                mat-icon-button 
-                *ngIf = "solicitud.eliminarOrdenTrabajo"
-                color="primary" 
-                matTooltip="Eliminar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>delete_sweep</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarOrdenTrabajo"> <mat-icon>delete_sweep</mat-icon> </button>
-                <!-- END BOTON ELIMINAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
-                <button 
-                mat-icon-button 
-                (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 2, solicitud.idSolicitud)"
-                *ngIf = "solicitud.autorizar"
-                color="primary" 
-                matTooltip="Autorizar Orden de Trabajo" matTooltipPosition="left">
-                  <mat-icon>spellcheck</mat-icon>
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.autorizar"> <mat-icon>spellcheck</mat-icon> </button>
-                <!-- END BOTON AUTORIZAR ORDEN DE TRABAJO -->
-
-                <!-- BOTON SUMINISTRAR SOLICITUD -->
-                <button 
-                (click)="openDialogSupply(solicitud.idOrdenTrabajo, 2, solicitud.idSolicitud)"
-                mat-icon-button 
-                *ngIf = "solicitud.suministrar"
-                color="primary" 
-                matTooltip="Verificar Suministro" matTooltipPosition="left">
-                  <mat-icon>{{solicitud.icono}}</mat-icon>
-                  <!-- <mat-icon>local_shipping</mat-icon> -->
-                </button>
-                <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-                <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-                <!-- END BOTON SUMINISTRAR SOLICITUD -->
-              </div>
-            </div>
-
-          </mat-card-content>
-        </mat-card>
-      </div>
-    </div>
-  </mat-tab>
-  <mat-tab label="Maquinaria / Equipo">
-    <div class="container-solicitudes material" fxLayout="row wrap" *ngIf="solicitudesVehiculos">
-      <h1>Solicitudes:</h1>
-      <mat-card class="solicitud-card p-0">
-        <mat-card-content class="mat-card-cont">
-          <div class="card-info">
-            <div class="col-tit-descripcion">
-              Folio
-            </div>
-            <div class="col-tit-descripcion">
-              Empresa
-            </div>
-            <div class="col-tit-descripcion">
-              Contrato
-            </div>
-            <div class="col-tit-descripcion">
-              Solicitante
-            </div>
-            <div class="col-tit-actions">
-              Acciones
-            </div>
-          </div>
-          <div class="card-info" *ngFor="let solicitud of solicitudesVehiculos">
-            <div class="col-description">
-              <!-- MAT-{{solicitud.idSolicitud}} -->
-              {{solicitud.solicitud.serieFolio}}-{{solicitud.idSolicitud}}
-            </div>
-            <div class="col-description">
-              {{solicitud.solicitud.obra.empresa.nombre}}
-            </div>
-            <div class="col-description">
-              {{solicitud.solicitud.obra.noContrato}}
-            </div>
-            <div class="col-description">
-              {{solicitud.solicitud.usuarioSolicito.nombre}} {{solicitud.solicitud.usuarioSolicito.apellidoPaterno}} {{solicitud.solicitud.usuarioSolicito.apellidoMaterno}}
-            </div>
-            <div class="col-actions">
-
-              <!-- BOTON DESCARGAR SOLICITUD -->
-              <button 
-              (click) = "descargarSolicitud(solicitud.idSolicitud, 3)"
-              mat-icon-button
-              color="warn"
-              matTooltip="Descargar Solicitud" matTooltipPosition="left">
-                <mat-icon>cloud_download</mat-icon>
-              </button>
-              <!-- END BOTON DESCARGAR SOLICITUD -->
-              
-              <!-- BOTON EDITAR SOLICITUD -->
-              <button 
-              [routerLink]="['/solicitudes-suministros/modificar-solicitud-vehiculos', solicitud.idSolicitud]" 
-              mat-icon-button
-              *ngIf = "solicitud.editarSolicitud"
-              color="primary"
-              matTooltip="Modificar Solicitud" matTooltipPosition="left">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button *ngIf = "!solicitud.editarSolicitud" color="accent"> <mat-icon>edit</mat-icon> </button>
-              <!-- END BOTON EDITAR SOLICITUD -->
-
-              <!-- BOTON ELIMINAR SOLICITUD -->
-              <button 
-              (click)="openDialoAlertDelete(solicitud.idSolicitud, 3)" 
-              mat-icon-button 
-              *ngIf = "solicitud.eliminarSolicitud"
-              color="primary" 
-              matTooltip="Eliminar Solicitud" matTooltipPosition="left">
-                <mat-icon>delete</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarSolicitud"> <mat-icon>delete</mat-icon> </button>
-              <!-- END BOTON ELIMINAR SOLICITUD -->
-
-              <!-- BOTON VALIDAR SOLICITUD -->
-              <button 
-              (click) = "openDialogRequest(solicitud)" 
-              mat-icon-button 
-              *ngIf = "solicitud.validar"
-              color="primary" 
-              matTooltip="Validar Solicitud" matTooltipPosition="left">
-                <mat-icon>visibility</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.validar"> <mat-icon>visibility</mat-icon> </button>
-              <!-- END BOTON VALIDAR SOLICITUD -->
-
-              <!-- BOTON GENERAR ORDEN DE TRABAJO -->
-              <button 
-              [routerLink]="['/solicitudes-suministros/orden-pago-vehiculos', solicitud.idSolicitud]"
-              mat-icon-button 
-              *ngIf = "solicitud.ordenTrabajo" 
-              color="primary" 
-              matTooltip="Generar Orden de Trabajo" matTooltipPosition="left">
-                <mat-icon>description</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.ordenTrabajo && !solicitud.exportarOrden" > <mat-icon>description</mat-icon> </button>
-              <button 
-              mat-icon-button 
-              (click) = "descargarOrdenTrabajo(solicitud.idOrdenTrabajo, 3)"
-              *ngIf = "!solicitud.ordenTrabajo && solicitud.exportarOrden" 
-              color="warn" 
-              matTooltip="Descargar Orden de Trabajo" matTooltipPosition="left" > 
-                <mat-icon>cloud_download</mat-icon> 
-              </button>
-              <!-- END BOTON GENERAR ORDEN DE TRABAJO -->
-
-              <!-- BOTON MODIFICAR ORDEN DE TRABAJO -->
-              <button 
-              [routerLink]="['/solicitudes-suministros/modificar-orden-trabajo-vehiculos', solicitud.idOrdenTrabajo]"
-              mat-icon-button 
-              *ngIf = "solicitud.editarOrdenTrabajo"
-              color="primary" 
-              matTooltip="Modificar Orden de Trabajo" matTooltipPosition="left">
-                <mat-icon>edit</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.editarOrdenTrabajo" > <mat-icon>edit</mat-icon> </button>
-              <!-- END BOTON MODIFICAR ORDEN DE TRABAJO -->
-
-              <!-- BOTON ELIMINAR ORDEN DE TRABAJO -->
-              <!-- (click) = "openDialogDelete(3, solicitud.idOrdenTrabajo)"  -->
-              <button 
-              (click) = "openDialogDeleteOrden(solicitud.idOrdenTrabajo, 3)" 
-              mat-icon-button 
-              *ngIf = "solicitud.eliminarOrdenTrabajo"
-              color="primary" 
-              matTooltip="Eliminar Orden de Trabajo" matTooltipPosition="left">
-                <mat-icon>delete_sweep</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.eliminarOrdenTrabajo"> <mat-icon>delete_sweep</mat-icon> </button>
-              <!-- END BOTON ELIMINAR ORDEN DE TRABAJO -->
-
-              <!-- BOTON AUTORIZAR ORDEN DE TRABAJO -->
-              <button 
-              (click)="openDialogAuthorize(solicitud.idOrdenTrabajo, 3, solicitud.idSolicitud)"
-              mat-icon-button 
-              *ngIf = "solicitud.autorizar"
-              color="primary" 
-              matTooltip="Autorizar Orden de Trabajo" matTooltipPosition="left">
-                <mat-icon>spellcheck</mat-icon>
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.autorizar"> <mat-icon>spellcheck</mat-icon> </button>
-              <!-- END BOTON AUTORIZAR ORDEN DE TRABAJO -->
-
-              <!-- BOTON SUMINISTRAR SOLICITUD -->
-              <button 
-              (click)="openDialogSupply(solicitud.idOrdenTrabajo, 3, solicitud.idSolicitud)"
-              mat-icon-button 
-              *ngIf = "solicitud.suministrar"
-              color="primary" 
-              matTooltip="Verificar Suministro" matTooltipPosition="left">
-                <mat-icon>{{solicitud.icono}}</mat-icon>
-                <!-- <mat-icon>local_shipping</mat-icon> -->
-              </button>
-              <button mat-icon-button color="accent" *ngIf = "!solicitud.suministrar && solicitud.estatus !== 'Completa'"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-              <button mat-icon-button color="primary" *ngIf = "!solicitud.suministrar && solicitud.estatus === 'Completa'" matTooltip="Solicitud Suministrada" matTooltipPosition="left"> <mat-icon>{{solicitud.icono}}</mat-icon> </button>
-              <!-- END BOTON SUMINISTRAR SOLICITUD -->
-            </div>
-          </div>
-
-        </mat-card-content>
-      </mat-card>
-    </div>
-  </mat-tab>
-</mat-tab-group>
+<mat-paginator  [pageSizeOptions]="[15, 30, 45, 60]" showFirstLastButtons></mat-paginator>

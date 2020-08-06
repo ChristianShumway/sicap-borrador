@@ -63,7 +63,19 @@ form{
     position: relative;
     margin: 20px 0;
     &:before {
-      content: 'Observaciones Adicionales:';
+      content: 'Observaciones Adicionales Solicitud:';
+      position: absolute;
+      top: -25px;
+      text-transform: uppercase;
+    }
+  }
+  .fields-form-ad{
+    border: 1px solid darkgray;
+    padding: 20px 10px;
+    position: relative;
+    margin: 40px 0 20px;
+    &:before {
+      content: 'Observaciones Adicionales Orden de Trabajo:';
       position: absolute;
       top: -25px;
       text-transform: uppercase;

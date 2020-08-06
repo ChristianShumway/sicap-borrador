@@ -38,6 +38,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
   totalImporteValidadoConFactura: number;
   rutaImg: string;
   host: string;
+  observacionOrden: string = '';
 
   opcionesPermitidas = true;
 
@@ -134,6 +135,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
       idUsuarioModifico: this.idUsuarioLogeado,
       detOrdenTrabajoRecurso: detallesOrdenTrabajoRecurso,
       idSolicitud: this.solicitud.solicitud.idSolicitudRecurso,
+      observacion: this.observacionOrden,
     };
 
     console.log(ordenTrabajo);

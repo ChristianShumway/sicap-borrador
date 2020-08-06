@@ -101,17 +101,28 @@ export interface SolicitudVehiculo {
 }
 
 export interface TableroControl {
-  idBitacoraSolicitud?: number;
-  solicitud: any;
-  fechaSolicitud: string;
-  fechaValidacion: string;
-  fechaOrdenTrabajo: string;
-  fechaAutorizacionSuministro: string;
-  usuarioSolicito: Usuario;
-  tipoSolicitud: string;
-  fechaRechazo: string;
-  fechaSuministro: string;
+  colorEditarSolitud: string;
+  colorEliminarSolitud: string;
+  colorValidar: string;
+  editarSolicitud: boolean;
+  eliminarSolicitud: boolean;
   estatus: string;
+  fechaRechazo: string;
+  fechaSolicito: string;
+  fechaValidacion: string;
+  folio: string;
+  idObra: number;
+  idSolicitud: number;
+  idTipo: number;
+  idUsuarioRechazo: number;
+  idUsuarioSolicito: number;
+  idUsuarioValido: number;
+  obra: Obra;
+  tipo: string;
+  usuarioRechazo: any;
+  usuarioSolicito: Usuario;
+  usuarioValido: any;
+  validar: boolean;
 }
 
 // ORDENES DE TRABAJO
@@ -134,6 +145,7 @@ export interface OrdenTrabajoRecurso {
   idUsuarioModifico: number;
   detOrdenTrabajoRecurso: DetallesOrdenTrabajoRecurso[];
   idSolicitud: number;
+  observacion?: string;
 }
 
 export interface OrdenPagoMaterial {

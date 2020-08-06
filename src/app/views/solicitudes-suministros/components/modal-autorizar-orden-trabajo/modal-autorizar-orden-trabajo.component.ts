@@ -40,8 +40,8 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   getOrdenTrabajo() {
     this.solicitudesService.getOrdenTrabajoById(this.data.idTipoSolicitud, this.data.idOrdenTrabajo).subscribe(
       ordenTrabajo => {
-        console.log(ordenTrabajo);
         this.ordenTrabajo = ordenTrabajo;
+        console.log(this.ordenTrabajo);
         this.imgEmpresa = `http://${this.host}/${this.rutaImg}/files/${ordenTrabajo.solicitud.obra.empresa.imagen}`;
         
         if(this.ordenTrabajo.idTipo === 1){

@@ -179,11 +179,12 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModicio: hoy,
         detOrdenTrabajoMaquinariaEquipo: detOrdenTrabajo,
-        observaciones: "dasads update",
+        // observaciones: "dasads update",
         idSolicitud: this.ordenTrabajo.idSolicitudMaquinariaEquipo,
         serieFolio: this.ordenTrabajo.serieFolio,
+        observacion: this.ordenTrabajo.observacion
       };
-
+      
       console.log(ordenTrabajo);
 
       // console.log(JSON.stringify(ordenTrabajo));

@@ -2,6 +2,7 @@ import {Component, Inject, OnInit} from '@angular/core';
 import {MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import { environment } from './../../../../../environments/environment';
 import { MaterialParaSolicitud, PeticionSolicitudRecurso } from './../../../../shared/models/solicitud';
+import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
 @Component({
   selector: 'app-modal-datos-solicitud',
   templateUrl: './modal-datos-solicitud.component.html',
@@ -11,14 +12,19 @@ export class ModalDatosSolicitudComponent implements OnInit {
 
   rutaImg: string;
   host: string;
+  solicitud;
   peticionesSeleccionadas: PeticionSolicitudRecurso[] = [];
   materialesSeleccionados: MaterialParaSolicitud[] = [];
   peticionesMaquinariaSeleccionadas: any[] = [];
+  totalSolicitadoSinFactura:number = 0;
+  totalSolicitadoConFactura:number = 0;
   imgEmpresa: string;
 
   constructor(
     public dialogRef: MatDialogRef<ModalDatosSolicitudComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) {}
+    private solicitudService: SolicitudesService,
+    @Inject(MAT_DIALOG_DATA) public data
+  ) {}
 
   onNoClick(): void {
     this.dialogRef.close();
@@ -28,34 +34,47 @@ export class ModalDatosSolicitudComponent implements OnInit {
     console.log(this.data);
     this.rutaImg = environment.imgRUL;
     this.host = environment.host;
-    this.imgEmpresa = `http://${this.host}/${this.rutaImg}/files/${this.data.solicitud.obra.empresa.imagen}`;
-    if(this.data.idTipo===1){
-      this.getPeticiones();
-    } else if(this.data.idTipo===2){
-      this.getMateriales();
-    } else if(this.data.idTipo===3){
-      this.getPeticionesMaquinaria();
-    }
+
+    this.solicitudService.getSolicitudRecursoById(this.data.idTipo, this.data.idSolicitud).subscribe(
+      response => {
+        this.solicitud = response;
+        console.log(this.solicitud);
+        this.imgEmpresa = `http://${this.host}/${this.rutaImg}/files/${this.solicitud.obra.empresa.imagen}`;
+        console.log(this.imgEmpresa);
+        if(this.data.idTipo===1){
+          this.getPeticiones(response);
+        } else if(this.data.idTipo===2){
+          this.getMateriales(response);
+        } else if(this.data.idTipo===3){
+          this.getPeticionesMaquinaria(response);
+        }
+      },
+      error => console.log(error)
+    );
+
   }
 
-  getPeticiones(){
-    this.data.solicitud.detSolicitudRecurso.map( (peticion: PeticionSolicitudRecurso) =>{
+  getPeticiones(solicitud){
+    solicitud.detSolicitudRecurso.map( (peticion: PeticionSolicitudRecurso) =>{
         this.peticionesSeleccionadas.push(peticion);
+        this.totalSolicitadoSinFactura = this.totalSolicitadoSinFactura + peticion.importeSolicitadoSinFactura;
+        this.totalSolicitadoConFactura = this.totalSolicitadoConFactura + peticion.importeSolicitadoConFactura;
     });
+    console.log(this.peticionesSeleccionadas);
   }
 
-  getMateriales(){
-    this.data.solicitud.detSolicitudMaterial.map( (material: MaterialParaSolicitud) =>{
+  getMateriales(solicitud){
+    solicitud.detSolicitudMaterial.map( (material: MaterialParaSolicitud) =>{
       if(material.cantidadSolictada > 0){
         this.materialesSeleccionados.push(material);
       }
     });
   }
 
-  getPeticionesMaquinaria(){
-    this.data.solicitud.detSolicitudMaquinriaEquipo.map( peticion => {
+  getPeticionesMaquinaria(solicitud){
+    solicitud.detSolicitudMaquinriaEquipo.map( peticion => {
       this.peticionesMaquinariaSeleccionadas.push(peticion);
-    })
+    });
   }
 
 }

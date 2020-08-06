@@ -1,176 +1,99 @@
-<div class="container-titulo">
+<!-- <div class="container-titulo">
   <div class="logo">  
     <img src="assets/images/logos/cima.png" alt="cima">
   </div>
   <div class="titulo">
     <h1>Tablero de control de solicitudes de obra</h1>
   </div>
-</div>
+</div> -->
+
+<!-- FILTRO -->
+<mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;">
+  <input matInput (keyup)="applyFilterRequest($event.target.value)" placeholder="Filtro Solicitud">
+</mat-form-field>
+<!-- END FILTRO -->
+
+<table #innerTableRequest mat-table #outerSort="matSort" [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 mb" matSort >
+  <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+    <th mat-header-cell *matHeaderCellDef mat-sort-header > 
+      <ng-container *ngIf="column === 'fechaSolicitud'"> Solicitud </ng-container>
+      <ng-container *ngIf="column !== 'fechaSolicitud'"> {{column}}  </ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element"> 
+      <ng-container *ngIf="column === 'fechaSolicitud'"> <span class="col-center"> {{element[column] | date}} </span> </ng-container> 
+      <ng-container *ngIf="column !== 'fechaSolicitud'"> <span class="col-center"> {{element[column]}} </span> </ng-container> 
+    </td>
+  </ng-container>
+
+  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+  <ng-container matColumnDef="expandedDetail">
+    <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+      <div class="example-element-detail" *ngIf="element.workOrders?.data.length" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+        <div class="inner-table mat-elevation-z8" *ngIf="expandedElement">
+          <mat-form-field>
+            <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtro Orden de Trabajo">
+          </mat-form-field>
+          <table #innerTables mat-table #innerSort="matSort" class="orders-table" [dataSource]="element.workOrders" matSort>
+            <ng-container matColumnDef="{{innerColumn}}" *ngFor="let innerColumn of innerDisplayedColumns">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header style="justify-content: center !important;"> 
+                <ng-container *ngIf="innerColumn === 'idOrdenTrabajo'"> 
+                    <span class="col-center"> No. Orden </span>
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'estatus'"> 
+                  <span class="col-center"> Estatus </span>
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaOrdenTrabajo'"> Orden de Trabajo </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaAutoriza'"> Autorización </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaAutorizaSuministro'"> Verificación </ng-container>
+              </th>
+              <td mat-cell *matCellDef="let element"> 
+                <ng-container *ngIf="innerColumn === 'idOrdenTrabajo'"> 
+                  <span class="col-center">
+                    <b  class="info-ot">
+                      {{element[innerColumn]}} 
+                    </b>
+                  </span>
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'estatus'">
+                  <span class="col-center"  [ngStyle] = "{ 'color': element[innerColumn] === 'Orden de Compra Suministrada' ? 'green' : 'black' }">
+                    {{element[innerColumn]}} 
+                  </span> 
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaOrdenTrabajo'"> 
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="!element[innerColumn]"> - </span>
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaAutoriza'"> 
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="!element[innerColumn]"> - </span>
+                </ng-container>
+                <ng-container *ngIf="innerColumn === 'fechaAutorizaSuministro'"> 
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="!element[innerColumn]"> - </span> 
+                </ng-container>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="innerDisplayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: innerDisplayedColumns;"></tr>
+          </table>
+        </div>
+      </div>
+    </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+  <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" [class.example-element-row]="element.workOrders?.data.length"
+    [class.example-expanded-row]="expandedElement === element" (click)="toggleRow(element)">
+  </tr>
+  <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+</table>
 
 <div fxLayout="row wrap" *ngIf="!listaSolicitudes">
   <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
     <div class="wrap-spiner">
-      <mat-spinner></mat-spinner>
+      <mat-spinner [diameter]="40"></mat-spinner>
     </div>
   </div>
 </div>
 
-
-<!-- FILTRO -->
-<mat-form-field class="margin-333" style="width: 98.8%; margin-top: 20px !important;" *ngIf="listaSolicitudes">
-  <input matInput placeholder="Filtrar Solicitudes" value="" (keyup)='updateFilter($event)'>
-</mat-form-field>
-<!-- END FILTRO -->
-
-
-<div class="mat-box-shadow margin-333" *ngIf="listaSolicitudes; else noSolicitudes">
-  <div>
-    <ngx-datatable 
-    class="material fullscreen bg-white" 
-    [rows]="solicitudesModif" 
-    [columnMode]="'force'" 
-    [headerHeight]="50" 
-    [footerHeight]="50" 
-    [scrollbarH]="true" 
-    [rowHeight]="'auto'" 
-    [rowHeight]="50"
-    [limit]="6" >
-
-      <!-- <ngx-datatable-column name="No." [flexGrow]="1">
-        <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{rowIndex + 1}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column> -->
-
-      <ngx-datatable-column name="Folio" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.folio}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <!-- <ngx-datatable-column name="Descripción" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.descripcion}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column> -->
-
-      <ngx-datatable-column name="Empresa" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.empresa}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Contrato" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.contrato}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Solicitante" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center">
-            {{row?.solicitante}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Estatus" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-left">
-            {{row?.estatus}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Fecha de Solicitud" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center date-exist" *ngIf="row?.fechaSolicitud">
-            {{row?.fechaSolicitud | date}}
-          </p>
-          <p class="content-center no-date-exist" *ngIf="!row?.fechaSolicitud"> 
-            Sin Solicitud
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Fecha de Validación" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center date-exist" *ngIf="row?.fechaValidacion">
-            {{row?.fechaValidacion | date}}
-          </p>
-          <p class="content-center no-date-exist" *ngIf="!row?.fechaValidacion">
-            Sin Validar
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Fecha de Orden de Trabajo" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center date-exist" *ngIf="row?.fechaOrdenTrabajo" >
-            {{row?.fechaOrdenTrabajo | date}}
-          </p>
-          <p class="content-center no-date-exist" *ngIf="!row?.fechaOrdenTrabajo" >
-            Sin Orden de Trabajo
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Fecha de Autorización" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center date-exist" *ngIf="row?.fechaAutorizacionSuministro">
-            {{row?.fechaAutorizacionSuministro | date}}
-          </p>
-          <p class="content-center no-date-exist" *ngIf="!row?.fechaAutorizacionSuministro">
-            Sin Autorización de Suministro
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Fecha de Suministro" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center date-exist" *ngIf="row?.fechaAutorizacionSuministro">
-            {{row?.fechaSuministro | date}}
-          </p>
-          <p class="content-center no-date-exist" *ngIf="!row?.fechaAutorizacionSuministro">
-            Sin Suministro
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-      <ngx-datatable-column name="Rechazada" [flexGrow]="1">
-        <ng-template let-row="row" ngx-datatable-cell-template>
-          <p class="content-center declined" *ngIf="row?.fechaRechazo">
-            {{row?.fechaRechazo | date}}
-          </p>
-        </ng-template>
-      </ngx-datatable-column>
-
-    </ngx-datatable>
-  </div>
-</div>
-
-<ng-template #noSolicitudes>
-  <ngx-datatable class="material fullscreen bg-white" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50" [scrollbarH]="true"
-    [rowHeight]="'auto'" [scrollbarH]="true" [rowHeight]="50" *ngIf="obra">
-    <!-- <ngx-datatable-column name="No." [flexGrow]="1"></ngx-datatable-column> -->
-    <ngx-datatable-column name="Folio" [flexGrow]="1"></ngx-datatable-column>
-    <!-- <ngx-datatable-column name="Descripción" [flexGrow]="1"></ngx-datatable-column> -->
-    <ngx-datatable-column name="Empresa" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Obra" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Solicitante" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Solicitud" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Validación" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Orden de Trabajo" [flexGrow]="1"></ngx-datatable-column>
-    <ngx-datatable-column name="Autorización Suministro" [flexGrow]="1"></ngx-datatable-column>
-  </ngx-datatable>
-</ng-template>
+<mat-paginator  [pageSizeOptions]="[15, 30, 45, 60]" showFirstLastButtons></mat-paginator>

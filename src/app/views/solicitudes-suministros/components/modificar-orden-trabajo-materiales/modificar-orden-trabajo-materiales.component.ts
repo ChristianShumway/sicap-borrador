@@ -132,7 +132,8 @@ export class ModificarOrdenTrabajoMaterialesComponent implements OnInit {
       folio: this.ordenTrabajo.folio,
       idUsuarioModifico: this.idUsuarioLogeado,
       idSolicitud: this.ordenTrabajo.idSolicitudMaterial,
-      detOrdentrabajoMaterial: detOrdenTrabajoMateriales
+      detOrdentrabajoMaterial: detOrdenTrabajoMateriales,
+      observacion: this.ordenTrabajo.observacion
     }
 
     console.log(ordenTrabajo);

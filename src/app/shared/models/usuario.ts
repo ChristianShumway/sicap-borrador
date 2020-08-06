@@ -7,6 +7,7 @@ export interface Usuario {
   nombre: string;
   apellidoPaterno: string;
   apellidoMaterno: string;
+  nombreCompleto?: string;
   usuario: string;
   idPerfil: number;
   perfil?: Perfil;

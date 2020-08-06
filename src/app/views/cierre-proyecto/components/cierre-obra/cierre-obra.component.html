@@ -12,7 +12,7 @@
          
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra"
+              <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Inicio de Obra Real"
                 (dateChange)="onFechaInicioObra($event)">
               <mat-datepicker-toggle matSuffix [for]="fechaInicio"></mat-datepicker-toggle>
               <mat-datepicker #fechaInicio (selectedChange)="onFechaInicioObra($event)"></mat-datepicker>
@@ -20,7 +20,7 @@
             <div class="validaciones">
               <small *ngIf="cierreObraForm.controls['fechaInicio'].hasError('required') && cierreObraForm.controls['fechaInicio'].touched"
                 class="form-error-msg">
-                Fecha de inicio real de la obra es un campo requerido
+                Fecha de inicio de obra real es un campo requerido
               </small>
             </div>
             <div class="validaciones">

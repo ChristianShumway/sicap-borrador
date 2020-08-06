@@ -167,6 +167,18 @@
             </div>
           </div>
 
+          <div class="fields-form-ad">
+            <div class="wrap-descripcion-solicitud">
+              <div class="pb-1">
+                <div class="desc">
+                  <mat-form-field class="comentario">
+                    <textarea matInput [(ngModel)]="observacionOrden" [ngModelOptions]="{standalone: true}" ></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div class="cont-btns">
             <button mat-raised-button color="primary" class="btn-accept" (click)="crearOrden()">Crear Orden</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>

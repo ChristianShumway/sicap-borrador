@@ -278,12 +278,12 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Presupuesto Total de la Obra" mask="separator.2" thousandSeparator=",">
+              <input matInput name="presupuestoTotal" formControlName="presupuestoTotal" placeholder="Presupuesto Total de Obra" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['presupuestoTotal'].hasError('required') && createObraForm.controls['presupuestoTotal'].touched"
                 class="form-error-msg">
-                El presupuesto total de la obra es un campo requerido
+                El presupuesto total de obra es un campo requerido
               </small>
             </div>
           </div>
@@ -302,12 +302,12 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto Mano de Obra" mask="separator.2" thousandSeparator=",">
+              <input matInput name="presupuestoManoObra" formControlName="presupuestoManoObra" placeholder="Presupuesto de Mano de Obra" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['presupuestoManoObra'].hasError('required') && createObraForm.controls['presupuestoManoObra'].touched"
                 class="form-error-msg">
-                Presupuesto mano de obra es un campo requerido
+                Presupuesto de mano de obra es un campo requerido
               </small>
             </div>
           </div>
@@ -374,12 +374,12 @@
 
           <div class="pb-1">
             <mat-form-field class="full-width">
-              <input matInput name="cargosAdicionales" formControlName="cargosAdicionales" placeholder="Cargos Adicionales" mask="separator.2" thousandSeparator=",">
+              <input matInput name="cargosAdicionales" formControlName="cargosAdicionales" placeholder="Importe de Cargos Adicionales" mask="separator.2" thousandSeparator=",">
             </mat-form-field>
             <div class="validaciones">
               <small *ngIf="createObraForm.controls['cargosAdicionales'].hasError('required') && createObraForm.controls['cargosAdicionales'].touched"
                 class="form-error-msg">
-                Cargos adicionales es un campo requerido
+                Importe de cargos adicionales es un campo requerido
               </small>
             </div>
           </div>

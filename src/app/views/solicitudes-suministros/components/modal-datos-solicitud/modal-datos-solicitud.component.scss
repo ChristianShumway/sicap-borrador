@@ -1,107 +1,223 @@
 .wrap-datos-obra{
-  h3{
-    text-align: center;
-    text-transform: uppercase;
-    color: #4caf50;
-    font-weight: 500;
-    margin-bottom: 2px;
-  }
-  span{
-    text-align: center;
-    display: inherit;
-    color: gray;
-    text-transform: uppercase;
-    font-size: 12px;
-  }
-  .col-obra{
+  margin: 0 10px;
+  .col-title{
     display: grid;
-    grid-template-columns: .5fr 1fr;
-    grid-gap: 5px;
-    margin: 5px 10px;
+    grid-template-columns: 20% 80%;
+    grid-gap: 3px;
+    justify-content: center;
     align-items: center;
-    border-top: 1px solid lightgray;
-    border-bottom: 1px solid lightgray;
+    width: 80%;
+    margin: 0 auto;
     .logo{
       text-align: center;
       img{
-        width: 80%;
+        width: 100px;
         vertical-align: bottom;
       }
     }
-    .nombre{
-      p{
-        margin: 0;
-        line-height: 15px;
-        text-transform: uppercase;
-        font-size: 12px;
+    .tipo-solicitud{
+      font-size: 24px;
+      text-align: center;
+      text-transform: uppercase;
+      color: #4caf50;
+      font-weight: 500;
+      margin-bottom: 2px;
+    }
+  }
+
+  .col-solicitante{
+    display: grid;
+    // border: 1px solid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 3px;
+    justify-items: flex-start;
+    align-items: center;
+    .inf{
+      margin: 0;
+      text-transform: uppercase;
+      font-size: 13px;
+      &.folio {
+        text-align: center;
+        margin: 0 auto;
       }
     }
   }
-}
 
-.wrap-datos-solicitud{
-  padding: 10px;
-  .inf{
-    margin-bottom: 5px;
-    color: gray;
-    span{
-      color: #4caf50;
-    }
-  }
-  .col-descripcion{
+  .col-obra{
     margin-top: 10px;
-    p{
-      margin-bottom: 5px;
-      color: gray;
+    border: 1px solid;
+    padding: 0px;
+    .title-section{
+      background: black;
+      color: white;
+      text-align: center;
+      text-transform: uppercase;
+      padding: 5px;
     }
-    .desc{
-      // border: 1px solid lightgray;
-      padding: 10px;
-      span{
-        color: #4caf50;
+    .data-obra{
+      padding: 5px;
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      grid-gap: 8px;
+      align-items: center;
+      .inf{
+        text-transform: capitalize;
+        &.especial{
+          display: grid;
+          grid-template-columns: 200px 100px 1fr;
+          grid-gap: 8px;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }
 }
 
 .wrap-materiales{
-  margin: 0 10px;
+  margin: 10px;
+  border: 1px solid;
   .title{
+    background: black;
+    color: white;
     text-align: center;
-    font-weight: 500;
     text-transform: uppercase;
-    color: #4caf50;
-    margin-bottom: 10px;
+    padding: 5px;
+    margin: 0;
   }
-  .material{
-    display: grid;
-    grid-template-columns: .5fr 1fr;
-    grid-gap: 5px;
-    padding: 10px;
-    align-items: center;
-    font-weight: 400;
-    border-radius: 5px;
-    margin-bottom: 5px;
-    &:nth-child(even){
-      background: ghostwhite;
+
+  .col-solicitud {
+    .material{
+      display: grid;
+      grid-template-columns: 50px 1fr 2fr 1fr 1fr 2fr;
+      grid-gap: 5px;
+      justify-content: center;
+      text-align: center;
+      &.titulo, &.totales {
+        background: lightgrey;
+        padding: 5px;
+        text-transform: uppercase;
+        text-align: center;
+        align-items: center;
+        font-size: 12px;
+      }
+      .desc {
+        padding: 8px 5px;
+        font-size: 13px;
+        &.categoria{
+          background: #5b9bd5;
+          color: white;
+        }
+      }
     }
-    &:nth-child(odd){
-      background: honeydew;
+    .cmaterial{
+      display: grid;
+      grid-template-columns: 50px 1fr 2fr 1fr .5fr .5fr 2fr;
+      grid-gap: 5px;
+      justify-content: center;
+      text-align: center;
+      &.titulo {
+        background: lightgrey;
+        padding: 5px;
+        text-transform: uppercase;
+        text-align: center;
+        align-items: center;
+        font-size: 12px;
+      }
+      .desc {
+        padding: 8px 5px;
+        font-size: 13px;
+        &.categoria{
+          background: #5b9bd5;
+          color: white;
+        }
+      }
     }
-    .tit{
-      color: darkorange;
-      font-size: 12px;
-    }
-    .desc{
-      color: mediumseagreen;
-      font-size: 12px;
+    .mmaterial{
+      display: grid;
+      grid-template-columns: 50px 1fr 2fr 1fr 2fr;
+      grid-gap: 5px;
+      justify-content: center;
+      text-align: center;
+      &.titulo {
+        background: lightgrey;
+        padding: 5px;
+        text-transform: uppercase;
+        text-align: center;
+        align-items: center;
+        font-size: 12px;
+      }
+      .desc {
+        padding: 8px 5px;
+        font-size: 13px;
+        &.categoria{
+          background: #5b9bd5;
+          color: white;
+        }
+      }
     }
   }
 }
 
-.wrap-buttons{
-  display: flex;
-  justify-content: space-around;
-  width: 50%;
-  margin: 20px auto 0;
+.wrap-observaciones-adicionales {
+  margin: 10px;
+  border: 1px solid;
+  .title-section {
+    background: black;
+    color: white;
+    text-align: center;
+    text-transform: uppercase;
+    padding: 5px;
+    margin: 0;
+  }
+  .observacion {
+    padding: 10px;
+  }
+}
+
+
+@media screen and (max-width: 599px) {
+  .wrap-datos-obra{
+    .col-title{
+      grid-template-columns: 1fr;
+      grid-gap: 3px;
+      width: 100%;
+      .tipo-solicitud{
+        font-size: 18px;
+        text-align: center;
+      }
+    }
+
+    .col-solicitante{
+      grid-template-columns: 1fr;
+      grid-gap: 0;
+      justify-items: flex-start;
+      .inf{
+        margin: 0;
+        font-size: 12px;
+        &.folio {
+          text-align: left;
+          margin: 0;
+        }
+      }
+    }
+
+    .col-obra{
+      width: 100%;
+      overflow: auto;
+      .data-obra, .title-section{
+        width: 800px;
+      }
+    }
+  }
+
+  .wrap-materiales{
+    .col-solicitud {
+      width: 100%;
+      overflow: auto;
+      .material, .cmaterial, .mmaterial{
+        width: 1000px;
+      }
+    }
+  }
 }
