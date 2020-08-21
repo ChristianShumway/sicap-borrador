@@ -13,6 +13,9 @@ import { NavigationService } from '../../../../shared/services/navigation.servic
 import { CierreObra, LeccionAprendida } from '../../../../shared/models/cierre-obra';
 import { ModalCerrarComponent } from '../modal-cerrar/modal-cerrar.component';
 import { MatDialog } from '@angular/material';
+import { UsuariosService } from '../../../../shared/services/usuarios.service';
+import { Usuario } from './../../../../shared/models/usuario';
+import { environment } from './../../../../../environments/environment';
 
 @Component({
   selector: 'app-cierre-obra-data',
@@ -31,7 +34,11 @@ export class CierreObraDataComponent implements OnInit, AfterViewInit {
   leccionesAprendidas: LeccionAprendida[] = [];
   leccionAprendidaText: string;
 
-  idUsuarioLogeado;
+  idUsuarioLogeado; 
+  nombreComponente = 'cierre-obra';
+  permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
+  permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
+  permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
   
   constructor(
     private router: Router,
@@ -43,11 +50,13 @@ export class CierreObraDataComponent implements OnInit, AfterViewInit {
     private autenticacionService: AutenticacionService,
     private navigationService: NavigationService,
     public dialog: MatDialog,
+    private usuariosService: UsuariosService,
   ) { }
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getValidations();
+    this.getDataUser();
   }
   
   ngAfterViewInit(){
@@ -255,7 +264,7 @@ export class CierreObraDataComponent implements OnInit, AfterViewInit {
     const dialogRef = this.dialog.open(ModalCerrarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
-      data: this.cierreObra
+      data: 'cerrar'
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -270,6 +279,63 @@ export class CierreObraDataComponent implements OnInit, AfterViewInit {
         );
       }
     });
+  }
+
+  openObra(){
+    console.log(this.cierreObra);
+    const dialogRef = this.dialog.open(ModalCerrarComponent, {
+      width: '300px',
+      panelClass: 'custom-dialog-container-delete',
+      data: 'abrir'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.cierreObraService.abrirProyecto(this.cierreObra).subscribe(
+          response => {
+            console.log(response);
+            this.router.navigate(['/cierre-proyecto/obras']);
+            this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          },
+          error => console.log(error)
+        );
+      }
+    });
+  }
+
+  getDataUser(){
+    this.usuariosService.getUsuario(this.idUsuarioLogeado).subscribe(
+      (usuario: Usuario) => this.validateEspecialPermissions(usuario.idPerfil),
+      error => console.log(error)
+    );
+  }
+
+  validateEspecialPermissions(idPerfil){
+    console.log(idPerfil);
+    this.permisosEspeciales = environment.permisosEspeciales;
+    console.log(this.permisosEspeciales);
+
+    this.permisosEspeciales.map ( permiso => {
+      if( permiso.component === this.nombreComponente){
+        this.permisosEspecialesComponente.push(permiso);
+      }
+    });
+
+    console.log(this.permisosEspecialesComponente);
+
+    this.permisosEspecialesComponente.map( permisoExistente => {
+      this.navigationService.validatePermissions(idPerfil, permisoExistente.idOpcion).subscribe(
+        (result:any) => {
+          // console.log(result);
+          if(result.estatus === '05'){
+            this.permisosEspecialesPermitidos.push(permisoExistente.tooltip);
+          }
+        },
+        error => console.log(error)
+      );
+    });
+
+    console.log(this.permisosEspecialesPermitidos);
   }
 
   useAlerts(message, action, className){

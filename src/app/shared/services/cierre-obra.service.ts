@@ -37,6 +37,12 @@ export class CierreObraService {
     return this.http.post<any>(`${environment.apiURL}/closeObra/closeProject`, JSON.stringify(proyecto), { headers: headerss});
   }
 
+  abrirProyecto(proyecto: Partial<any>): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/closeObra/openProject`, JSON.stringify(proyecto), { headers: headerss});
+  }
+
+
   descargarReporteCierreObra(idObra:number): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
     return this.http.get(`${environment.apiURL}/closeObra/printCloseObra/${idObra}`, {headers: headerss, responseType: 'blob',});

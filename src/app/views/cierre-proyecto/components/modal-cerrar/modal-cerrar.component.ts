@@ -10,7 +10,9 @@ export class ModalCerrarComponent {
 
   constructor(
     public dialogRef: MatDialogRef<ModalCerrarComponent>,
-    @Inject(MAT_DIALOG_DATA) public data) {}
+    @Inject(MAT_DIALOG_DATA) public data) {
+      // console.log(this.data);
+    }
 
   onNoClick(): void {
     this.dialogRef.close();

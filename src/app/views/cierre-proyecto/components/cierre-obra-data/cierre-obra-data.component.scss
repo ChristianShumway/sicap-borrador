@@ -19,6 +19,8 @@
 
 .cont-btns{
   text-align: right;
+  display: flex;
+  justify-content: flex-end;
   // display: grid;
   // grid-template-columns: repeat(3, 180px);
   // grid-gap: 10px;
@@ -35,6 +37,11 @@
 
 .mat-cierre{
   background:#c62828 ;
+  color: white;
+}
+
+.mat-open{
+  background: orange ;
   color: white;
 }
 

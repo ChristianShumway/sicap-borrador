@@ -44,6 +44,21 @@
   overflow-y: scroll;
 }
 
+.alert-close{
+  display: grid;
+  grid-template-columns: 20px auto;
+  grid-gap: 8px;
+  align-items: flex-start;
+  font-weight: 500;
+  .indicator-close{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+    background: red;
+    border-radius: 50%;
+  }
+}
+
 @media screen and (max-width:599px){
   .wrap-detalles-obra{
     grid-template-columns: 1fr;

@@ -10,6 +10,9 @@ import { Obra } from './../../../../shared/models/obra';
 import { environment } from './../../../../../environments/environment';
 import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
 import { CierreObraService } from './../../../../shared/services/cierre-obra.service';
+import { UsuariosService } from './../../../../shared/services/usuarios.service';
+import { Usuario } from './../../../../shared/models/usuario';
+import { NavigationService } from '../../../../shared/services/navigation.service';
 
 @Component({
   selector: 'app-obras',
@@ -36,10 +39,12 @@ export class ObrasComponent implements OnInit {
     private snackBar: MatSnackBar,
     private autenticacionService: AutenticacionService,
     private activatedRoute: ActivatedRoute,
-    private cierreObraService: CierreObraService
+    private cierreObraService: CierreObraService,
+
   ) { }
 
   ngOnInit() {
+    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getObras();
     //paginator
     this.changeDetectorRef.detectChanges();
@@ -47,7 +52,6 @@ export class ObrasComponent implements OnInit {
     this.obs$ = this.dataSource.connect();
     this.rutaSicap = environment.imgRUL;
     this.host = environment.host;
-    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
   }
   
   ngOnDestroy(){

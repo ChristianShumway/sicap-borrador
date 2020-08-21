@@ -181,5 +181,13 @@ export const environment = {
       component: 'solicitudes-suministros-obras',
       activo: 1
     },
+    {
+      idOpcion: 55,
+      nombre: 'Abrir Obra',
+      descripcion: 'Opción que te permite abrir una obra que ya ha sido cerrada',
+      tooltip: 'abrir-obra',
+      component: 'cierre-obra',
+      activo: 1
+    },
   ]
 };

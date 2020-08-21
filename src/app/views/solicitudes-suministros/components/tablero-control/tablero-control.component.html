@@ -13,6 +13,14 @@
 </mat-form-field>
 <!-- END FILTRO -->
 
+<ng-container>  
+  <p class="legend-color">
+    <span class="circle-color"> </span>
+    Si al pasar el cursor sobre alguna solicitud y el fondo es de este color,
+    significa que tiene ordenes de trabajo asignadas y para poder ver las ordenes de trabajo da click sobre la solicitud.
+  </p>
+</ng-container>
+
 <table #innerTableRequest mat-table #outerSort="matSort" [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8 mb" matSort >
   <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
     <th mat-header-cell *matHeaderCellDef mat-sort-header > 

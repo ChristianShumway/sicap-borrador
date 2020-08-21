@@ -74,6 +74,7 @@
               </b>
               </p>
               <p class="p-info-catalogs"><span>Monto Total Contrato:</span> {{obra.presupuestoTotal | currency:"MXN":"symbol"}}</p>
+              <p class="alert-close" *ngIf="obra.cierre === 1"><span class="indicator-close"></span>Cerrada en {{obra.fechaCierre | date}}</p>
             </div>
           </div>
         </mat-card-content>

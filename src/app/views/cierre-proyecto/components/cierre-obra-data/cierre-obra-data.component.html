@@ -168,7 +168,7 @@
             </div>
           </div>
 
-          <div class="pb-1" *ngIf="cierreObra.idCierreObra !== 0 && cierreObra.estatus === 0">
+          <div class="pb-1" *ngIf="cierreObra.idCierreObra !== 0">
             <mat-form-field class="full-width wrap-input-observaciones">
               <input matInput name="leccionesAprendidas" placeholder="Leeción Aprendida" [(ngModel)]="leccionAprendidaText" [ngModelOptions]="{standalone: true}">
               <a mat-mini-fab color="primary" class="btn-add-observacion" matTooltip="Agregar Observación" matTooltipPosition="left" (click)="addLeccion(leccionAprendidaText)">
@@ -183,7 +183,7 @@
               <li *ngFor="let leccion of leccionesAprendidas" class="observacion">
                 <p>
                   {{leccion.comentario}}
-                  <span matTooltip="Eliminar Lección Aprendida" matTooltipPosition="left" (click)="deleteLeccion(leccion)" *ngIf = "cierreObra.estatus === 0">
+                  <span matTooltip="Eliminar Lección Aprendida" matTooltipPosition="left" (click)="deleteLeccion(leccion)">
                     <mat-icon>delete</mat-icon>
                   </span>
                 </p>
@@ -195,8 +195,15 @@
       </div>
 
       <div class="cont-btns">
-        <a mat-raised-button [color]="'cierre'" (click)="cerrarObra()" *ngIf = "cierreObra.idCierreObra !== 0 && cierreObra.estatus === 0">Cerrar Obra</a>
-        <button mat-raised-button color="primary" [disabled]="cierreObraForm.invalid" *ngIf = "cierreObra.estatus === 0" type="submit">Modificar</button>
+        <div>
+          <a mat-raised-button [color]="'cierre'" (click)="cerrarObra()" *ngIf = "cierreObra.idCierreObra !== 0 && cierreObra.estatus === 0">Cerrar Obra</a>
+        </div>
+        <div id="abrir-obra" #myIdAbrir>
+          <a mat-raised-button [color]="'open'" (click)="openObra()" *ngIf= "permisosEspecialesPermitidos.includes(myIdAbrir?.id) && cierreObra.estatus ===1">Abrir Obra</a>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" [disabled]="cierreObraForm.invalid" type="submit">Modificar</button>
+        </div>
       </div>
     </form>
   </mat-card-content>
