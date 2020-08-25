@@ -219,9 +219,9 @@ export class ObraService {
   //   return this.http.get<any>(`${environment.apiURL}/obra/getFichaPlaneacion/${id}`);
   // }
 
-  getExportarFicha(idObra:number): Observable<any>{
+  getExportarFicha(idObra:number, type: number): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
-    return this.http.get(`${environment.apiURL}/obra/getFichaPlaneacion/${idObra}`, {headers: headerss, responseType: 'blob',});
+    return this.http.get(`${environment.apiURL}/obra/getFichaPlaneacion/${idObra}/${type}`, {headers: headerss, responseType: 'blob',});
   }
 
 

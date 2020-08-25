@@ -149,29 +149,53 @@ export class ObrasComponent implements OnInit {
     });
   }
 
-  exportarFicha(idObra){
-
-    this.obraService.getExportarFicha(idObra).subscribe(
-      response => {
-        var blob = new Blob([response], {type: 'application/pdf'});
-        var link=document.createElement('a');
-      
-        var obj_url = window.URL.createObjectURL(blob);		    
-        var link = document.createElement("a");
-        link.setAttribute("target", "_blank");
-        link.setAttribute("href", obj_url);
-        link.setAttribute("download","ficha-planeacion.pdf");
-          
-        link.style.visibility = "hidden";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      },
-      error => {
-        console.log(error);
-        this.useAlerts(error.message, ' ', 'error-dialog');
-      }
-    );
+  exportarFicha(idObra, tipo){
+    if(tipo === 1) {
+      this.obraService.getExportarFicha(idObra, tipo).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/pdf'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","ficha-planeacion.pdf");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    }
+    else if(tipo === 2) {
+      this.obraService.getExportarFicha(idObra, tipo).subscribe(
+        response => {
+          var blob = new Blob([response], {type: 'application/xlsx'});
+          var link=document.createElement('a');
+        
+          var obj_url = window.URL.createObjectURL(blob);		    
+          var link = document.createElement("a");
+          link.setAttribute("target", "_blank");
+          link.setAttribute("href", obj_url);
+          link.setAttribute("download","ficha-planeacion.xlsx");
+            
+          link.style.visibility = "hidden";
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        },
+        error => {
+          console.log(error);
+          this.useAlerts(error.message, ' ', 'error-dialog');
+        }
+      );
+    }
 
   }
 

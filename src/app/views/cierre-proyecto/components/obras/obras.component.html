@@ -26,7 +26,8 @@
             <mat-menu #userMenu="matMenu">
               <a mat-menu-item routerLink="/cierre-proyecto/ver-cierre-obra/{{obra.idObra}}/ficha-cierre-obra/{{obra.idObra}}">Ver</a>
               <!-- <button mat-menu-item [routerLink]="['/cierre-proyecto/cierre-obra', obra.idObra]" *ngIf="obra.cierre === 0">Editar</button> -->
-              <button mat-menu-item (click)="descargaCierreObra(obra.idObra)">Exportar ficha de Cierre</button>              
+              <button mat-menu-item (click)="descargaCierreObra(obra.idObra, 1)">Exportar ficha de Cierre (pdf)</button>   
+              <button mat-menu-item (click)="descargaCierreObra(obra.idObra, 2)">Exportar ficha de Cierre (excel)</button>              
             </mat-menu>
           </div>
           <mat-divider></mat-divider>

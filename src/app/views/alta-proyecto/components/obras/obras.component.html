@@ -49,8 +49,13 @@
                <button 
                mat-menu-item 
                *ngIf="option === 'registro'"
-               (click)="exportarFicha(obra.idObra)">
-               Exportar ficha de Planeación</button>
+               (click)="exportarFicha(obra.idObra, 1)">
+               Exportar ficha de Planeación (pdf)</button>
+               <button 
+               mat-menu-item 
+               *ngIf="option === 'registro'"
+               (click)="exportarFicha(obra.idObra, 2)">
+               Exportar ficha de Planeación (excel)</button>
 
               <button 
               mat-menu-item 

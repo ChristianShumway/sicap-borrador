@@ -43,8 +43,8 @@ export class CierreObraService {
   }
 
 
-  descargarReporteCierreObra(idObra:number): Observable<any>{
+  descargarReporteCierreObra(idObra:number, type:number): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
-    return this.http.get(`${environment.apiURL}/closeObra/printCloseObra/${idObra}`, {headers: headerss, responseType: 'blob',});
+    return this.http.get(`${environment.apiURL}/closeObra/printCloseObra/${idObra}/${type}`, {headers: headerss, responseType: 'blob',});
   }
 }
