@@ -28,7 +28,7 @@
       <ng-container *ngIf="column !== 'fechaSolicitud'"> {{column}}  </ng-container>
     </th>
     <td mat-cell *matCellDef="let element"> 
-      <ng-container *ngIf="column === 'fechaSolicitud'"> <span class="col-center"> {{element[column] | date}} </span> </ng-container> 
+      <ng-container *ngIf="column === 'fechaSolicitud'"> <span class="col-center"> {{element[column] | toDateLong | date}} </span> </ng-container> 
       <ng-container *ngIf="column !== 'fechaSolicitud'"> <span class="col-center"> {{element[column]}} </span> </ng-container> 
     </td>
   </ng-container>
@@ -68,15 +68,15 @@
                   </span> 
                 </ng-container>
                 <ng-container *ngIf="innerColumn === 'fechaOrdenTrabajo'"> 
-                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | toDateLong | date}} </span>
                   <span class="col-center" *ngIf="!element[innerColumn]"> - </span>
                 </ng-container>
                 <ng-container *ngIf="innerColumn === 'fechaAutoriza'"> 
-                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | toDateLong | date}} </span>
                   <span class="col-center" *ngIf="!element[innerColumn]"> - </span>
                 </ng-container>
                 <ng-container *ngIf="innerColumn === 'fechaAutorizaSuministro'"> 
-                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | date}} </span>
+                  <span class="col-center" *ngIf="element[innerColumn]"> {{element[innerColumn] | toDateLong | date}} </span>
                   <span class="col-center" *ngIf="!element[innerColumn]"> - </span> 
                 </ng-container>
               </td>

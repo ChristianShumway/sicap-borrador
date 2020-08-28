@@ -8,6 +8,7 @@ import { GetEmpresaPipe } from './get-empresa.pipe';
 import { GetPerfilPipe } from './get-perfil.pipe';
 import { TruncatePipe } from './truncate.pipe';
 import { DiasFaltantesPipe } from './dias-faltantes.pipe';
+import { ToDateLongPipe } from './to-date-long.pipe';
 
 const pipes = [
   RelativeTimePipe,
@@ -16,7 +17,8 @@ const pipes = [
   GetEmpresaPipe,
   GetPerfilPipe,
   TruncatePipe,
-  DiasFaltantesPipe
+  DiasFaltantesPipe,
+  ToDateLongPipe
 ]
 
 @NgModule({
