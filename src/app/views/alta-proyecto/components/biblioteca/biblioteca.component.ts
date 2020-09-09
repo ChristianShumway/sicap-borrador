@@ -31,7 +31,7 @@ export class BibliotecaComponent implements OnInit {
   doc = '';
   rutaSicap: string;
   host: string;
-
+  obraLoad: Obra;
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
@@ -44,17 +44,22 @@ export class BibliotecaComponent implements OnInit {
 
   ngOnInit() {
     this.usuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getDocuments();
+    this.getObra();
     this.rutaSicap = environment.imgRUL;
     this.host = environment.host;
   }
-
+  
   getObra(){
     this.activatedRoute.params.subscribe( (data: Params) => {
       this.idObra = data.id;
+      // console.log(this.idObra);
+      this.getDocuments();
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra:Obra) => this.obraLoad = obra,
+        error => console.log(error)
+      );
     })
   }
-
 
   openDialoAlertDelete(idDocumento) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
@@ -69,8 +74,8 @@ export class BibliotecaComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              // this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado)
-              this.obraService.getArchivosValidosObraObservable(this.obra.idObra);
+              // this.obraService.getArchivoObraObservable(this.idObra, 1, this.usuarioLogeado)
+              this.obraService.getArchivosValidosObraObservable(this.idObra);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -85,13 +90,13 @@ export class BibliotecaComponent implements OnInit {
   }
 
   getDocuments(){
-    this.obraService.getArchivoObraObservable(this.obra.idObra, 1, this.usuarioLogeado);
+    this.obraService.getArchivoObraObservable(this.idObra, 1, this.usuarioLogeado);
     this.documentosObs$ = this.obraService.getDataArchivoObra();
 
-    this.obraService.getArchivosValidosObraObservable(this.obra.idObra);
+    this.obraService.getArchivosValidosObraObservable(this.idObra);
     this.listadocumentosValidosObs$ = this.obraService.getDataArchivosValidosObra();
 
-    this.obraService.viewArchivos(this.obra.idObra).subscribe(
+    this.obraService.viewArchivos(this.idObra).subscribe(
       response => console.log(response),
       error => console.log(error)
     );
@@ -101,14 +106,14 @@ export class BibliotecaComponent implements OnInit {
     console.log(idTipoDocumento);
     let sheet = this.bottomSheet.open(AltaDocumentoComponent, {
     data: {
-      idObra: this.obra.idObra,
+      idObra: this.idObra,
       idUsuario: this.usuarioLogeado,
       idTipoDocumento
     }
     });
 
     sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
+      console.log('clicked'+this.idObra);
     });  
   }
 

@@ -8,7 +8,7 @@
     <!-- {{documento | json}} -->
     <div class="container-list">
       <div *ngFor="let documento of documentos; let i = index">
-        <mat-list-item>
+        <mat-list-item *ngIf="obraLoad">
           <!-- {{documento.idExpedienteUnicoObra | json}} -->
           <div class="cont">
             <button mat-icon-button [matMenuTriggerFor]="documentMenu" class="">
@@ -17,7 +17,7 @@
           </div>
           <mat-menu #documentMenu="matMenu">
             <ng-container *ngIf="!documento.multiple">
-              <a mat-menu-item *ngIf="!documento.detExpedienteUnicoObra && obra.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
+              <a mat-menu-item *ngIf="!documento.detExpedienteUnicoObra && obraLoad.cierre === 0" (click)="abrirAltaDocumento(documento.idExpedienteUnicoObra)" target="blank">Subír</a>
               <div *ngIf="documento.detExpedienteUnicoObra">
                 <ng-container *ngFor ="let detExpediente of documento.detExpedienteUnicoObra">
                   <a mat-menu-item (click)="vistaPreviaArchivo(detExpediente)" target="blank">Ver</a>

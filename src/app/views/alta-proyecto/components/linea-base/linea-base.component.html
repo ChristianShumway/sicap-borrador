@@ -1,4 +1,4 @@
-<div class="wrap-add-montos">
+<div class="wrap-add-montos" *ngIf="obraLoad">
   <mat-accordion *ngIf='obra.cierre === 0'>
     <mat-expansion-panel [(expanded)]="panelOpenState">
 
@@ -65,7 +65,7 @@
   <h4 mat-subheader>Períodos Programados Agregados</h4>
   <mat-list *ngFor="let tipo of tipoLineaBase">
     <!-- {{tipo | json}} -->
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto pto">{{tipo}}</p>
       
       <div *ngFor="let periodo of registrosLineaBase">

@@ -12,6 +12,7 @@ import { LineaBase } from './../../../../shared/models/linea-base';
 import { DatePipe } from '@angular/common';
 import { ModificarLineaBaseComponent } from '../modificar-linea-base/modificar-linea-base.component';
 import { map } from 'rxjs/operators';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-linea-base',
@@ -31,14 +32,17 @@ export class LineaBaseComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   tipoDuracion: any[] = [];
   tipoLineaBase: any[];
-  registrosLineaBase: any[];
+  registrosLineaBase: any[] = [];
+  obraLoad: Obra;
+  idObra;
   
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
     private obraService: ObraService,
     public dialog: MatDialog,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -46,11 +50,23 @@ export class LineaBaseComponent implements OnInit {
     this.getCatalogoP();
     this.getValidations();
     // this.getMontos();
-    this.getPorcentajesLineaBase();
+    this.getObra();
     this.fechaInicio = new Date(this.montoForm.controls['fechaInicial'].value);
     this.fechaFin = new Date(this.montoForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
     this.fechaFin.setDate(this.fechaFin.getDate());
+  }
+  
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+      // console.log(this.idObra);
+      this.getPorcentajesLineaBase();
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra:Obra) => this.obraLoad = obra,
+        error => console.log(error)
+      );
+    })
   }
 
   getValidations() {
@@ -84,14 +100,14 @@ export class LineaBaseComponent implements OnInit {
   }
 
   getMontos(){
-    this.obraService.getLineaBaseObservable(this.obra.idObra);
+    this.obraService.getLineaBaseObservable(this.idObra);
     // this.periodosObs$ = this.obraService.getDataLineaBase();
   }
 
   getPorcentajesLineaBase(){
     this.tipoLineaBase = [];
     this.registrosLineaBase = [];
-    this.obraService.getPorcentajesLineaBase(this.obra.idObra).subscribe(
+    this.obraService.getPorcentajesLineaBase(this.idObra).subscribe(
       result => {
         // console.log(result);
         Object.keys(result).forEach ( tipo => {
@@ -126,7 +142,7 @@ export class LineaBaseComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaInicial: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
-        idObra: this.obra.idObra
+        idObra: this.idObra
       };
 
       console.log(periodo);
@@ -135,7 +151,7 @@ export class LineaBaseComponent implements OnInit {
         response => {
           console.log(response);
           if(response.estatus === '05'){
-            // this.obraService.getLineaBaseObservable(this.obra.idObra);
+            // this.obraService.getLineaBaseObservable(this.idObra);
             this.getPorcentajesLineaBase();
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
             this.panelOpenState = !this.panelOpenState;
@@ -154,12 +170,12 @@ export class LineaBaseComponent implements OnInit {
     data: {
       periodo: periodo,
       idUsuarioLogeado: this.idUsuarioLogeado,
-      idObra: this.obra.idObra
+      idObra: this.idObra
     }
     });
 
     sheet.afterDismissed().subscribe( result => {
-      // console.log('clicked'+this.obra.idObra);
+      // console.log('clicked'+this.idObra);
       if(result){
         console.log(result);
         this.obraService.createUpdateLineaBaseObra(result).subscribe(
@@ -195,7 +211,7 @@ export class LineaBaseComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              // this.obraService.getLineaBaseObservable(this.obra.idObra);
+              // this.obraService.getLineaBaseObservable(this.idObra);
               this.getPorcentajesLineaBase();
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');

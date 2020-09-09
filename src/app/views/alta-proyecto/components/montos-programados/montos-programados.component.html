@@ -1,5 +1,5 @@
-<div class="wrap-add-montos">
-  <mat-accordion *ngIf='obra.cierre === 0'>
+<div class="wrap-add-montos" *ngIf="obraLoad">
+  <mat-accordion *ngIf='obraLoad.cierre === 0'>
     <mat-expansion-panel [(expanded)]="panelOpenState">
 
       <mat-expansion-panel-header>
@@ -78,7 +78,7 @@
   <h4 mat-subheader>Períodos Programados Agregados</h4>
   <mat-list *ngIf="montos.length">
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto pto">Presupuesto Total de Obra</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 1">
@@ -88,8 +88,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -104,7 +104,7 @@
       </div>
     </div>
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto ptm">Presupuesto Total de Materiales</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 2">
@@ -114,8 +114,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -130,7 +130,7 @@
       </div>
     </div>
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto pmo">Presupuesto de Mano de Obra</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 3">
@@ -140,8 +140,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -156,7 +156,7 @@
       </div>
     </div>
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto ps">Presupuesto de Subcontratos</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 4">
@@ -166,8 +166,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -182,7 +182,7 @@
       </div>
     </div>
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto pme">Presupuesto de Maquinaria y Equipo</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 5">
@@ -192,8 +192,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>
@@ -208,7 +208,7 @@
       </div>
     </div>
 
-    <div class="tipo-presupuesto">
+    <div class="tipo-presupuesto" *ngIf="obraLoad">
       <p class="titulo-tipo-presupuesto psc">Presupuesto de Sobrecostos</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 8">
@@ -218,8 +218,8 @@
             </button>
           </div>
           <mat-menu #montostMenu="matMenu">
-            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obra.cierre === 0'>Editar</button>
-            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obra.cierre === 0'>Eliminar</button>
+            <button mat-menu-item (click)="abrirModificarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Editar</button>
+            <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
           <h2 mat-line>{{monto.monto | currency}}</h2>

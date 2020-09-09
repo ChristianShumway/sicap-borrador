@@ -11,6 +11,7 @@ import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.compone
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MontoProgramado } from './../../../../shared/models/monto-programado';
 import { DatePipe } from '@angular/common';
+import { ActivatedRoute, Params } from '@angular/router';
 
 @Component({
   selector: 'app-montos-programados',
@@ -31,24 +32,39 @@ export class MontosProgramadosComponent implements OnInit {
   error:any={isError:false,errorMessage:''};
   tipoPresupuestos: any[] = [];
   tipoDuracion: any[] = [];
+  obraLoad: Obra;
+  idObra;
   
   constructor(
     private snackBar: MatSnackBar,
     private bottomSheet: MatBottomSheet,
     private obraService: ObraService,
     public dialog: MatDialog,
-    private autenticacionService: AutenticacionService
+    private autenticacionService: AutenticacionService,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
     this.getCatalogoP();
     this.getValidations();
-    this.getMontos();
+    this.getObra();
     this.fechaInicio = new Date(this.montoForm.controls['fechaInicial'].value);
     this.fechaFin = new Date(this.montoForm.controls['fechaFinal'].value);
     this.fechaInicio.setDate(this.fechaInicio.getDate());
     this.fechaFin.setDate(this.fechaFin.getDate());
+  }
+
+  getObra(){
+    this.activatedRoute.params.subscribe( (data: Params) => {
+      this.idObra = data.id;
+      // console.log(this.idObra);
+      this.getMontos();
+      this.obraService.getObra(this.idObra).subscribe(
+        (obra:Obra) => this.obraLoad = obra,
+        error => console.log(error)
+      );
+    })
   }
 
   getValidations() {
@@ -82,7 +98,7 @@ export class MontosProgramadosComponent implements OnInit {
   }
 
   getMontos(){
-    this.obraService.getMontosObraObservable(this.obra.idObra);
+    this.obraService.getMontosObraObservable(this.idObra);
     this.montosObs$ = this.obraService.getDataMontosObra();
   }
 
@@ -109,14 +125,14 @@ export class MontosProgramadosComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaInicial: nuevaFechaInicio,
         fechaFinal: nuevaFechaFin,
-        idObra: this.obra.idObra
+        idObra: this.idObra
       };
       console.log(monto);
       this.obraService.createUpdateMontoObra(monto).subscribe(
         response => {
           console.log(response);
           if(response.estatus === '05'){
-            this.obraService.getMontosObraObservable(this.obra.idObra);
+            this.obraService.getMontosObraObservable(this.idObra);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
             this.panelOpenState = !this.panelOpenState;
             this.montoForm.reset();
@@ -134,12 +150,12 @@ export class MontosProgramadosComponent implements OnInit {
     data: {
       monto: monto,
       idUsuarioLogeado: this.idUsuarioLogeado,
-      idObra: this.obra.idObra
+      idObra: this.idObra
     }
     });
 
     sheet.backdropClick().subscribe( () => {
-      console.log('clicked'+this.obra.idObra);
+      console.log('clicked'+this.idObra);
     });  
   }
 
@@ -162,7 +178,7 @@ export class MontosProgramadosComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.obraService.getMontosObraObservable(this.obra.idObra);
+              this.obraService.getMontosObraObservable(this.idObra);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
