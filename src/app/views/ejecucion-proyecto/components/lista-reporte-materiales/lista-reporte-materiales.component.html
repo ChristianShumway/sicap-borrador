@@ -11,9 +11,10 @@
     <ng-container *ngIf="reportes.length; else loading">
       <div class="monto-total">
         <p>
-          Se han capturado {{reportes.length}} reportes que suman un importe acumulado de <b>{{montoTotal | currency}}</b>
-          y representa un avance del {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del presupuesto de materiales.
+          Se han capturado {{reportes.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | currency}}</b>
+          y representa un avance del {{(totalAcumumladoReportes / totalMonto) * 100 | number:'1.2-2'}}% del presupuesto de materiales.
         </p>
+        <!-- {{totalAcumumladoReportes | currency}} -->
       </div>
 
       <div *ngFor="let reporte of reportes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">

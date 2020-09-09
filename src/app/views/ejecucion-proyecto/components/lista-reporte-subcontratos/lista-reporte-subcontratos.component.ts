@@ -48,6 +48,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
   permisoAcceso: boolean = false;
   totalObra: number;
   reporteExistente = true;
+  totalAcumumladoReportes: number;
 
   nombreComponente = 'reporte-subcontratos';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -135,6 +136,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
       (reportes: ReporteSubcontrato[]) => {
         if(reportes.length > 0) {
           this.reporte = reportes;
+          this.getTotalShow(this.reporte);
           this.reporteTemp =  this.reporte;
           this.dataSource.data = this.reporte;
           console.log(reportes);
@@ -156,6 +158,22 @@ export class ListaReporteSubcontratosComponent implements OnInit {
         }
       }
     );
+  }
+
+  getTotalShow(reportes){
+    let totalAcum = 0;
+    reportes.map( reporte => {
+      // console.log(reporte);
+      reporte.viewReportSubContract.map( concepto => {
+        if (concepto.importeSubContrato > 0) {
+          // console.log(concepto.importeSubContrato);
+          totalAcum += concepto.importeSubContrato;
+          // console.log(totalAcum);
+        }
+      });
+    });
+    console.log(totalAcum);
+    this.totalAcumumladoReportes = totalAcum;
   }
 
   getDataUser(){

@@ -48,6 +48,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalObra: number;
+  totalAcumumladoReportes: number;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -123,10 +124,10 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       // this.router.navigate(['/dashboard']);
       // this.useAlerts('No tienes acceso a ver lista de reportes para esta obra', ' ', 'error-dialog');
       this.permisoAcceso = false;
-      console.log(this.permisoAcceso);
+      // console.log(this.permisoAcceso);
     } else {
       this.permisoAcceso = true;
-      console.log(this.permisoAcceso);
+      // console.log(this.permisoAcceso);
       // this.getReporte();
     }
   }
@@ -137,6 +138,8 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         if(reportes.length > 0){
           this.reporte = reportes;
           this.reporteTemp =  this.reporte;
+          this.getTotalShow(reportes);
+          // console.log(this.reporteTemp);
           this.dataSource.data = this.reporte;
           // console.log(reportes);
   
@@ -156,6 +159,22 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
         }
       }
     );
+  }
+
+  getTotalShow(reportes){
+    let totalAcum = 0;
+    reportes.map( reporte => {
+      // console.log(reporte);
+      reporte.viewConceptExecuted.map( concepto => {
+        if (concepto.importeEjecutado > 0) {
+          // console.log(concepto.importeEjecutado);
+          totalAcum += concepto.importeEjecutado;
+          // console.log(totalAcum);
+        }
+      });
+    });
+    console.log(totalAcum);
+    this.totalAcumumladoReportes = totalAcum;
   }
 
   getDataUser(){
@@ -188,7 +207,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
       );
     });
 
-    console.log(this.permisosEspecialesPermitidos);
+    // console.log(this.permisosEspecialesPermitidos);
   }
 
   ngOnDestroy() {
@@ -251,10 +270,11 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
   }
 
   onMontosTotal(monto){
+    // this.montoTotal = 0;
     setTimeout(() => { 
       this.montoTotal+= monto;
     },0);
-    console.log(this.montoTotal);
+    // console.log(this.montoTotal);
   }
 
   useAlerts(message, action, className) {

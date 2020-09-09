@@ -74,6 +74,7 @@ export class ObrasComponent implements OnInit {
   getObras(){
     this.obraService.getObras().subscribe(
       ( (obras: Obra[]) => {
+        // console.log(obras);
         this.obras = obras.filter( obra => obra.activo === 1);
         //this.obras = obras;
         console.log(this.obras);

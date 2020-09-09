@@ -12,9 +12,10 @@
       
       <div class="monto-total">
         <p>
-          Se han capturado {{reporteConceptos.length}} reportes que suman un importe acumulado de <b>{{montoTotal | currency}}</b> 
-          y representa un avance del  {{(montoTotal / totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos
+          Se han capturado {{reporteConceptos.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | currency}}</b> 
+          y representa un avance del  {{(totalAcumumladoReportes / totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos
         </p>
+        <!-- {{totalAcumumladoReportes | currency}} -->
       </div>
   
       <div *ngFor="let reporte of reporteConceptos" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">

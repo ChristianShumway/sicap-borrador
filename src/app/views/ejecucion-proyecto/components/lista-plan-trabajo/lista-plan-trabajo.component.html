@@ -12,9 +12,10 @@
       <div class="monto-total">
         <!-- <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p> -->
         <p>
-          Se han capturado {{worksPlan.length}} reportes que suman un importe acumulado de <b>{{montoTotal | currency}}</b> 
-          y representa el {{(montoTotal / totalObra) * 100 | number:'1.2-2'}}% del total de la obra
+          Se han capturado {{worksPlan.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | currency}}</b> 
+          y representa el {{(totalAcumumladoReportes / totalObra) * 100 | number:'1.2-2'}}% del total de la obra
         </p>
+        <!-- {{totalAcumumladoReportes | currency}} -->
       </div>
       
       <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">

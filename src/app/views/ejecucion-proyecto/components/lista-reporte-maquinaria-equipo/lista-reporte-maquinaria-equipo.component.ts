@@ -47,6 +47,7 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
   permisoAcceso: boolean = false;
   totalMonto: number;
   reporteExistente = true;
+  totalAcumumladoReportes: number;
 
   nombreComponente = 'reporte-maquinaria-equipo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -130,6 +131,7 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
       (reportes: ReporteMaquinariaEquipo[]) => {
         if(reportes.length > 0){
           this.reports = reportes;
+          this.getTotalShow(this.reports);
           this.reportsTemp =  this.reports;
           this.dataSource.data = this.reports;
   
@@ -150,6 +152,22 @@ export class ListaReporteMaquinariaEquipoComponent implements OnInit {
         }
       }
     );
+  }
+
+  getTotalShow(reportes){
+    let totalAcum = 0;
+    reportes.map( reporte => {
+      // console.log(reporte);
+      reporte.detMaquinariaEquipo.map( concepto => {
+        if (concepto.importeCapturado > 0) {
+          // console.log(concepto.importeCapturado);
+          totalAcum += concepto.importeCapturado;
+          // console.log(totalAcum);
+        }
+      });
+    });
+    console.log(totalAcum);
+    this.totalAcumumladoReportes = totalAcum;
   }
 
   getReportsAfterDelete(){

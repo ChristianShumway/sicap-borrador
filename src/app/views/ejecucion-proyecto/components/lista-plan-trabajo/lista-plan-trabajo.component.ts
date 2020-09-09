@@ -43,6 +43,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
   total:any[] = [];
   permisoAcceso: boolean = false;
   totalObra;
+  totalAcumumladoReportes: number;
 
   nombreComponente = 'plan-trabajo';
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
@@ -130,6 +131,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
       (planes: PlanTrabajo[]) => {
         if(planes.length > 0) {
           this.workPlans = planes;
+          this.getTotalShow(this.workPlans);
           this.workPlansTemp =  this.workPlans;
           this.dataSource.data = this.workPlans;
   
@@ -150,6 +152,22 @@ export class ListaPlanTrabajoComponent implements OnInit {
         }
       }
     );
+  }
+
+  getTotalShow(reportes){
+    let totalAcum = 0;
+    reportes.map( reporte => {
+      // console.log(reporte);
+      reporte.viewConceptWorkPlan.map( concepto => {
+        if (concepto.importePlaneado > 0) {
+          // console.log(concepto.importePlaneado);
+          totalAcum += concepto.importePlaneado;
+          // console.log(totalAcum);
+        }
+      });
+    });
+    console.log(totalAcum);
+    this.totalAcumumladoReportes = totalAcum;
   }
 
   getDataUser(){

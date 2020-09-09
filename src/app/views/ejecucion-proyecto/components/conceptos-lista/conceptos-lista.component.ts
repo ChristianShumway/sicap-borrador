@@ -87,6 +87,7 @@ export class ConceptosListaComponent implements OnInit {
         }
       }
     });
+    // console.log(this.montoImporteConceptosSeleccionados);
     this.returnMontos();
   }
 
