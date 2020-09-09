@@ -248,10 +248,10 @@ export class ModificarObraComponent implements OnInit {
         // idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
-      if(obra.presupuestoTotal < sumaPresupuestos){
-        this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
-      } else {
+      let sumaPresupuestos = Math.round((obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales)* 100) / 100;
+      // console.log(sumaPresupuestos);
+      // console.log(obra.presupuestoTotal);
+      if(obra.presupuestoTotal >= sumaPresupuestos){
         this.obraService.updateObra(obra).subscribe(
           (response => {
             if(response.estatus === '05'){
@@ -266,6 +266,8 @@ export class ModificarObraComponent implements OnInit {
             this.useAlerts(error.message, ' ', 'error-dialog');
           })
         );
+      } else {
+        this.useAlerts('Monto total del contrato no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       }
     }
   }

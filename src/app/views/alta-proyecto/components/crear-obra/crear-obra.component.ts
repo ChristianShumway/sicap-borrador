@@ -215,12 +215,10 @@ export class CrearObraComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado
       };
       console.log(obra);
-      const sumaPresupuestos = (obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra  + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales);
-      console.log(sumaPresupuestos);
+      let sumaPresupuestos = Math.round((obra.presupuestoMaterial + obra.presupuestoMaquinaria + obra.presupuestoManoObra + obra.importeIndirecto + obra.importeFinanciamiento + obra.utilidadEsperada + obra.cargosAdicionales)* 100) / 100;
+      // console.log(sumaPresupuestos);
 
-      if(obra.presupuestoTotal < sumaPresupuestos){
-        this.useAlerts('Presupuesto total de la obra no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
-      } else {
+      if(obra.presupuestoTotal >= sumaPresupuestos){
         this.obraService.createObra(obra).subscribe(
           (response => {
             if(response.estatus === '05'){
@@ -235,6 +233,8 @@ export class CrearObraComponent implements OnInit {
             this.useAlerts(error.message, ' ', 'error-dialog');
           })
         );
+      } else {
+        this.useAlerts('Presupuesto total de la obra no puede ser menor a la suma de presupuestos', ' ', 'warning-dialog');
       }
     }
   }
