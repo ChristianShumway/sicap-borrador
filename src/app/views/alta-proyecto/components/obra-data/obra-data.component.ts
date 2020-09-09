@@ -27,7 +27,7 @@ import { environment } from './../../../../../environments/environment';
 })
 export class ObraDataComponent implements OnInit {
 
-  @Input() obra: Obra;
+  @Input() idObra: any;
 
   formData = {}
   console = console;
@@ -56,6 +56,8 @@ export class ObraDataComponent implements OnInit {
   clientesSeleccionados: Usuario[];
   nombreComponente = 'crear-obra';
   tooltipGerencia = 'permisos-gerente';
+  obra: Obra;
+  obraID;
 
   constructor(
     private router: Router,
@@ -78,30 +80,36 @@ export class ObraDataComponent implements OnInit {
   }
 
   getObra(){
-    this.obraService.getObra(this.obra.idObra).subscribe(
-      (obra: Obra) => {
-        console.log(obra);
-        this.idClienteObra = obra.idCliente;
-        this.observacionesGenerales = obra.observacion;
-        let inicioString = obra.fechaInicio;
-        let finString = obra.fechaFin;
-        this.fechaInicioObra = new Date(inicioString);
-        this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
-        this.fechaFinObra = new Date(finString);
-        this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
-        this.updateObraForm.patchValue(obra);
-        this.supervisoresSeleccionados = obra.supervisor;
-        this.destajistasSeleccionados = obra.destajista;
-        this.clientesSeleccionados = obra.usuarioCliente;
-        this.getCatalogos();
-        this.compareTwoDates();
-      },
-      error => console.log(error)
-    );   
+    this.activatedRoute.params.subscribe( (params: Params) => {
+      console.log(params);
+      console.log(this.idObra)
+      this.obraID = params.id
+      this.obraService.getObra(this.obraID).subscribe(
+        (obra: Obra) => {
+          console.log(obra);
+          this.obra = obra;
+          this.idClienteObra = obra.idCliente;
+          this.observacionesGenerales = obra.observacion;
+          let inicioString = obra.fechaInicio;
+          let finString = obra.fechaFin;
+          this.fechaInicioObra = new Date(inicioString);
+          this.fechaInicioObra.setDate(this.fechaInicioObra.getDate()+1);
+          this.fechaFinObra = new Date(finString);
+          this.fechaFinObra.setDate(this.fechaFinObra.getDate()+1);
+          this.updateObraForm.patchValue(obra);
+          this.supervisoresSeleccionados = obra.supervisor;
+          this.destajistasSeleccionados = obra.destajista;
+          this.clientesSeleccionados = obra.usuarioCliente;
+          this.getCatalogos();
+          this.compareTwoDates();
+        },
+        error => console.log(error)
+      );   
+    });
   }
 
   getObservacionesObra(){
-    this.obraService.getObra(this.obra.idObra).subscribe(
+    this.obraService.getObra(this.obraID).subscribe(
     (obra: Obra) => {
       this.observacionesGenerales = obra.observacion;
     },
@@ -234,7 +242,7 @@ export class ObraDataComponent implements OnInit {
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicioObra, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinObra, format);
       const obra: Obra = {
-        idObra: this.obra.idObra,
+        idObra: this.obraID,
         ...this.updateObraForm.value,
         fechaInicio: nuevaFechaInicio,
         fechaFin: nuevaFechaFin,
@@ -259,7 +267,7 @@ export class ObraDataComponent implements OnInit {
           (response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.obraService.getObraObservable(this.obra.idObra);
+              this.obraService.getObraObservable(this.obraID);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -383,7 +391,7 @@ export class ObraDataComponent implements OnInit {
       const format = 'yyyy/MM/dd';
       const fechaHoy = this.pipe.transform(this.fechaHoy, format);
       const observacionGeneral: Observacion = {
-        idObra: this.obra.idObra,
+        idObra: this.obraID,
         idTipoObservacion: 5,
         idUsuarioModifico: this.idUsuarioLogeado,
         tipo: 1,

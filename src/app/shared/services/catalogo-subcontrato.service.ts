@@ -25,7 +25,7 @@ export class CatalogoSubcontratoService {
   }
 
   getCatalogObservable(id:number, idUser: number){
-    return this.http.get<CatalogoSubcontrato>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`).subscribe(
+    return this.http.get<CatalogoSubcontrato>(`${environment.apiURL}/obra/getFilesObra/${id}/3/${idUser}`).subscribe(
       (catalogo: CatalogoSubcontrato) => {
         this.catalogoSubcontrato = catalogo;
         this.refresh();
@@ -35,7 +35,7 @@ export class CatalogoSubcontratoService {
   }
 
   getCatalogoSubcontrato(id: number, idUser: number): Observable<any>{
-    return this.http.get<CatalogoSubcontrato>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`);
+    return this.http.get<CatalogoSubcontrato>(`${environment.apiURL}/obra/getFilesObra/${id}/3/${idUser}`);
   }
 
   removeCatalogoSubcontrato(idFile: number, idUser: number): Observable<any>{

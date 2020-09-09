@@ -27,11 +27,11 @@ export class DatosObraComponent implements OnInit {
   getDataObra() {
     this.activatedRoute.params
     .subscribe((data: Params) => {
-      if (data.id) {
-        const idObraActual = data.id;
-        this.obraService.getObraObservable(idObraActual);
-        this.obraObs$ = this.obraService.getDataObra();  
-      }
+      console.log(data.id);
+      const idObraActual = data.id;
+      this.obraService.getObraObservable(idObraActual);
+      this.obraObs$ = this.obraService.getDataObra();  
+      
     });
   }
 

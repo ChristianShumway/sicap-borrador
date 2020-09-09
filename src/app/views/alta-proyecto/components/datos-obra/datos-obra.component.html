@@ -1,25 +1,12 @@
 <mat-card class="p-0" *ngIf="(obraObs$ | async) as obra">
+  <!-- {{obra | json}} -->
   <mat-tab-group>
     <mat-tab label="Datos de Obra">
       <mat-card-content class="mt-1">
-        <app-obra-data [obra]="obra"></app-obra-data>
+        <app-obra-data [idObra]="obra.idObra"></app-obra-data>
       </mat-card-content>
     </mat-tab>
-    <!-- <mat-tab label="Catálogo de Conceptos">
-      <mat-card-content>
-        <app-catalogo-conceptos [obra]="obra"></app-catalogo-conceptos>
-      </mat-card-content>
-    </mat-tab>
-    <mat-tab label="Catálogo de Materiales">
-      <mat-card-content>
-        <app-catalogo-materiales [obra]="obra"></app-catalogo-materiales>
-      </mat-card-content>
-    </mat-tab> -->
-    <!-- <mat-tab label="Materiales por Concepto">
-      <mat-card-content>
-        <app-materiales-por-concepto [obra]="obra"></app-materiales-por-concepto>
-      </mat-card-content>
-    </mat-tab> -->
+   
     <mat-tab label="Expediente Único de Obra">
       <mat-card-content>
         <app-biblioteca [obra]="obra"></app-biblioteca>

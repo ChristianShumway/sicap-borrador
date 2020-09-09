@@ -25,7 +25,7 @@ export class ListaPersonalService {
   }
 
   getListObservable(id:number, idUser: number){
-    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`).subscribe(
+    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/1/${idUser}`).subscribe(
       (lista: ListaPersonal) => {
         this.listaPersonal = lista;
         this.refresh();
@@ -35,7 +35,7 @@ export class ListaPersonalService {
   }
 
   getListaPersonal(id: number, idUser: number): Observable<any>{
-    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`);
+    return this.http.get<ListaPersonal>(`${environment.apiURL}/obra/getFilesObra/${id}/1/${idUser}`);
   }
 
   removeListaPersonal(idFile: number, idUser: number): Observable<any>{

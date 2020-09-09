@@ -4,7 +4,7 @@
       <mat-divider></mat-divider>
     </mat-card-title> -->
   
-    <mat-card-content>
+    <mat-card-content *ngIf="obra">
       <form [formGroup]="updateObraForm" (submit)="updateObra()">
         <div fxLayout="row wrap">
   

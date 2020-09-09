@@ -121,8 +121,10 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
             this.catalogo = conceptos;
             this.temp = this.catalogo;
             this.catalogo.map( (concepto: ConceptoValidado) => {
+              console.log(concepto);
               this.montoTotalEjecutado = this.montoTotalEjecutado + concepto.importeEjecutado;
-              this.montoTotalValidado = this.montoTotalValidado + concepto.importeValidado;
+              this.montoTotalValidado = this.montoTotalValidado + (concepto.precioUnitarioEjecutado * concepto.cantidadValidada);
+              console.log(this.montoTotalValidado);
             });
           } else {
             this.useAlerts('No se encontraron conceptos ejecutados en este período', ' ', 'error-dialog');

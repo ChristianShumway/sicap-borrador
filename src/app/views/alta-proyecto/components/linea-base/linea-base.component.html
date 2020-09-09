@@ -82,6 +82,7 @@
           </mat-menu>
           <h2 mat-line><b>{{periodo.nombre}}</b></h2>
           <p mat-line> Porcentaje: {{periodo.porcentaje}} % </p>
+          <!-- <p mat-line> Porcentaje: {{periodo.porcentaje | number:'1.2-2'}} % </p> -->
           <p mat-line> Desde: {{periodo.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{periodo.fechaFinal | date}} </p>
           <p mat-line> {{periodo.tipoDuracion.descripcion}} No. {{periodo.noLineaBase}} </p>

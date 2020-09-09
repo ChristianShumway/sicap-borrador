@@ -4,15 +4,15 @@
   </p>
   <div class="wrap-alcance-general">
     <div class="avance programado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceProgramado | number:'1.2-2'}}%</p>
+      <p class="porcentaje">{{alcanceGeneral.avanceProgramado | percent:'1.2-2'}}</p>
       <p class="leyenda">Avance programado a la fecha</p>
     </div>
     <div class="avance ejecutado-fecha">
-      <p class="porcentaje">{{alcanceGeneral.avanceEjecutado | number:'1.2-2'}}%</p>
+      <p class="porcentaje">{{alcanceGeneral.avanceEjecutado | percent:'1.2-2'}}</p>
       <p class="leyenda">Avance ejecutado a la fecha</p>
     </div>
     <div class="avance diferencia">
-      <p class="porcentaje" [ngStyle] = "{'color':alcanceGeneral.diferenciaAlcance >= 0 ? 'green' : 'red' }">{{alcanceGeneral.diferenciaAlcance | number:'1.2-2'}}%</p>
+      <p class="porcentaje" [ngStyle] = "{'color':alcanceGeneral.diferenciaAlcance >= 0 ? 'green' : 'red' }">{{alcanceGeneral.diferenciaAlcance | percent:'1.2-2'}}</p>
       <p class="leyenda">Diferencia</p>
     </div>
   </div>
@@ -65,7 +65,7 @@
         </div>
       </div>
       <div class="col-7 title-prog">
-        <p class="encabezado-col">Programa de Costo</p>
+        <p class="encabezado-col">Programa de Sobrecosto</p>
         <div class="tipo-1">
           <div>Programado</div>
           <div>Ejecutado</div>

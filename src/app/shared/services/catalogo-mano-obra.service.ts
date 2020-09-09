@@ -25,7 +25,7 @@ export class CatalogoManoObraService {
   }
 
   getCatalogObservable(id:number, idUser: number){
-    return this.http.get<CatalogoManoObra>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`).subscribe(
+    return this.http.get<CatalogoManoObra>(`${environment.apiURL}/obra/getFilesObra/${id}/4/${idUser}`).subscribe(
       (catalogo: CatalogoManoObra) => {
         this.catalogoManoObra = catalogo;
         this.refresh();
@@ -35,7 +35,7 @@ export class CatalogoManoObraService {
   }
 
   getCatalogoManoObra(id: number, idUser: number): Observable<any>{
-    return this.http.get<CatalogoManoObra>(`${environment.apiURL}/obra/getFilesObra/${id}/2/${idUser}`);
+    return this.http.get<CatalogoManoObra>(`${environment.apiURL}/obra/getFilesObra/${id}/4/${idUser}`);
   }
 
   removeCatalogoManoObra(idFile: number, idUser: number): Observable<any>{
