@@ -12,12 +12,20 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-catalogo-materiales',
   templateUrl: './catalogo-materiales.component.html',
   styleUrls: ['./catalogo-materiales.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class CatalogoMaterialesComponent implements OnInit {
 
@@ -39,6 +47,9 @@ export class CatalogoMaterialesComponent implements OnInit {
   rows = [];
   columns = [];
   temp = [];
+
+  columnsToDisplay =   ['no','descripcion','partida','familia','cantidad','unidad', 'precio', 'importe'];
+  expandedElement: any | null;
 
   constructor(
     private snackBar: MatSnackBar,

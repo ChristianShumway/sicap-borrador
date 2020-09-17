@@ -354,6 +354,14 @@ input[type=number] { -moz-appearance:textfield; }
   object-fit: cover;
 }
 
+.center-table{
+  text-align: center !important;
+  // border: 1px solid;
+  display: flex;
+  justify-content: center;
+}
+
+
 @media (max-width: 959px) {
   .app-admin-container.sidebar-full {
     .main-content-wrap {
@@ -363,6 +371,26 @@ input[type=number] { -moz-appearance:textfield; }
 
   .custom-dialog-container-bitacora {
     width: 55vw !important;
+  }
+  
+  .center-table{
+    text-align: start !important;
+    display: block !important;
+    justify-content: start;
+  }  
+
+  .mat-table .mat-cell{
+    font-weight: 400 !important;
+    height: auto;
+    margin-bottom: 1%;
+  }
+
+  .mat-cell:first-of-type {
+    padding-left: 0px !important; 
+  }
+
+  .mat-cell:last-of-type {
+    padding-right: 0px !important;
   }
 }
 

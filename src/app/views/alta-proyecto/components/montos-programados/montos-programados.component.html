@@ -92,7 +92,7 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line>
@@ -105,7 +105,7 @@
     </div>
 
     <div class="tipo-presupuesto" *ngIf="obraLoad">
-      <p class="titulo-tipo-presupuesto ptm">Presupuesto Total de Materiales</p>
+      <p class="titulo-tipo-presupuesto ptm">Presupuesto de Materiales</p>
       <div *ngFor="let monto of montos">
         <mat-list-item *ngIf="monto.idTipoPresupuesto === 2">
           <div class="cont">
@@ -118,12 +118,12 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
             {{monto.tipoDuracion.descripcion}} No. {{monto.noPresupuesto}} 
-            <span>Presupuesto Total de Materiales</span>
+            <span>Presupuesto de Materiales</span>
           </p>
           <mat-divider></mat-divider>
         </mat-list-item>
@@ -144,7 +144,7 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
@@ -170,7 +170,7 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
@@ -196,7 +196,7 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 
@@ -222,7 +222,7 @@
             <button mat-menu-item (click)="abrirEliminarMonto(monto)" *ngIf='obraLoad.cierre === 0'>Eliminar</button>
           </mat-menu>
           <!-- <mat-icon mat-list-icon>folder</mat-icon> -->
-          <h2 mat-line>{{monto.monto | currency}}</h2>
+          <h2 mat-line>{{monto.monto | transformCurrency}}</h2>
           <p mat-line> Desde: {{monto.fechaInicial | date}} </p>
           <p mat-line> Hasta: {{monto.fechaFinal | date}} </p>
           <p mat-line> 

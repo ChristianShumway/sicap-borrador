@@ -11,12 +11,21 @@ import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { MatBottomSheet } from '@angular/material';
 import { AgregarPersonalComponent } from '../agregar-personal/agregar-personal.component';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+
 
 @Component({
   selector: 'app-lista-personal',
   templateUrl: './lista-personal.component.html',
   styleUrls: ['./lista-personal.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class ListaPersonalComponent implements OnInit {
 
@@ -37,6 +46,14 @@ export class ListaPersonalComponent implements OnInit {
   rows = [];
   columns = [];
   temp = [];
+
+  columnsToDisplay =   ['no','nombre','categoria','sueldo','imss','telefono','ciudad'];
+  expandedElement: any | null;
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
 
   constructor(
     private snackBar: MatSnackBar,

@@ -172,7 +172,7 @@ export class ModificarReporteMaterialesComponent implements OnInit {
   
       this.catalogo.map( (concepto: ConceptoMaterial) => {
         // if(concepto.cantidadCapturada > 0 || concepto.idConceptoPlanTrabajo !== 0){
-        if(concepto.cantidadCapturada > 0){
+        if(concepto.cantidadCapturada !== 0){
           const conceptoModificado = {
             ...concepto,
             precioUnitarioCapturado: concepto.precioUnitario,

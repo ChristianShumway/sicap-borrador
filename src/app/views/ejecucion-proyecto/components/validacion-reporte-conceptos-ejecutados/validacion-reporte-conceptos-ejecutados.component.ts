@@ -121,10 +121,10 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
             this.catalogo = conceptos;
             this.temp = this.catalogo;
             this.catalogo.map( (concepto: ConceptoValidado) => {
-              console.log(concepto);
+              // console.log(concepto);
               this.montoTotalEjecutado = this.montoTotalEjecutado + concepto.importeEjecutado;
               this.montoTotalValidado = this.montoTotalValidado + (concepto.precioUnitarioEjecutado * concepto.cantidadValidada);
-              console.log(this.montoTotalValidado);
+              // console.log(this.montoTotalValidado);
             });
           } else {
             this.useAlerts('No se encontraron conceptos ejecutados en este período', ' ', 'error-dialog');
@@ -211,12 +211,12 @@ export class ValidacionReporteConceptosEjecutadosComponent implements OnInit {
     let total = 0;
     // console.log(event);
     
-    if(cantValidada < cantValidadaAnterior){
-      event.target.valueAsNumber = '';
-      // document.querySelector('.importe-validado').innerHTML = cantValidadaAnterior;
-    } else if(cantValidada > cantEjecutada) {
-      event.target.valueAsNumber = '';
-    }
+    // if(cantValidada < cantValidadaAnterior){
+    //   event.target.valueAsNumber = '';
+    //   // document.querySelector('.importe-validado').innerHTML = cantValidadaAnterior;
+    // } else if(cantValidada > cantEjecutada) {
+    //   event.target.valueAsNumber = '';
+    // }
     
     this.catalogo.map( (concepto: ConceptoValidado) => {
       let importe = concepto.precioUnitarioEjecutado * concepto.cantidadValidada;

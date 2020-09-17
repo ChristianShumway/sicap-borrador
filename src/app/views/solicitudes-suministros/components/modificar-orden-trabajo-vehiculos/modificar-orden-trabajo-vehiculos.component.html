@@ -50,12 +50,12 @@
             <div class="wrap-totales">
               <div class="total">
                 <p>Total Precio:
-                  <span>{{totalPrecio | currency}}</span>
+                  <span>{{totalPrecio | transformCurrency}}</span>
                 </p>
               </div>
               <div class="total">
                 <p>Total Importe:
-                  <span>{{totalImporte | currency}}</span>
+                  <span>{{totalImporte | transformCurrency}}</span>
                 </p>
               </div>
             </div>
@@ -115,7 +115,7 @@
               <ngx-datatable-column name="Precio" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <p class="content-center">
-                    {{row?.precioUnitario | currency}}
+                    {{row?.precioUnitario | transformCurrency}}
                   </p>
                 </ng-template>
               </ngx-datatable-column>
@@ -123,7 +123,7 @@
               <ngx-datatable-column name="Importe" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <p class="content-center">
-                    {{row?.importe | currency}}
+                    {{row?.importe | transformCurrency}}
                   </p>
                 </ng-template>
               </ngx-datatable-column>

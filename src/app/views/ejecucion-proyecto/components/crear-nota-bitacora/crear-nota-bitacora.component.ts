@@ -332,7 +332,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
       const newCatalog: ConceptoEjecutado[] = []
   
       this.catalogo.map( (concepto: ConceptoEjecutado) => {
-        if(concepto.cantidadEjecutada > 0){
+        if(concepto.cantidadEjecutada !== 0){
           const conceptoModificado: ConceptoEjecutado = {
             ...concepto,
             precioUnitarioEjecutado: concepto.precioUnitario,

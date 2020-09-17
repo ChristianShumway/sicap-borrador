@@ -150,7 +150,7 @@ export class ReporteManoObraComponent implements OnInit {
       const newCatalog: ConceptoManoObra[] = []
   
       this.catalogo.map( (concepto: ConceptoManoObra) => {
-        if(concepto.cantidadCapturada > 0){
+        if(concepto.cantidadCapturada !== 0){
           const conceptoModificado = {
             ...concepto,
             precioUnitarioCapturado: concepto.precioUnitario,

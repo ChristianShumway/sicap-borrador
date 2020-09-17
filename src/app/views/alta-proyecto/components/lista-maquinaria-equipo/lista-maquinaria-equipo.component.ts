@@ -11,12 +11,20 @@ import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { AgregarEquipoComponent } from '../agregar-equipo/agregar-equipo.component';
 import { MatBottomSheet } from '@angular/material';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 @Component({
   selector: 'app-lista-maquinaria-equipo',
   templateUrl: './lista-maquinaria-equipo.component.html',
   styleUrls: ['./lista-maquinaria-equipo.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class ListaMaquinariaEquipoComponent implements OnInit {
 
@@ -37,6 +45,13 @@ export class ListaMaquinariaEquipoComponent implements OnInit {
   rows = [];
   columns = [];
   temp = [];
+  columnsToDisplay =   ['no','descripcion','clave','placas','cantidad', 'unidad','precio','importe'];
+  expandedElement: any | null;
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
 
   constructor(
     private snackBar: MatSnackBar,

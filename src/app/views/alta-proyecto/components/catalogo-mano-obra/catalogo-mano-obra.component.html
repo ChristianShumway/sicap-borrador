@@ -28,17 +28,14 @@
 
 <div *ngIf="(CatalogoManoObraObs$ | async) as catalogo">
 
-  <div class="container-lists" *ngFor="let cat of catalogo">
+  <div class="container-lists" *ngFor="let cat of catalogo; index as i">
     <div *ngIf="cat">
       <div class="div" *ngIf="cat.tipoDetalle === 4">
-        <div class="wrap-button">
+        <!-- <div class="wrap-button">
           <button mat-raised-button color="warn" (click)="eliminarCatalogo(cat.idArchivoObra)">Eliminar Catálogo de Mano de Obra</button>
           <button mat-raised-button color="primary" (click)="openBottomExtraordinario(cat.idArchivoObra)">Extraordinario</button>
-        </div>
-
-    
-
-        <div class="mat-box-shadow margin-333">
+        </div> -->
+        <!-- <div class="mat-box-shadow margin-333">
           <ngx-datatable class="material fullscreen bg-white" [rows]="cat.details" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
             [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50">
 
@@ -74,19 +71,129 @@
 
             <ngx-datatable-column name="Precio" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.precio | currency}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.precio | transformCurrency}}</p>
               </ng-template>
             </ngx-datatable-column>
 
             <ngx-datatable-column name="Importe" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.importe | currency}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.importe | transformCurrency}}</p>
               </ng-template>
             </ngx-datatable-column>
 
           </ngx-datatable>
-        </div>
+        </div> -->
 
+        <div class="wrap-catalog">
+          <mat-accordion >
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  Catálogo Mano de Obra No. {{i+1}}
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!-- Type your name and age -->
+                  <!-- <mat-icon>account_circle</mat-icon> -->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+  
+              <div class="wrap-button">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="openBottomExtraordinario(cat.idArchivoObra)">
+                    <mat-icon>plus_one</mat-icon>
+                    <span>Extraordinario</span>
+                  </button>
+                  <button mat-menu-item (click)="eliminarCatalogo(cat.idArchivoObra)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Catálogo</span>
+                  </button>
+                </mat-menu>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <table mat-table [dataSource]="cat.details" multiTemplateDataRows class="mat-elevation-z8">
+                  <ng-container matColumnDef="no">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">No:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.noManoObra}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="descripcion">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Descripción </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Descripción:</span>
+                      <p class="show-description"> {{element.descripcion}} </p> 
+                      <button mat-raised-button color="primary" class="show-button" (click)="expandedElement = expandedElement === element ? null : element">Ver</button>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="partida">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Partida </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Partida:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.partida}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="unidad">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Unidad </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Unidad:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.unidad}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="cantidad">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Cantidad </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Cantidad:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.cantidad}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="precio">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Precio Unitario </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                        <span class="mobile-label">Precio Unitario:</span>
+                        <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.precio | transformCurrency}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="importe">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Importe </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                        <span class="mobile-label">Importe:</span>
+                        <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.importe | transformCurrency}} </span>
+                    </mat-cell>
+                  </ng-container>
+      
+                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                  <ng-container matColumnDef="expandedDetail" class="show-button">
+                    <mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="example-element-description">
+                          <span class="tag-description">Descripción:</span>
+                          <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.descripcion}} </span>
+                        </div>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+                    >
+                  </mat-row>
+                  <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row show-row" ></mat-row>
+                  <mat-paginator [length]="20" [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </table>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>  
+        </div>
       </div>
     </div>
   </div>

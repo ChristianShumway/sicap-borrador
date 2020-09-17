@@ -11,12 +11,21 @@ import {MatDialog} from '@angular/material/dialog';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import { AgregarConceptoExtraordinarioComponent } from '../agregar-concepto-extraordinario/agregar-concepto-extraordinario.component';
 import { MatBottomSheet } from '@angular/material';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+
 
 @Component({
   selector: 'app-catalogo-subcontrato',
   templateUrl: './catalogo-subcontrato.component.html',
   styleUrls: ['./catalogo-subcontrato.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ]
 })
 export class CatalogoSubcontratoComponent implements OnInit {
 
@@ -37,6 +46,13 @@ export class CatalogoSubcontratoComponent implements OnInit {
   rows = [];
   columns = [];
   temp = [];
+  columnsToDisplay =   ['no','descripcion','partida','unidad','cantidad','precio','importe'];
+  expandedElement: any | null;
+  step = 0;
+
+  setStep(index: number) {
+    this.step = index;
+  }
 
   constructor(
     private snackBar: MatSnackBar,

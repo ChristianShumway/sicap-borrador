@@ -141,7 +141,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
           this.getTotalShow(reportes);
           // console.log(this.reporteTemp);
           this.dataSource.data = this.reporte;
-          // console.log(reportes);
+          console.log(reportes);
   
           reportes.map( reporte => {
             // console.log(reporte);
@@ -166,7 +166,7 @@ export class ListaReporteConceptosEjecutadosComponent implements OnInit {
     reportes.map( reporte => {
       // console.log(reporte);
       reporte.viewConceptExecuted.map( concepto => {
-        if (concepto.importeEjecutado > 0) {
+        if (concepto.importeEjecutado !== 0) {
           // console.log(concepto.importeEjecutado);
           totalAcum += concepto.importeEjecutado;
           // console.log(totalAcum);

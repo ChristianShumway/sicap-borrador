@@ -49,15 +49,15 @@
       <div class="tit">Desglose:</div>
       <div class="desc">{{peticion.desglose}}</div>
       <div class="tit">Importe Solicitado sin Factura:</div>
-      <div class="desc">{{peticion.importeSolicitadoSinFactura | currency}}</div>
+      <div class="desc">{{peticion.importeSolicitadoSinFactura | transformCurrency}}</div>
       <div class="tit">Importe Solicitado con Factura:</div>
-      <div class="desc">{{peticion.importeSolicitadoConFactura | currency}}</div>
+      <div class="desc">{{peticion.importeSolicitadoConFactura | transformCurrency}}</div>
       <div class="tit" *ngIf="peticion.comentarioSolicitud">Comentario de la Solicitud:</div>
       <div class="desc" *ngIf="peticion.comentarioSolicitud">{{peticion.comentarioSolicitud}}</div>
       <div class="tit">Importe Validado sin Factura:</div>
-      <div class="desc">{{peticion.importeValidadoSinFactura | currency}}</div>
+      <div class="desc">{{peticion.importeValidadoSinFactura | transformCurrency}}</div>
       <div class="tit">Importe Validado con Factura:</div>
-      <div class="desc">{{peticion.importeValidadoConFactura | currency}}</div>
+      <div class="desc">{{peticion.importeValidadoConFactura | transformCurrency}}</div>
       <div class="tit" *ngIf="peticion.comentarioRevision">Comentario de la Revisión:</div>
       <div class="desc" *ngIf="peticion.comentarioRevision">{{peticion.comentarioRevision}}</div>
     </div>
@@ -106,9 +106,9 @@
       <div class="tit" *ngIf="material.comentario">Observación</div>
       <div class="desc" *ngIf="material.comentario">{{material.comentario}}</div>
       <div class="tit">Precio:</div>
-      <div class="desc">{{material.precioUnitario | currency}}</div>
+      <div class="desc">{{material.precioUnitario | transformCurrency}}</div>
       <div class="tit">Importe:</div>
-      <div class="desc">{{material.importe | currency}}</div>
+      <div class="desc">{{material.importe | transformCurrency}}</div>
     </div>
   </div>
     
@@ -157,9 +157,9 @@
       <div class="tit">Cantidad:</div>
       <div class="desc">{{peticion.cantidad}}</div>
       <div class="tit">Precio:</div>
-      <div class="desc">{{peticion.precioUnitario | currency}}</div>
+      <div class="desc">{{peticion.precioUnitario | transformCurrency}}</div>
       <div class="tit">Importe:</div>
-      <div class="desc">{{peticion.importe | currency}}</div>
+      <div class="desc">{{peticion.importe | transformCurrency}}</div>
     </div>
   </div>
 

@@ -109,10 +109,10 @@
     <!-- {{peticionesSolicitadas | json}} -->
     <div class="wrap-totales">
       <div class="total">
-        <p>Total Importe Solicitado Sin Factura: <span>{{totalImporteSolicitadoSinFactura | currency}}</span></p>
+        <p>Total Importe Solicitado Sin Factura: <span>{{totalImporteSolicitadoSinFactura | transformCurrency}}</span></p>
       </div>
       <div class="total">
-        <p>Total Importe Solicitado Con Factura: <span>{{totalImporteSolicitadoConFactura | currency}}</span></p>
+        <p>Total Importe Solicitado Con Factura: <span>{{totalImporteSolicitadoConFactura | transformCurrency}}</span></p>
       </div>
     </div>
 
@@ -154,7 +154,7 @@
       <ngx-datatable-column name="Importe Solicitado S/Factura" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.importeSolicitadoSinFactura | currency}}
+            {{row?.importeSolicitadoSinFactura | transformCurrency}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -162,7 +162,7 @@
       <ngx-datatable-column name="Importe Solicitado C/Factura" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center">
-            {{row?.importeSolicitadoConFactura | currency}}
+            {{row?.importeSolicitadoConFactura | transformCurrency}}
           </p>
         </ng-template>
       </ngx-datatable-column>

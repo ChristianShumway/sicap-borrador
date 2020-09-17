@@ -11,16 +11,16 @@
     <ng-container *ngIf="reporteConceptos.length; else loading">
       
       <div class="monto-total">
-        <p>
-          Se han capturado {{reporteConceptos.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | currency}}</b> 
+        <p  *ngIf="reporte.length">
+          Se han capturado {{reporte.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | transformCurrency}}</b> 
           y representa un avance del  {{(totalAcumumladoReportes / totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos
         </p>
-        <!-- {{totalAcumumladoReportes | currency}} -->
+        <!-- {{totalAcumumladoReportes | transformCurrency}} -->
       </div>
   
       <div *ngFor="let reporte of reporteConceptos" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
   
-        <mat-card class="user-card p-0">
+        <mat-card class="user-card p-0"  *ngIf="obra">
           <mat-card-title>
             <div class="card-title-text obra">
               <span fxFlex></span>
@@ -55,7 +55,7 @@
               </div>
               <div class="wrap-total" *ngFor = "let tot of total">
                 <p class="total-p" *ngIf="tot.idReporte === reporte.idReporteSubContrato">
-                  El importe total del reporte es de <b>{{tot.totalMateriales | currency}}</b> 
+                  El importe total del reporte es de <b>{{tot.totalMateriales | transformCurrency}}</b> 
                   y representa el {{(tot.totalMateriales / tot.totalObra) * 100 | number:'1.2-2'}}% del presupuesto de subcontratos.
                 </p>
               </div>

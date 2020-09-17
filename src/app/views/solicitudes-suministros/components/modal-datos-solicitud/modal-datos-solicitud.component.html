@@ -65,16 +65,16 @@
         <div class="desc">{{i+1}}</div>
         <div class="desc categoria">{{peticion.categoriaMovimientoMonetario.descripcion}}</div>
         <div class="desc">{{peticion.desglose}}</div>
-        <div class="desc">{{peticion.importeSolicitadoConFactura | currency}}</div>
-        <div class="desc">{{peticion.importeSolicitadoSinFactura | currency}}</div>
+        <div class="desc">{{peticion.importeSolicitadoConFactura | transformCurrency}}</div>
+        <div class="desc">{{peticion.importeSolicitadoSinFactura | transformCurrency}}</div>
         <div class="desc">{{peticion.comentario}}</div>
       </div>
       <div class="material totales">
         <div></div>
         <div></div>
         <div>Totales</div>
-        <div>{{totalSolicitadoConFactura | currency}}</div>
-        <div>{{totalSolicitadoSinFactura | currency}}</div>
+        <div>{{totalSolicitadoConFactura | transformCurrency}}</div>
+        <div>{{totalSolicitadoSinFactura | transformCurrency}}</div>
         <div></div>
       </div>
     </div>

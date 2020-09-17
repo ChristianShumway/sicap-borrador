@@ -47,19 +47,19 @@
 
           <ngx-datatable-column name="Ingreso" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p  class="content-center">{{row?.ingreso | currency}}</p>
+              <p  class="content-center">{{row?.ingreso | transformCurrency}}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="Egreso" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p  class="content-center">{{row?.egreso | currency}}</p>
+              <p  class="content-center">{{row?.egreso | transformCurrency}}</p>
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="Acumulado" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              <p  class="content-center">{{row?.acumulado | currency}}</p>
+              <p  class="content-center">{{row?.acumulado | transformCurrency}}</p>
             </ng-template>
           </ngx-datatable-column>
 
@@ -97,7 +97,7 @@
       <!-- <div class="monto-total">
         <p>
           Se han capturado {{reportes.length}} reportes que suman un importe acumulado de
-          <b>{{montoTotal | currency}}</b>
+          <b>{{montoTotal | transformCurrency}}</b>
           y representa el {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del total de la mano de obra.
         </p>
       </div>
@@ -136,7 +136,7 @@
               <div class="wrap-total" *ngFor="let tot of total">
                 <p class="total-p" *ngIf="tot.idReporte === reporte.idCapturaManoObra">
                   El importe total capturado dentro del periodo es de
-                  <b>{{tot.totalMateriales | currency}}</b>
+                  <b>{{tot.totalMateriales | transformCurrency}}</b>
                   y representa el {{(tot.totalMateriales / tot.totalManoObra) * 100 | number:'1.2-2'}}% del total de la mano de obra.
                 </p>
 

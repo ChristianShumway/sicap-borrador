@@ -172,7 +172,7 @@ export class ModificarReporteMaquinariaEquipoComponent implements OnInit {
   
       this.catalogo.map( (concepto: ConceptoMaquinariaEquipo) => {
         // if(concepto.cantidadCapturada > 0 || concepto.idConceptoPlanTrabajo !== 0){
-        if(concepto.cantidadCapturada > 0){
+        if(concepto.cantidadCapturada !== 0){
           const conceptoModificado: ConceptoMaquinariaEquipo = {
             ...concepto,
             precioUnitarioCapturado: concepto.precioUnitario,

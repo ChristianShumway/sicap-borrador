@@ -171,7 +171,7 @@
 
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center">{{row?.precio | currency}}</p>
+            <p class="content-center">{{row?.precio | transformCurrency}}</p>
           </ng-template>
         </ngx-datatable-column>
 
@@ -185,7 +185,7 @@
 
         <ngx-datatable-column name="Importe Ejecutado" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
-            <p class="content-center">{{ row?.cantidadSubContrato * row?.precio | currency }}</p>
+            <p class="content-center">{{ row?.cantidadSubContrato * row?.precio | transformCurrency }}</p>
           </ng-template>
         </ngx-datatable-column>
 

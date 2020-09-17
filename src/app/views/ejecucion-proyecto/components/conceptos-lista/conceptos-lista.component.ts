@@ -52,35 +52,35 @@ export class ConceptosListaComponent implements OnInit {
   getConcepts(){
     this.conceptos.map( concepto => {
       if(this.tipoReporte === 'plan-trabajo'){
-        if (concepto.cantidadPlaneada > 0){
+        if (concepto.cantidadPlaneada !== 0){
           this.conceptosSeleccionados.push(concepto);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importePlaneado;
         }
       } else if(this.tipoReporte === 'reporte-ejecutados'){
-        if (concepto.cantidadEjecutada > 0){
+        if (concepto.cantidadEjecutada !== 0){
           // console.log(concepto);
           this.conceptosSeleccionados.push(concepto);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeEjecutado;
         }
       } else if(this.tipoReporte === 'reporte-subcontrato'){
-        if (concepto.cantidadSubContrato > 0){
+        if (concepto.cantidadSubContrato !== 0){
           this.conceptosSeleccionados.push(concepto);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeSubContrato;
         }
       } else if(this.tipoReporte === 'reporte-mano-obra'){
-        if (concepto.cantidadCapturada > 0){
+        if (concepto.cantidadCapturada !== 0){
           this.conceptosSeleccionados.push(concepto);
           // console.log(this.conceptosSeleccionados);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;
         }
       } else if(this.tipoReporte === 'reporte-materiales'){
-        if (concepto.cantidadCapturada > 0){
+        if (concepto.cantidadCapturada !== 0){
           this.conceptosSeleccionados.push(concepto);
           // console.log(this.conceptosSeleccionados);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;
         }
       } else if(this.tipoReporte === 'reporte-maquinaria-equipo'){
-        if (concepto.cantidadCapturada > 0){
+        if (concepto.cantidadCapturada !== 0){
           this.conceptosSeleccionados.push(concepto);
           // console.log(this.conceptosSeleccionados);
           this.montoImporteConceptosSeleccionados =  this.montoImporteConceptosSeleccionados + concepto.importeCapturado;

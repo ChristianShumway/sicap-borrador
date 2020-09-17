@@ -180,7 +180,7 @@ export class PlanTrabajoComponent implements OnInit {
       const newCatalog: ConceptoPlanTrabajo[] = []
   
       this.catalogo.map( (concepto: ConceptoPlanTrabajo) => {
-        if(concepto.cantidadPlaneada > 0){
+        if(concepto.cantidadPlaneada !== 0){
           const conceptoModificado = {
             ...concepto,
             precioUnitarioPlaneado: concepto.precioUnitario,

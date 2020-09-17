@@ -7,10 +7,10 @@
     <p *ngIf = "tipoReporte === 'reporte-ejecutados'"><b>Cantidad Ejecutada:</b> {{concepto.cantidadEjecutada}}</p>
     <p *ngIf = "tipoReporte === 'reporte-subcontrato'"><b>Cantidad Subcontrato:</b> {{concepto.cantidadSubContrato}}</p>
     <p *ngIf = "tipoReporte === 'reporte-mano-obra' || tipoReporte === 'reporte-materiales' || tipoReporte === 'reporte-maquinaria-equipo'"><b>Cantidad Capturada:</b> {{concepto.cantidadCapturada}}</p>
-    <p *ngIf = "tipoReporte === 'plan-trabajo'"><b>Importe Planeado:</b> {{concepto.importePlaneado |currency}}</p>
-    <p *ngIf = "tipoReporte === 'reporte-ejecutados'"><b>Importe Ejecutado:</b> {{concepto.importeEjecutado |currency}}</p>
-    <p *ngIf = "tipoReporte === 'reporte-subcontrato'"><b>Importe Subcontrato:</b> {{concepto.importeSubContrato |currency}}</p>
-    <p *ngIf = "tipoReporte === 'reporte-mano-obra' || tipoReporte === 'reporte-materiales' || tipoReporte === 'reporte-maquinaria-equipo'"><b>Importe Capturado:</b> {{concepto.importeCapturado |currency}}</p>
+    <p *ngIf = "tipoReporte === 'plan-trabajo'"><b>Importe Planeado:</b> {{concepto.importePlaneado | transformCurrency}}</p>
+    <p *ngIf = "tipoReporte === 'reporte-ejecutados'"><b>Importe Ejecutado:</b> {{concepto.importeEjecutado | transformCurrency}}</p>
+    <p *ngIf = "tipoReporte === 'reporte-subcontrato'"><b>Importe Subcontrato:</b> {{concepto.importeSubContrato | transformCurrency}}</p>
+    <p *ngIf = "tipoReporte === 'reporte-mano-obra' || tipoReporte === 'reporte-materiales' || tipoReporte === 'reporte-maquinaria-equipo'"><b>Importe Capturado:</b> {{concepto.importeCapturado | transformCurrency}}</p>
     <!-- {{concepto | json}} -->
     <div class="wrap-buttons-evidence">
       <button 

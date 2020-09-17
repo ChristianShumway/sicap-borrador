@@ -354,7 +354,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
       const newCatalog: ConceptoEjecutado[] = []
   
       this.catalogo.map( (concepto: ConceptoEjecutado) => {
-        if(concepto.cantidadEjecutada > 0 || concepto.idDetConceptoEjecutado !== 0){
+        if(concepto.cantidadEjecutada !== 0 || concepto.idDetConceptoEjecutado !== 0){
           const conceptoModificado: ConceptoEjecutado = {
             ...concepto,
             precioUnitarioEjecutado: concepto.precioUnitario,

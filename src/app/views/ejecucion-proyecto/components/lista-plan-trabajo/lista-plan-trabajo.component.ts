@@ -159,7 +159,7 @@ export class ListaPlanTrabajoComponent implements OnInit {
     reportes.map( reporte => {
       // console.log(reporte);
       reporte.viewConceptWorkPlan.map( concepto => {
-        if (concepto.importePlaneado > 0) {
+        if (concepto.importePlaneado !== 0) {
           // console.log(concepto.importePlaneado);
           totalAcum += concepto.importePlaneado;
           // console.log(totalAcum);

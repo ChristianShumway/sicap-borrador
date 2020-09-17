@@ -5,12 +5,8 @@
       <!-- <mat-form-field class="margin-333" style="width: 100%">
         <input matInput placeholder="Filtrar Conceptos" value="" (keyup)='updateFilter($event)'>
       </mat-form-field> -->
-      <div class="wrap-button">
-        <button mat-raised-button color="warn" (click)="eliminarCatalogo()">Eliminar Catálogo</button>
-        <button mat-raised-button color="primary" (click)="openBottomExtraordinario('0')">Extraordinario</button>
-      </div>
-        
-      <div class="mat-box-shadow margin-333">
+    
+      <!-- <div class="mat-box-shadow margin-333">
         <ngx-datatable 
         class="material fullscreen bg-white"
         [rows]="catalogo"
@@ -23,7 +19,7 @@
         [scrollbarH]="true"
         [rowHeight]="50">
           
-          <ngx-datatable-column name="No." [flexGrow]="1">
+          <ngx-datatable-column name="No." [flexGrow]="1" >
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
                 {{ row?.noConcepto }}
@@ -64,7 +60,7 @@
           <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-                {{row?.precioUnitario | currency}}
+                {{row?.precioUnitario | transformCurrency}}
               </p>
             </ng-template>
           </ngx-datatable-column>
@@ -72,16 +68,119 @@
           <ngx-datatable-column name="Importe" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
               <p [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">
-                {{row?.importe | currency}}
+                {{row?.importe | transformCurrency}}
               </p>
             </ng-template>
           </ngx-datatable-column>
 
         </ngx-datatable>
-      </div>
+      </div> -->
+
+      
+      <mat-card class="wrap-catalog">
+        <div class="wrap-button">
+          <!-- <button mat-raised-button [color]="'delete'" (click)="eliminarCatalogo()">Eliminar Catálogo</button> -->
+          <!-- <button mat-raised-button color="primary" (click)="openBottomExtraordinario('0')">Extraordinario</button> -->
+          <!-- <button mat-mini-fab [color]="'delete'" (click)="eliminarCatalogo()"><mat-icon>delete</mat-icon></button>
+          <button mat-mini-fab color="primary" (click)="openBottomExtraordinario('0')"><mat-icon>plus_one</mat-icon></button> -->
+          <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Example icon-button with a menu">
+            <mat-icon>more_vert</mat-icon>
+          </button>
+          <mat-menu #menu="matMenu">
+            <button mat-menu-item (click)="openBottomExtraordinario('0')">
+              <mat-icon>plus_one</mat-icon>
+              <span>Extraordinario</span>
+            </button>
+            <button mat-menu-item (click)="eliminarCatalogo()">
+              <mat-icon>delete</mat-icon>
+              <span>Catálogo</span>
+            </button>
+          </mat-menu>
+        </div>
+        <div class="example-container mat-elevation-z8">
+          <table mat-table [dataSource]="catalogo" multiTemplateDataRows class="mat-elevation-z8">
+            <ng-container matColumnDef="no">
+              <mat-header-cell *matHeaderCellDef class="center-table"> No. </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">No:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.noConcepto}} </span>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="descripcion">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Descripción </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Descripción:</span>
+                <p class="show-description"> {{element.descripcion}} </p> 
+                <button mat-raised-button color="primary" class="show-button" (click)="expandedElement = expandedElement === element ? null : element">Ver</button>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="partida">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Partida </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Partida:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.partida}} </span>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="unidad">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Unidad </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Unidad:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.unidad}} </span>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="cantidad">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Cantidad </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Cantidad:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.cantidad}} </span>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="precio">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Precio Unitario </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Precio Unitario:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.precioUnitario | transformCurrency}} </span>
+              </mat-cell>
+            </ng-container>
+  
+            <ng-container matColumnDef="importe">
+              <mat-header-cell *matHeaderCellDef class="center-table"> Importe </mat-header-cell>
+              <mat-cell *matCellDef="let element" class="center-table"> 
+                <span class="mobile-label">Importe:</span>
+                <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.importe | transformCurrency}} </span>
+              </mat-cell>
+            </ng-container>
+
+            <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+            <ng-container matColumnDef="expandedDetail" class="show-button">
+              <mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                  <div class="example-element-description">
+                    <span class="tag-description">Descripción:</span>
+                    <span [ngStyle]="{'color':element.tipo === 2 ? 'green' : 'black' }"> {{element.descripcion}} </span>
+                  </div>
+                </div>
+              </mat-cell>
+            </ng-container>
+  
+            <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+            <mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+              >
+            </mat-row>
+            <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row show-row" ></mat-row>
+            <mat-paginator [length]="20" [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+          </table>
+        </div>
+      </mat-card>
     </div>
   </div>
-  
+
+
   <ng-template #cargarCatalogo>
     <div class="mb-1">
       <input style="visibility: hidden;" type="file" #fileInput ng2FileSelect [uploader]="uploaderCatalogo" />
@@ -89,7 +188,7 @@
         (fileOver)="fileOverBase($event)" class="fileupload-drop-zone-logo-div">
         <p>Catálogo de Conceptos</p>
         <p>Arrastra o click sobre la imagen o zona punteada</p>
-    
+
         <div *ngIf="uploaderCatalogo.queue.length; else tableNoData">
           <div *ngFor="let item of uploaderCatalogo.queue ">
             <div *ngIf="!item.isSuccess" class="progress" style="margin-bottom: 0;">
@@ -99,13 +198,13 @@
             </div>
           </div>
         </div>
-    
+
         <div *ngIf="loadingFile">
           <div class="wrap-loading-catalog">
             <mat-spinner [diameter]="40"></mat-spinner>
           </div>
         </div>
-    
+
         <div class="wrap-catalog-list" *ngIf="listaConceptos">
           <div class="icon-excel-status">
             <!-- <img *ngIf="listaConceptos" class="fileupload-drop-zone-logo" src="http://{{host}}/{{rutaImg}}/files/{{obra.supervisor.imagen}}" alt=""> -->
@@ -119,6 +218,6 @@
     </div>
 
   </ng-template>
-  
-  
+
+
 </div>

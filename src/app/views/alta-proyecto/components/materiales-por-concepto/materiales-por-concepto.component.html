@@ -62,13 +62,13 @@
 
           <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              {{row?.precioUnitario | currency}}
+              {{row?.precioUnitario | transformCurrency}}
             </ng-template>
           </ngx-datatable-column>
 
           <ngx-datatable-column name="Importe" [flexGrow]="1">
             <ng-template let-row="row" ngx-datatable-cell-template>
-              {{row?.importe | currency}}
+              {{row?.importe | transformCurrency}}
             </ng-template>
           </ngx-datatable-column>
 

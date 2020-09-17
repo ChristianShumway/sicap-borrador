@@ -159,10 +159,9 @@ export class ListaReporteMaterialesComponent implements OnInit {
     reportes.map( reporte => {
       // console.log(reporte);
       reporte.detMaterial.map( concepto => {
-        if (concepto.importeCapturado > 0) {
-          // console.log(concepto.importeCapturado);
-          totalAcum += concepto.importeCapturado;
-          // console.log(totalAcum);
+        if (concepto.importeCapturado !== 0) {
+          // console.log(concepto.importeCapturado)
+          totalAcum += concepto.importeCapturado;          // console.log(totalAcum);
         }
       });
     });

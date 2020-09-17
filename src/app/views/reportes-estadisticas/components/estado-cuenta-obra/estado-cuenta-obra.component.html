@@ -96,15 +96,15 @@
         </p>
         <div class="wrap-alcance-general">
           <div class="avance programado-fecha">
-            <p class="porcentaje">{{totalIngresosFecha | currency}}</p>
+            <p class="porcentaje">{{totalIngresosFecha | transformCurrency}}</p>
             <p class="leyenda">Ingresos Totales a la fecha</p>
           </div>
           <div class="avance ejecutado-fecha">
-            <p class="porcentaje">{{totalEgresosFecha | currency}}</p>
+            <p class="porcentaje">{{totalEgresosFecha | transformCurrency}}</p>
             <p class="leyenda">Egresos Totales a la fecha</p>
           </div>
           <div class="avance diferencia">
-            <p class="porcentaje" [ngStyle]="{'color':diferenciaTotales >= 0 ? 'green' : 'red' }">{{diferenciaTotales | currency}}</p> 
+            <p class="porcentaje" [ngStyle]="{'color':diferenciaTotales >= 0 ? 'green' : 'red' }">{{diferenciaTotales | transformCurrency}}</p> 
             <p class="leyenda">Diferencia</p>
           </div>
         </div>
@@ -154,25 +154,25 @@
               <div>{{semana.corte}}</div>
             </div>
             <div class="col-2 info-ingreso">
-              <div>{{semana.acumuladoING | currency}}</div>
+              <div>{{semana.acumuladoING | transformCurrency}}</div>
             </div>
             <div class="col-3 info-ingreso">
-              <div>{{semana.acumuladoCO | currency}}</div>
+              <div>{{semana.acumuladoCO | transformCurrency}}</div>
             </div>
             <div class="col-4 info-ingreso">
-              <div>{{semana.acumuladoCA | currency}}</div>
+              <div>{{semana.acumuladoCA | transformCurrency}}</div>
             </div>
             <div class="col-5 info-ingreso">
-              <div>{{semana.acumuladoCP | currency}}</div>
+              <div>{{semana.acumuladoCP | transformCurrency}}</div>
             </div>
             <div class="col-6 info-ingreso">
-              <div>{{semana.acumuladoIMP | currency}}</div>
+              <div>{{semana.acumuladoIMP | transformCurrency}}</div>
             </div>
             <div class="col-7 info-ingreso">
-              <div>{{semana.acumuladoEGR | currency}}</div>
+              <div>{{semana.acumuladoEGR | transformCurrency}}</div>
             </div>
             <div class="col-8 info-ingreso">
-              <div>{{semana.acumuladoTOT | currency}}</div>
+              <div>{{semana.acumuladoTOT | transformCurrency}}</div>
             </div>
           </div>
         </div>
@@ -205,7 +205,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat ingreso">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -217,7 +217,7 @@
             <div class="col-meses row-totales num-col-{{totalColumnas}}"> 
               <div>TOTALES</div>
               <div *ngFor = "let monto of totalIngresos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -228,7 +228,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataIngresos.utilidad"> 
               <div>{{dataIngresos.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataIngresos.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -244,7 +244,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat costo-obra">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -257,7 +257,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCostosObra.utilidad"> 
               <div>{{dataCostosObra.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataCostosObra.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -272,7 +272,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat costo-administrativo">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -285,7 +285,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCostosAdministrativos.utilidad"> 
               <div>{{dataCostosAdministrativos.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataCostosAdministrativos.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -300,7 +300,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat credito-prestamo">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -313,7 +313,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataCreditoPrestamo.utilidad"> 
               <div>{{dataCreditoPrestamo.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataCreditoPrestamo.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -328,7 +328,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat impuesto">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -341,7 +341,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataImpuestos.utilidad"> 
               <div>{{dataImpuestos.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataImpuestos.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -356,7 +356,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat inversion">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
                   </div>
                 </div>
@@ -368,7 +368,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="dataInversion.utilidad"> 
               <div>{{dataInversion.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of dataInversion.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto}}%</span>
               </div>
             </div>
@@ -401,7 +401,7 @@
                 <div class="col-meses num-col-{{totalColumnas}}">
                   <div class="inf-cat tipo-{{tipoCuenta.idTipo}}">{{tipo.descripcion}}</div>
                   <div class="inf-cat" *ngFor = "let monto of tipo.montos">
-                    <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                    <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                     <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                   </div>
                 </div>
@@ -415,42 +415,42 @@
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 1"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalCostosAdministrativos">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 2"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalCostosObra">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 3"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalCreditoPrestamo">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 4"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalImpuestos">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 5"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalInversion">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
               <div class="col-meses row-totales num-col-{{totalColumnas}}"  *ngIf="tipoCuenta.idTipo === 6"> 
                 <div>TOTALES</div>
                 <div *ngFor = "let monto of totalIngresos">
-                  <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                  <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                   <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
                 </div>
               </div>
@@ -461,7 +461,7 @@
             <div class="col-meses row-utilidad num-col-{{totalColumnas}}" *ngIf="tipoCuenta.utilidad"> 
               <div>{{tipoCuenta.utilidad.descripcion}}</div>
               <div *ngFor = "let monto of tipoCuenta.utilidad.montos">
-                <span *ngIf="monto.mes !== -2">{{monto.monto | currency}}</span>
+                <span *ngIf="monto.mes !== -2">{{monto.monto | transformCurrency}}</span>
                 <span *ngIf="monto.mes === -2">{{monto.monto * 100 | number:'1.2-2'}}%</span>
               </div>
             </div>

@@ -10,17 +10,15 @@
   <div fxLayout="row wrap" *ngIf="(obs$ | async) as worksPlan">
     <ng-container *ngIf="worksPlan.length; else loading">
       <div class="monto-total">
-        <!-- <p>El monto total de tu lista de plan de trabajo registrados es de: <b>{{montoTotal | currency}}</b></p> -->
-        <p>
-          Se han capturado {{worksPlan.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | currency}}</b> 
+        <p *ngIf="workPlans.length">
+          Se han capturado {{workPlans.length}} reportes que suman un importe acumulado de <b>{{totalAcumumladoReportes | transformCurrency}}</b> 
           y representa el {{(totalAcumumladoReportes / totalObra) * 100 | number:'1.2-2'}}% del total de la obra
         </p>
-        <!-- {{totalAcumumladoReportes | currency}} -->
       </div>
       
       <div *ngFor="let plan of worksPlan" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
         <!-- {{plan | json}} -->
-        <mat-card class="user-card p-0">
+        <mat-card class="user-card p-0" *ngIf="obra">
           <mat-card-title>
             <div class="card-title-text obra">
               <span fxFlex></span>
@@ -56,11 +54,11 @@
               </div>
               <div class="wrap-total" *ngFor = "let tot of total">
                 <p class="total-p" *ngIf="tot.idPlan === plan.idPlanTrabajo">
-                  El importe total planeado dentro del periodo es de <b>{{tot.totalMateriales | currency}}</b> 
+                  El importe total planeado dentro del periodo es de <b>{{tot.totalMateriales | transformCurrency}}</b> 
                   y representa el {{(tot.totalMateriales / tot.totalObra) * 100 | number:'1.2-2'}}% del total de la obra.
                 </p>
                 <p class="total-e" *ngIf="tot.idPlan === plan.idPlanTrabajo">
-                  El importe total ejecutado dentro del periodo es de <b>{{tot.totalEjecutado | currency}}</b> 
+                  El importe total ejecutado dentro del periodo es de <b>{{tot.totalEjecutado | transformCurrency}}</b> 
                   y representa el {{(tot.totalEjecutado / tot.totalObra) * 100 | number:'1.2-2'}}% del total de la obra.
                 </p>
               </div>

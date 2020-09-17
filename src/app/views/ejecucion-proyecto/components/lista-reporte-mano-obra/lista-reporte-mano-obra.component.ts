@@ -159,7 +159,7 @@ export class ListaReporteManoObraComponent implements OnInit {
     reportes.map( reporte => {
       // console.log(reporte);
       reporte.detManoObra.map( concepto => {
-        if (concepto.importeCapturado > 0) {
+        if (concepto.importeCapturado !== 0) {
           // console.log(concepto.importeCapturado);
           totalAcum += concepto.importeCapturado;
           // console.log(totalAcum);

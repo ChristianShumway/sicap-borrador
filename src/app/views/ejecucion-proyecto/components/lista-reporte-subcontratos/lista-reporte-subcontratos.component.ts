@@ -165,7 +165,7 @@ export class ListaReporteSubcontratosComponent implements OnInit {
     reportes.map( reporte => {
       // console.log(reporte);
       reporte.viewReportSubContract.map( concepto => {
-        if (concepto.importeSubContrato > 0) {
+        if (concepto.importeSubContrato !== 0) {
           // console.log(concepto.importeSubContrato);
           totalAcum += concepto.importeSubContrato;
           // console.log(totalAcum);

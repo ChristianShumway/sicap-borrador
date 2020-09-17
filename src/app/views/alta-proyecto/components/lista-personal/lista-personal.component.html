@@ -31,12 +31,12 @@
   <div class="container-lists" *ngFor="let lista of catalogo">
     <div *ngIf="lista">
       <div class="div" *ngIf="lista.tipoDetalle === 1">
-        <div class="wrap-button">
+        <!-- <div class="wrap-button">
           <button mat-raised-button color="warn" (click)="eliminarLista(lista.idArchivoObra)">Eliminar Lista de Personal</button>
           <button mat-raised-button color="primary" (click)="openBottomExtra(lista.idArchivoObra)">Agregar Personal</button>
-        </div>
+        </div> -->
   
-        <div class="mat-box-shadow margin-333">
+        <!-- <div class="mat-box-shadow margin-333">
           <ngx-datatable class="material fullscreen bg-white" [rows]="lista.details" [columnMode]="'force'" [headerHeight]="50" [footerHeight]="50"
             [scrollbarH]="true" [rowHeight]="'auto'" [limit]="20" [scrollbarH]="true" [rowHeight]="50">
   
@@ -60,7 +60,7 @@
         
             <ngx-datatable-column name="Sueldo" [flexGrow]="1">
               <ng-template let-row="row" ngx-datatable-cell-template>
-                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.sueldo | currency}}</p>
+                <p [ngStyle]="{'color':row?.extraordinario === 1 ? 'green' : 'black' }">{{row?.sueldo | transformCurrency}}</p>
               </ng-template>
             </ngx-datatable-column>
   
@@ -83,8 +83,119 @@
             </ngx-datatable-column>
   
           </ngx-datatable>
+        </div> -->
+        <div class="wrap-catalog">
+          <mat-accordion >
+            <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" >
+              <mat-expansion-panel-header>
+                <mat-panel-title>
+                  <!-- Lista de Personal -->
+                </mat-panel-title>
+                <mat-panel-description>
+                  <!-- Type your name and age -->
+                  <!-- <mat-icon>account_circle</mat-icon> -->
+                </mat-panel-description>
+              </mat-expansion-panel-header>
+  
+              <div class="wrap-button">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="openBottomExtra(lista.idArchivoObra)">
+                    <mat-icon>plus_one</mat-icon>
+                    <span>Agregar Personal</span>
+                  </button>
+                  <button mat-menu-item (click)="eliminarLista(lista.idArchivoObra)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Catálogo</span>
+                  </button>
+                </mat-menu>
+              </div>
+              <div class="example-container mat-elevation-z8">
+                <table mat-table [dataSource]="lista.details" multiTemplateDataRows class="mat-elevation-z8">
+                  <ng-container matColumnDef="no">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> No. </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">No:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.noPersonal}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="nombre">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Nombre </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Nombre:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.nombre}} </span> 
+                      <!-- <button mat-raised-button color="primary" class="show-button" (click)="expandedElement = expandedElement === element ? null : element">Ver</button> -->
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="categoria">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Categoría </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Categoría:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.categoria}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="sueldo">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Sueldo </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Sueldo:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.sueldo | transformCurrency}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="imss">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Número IMSS </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Número IMSS:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.numeroImms}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="telefono">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Teléfono </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Teléfono:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.telefono}} </span>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <ng-container matColumnDef="ciudad">
+                    <mat-header-cell *matHeaderCellDef class="center-table"> Ciudad Origen </mat-header-cell>
+                    <mat-cell *matCellDef="let element" class="center-table"> 
+                      <span class="mobile-label">Ciudad Origen:</span>
+                      <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.ciudadOrigen}} </span>
+                    </mat-cell>
+                  </ng-container>
+      
+                  <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+                  <ng-container matColumnDef="expandedDetail" class="show-button">
+                    <mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                      <div class="example-element-detail" [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="example-element-description">
+                          <span class="tag-description">Descripción:</span>
+                          <span [ngStyle]="{'color':element.extraordinario === 1 ? 'green' : 'black' }"> {{element.descripcion}} </span>
+                        </div>
+                      </div>
+                    </mat-cell>
+                  </ng-container>
+        
+                  <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+                  <mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row" [class.example-expanded-row]="expandedElement === element"
+                    >
+                  </mat-row>
+                  <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row show-row" ></mat-row>
+                  <mat-paginator [length]="20" [pageSize]="10"[pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+                </table>
+              </div>
+            </mat-expansion-panel>
+          </mat-accordion>  
         </div>
-
+      
+      
       </div>
     </div>
   </div>

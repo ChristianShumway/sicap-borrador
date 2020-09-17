@@ -9,6 +9,7 @@ import { GetPerfilPipe } from './get-perfil.pipe';
 import { TruncatePipe } from './truncate.pipe';
 import { DiasFaltantesPipe } from './dias-faltantes.pipe';
 import { ToDateLongPipe } from './to-date-long.pipe';
+import { TransformCurrencyPipe } from './transform-currency.pipe';
 
 const pipes = [
   RelativeTimePipe,
@@ -18,7 +19,8 @@ const pipes = [
   GetPerfilPipe,
   TruncatePipe,
   DiasFaltantesPipe,
-  ToDateLongPipe
+  ToDateLongPipe,
+  TransformCurrencyPipe
 ]
 
 @NgModule({

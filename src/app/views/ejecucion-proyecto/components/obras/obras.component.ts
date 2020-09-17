@@ -41,11 +41,11 @@ export class ObrasComponent implements OnInit {
   diasFaltantesObra: number;
   idUserLogeado;
   porcentajeEjecucionFaltante: number;
-  accesoBitacora = false;
   option: string;
   usuarioIdentificado = true;
-
+  
   nombreComponente = 'validacion-reportes';
+  accesoBitacora = false;
   permisosEspeciales: any[] = []; //array de objetos que contiene todos los permisos especiales del proyecto
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
@@ -106,29 +106,29 @@ export class ObrasComponent implements OnInit {
             this.obras.push(obra);
           }
 
-          if(obra.idPlaneacionPresupuesto === this.idUserLogeado){
+          if(obra.idPlaneacionPresupuesto === this.idUserLogeado && obra.idGerente !== obra.idPlaneacionPresupuesto){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
-          if(obra.idControlObra === this.idUserLogeado){
+          if(obra.idControlObra === this.idUserLogeado  && obra.idGerente !== obra.idControlObra){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
-          if(obra.idCompras === this.idUserLogeado){
+          if(obra.idCompras === this.idUserLogeado  && obra.idGerente !== obra.idCompras){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
 
           obra.supervisor.map( (supervisor: Usuario) => {
-            if (supervisor.idUsuario === this.idUserLogeado){
-              this.accesoBitacora = true;
+            if (supervisor.idUsuario === this.idUserLogeado  && obra.idGerente !== supervisor.idUsuario && obra.idControlObra !== supervisor.idUsuario){
               this.obras.push(obra);
             }  else {
               this.usuarioIdentificado = false;
             }
+            this.accesoBitacora = true;
           });
 
           obra.usuarioCliente.map( (usuario: Usuario) => {
@@ -140,7 +140,7 @@ export class ObrasComponent implements OnInit {
           });
 
         });
-        // console.log(this.obras);
+        console.log(this.obras);
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
         this.vadilateStatus(this.obras);

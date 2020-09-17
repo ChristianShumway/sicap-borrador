@@ -79,26 +79,26 @@ export class ObrasComponent implements OnInit {
             this.usuarioIdentificado = false;
           }
 
-          if(obra.idPlaneacionPresupuesto === this.idUserLogeado){
+          if(obra.idPlaneacionPresupuesto === this.idUserLogeado && obra.idGerente !== obra.idPlaneacionPresupuesto){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
 
-          if(obra.idControlObra === this.idUserLogeado){
+          if(obra.idControlObra === this.idUserLogeado && obra.idGerente !== obra.idControlObra){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
 
-          if(obra.idCompras === this.idUserLogeado){
+          if(obra.idCompras === this.idUserLogeado && obra.idGerente !== obra.idCompras){
             this.obras.push(obra);
           } else {
             this.usuarioIdentificado = false;
           }
 
           obra.supervisor.map( (supervisor: Usuario) => {
-            if (supervisor.idUsuario === this.idUserLogeado){
+            if (supervisor.idUsuario === this.idUserLogeado && obra.idGerente !== supervisor.idUsuario && obra.idControlObra !== supervisor.idUsuario){
               this.obras.push(obra);
             } else {
               this.usuarioIdentificado = false;

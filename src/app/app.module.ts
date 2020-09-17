@@ -23,10 +23,10 @@ import { ErrorHandlerService } from './shared/services/error-handler.service';
 import { AgmCoreModule } from '@agm/core';
 
 // Fecha en español
-import { LOCALE_ID } from '@angular/core';
-import es from '@angular/common/locales/es';
+import localeEs from '@angular/common/locales/es';
+registerLocaleData(localeEs, 'es');
 import { registerLocaleData } from '@angular/common';
-registerLocaleData(es);
+import { LOCALE_ID } from '@angular/core';
 
 // AoT requires an exported function for factories
 export function HttpLoaderFactory(httpClient: HttpClient) {
@@ -66,7 +66,7 @@ const DEFAULT_PERFECT_SCROLLBAR_CONFIG: PerfectScrollbarConfigInterface = {
     { provide: ErrorHandler, useClass: ErrorHandlerService },
     { provide: HAMMER_GESTURE_CONFIG, useClass: GestureConfig },
     { provide: PERFECT_SCROLLBAR_CONFIG, useValue: DEFAULT_PERFECT_SCROLLBAR_CONFIG },
-    // { provide: LOCALE_ID, useValue: "es-ES" }, //fecha español
+    { provide: LOCALE_ID, useValue: 'es' } //fecha español
   ],
   bootstrap: [AppComponent]
 })

@@ -322,7 +322,7 @@ export class ReporteSubcontratosComponent implements OnInit {
       const newCatalog: ConceptoSubcontrato[] = []
   
       this.catalogo.map( (concepto: ConceptoSubcontrato) => {
-        if(concepto.cantidadSubContrato > 0){
+        if(concepto.cantidadSubContrato !== 0){
           const conceptoModificado: ConceptoSubcontrato = {
             ...concepto,
             precioUnitarioSubContrato: concepto.precio,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, Input, ChangeDetectionStrategy, AfterViewInit, ViewChild } from '@angular/core';
 import { environment } from './../../../../../environments/environment';
 import { FileUploader } from 'ng2-file-upload';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -12,19 +12,35 @@ import { ActivatedRoute, Params } from '@angular/router';
 import { AutenticacionService } from 'app/shared/services/autenticacion.service';
 import { ModalEliminarComponent } from '../modal-eliminar/modal-eliminar.component';
 import {MatDialog} from '@angular/material/dialog';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource} from '@angular/material/table';
 
 @Component({
   selector: 'app-catalogo-conceptos',
   templateUrl: './catalogo-conceptos.component.html',
   styleUrls: ['./catalogo-conceptos.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class CatalogoConceptosComponent implements OnInit {
+
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild(MatSort) sort: MatSort;
 
   // @Input() obra: Obra;
   public uploaderCatalogo: FileUploader = new FileUploader({ url: '' });
   public hasBaseDropZoneOver: boolean = false;
   private catalogoConceptosObs$: Observable<CatalogoConceptos>;
+  dataSource: MatTableDataSource<CatalogoConceptos>;
+
   listaConceptos: CatalogoConceptos[];
   idObra;
   usuarioLogeado;
@@ -39,6 +55,9 @@ export class CatalogoConceptosComponent implements OnInit {
   rows = [];
   columns = [];
   temp = [];
+
+  columnsToDisplay =   ['no','descripcion','partida','unidad','cantidad','precio','importe'];
+  expandedElement: any | null;
 
   constructor(
     private snackBar: MatSnackBar,
@@ -72,7 +91,10 @@ export class CatalogoConceptosComponent implements OnInit {
 
   verifyConceptsExist() {
     this.catalogoConceptosService.getCatalogObservable(this.idObra);
+
     this.catalogoConceptosObs$ = this.catalogoConceptosService.getDataCatalogo();
+    // this.dataSource = new MatTableDataSource(this.catalogoConceptosObs$);
+
     this.columns = this.catalogoConceptosService.getDataColumns();
   }
 
