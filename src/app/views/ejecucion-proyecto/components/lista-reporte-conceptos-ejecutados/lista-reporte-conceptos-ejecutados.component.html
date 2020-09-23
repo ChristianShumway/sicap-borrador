@@ -17,9 +17,8 @@
         </p>
         <!-- {{totalAcumumladoReportes | transformCurrency}} -->
       </div>
-  
-      <div *ngFor="let reporte of reporteConceptos" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-  
+
+      <div *ngFor="let reporte of reporteConceptos" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100" >
         <mat-card class="user-card p-0" *ngIf="obra">
           <mat-card-title>
             <div class="card-title-text obra">
@@ -47,14 +46,17 @@
               <div class="wrap-detalles-tarea">
                 <!-- <p class="p-info-catalogs">
                   <span>Fecha de Termino:</span> {{reporte.fechaFinal | date}}</p> -->
-                <p class="p-info-catalogs">
-                  <span>Latitud:</span> {{reporte.latitud}}</p>
-                <p class="p-info-catalogs">
-                  <span>Longitud:</span> {{reporte.longitud}}</p>
+                <p class="p-info-catalogs"><span>Latitud:</span> {{reporte.latitud}}</p>
+                <p class="p-info-catalogs"><span>Longitud:</span> {{reporte.longitud}}</p>
+                <p class="p-info-catalogs"><span>Título:</span> {{reporte.observacion}}</p>
               </div>
-              <div class="wrap-observacion">
-                <p class="tit-observacion">Observación:</p>
+              <!-- <div class="wrap-observacion">
+                <p class="tit-observacion">Título:</p>
                 <p>{{reporte.observacion}}</p>
+              </div> -->
+              <div class="wrap-observacion" *ngIf="reporte.comentarioRelevante">
+                <p class="tit-observacion">Actividades Relevantes:</p>
+                <p>{{reporte.comentarioRelevante.comentario}}</p>
               </div>
               <div class="wrap-total" *ngFor = "let tot of total">
                 <!-- <p class="total-p" *ngIf="tot.idReporte === reporte.idConceptoEjecutado">
@@ -86,6 +88,8 @@
           </mat-card-content>
         </mat-card>
       </div>
+      
+      
     </ng-container>
     <ng-template #loading>
       <div class="wrap-loading-catalog">

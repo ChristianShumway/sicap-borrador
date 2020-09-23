@@ -18,6 +18,7 @@ import { ConceptoEjecutado } from './../../../../shared/models/concepto-ejecutad
 
 import { SubirEvidenciasComponent } from '../subir-evidencias/subir-evidencias.component';
 import { now } from 'moment';
+import { Observacion } from '../../../../shared/models/observacion';
 
 @Component({
   selector: 'app-crear-nota-bitacora',
@@ -87,6 +88,7 @@ export class CrearNotaBitacoraComponent implements OnInit {
       longitud: new FormControl('', Validators.required),
       fechaInicio: new FormControl(new Date(), Validators.required),
       // fechaFinal: new FormControl(new Date(), Validators.required),
+      actividadRelevante: new FormControl('', Validators.required)
     })
   }
 
@@ -343,6 +345,20 @@ export class CrearNotaBitacoraComponent implements OnInit {
         }
       });
 
+      const comentarioRelevante: Observacion = {
+        comentario: this.notaBitacoraForm.value.actividadRelevante,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        idObra: parseInt(this.idObra),
+        idObservacion: 0,
+        idTipoObservacion: 7,
+        tipo: 2,
+        fechaCreo: nuevaFechaInicio,
+        // "evidenciaObservacion": null,
+        // "usuario": null,
+        // "tipoObservacioon": null,
+        // "no": 0
+      }
+
       const reporte: ReporteConceptosEjecutados = {
         ...this.notaBitacoraForm.value,
         fechaInicio: nuevaFechaInicio,
@@ -350,14 +366,16 @@ export class CrearNotaBitacoraComponent implements OnInit {
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptExecuted: newCatalog,
+        comentarioRelevante: comentarioRelevante,
+        idComentarioRelevante: 0
       };
       console.log(reporte);
 
       this.reporteConceptosEjecutadosService.addConceptExecuted(reporte).subscribe(
         response => {
           if(response.estatus === '05'){
-            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-conceptos-ejecutados']);
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }

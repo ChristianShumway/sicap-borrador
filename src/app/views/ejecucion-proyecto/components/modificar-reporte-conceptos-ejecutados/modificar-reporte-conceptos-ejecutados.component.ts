@@ -22,6 +22,7 @@ import { environment } from './../../../../../environments/environment';
 import { NavigationService } from '../../../../shared/services/navigation.service';
 import { UsuariosService } from '../../../../shared/services/usuarios.service';
 import { Usuario } from '../../../../shared/models/usuario';
+import { Observacion } from '../../../../shared/models/observacion';
 
 @Component({
   selector: 'app-modificar-reporte-conceptos-ejecutados',
@@ -54,6 +55,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
   opcionesPermitidas = true;
+  reporteData: ReporteConceptosEjecutados;
  
   @ViewChild('search', {static: true})
   public searchElementRef: ElementRef;
@@ -112,6 +114,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
   getValidations(){
     this.notaBitacoraForm = new FormGroup({
       observacion: new FormControl('', Validators.required),
+      comentarioRelevante: new FormControl('', Validators.required),
       latitud: new FormControl('', Validators.required),
       longitud: new FormControl('', Validators.required),
       fechaInicio: new FormControl(this.fechaInicio, Validators.required),
@@ -191,15 +194,19 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
       (reporteConceptos: ReporteConceptosEjecutados[]) => {
         // console.log(reporteConceptos);
         const reporteModif = reporteConceptos.filter( (reporte: ReporteConceptosEjecutados) => reporte.idConceptoEjecutado == this.idReporteConceptos);
-        // console.log(reporteModif);
+        console.log(reporteModif);
         reporteModif.map( (reporte: ReporteConceptosEjecutados) => {
+          this.reporteData = reporte;
           let inicioString = reporte.fechaInicio;
           let finString = reporte.fechaFinal;
           this.fechaInicio = new Date(inicioString);
           this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
           // this.fechaFinal = new Date(finString);
           // this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
-          this.notaBitacoraForm.patchValue(reporte);
+          this.notaBitacoraForm.patchValue({
+            ...reporte,
+            comentarioRelevante: reporte.comentarioRelevante.comentario
+          });
           // console.log(reporte);
           this.latitude = reporte.latitud;
           this.longitude = reporte.longitud;
@@ -365,6 +372,16 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
         }
       });
 
+      const comentarioRelevante: Observacion = {
+        comentario: this.notaBitacoraForm.value.comentarioRelevante,
+        idUsuarioModifico: this.idUsuarioLogeado,
+        idObra: parseInt(this.idObra),
+        idObservacion: this.reporteData.idComentarioRelevante,
+        idTipoObservacion: 7,
+        tipo: 2,
+        fechaCreo: nuevaFechaInicio,
+      }
+
       const reporte: ReporteConceptosEjecutados = {
         ...this.notaBitacoraForm.value,
         idConceptoEjecutado: parseInt(this.idReporteConceptos),
@@ -373,6 +390,8 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
         idObra: parseInt(this.idObra),
         idUsuarioModifico: this.idUsuarioLogeado,
         viewConceptExecuted: newCatalog,
+        comentarioRelevante: comentarioRelevante,
+        idComentarioRelevante: this.reporteData.idComentarioRelevante
       };
       console.log(reporte);
 

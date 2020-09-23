@@ -26,11 +26,12 @@ export class ObservacionBodyComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.idUsuario)
+    // console.log(this.observacion);
     this.rutaSicap = environment.imgRUL;
     this.host = environment.host;
     this.obraService.geTiposObservacionParaMontosObra().subscribe(
       observaciones => {
+        // console.log(observaciones);
         observaciones.map ( observacion => {
           if(observacion.idTipoObservacion === this.observacion.idTipoObservacion){
             this.nombreObservacion = observacion.descripcion;

@@ -29,6 +29,11 @@
             </div>
             <div class="pb-1">
               <mat-form-field class="full-width">
+                <textarea matInput placeholder="Actividades Relevantes" formControlName="comentarioRelevante"></textarea>
+              </mat-form-field>
+            </div>
+            <div class="pb-1">
+              <mat-form-field class="full-width">
                 <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)">
               </mat-form-field>
             </div>

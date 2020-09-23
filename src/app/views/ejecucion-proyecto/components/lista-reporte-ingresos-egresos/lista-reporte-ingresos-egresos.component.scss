@@ -85,6 +85,132 @@ table {
   grid-gap: 3px;
 }
 
+// TABLE
+.example-container {
+  height: 400px;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  // min-width: 300px;
+
+}
+
+table {
+  width: 100%;
+}
+
+.mat-header-row {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.mat-row.example-detail-row {
+  min-height: 0 !important;
+}
+
+.mat-row.example-element-row:not(.example-expanded-row):hover {
+  background: whitesmoke;
+}
+
+.mat-row.example-element-row:not(.example-expanded-row):active {
+  background: #efefef;
+}
+
+.example-element-row .mat-cell {
+  border-bottom-width: 0;
+}
+
+.mat-cell{
+  font-size: 12px;
+}
+
+.example-element-detail {
+  overflow: hidden;
+  display: flex;
+}
+
+.example-element-description {
+  padding: 16px;
+}
+
+.example-element-description-attribution {
+  opacity: 0.5;
+}
+
+.tag-description{
+  display: block;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.mat-table {
+  overflow: auto;
+  max-height: 500px;
+}
+
+.mobile-label {
+  display: none;
+}
+
+.show-description {
+  display: none;
+}
+
+.show-button {
+  display: inline-block;
+}
+
+@media(max-width: 959px) {
+  .mobile-label {
+    width: auto;
+    display: inline-block;
+    font-weight: 500;
+    margin-right: 15px;
+  }
+
+  .mat-header-row {
+    display: none;
+  }
+
+  .mat-row { 
+    display: grid;
+    padding: 8px 10px;
+    width: 100%;
+    // max-width: 600px;
+    border: 1px solid lightgray;
+    margin: 10px 0;
+    border-radius: 3px
+    // flex-direction: column;
+    // border: 1px solid red;
+    // align-items: start;
+  }
+
+  .mat-row::after {
+    min-height: 0;
+    display: block;
+  }
+
+  .example-element-detail {
+    overflow: hidden;
+    display: block;
+  }
+
+  .example-element-description {
+    padding: 5px;
+    text-align: left;
+    // border: 1px solid red;
+  }
+
+  .show-description {
+    display: inline-block;
+  }
+  
+  .show-button, .show-row {
+    display: none;
+  }
+}
+
 
 @media screen and (max-width:599px){
   .wrap-detalles-obra{

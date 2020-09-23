@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ChangeDetectionStrategy, QueryList } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource, MatPaginator } from '@angular/material';
+// import { MatTableDataSource, MatPaginator } from '@angular/material';
 import { Observable } from 'rxjs';
 import { Router, ActivatedRoute, Params } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,14 +18,32 @@ import { environment } from './../../../../../environments/environment';
 import { Usuario } from './../../../../shared/models/usuario';
 import { Obra } from '../../../../shared/models/obra';
 import { ReporteIngresosEgresos } from './../../../../shared/models/reporte-ingresos-egresos';
+import {animate, state, style, transition, trigger} from '@angular/animations';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import {MatTableDataSource, MatTable} from '@angular/material/table';
+import { ViewChildren } from '@angular/core';
 
 @Component({
   selector: 'app-lista-reporte-ingresos-egresos',
   templateUrl: './lista-reporte-ingresos-egresos.component.html',
   styleUrls: ['./lista-reporte-ingresos-egresos.component.scss'],
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ListaReporteIngresosEgresosComponent implements OnInit {
+
+  // @ViewChild('outerSort', { static: true }) sort: MatSort;
+  // @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  // @ViewChildren('innerTableRequest') innerTableRequest: QueryList<MatTable<NewRequest>>;
+  // @ViewChildren('innerTables') innerTables: QueryList<MatTable<ReporteIngresosEgresos>>;
+  // @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
 
   private obraObs$: Observable<Obra>;
   rutaImg: string;
@@ -51,9 +69,16 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
   permisosEspecialesComponente: any[] = []; //array en el que se agregan los objetos que contiene el nombre del componente
   permisosEspecialesPermitidos: any[] = []; //array donde se agrega el nombre de las opciones a las cuales el usuario si tiene permiso
 
-  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  // columnsToDisplay =   ['no', 'fecha', 'descripcion','referencia','ingreso','egreso','acumulado','categoria', 'acciones'];
+  columnsToDisplay = ['no', 'fecha', 'descripcion', 'referencia', 'monto'];
+  expandedElement: any | null;
+  
   obs$: Observable<any>;
   dataSource: MatTableDataSource<ReporteIngresosEgresos> = new MatTableDataSource<ReporteIngresosEgresos>();
+  dataSourceNew: MatTableDataSource<ReporteIngresosEgresos>;
+  @ViewChild(MatPaginator, { static: false }) paginator: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort: MatSort;
+  // @ViewChild(MatPaginator) paginator: MatPaginator;
 
   constructor(
     public dialog: MatDialog,
@@ -130,6 +155,10 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
           this.reports = reportes;
           this.reportsTemp =  this.reports;
           this.dataSource.data = this.reports;
+          this.dataSourceNew = new MatTableDataSource(this.reports);
+          this.dataSourceNew.paginator = this.paginator;
+          this.dataSourceNew.sort = this.sort
+          console.log(this.dataSourceNew);
   
           console.log(this.reports);
         } else {
@@ -139,6 +168,14 @@ export class ListaReporteIngresosEgresosComponent implements OnInit {
     );
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
+  }
 
   getDataUser(){
     this.usuariosService.getUsuario(this.idUserLogeado).subscribe(

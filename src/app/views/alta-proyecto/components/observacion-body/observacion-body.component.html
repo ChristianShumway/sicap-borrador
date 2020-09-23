@@ -1,5 +1,6 @@
 <div class="step-body">
-  <p class="type-observation">{{nombreObservacion}}</p>
+  <p class="type-observation" *ngIf="observacion.idTipoObservacion !== 7">{{nombreObservacion}}</p>
+  <p class="type-observation" *ngIf="observacion.idTipoObservacion === 7">Reporte de Conceptos Ejecutados</p>
   <p class="observation">{{observacion.comentario}}</p>
 </div>
 

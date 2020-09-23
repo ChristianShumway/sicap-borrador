@@ -1,12 +1,11 @@
 <div class="container-gral" *ngIf="permisoAcceso">
-  <div class="wrap-button">
+  <div class="wrap-button" *ngIf="obra">
     <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Regresar</button>
   </div>
 
-  <div  *ngIf="(obs$ | async) as reportes">
+   <div  *ngIf="(obs$ | async) as reportes">
     
     <ng-container *ngIf="reportes.length; else loading">
-      <!-- {{reportes | json}} -->
       
       <div class="mat-box-shadow margin-333">
         <ngx-datatable 
@@ -94,73 +93,6 @@
 
         </ngx-datatable>
       </div>
-      <!-- <div class="monto-total">
-        <p>
-          Se han capturado {{reportes.length}} reportes que suman un importe acumulado de
-          <b>{{montoTotal | transformCurrency}}</b>
-          y representa el {{(montoTotal / totalMonto) * 100 | number:'1.2-2'}}% del total de la mano de obra.
-        </p>
-      </div>
-
-      <div *ngFor="let reporte of reportes" fxFlex="100" fxFlex.gt-sm="100" fxFlex.sm="100">
-        <mat-card class="user-card p-0">
-          <mat-card-title>
-            <div class="card-title-text obra">
-              <span fxFlex></span>
-              <button mat-icon-button [matMenuTriggerFor]="reporteMenu" class="">
-                <mat-icon class="">more_vert</mat-icon>
-              </button>
-              <mat-menu #reporteMenu="matMenu">
-                <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-reporte-mano-obra/{{reporte.idCapturaManoObra}}" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)">Modificar Reporte Mano de Obra</a>
-                </div>
-                <div id="eliminar-reporte" #myIdE>
-                  <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)">Eliminar Reporte</button>
-                </div>
-              </mat-menu>
-            </div>
-            <mat-divider></mat-divider>
-          </mat-card-title>
-
-          <mat-card-content>
-            <div class="user-details">
-              <div class="wrap-detalles-tarea">
-                <p class="p-info-catalogs">
-                  <span>Fecha de Captura:</span> {{reporte.fechaCaptura | date}}
-                </p>
-              </div>
-              <div class="wrap-observacion">
-                <p class="tit-observacion">Observación:</p>
-                <p>{{reporte.observacion}}</p>
-              </div>
-              <div class="wrap-total" *ngFor="let tot of total">
-                <p class="total-p" *ngIf="tot.idReporte === reporte.idCapturaManoObra">
-                  El importe total capturado dentro del periodo es de
-                  <b>{{tot.totalMateriales | transformCurrency}}</b>
-                  y representa el {{(tot.totalMateriales / tot.totalManoObra) * 100 | number:'1.2-2'}}% del total de la mano de obra.
-                </p>
-
-              </div>
-            </div>
-
-            <mat-accordion>
-              <mat-expansion-panel>
-                <mat-expansion-panel-header>
-                  <mat-panel-title>
-                    Conceptos
-                  </mat-panel-title>
-                  <mat-panel-description>
-                    Conceptos agregados al reporte de mano de obra
-                  </mat-panel-description>
-                </mat-expansion-panel-header>
-                <app-conceptos-lista [conceptos]="reporte.detManoObra" [tipoReporte]="'reporte-mano-obra'" (montosCaptured)="onMontosTotal($event)">
-                </app-conceptos-lista>
-              </mat-expansion-panel>
-            </mat-accordion>
-
-          </mat-card-content>
-        </mat-card>
-      </div> -->
     </ng-container>
 
     <ng-template #loading>
@@ -171,7 +103,61 @@
         </div>
       </div>
     </ng-template>
-  </div>
+  </div> 
 
-  <!-- <mat-paginator [pageSizeOptions]="[6, 12, 24, 100]"></mat-paginator> -->
+
+  <!-- <mat-card class="wrap-catalog">
+    <div class="example-container mat-elevation-z8">
+      <table mat-table [dataSource]="dataSourceNew" multiTemplateDataRows class="mat-elevation-z8" matSort>
+        
+        <ng-container matColumnDef="no">
+          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> No. </mat-header-cell>
+          <mat-cell *matCellDef="let reporte" class="center-table"> 
+            <span class="mobile-label">No:</span>
+            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.no}} </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Fecha </mat-header-cell>
+          <mat-cell *matCellDef="let reporte" class="center-table"> 
+            <span class="mobile-label">Fecha:</span>
+            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.fecha | date}} </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="descripcion">
+          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Descripción </mat-header-cell>
+          <mat-cell *matCellDef="let reporte" class="center-table"> 
+            <span class="mobile-label">Descripción:</span>
+            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.descripcion}} </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="referencia">
+          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Referencia </mat-header-cell>
+          <mat-cell *matCellDef="let reporte" class="center-table"> 
+            <span class="mobile-label">Referencia:</span>
+            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.referencia.descripcion}} </span>
+          </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="monto">
+          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Monto </mat-header-cell>
+          <mat-cell *matCellDef="let reporte" class="center-table"> 
+            <span class="mobile-label">Monto:</span>
+            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.monto | transformCurrency}} </span>
+          </mat-cell>
+        </ng-container>
+  
+      
+
+        <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
+        <mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"></mat-row>
+        <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row show-row" ></mat-row>
+      </table>
+    </div>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+  </mat-card> -->
+
 </div>

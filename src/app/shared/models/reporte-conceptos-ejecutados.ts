@@ -11,4 +11,6 @@ export interface ReporteConceptosEjecutados {
   observacion: string;
   viewConceptExecuted?: ConceptoEjecutado[];
   totalObra?: number;
+  comentarioRelevante?: any;
+  idComentarioRelevante?: number;
 }
