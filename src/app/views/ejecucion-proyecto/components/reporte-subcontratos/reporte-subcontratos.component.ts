@@ -80,8 +80,8 @@ export class ReporteSubcontratosComponent implements OnInit {
   getValidations(){
     this.notaBitacoraForm = new FormGroup({
       observacion: new FormControl('', Validators.required),
-      latitud: new FormControl('', Validators.required),
-      longitud: new FormControl('', Validators.required),
+      latitud: new FormControl('0'),
+      longitud: new FormControl('0'),
       fechaInicio: new FormControl(new Date(), Validators.required),
       // fechaFinal: new FormControl(new Date(), Validators.required),
     })

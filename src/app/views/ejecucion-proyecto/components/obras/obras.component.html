@@ -7,7 +7,7 @@
   <p *ngIf="option==='reporte-maquinaria-equipo'">REPORTE DE MAQUINARIA Y EQUIPO</p>
   <p *ngIf="option==='reporte-materiales'">REPORTE DE MATERIALES</p>
   <p *ngIf="option==='reporte-ingresos-egresos'">REPORTE DE INGRESOS Y EGRESOS</p>
-  <p *ngIf="option==='validacion'">OBRAS PARA VALIDACIONES</p>
+  <p *ngIf="option==='validacion'">VALIDACIÓN DE CONCEPTOS EJECUTADOS</p>
   <p *ngIf="option==='bitacora-obra'">BITÁCORA DE OBRA</p>
 </div>
 
@@ -80,19 +80,19 @@
               *ngIf="accesoBitacora && option==='plan-trabajo' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/plan-trabajo', obra.idObra]">
-              Plan de Trabajo</button>
+              Nuevo Plan</button>
 
               <button 
               *ngIf="option==='plan-trabajo'" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/lista-plan-trabajo', obra.idObra]">
-              Ver Plan de Trabajo</button>
+              Ver Planes</button>
               
               <button 
               *ngIf="accesoBitacora && option==='reporte-conceptos-ejecutados' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-conceptos-ejecutados', obra.idObra]">
-              Reporte de Conceptos Ejecutados</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-conceptos-ejecutados'" 
@@ -110,7 +110,7 @@
               *ngIf="accesoBitacora && option==='reporte-subcontratos' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-subcontratos', obra.idObra]">
-              Reporte Subcontratos</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-subcontratos'" 
@@ -128,7 +128,7 @@
               *ngIf="accesoBitacora && option==='reporte-mano-obra' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-mano-obra', obra.idObra]">
-              Reporte Mano Obra</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-mano-obra'" 
@@ -146,7 +146,7 @@
               *ngIf="accesoBitacora && option==='reporte-materiales' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-materiales', obra.idObra]">
-              Reporte Materiales</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-materiales'" 
@@ -164,7 +164,7 @@
               *ngIf="accesoBitacora && option==='reporte-maquinaria-equipo' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-maquinaria-equipo', obra.idObra]">
-              Reporte Maquinaria y Equipo</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-maquinaria-equipo'" 
@@ -182,7 +182,7 @@
               *ngIf="accesoBitacora && option==='reporte-ingresos-egresos' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]">
-              Reporte Ingresos y Egresos</button>
+              Nuevo Reporte</button>
 
               <button 
               *ngIf="option==='reporte-ingresos-egresos'" 
@@ -207,7 +207,7 @@
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-conceptos-ejecutados', obra.idObra]"
                 *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVC?.id) && obra.cierre === 0">
-                Validación de Conceptos Ejecutados</button>
+                Nueva Validación</button>
               </div>
 
               <!-- <button 
@@ -216,13 +216,13 @@
               [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]">
               Validación de Subcontratos</button> -->
 
-              <div id="validar-reporte-subcontratos" #myIdVS>
+              <!-- <div id="validar-reporte-subcontratos" #myIdVS>
                 <button 
                 mat-menu-item 
                 [routerLink]="['/ejecucion-proyecto/validacion-subcontratos', obra.idObra]"
                 *ngIf= "option==='validacion' && permisosEspecialesPermitidos.includes(myIdVS?.id) && obra.cierre === 0">
                 Validación de Subcontratos</button>
-              </div>
+              </div> -->
 
               <button 
               *ngIf="option==='validacion'" 

@@ -32,6 +32,7 @@ export class ResumenSubcontratoComponent implements OnInit {
   datagral: any[];
   dataSemanas: any[];
   dataPagos: any[];
+  totalPagos: any;
   ver = false;
 
   constructor(
@@ -119,12 +120,12 @@ export class ResumenSubcontratoComponent implements OnInit {
           this.dataSemanas = [];
           Object.keys(result).forEach( item => {
             var data = result[item];
-            // console.log(item);
+            console.log(item);
             if (item === 'costos') {
               console.log(data);
               Object.keys(data).forEach( itemSemana => {
                 var semana = data[itemSemana];
-                console.log(semana);
+                // console.log(semana);
                 semana.programacion.map( alcance => {
                   dataSemana = {
                     periodo: semana.periodo,
@@ -136,13 +137,17 @@ export class ResumenSubcontratoComponent implements OnInit {
                   objSemanas.push(dataSemana);
                   this.dataSemanas = objSemanas;
                 });
-                console.log(this.dataSemanas);
+                // console.log(this.dataSemanas);
 
               })
             }
             if (item === 'pagos') {
               // console.log(data);
               this.dataPagos = data;
+            }
+            if (item === 'totalPagos') {
+              this.totalPagos = data;
+              console.log(this.totalPagos);
             }
           });
         },

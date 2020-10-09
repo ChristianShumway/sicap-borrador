@@ -29,7 +29,7 @@
               </button>
               <mat-menu #reporteMenu="matMenu">
                 <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-reporte-subcontrato/{{reporte.idReporteSubContrato}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Reporte de Subcontrato</a>
+                  <a mat-menu-item routerLink="modificar-reporte-subcontrato/{{reporte.idReporteSubContrato}}" *ngIf= "permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Reporte</a>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
                   <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf= "permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0">Eliminar Reporte</button>
@@ -44,13 +44,13 @@
               <p class="p-info-catalogs"><b>Fecha de Captura:</b> {{reporte.fechaInicio | date}}</p>
               <div class="wrap-detalles-tarea">
                 <!-- <p class="p-info-catalogs"><span>Fecha de Termino:</span> {{reporte.fechaFinal | date}}</p> -->
-                <p class="p-info-catalogs">
+                <!-- <p class="p-info-catalogs">
                   <span>Latitud:</span> {{reporte.latitud}}</p>
                 <p class="p-info-catalogs">
-                  <span>Longitud:</span> {{reporte.longitud}}</p>
+                  <span>Longitud:</span> {{reporte.longitud}}</p> -->
               </div>
               <div class="wrap-observacion">
-                <p class="tit-observacion">Observación:</p>
+                <p class="tit-observacion">Título:</p>
                 <p>{{reporte.observacion}}</p>
               </div>
               <div class="wrap-total" *ngFor = "let tot of total">

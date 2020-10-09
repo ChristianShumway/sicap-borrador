@@ -125,10 +125,35 @@
   }
 }
 
+.container-totales {
+  .scrollable-wrap{
+    width: 100%;
+    overflow: auto;
+  }
+  .wrap-totales {
+    background: lightgray;
+    display: grid;
+    grid-template-columns: 4fr 1fr 1fr;
+    padding: 5px;
+    .data {
+      text-align: center;
+    }
+    .total-fecha {
+      text-transform: uppercase;
+      text-align: center;
+      font-weight: bold;
+    }
+  }
+}
+
 @media screen and (max-width:1024px){
   .wrap-alcance-resumen{
     display: grid;
     grid-template-columns: repeat(2, 1fr);
+    width: 1024px;
+  }
+
+  .wrap-totales {
     width: 1024px;
   }
 }

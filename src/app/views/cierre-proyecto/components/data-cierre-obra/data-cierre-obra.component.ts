@@ -25,8 +25,9 @@ export class DataCierreObraComponent implements OnInit {
   getDataCierreObra() {
     this.activatedRoute.params
     .subscribe((data: Params) => {
-      if (data.idObra) {
-        this.cierreObraService.getCierreObra(data.idObra).subscribe(
+      if (data.id) {
+        console.log(data);
+        this.cierreObraService.getCierreObra(data.id).subscribe(
           result => {
             this.dataCierreObra = result;
             console.log(result);

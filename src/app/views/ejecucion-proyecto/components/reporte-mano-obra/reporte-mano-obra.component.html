@@ -27,13 +27,13 @@
             <div class="info-bitacora">
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
+                  <textarea matInput placeholder="Título" formControlName="observacion"></textarea>
                 </mat-form-field>
               </div>
 
               <div class="pb-1">
                 <mat-form-field class="full-width">
-                  <input matInput [matDatepicker]="fechaCaptura" formControlName="fechaCaptura" name="date" placeholder="Fecha Inicio" (dateChange)="onFechaInicio($event)">
+                  <input matInput [matDatepicker]="fechaCaptura" formControlName="fechaCaptura" name="date" placeholder="Fecha de Captura" (dateChange)="onFechaInicio($event)">
                   <mat-datepicker-toggle matSuffix [for]="fechaCaptura"></mat-datepicker-toggle>
                   <mat-datepicker #fechaCaptura (selectedChange)="onFechaInicio($event)"></mat-datepicker>
                 </mat-form-field>

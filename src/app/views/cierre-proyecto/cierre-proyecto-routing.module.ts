@@ -15,7 +15,7 @@ const routes: Routes = [
         data: {title: 'Obras', breadcrumb: 'Obras'}
       },
       {
-        path: 'cierre-obra/:idObra',
+        path: 'cierre-obra/:id',
         component: CierreObraComponent,
         data: {title: 'Cierre de Obra', breadcrumb: 'Cierre de Obra'}
       },
@@ -30,7 +30,7 @@ const routes: Routes = [
               data: { title: ' Cierre de Obra', breadcrumb: ' Cierre de Obra'},
             },
             {
-              path: 'ficha-cierre-obra/:idObra',
+              path: 'ficha-cierre-obra/:id',
               component: DataCierreObraComponent,
               data: { title: 'Ficha de Cierre de Obra', breadcrumb: 'Ficha de Cierre de Obra'},
             }

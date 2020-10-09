@@ -133,6 +133,23 @@
     </mat-card-content>
   </mat-card>
 
+  <mat-card class="rep-card seccion-pagos p-0" *ngIf="ver && datagral">
+    <mat-card-content>
+      <div class="container-totales">
+        <div class="scrollable-wrap">
+          <div class="wrap-totales">
+            <div class="total-fecha">Total a la Fecha</div>
+            <div class="data">{{totalPagos.totalMonto | transformCurrency}}</div>
+            <div class="data">{{totalPagos.totalPendientePago | transformCurrency}}</div>
+            <div class="total-fecha">Porcentaje</div>
+            <div class="data">{{totalPagos.prMonto | percent:'1.2-2'}}</div>
+            <div class="data">{{totalPagos.totalPrPendientePago | percent:'1.2-2'}}</div>
+          </div>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
 </div>
 <ng-template #loading>
   <div class="wrap-loading-catalog">

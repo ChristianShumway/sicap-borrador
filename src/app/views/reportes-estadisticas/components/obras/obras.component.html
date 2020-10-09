@@ -36,13 +36,13 @@
             </button>
             <mat-menu #userMenu="matMenu">
               <button *ngIf="option==='control-avance-semanal'" mat-menu-item [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
-                Control de Avance Semanal
+                Ver Reporte
               </button>
               <button *ngIf="option==='resumen-subcontrato'" mat-menu-item [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
-                Resumen de Subcontrato
+                Ver Reporte
               </button>
               <button *ngIf="option==='estado-cuenta-obra'" mat-menu-item [routerLink]="['/reportes-estadisticas/estado-cuenta-obra', obra.idObra]">
-                Estado de Cuenta de Obra
+                Ver Reporte
               </button>
               <button *ngIf="option==='expediente-unico-obra'" mat-menu-item [routerLink]="['/reportes-estadisticas/expediente-unico-obra', obra.idObra]">
                 Expediente Único de Obra

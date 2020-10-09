@@ -23,7 +23,7 @@
           <div class="info-bitacora">
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <textarea matInput placeholder="Nota" formControlName="observacion"></textarea>
+                <textarea matInput placeholder="Título" formControlName="observacion"></textarea>
               </mat-form-field>
               <div class="validaciones">
                 <small *ngIf="notaBitacoraForm.controls['observacion'].hasError('required') && notaBitacoraForm.controls['observacion'].touched"
@@ -32,7 +32,7 @@
                 </small>
               </div>
             </div>
-            <div class="pb-1">
+            <!-- <div class="pb-1">
               <mat-form-field class="full-width">
                 <input matInput placeholder="Latitud" name="latitud" formControlName="latitud" (keyup)="obtenerUbicacionCoord($event)">
               </mat-form-field>
@@ -53,7 +53,7 @@
                   Longitud es un campo requerido
                 </small>
               </div>
-            </div>
+            </div> -->
             <div class="pb-1">
               <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="fechaInicio" formControlName="fechaInicio" name="date" placeholder="Fecha Captura"
@@ -98,7 +98,7 @@
                     autocapitalize="off" spellcheck="off" type="text" #search>
                 </div> -->
     
-          <mat-accordion>
+          <!-- <mat-accordion>
             <mat-expansion-panel>
               <mat-expansion-panel-header>
                 <mat-panel-title>
@@ -111,7 +111,7 @@
                 </agm-marker>
               </agm-map>
             </mat-expansion-panel>
-          </mat-accordion>
+          </mat-accordion> -->
   
         </mat-expansion-panel>
         

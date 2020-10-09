@@ -24,7 +24,7 @@
               <mat-icon class="">more_vert</mat-icon>
             </button>
             <mat-menu #userMenu="matMenu">
-              <a mat-menu-item routerLink="/cierre-proyecto/ver-cierre-obra/{{obra.idObra}}/ficha-cierre-obra/{{obra.idObra}}">Ver</a>
+              <a mat-menu-item routerLink="/cierre-proyecto/ver-cierre-obra/{{obra.idObra}}/ficha-cierre-obra/{{obra.idObra}}">Realizar Cierre</a>
               <!-- <button mat-menu-item [routerLink]="['/cierre-proyecto/cierre-obra', obra.idObra]" *ngIf="obra.cierre === 0">Editar</button> -->
               <button mat-menu-item (click)="descargaCierreObra(obra.idObra, 1)">Exportar ficha de Cierre (pdf)</button>   
               <button mat-menu-item (click)="descargaCierreObra(obra.idObra, 2)">Exportar ficha de Cierre (excel)</button>              

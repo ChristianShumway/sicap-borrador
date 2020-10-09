@@ -28,7 +28,7 @@
               </button>
               <mat-menu #reporteMenu="matMenu">
                 <div id="modificar-reporte" #myIdM>
-                  <a mat-menu-item routerLink="modificar-reporte-mano-obra/{{reporte.idCapturaManoObra}}" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Reporte Mano de Obra</a>
+                  <a mat-menu-item routerLink="modificar-reporte-mano-obra/{{reporte.idCapturaManoObra}}" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0">Modificar Reporte</a>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
                   <button mat-menu-item (click)="openDialoAlertDelete(reporte)" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0">Eliminar Reporte</button>
@@ -46,7 +46,7 @@
                 </p>
               </div>
               <div class="wrap-observacion">
-                <p class="tit-observacion">Observación:</p>
+                <p class="tit-observacion">Título:</p>
                 <p>{{reporte.observacion}}</p>
               </div>
               <div class="wrap-total" *ngFor="let tot of total">
