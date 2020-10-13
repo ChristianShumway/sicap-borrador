@@ -165,6 +165,14 @@
           </ng-template>
         </ngx-datatable-column>
 
+        <ngx-datatable-column name="Cantidad Total Ejecutada" [flexGrow]="1">
+          <ng-template let-row="row" ngx-datatable-cell-template>
+            <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'gray' : 'blue' }">
+              {{row?.totalCantidad}}
+            </p>
+          </ng-template>
+        </ngx-datatable-column>
+
         <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
           <ng-template let-row="row" ngx-datatable-cell-template>
             <p class="content-center" [ngStyle]="{'color':row?.tipo === 2 ? 'green' : 'black' }">

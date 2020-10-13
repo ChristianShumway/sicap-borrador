@@ -143,7 +143,7 @@ export class ReporteSubcontratosComponent implements OnInit {
           (catalog: ConceptoSubcontrato[]) => {
             this.catalogo = catalog;
             this.temp = catalog;
-            // console.log(this.catalogo);
+            console.log(this.catalogo);
           },
           error => console.log(error)
         )

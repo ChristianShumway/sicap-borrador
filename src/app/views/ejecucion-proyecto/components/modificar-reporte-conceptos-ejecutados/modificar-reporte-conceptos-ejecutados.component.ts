@@ -63,6 +63,7 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
 
   catalogo: ConceptoEjecutado[] = [];
   temp: ConceptoEjecutado[] = [];
+  comentarioRelevante;
 
   constructor(
     private mapsAPILoader: MapsAPILoader,
@@ -203,9 +204,14 @@ export class ModificarReporteConceptosEjecutadosComponent implements OnInit {
           this.fechaInicio.setDate(this.fechaInicio.getDate()+1);
           // this.fechaFinal = new Date(finString);
           // this.fechaFinal.setDate(this.fechaFinal.getDate()+1);
+          if(reporte.comentarioRelevante) {
+            this.comentarioRelevante = reporte.comentarioRelevante.comentario;
+          } else {
+            this.comentarioRelevante = '';
+          }
           this.notaBitacoraForm.patchValue({
             ...reporte,
-            comentarioRelevante: reporte.comentarioRelevante.comentario
+            comentarioRelevante: this.comentarioRelevante
           });
           // console.log(reporte);
           this.latitude = reporte.latitud;
