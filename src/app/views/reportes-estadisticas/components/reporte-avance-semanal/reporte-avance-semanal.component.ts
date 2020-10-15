@@ -131,7 +131,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
           let dataPresupuestoMaquinariaEquipo;
           let dataPresupuestoSobreCosto;
           let newPresupuestoSemana;
-          console.log(result);
+          // console.log(result);
 
           newPresupuestoSemana = [];
 
@@ -146,6 +146,8 @@ export class ReporteAvanceSemanalComponent implements OnInit {
             costoReal: result.costoReal,
             diferenciaCosto: result.diferenciaCosto
           };
+
+          // console.log(this.dataCostoGral);
           
           Object.keys(result.detalle).forEach ( noSemana => {
             var datosSemana = result.detalle[noSemana];
@@ -158,20 +160,20 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                   programadoObra: presupuesto.programado*100,
                   ejecutadoObra: presupuesto.ejecutado*100,
                   totalValidadoObra: presupuesto.validado*100,
-                  totalProgramadoObra: presupuesto.acumuladoProgramado,
+                  totalProgramadoObra: presupuesto.totalProgramado,
                   totalRealObra: presupuesto.totalReal,
                 }
                 this.programadoAvanceFisico.push(presupuesto.programado*100);
                 this.ejecutadoAvanceFisico.push(presupuesto.ejecutado*100);
                 this.validadoAvanceFisico.push(presupuesto.validado*100);
-                this.programadoCostoObra.push(presupuesto.acumuladoProgramado);
+                this.programadoCostoObra.push(presupuesto.totalProgramado);
                 this.realCostoObra.push(presupuesto.totalReal);
               }
               if(presupuesto.tipoPresupuesto.idTipoPresupuesto === 2){
                 dataPresupuestoMateriales = {
                   programadoMateriales: presupuesto.programado*100,
                   ejecutadoMateriales: presupuesto.ejecutado*100,
-                  totalProgramadoMateriales: presupuesto.acumuladoProgramado,
+                  totalProgramadoMateriales: presupuesto.totalProgramado,
                   totalRealMateriales: presupuesto.totalReal
                 }
               }
@@ -179,7 +181,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                 dataPresupuestoManoObra = {
                   programadoManoObra: presupuesto.programado*100,
                   ejecutadoManoObra: presupuesto.ejecutado*100,
-                  totalProgramadoManoObra: presupuesto.acumuladoProgramado,
+                  totalProgramadoManoObra: presupuesto.totalProgramado,
                   totalRealManoObra: presupuesto.totalReal
                 }
               }
@@ -187,7 +189,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                 dataPresupuestoSubcontratos = {
                   programadoSubcontratos: presupuesto.programado*100,
                   ejecutadoSubcontratos: presupuesto.ejecutado*100,
-                  totalProgramadoSubcontratos: presupuesto.acumuladoProgramado,
+                  totalProgramadoSubcontratos: presupuesto.totalProgramado,
                   totalRealSubcontratos: presupuesto.totalReal
                 }
               }
@@ -195,7 +197,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                 dataPresupuestoMaquinariaEquipo = {
                   programadoMaquinariaEquipo: presupuesto.programado*100,
                   ejecutadoMaquinariaEquipo: presupuesto.ejecutado*100,
-                  totalProgramadoMaquinariaEquipo: presupuesto.acumuladoProgramado,
+                  totalProgramadoMaquinariaEquipo: presupuesto.totalProgramado,
                   totalRealMaquinariaEquipo: presupuesto.totalReal
                 }
               }
@@ -203,7 +205,7 @@ export class ReporteAvanceSemanalComponent implements OnInit {
                 dataPresupuestoSobreCosto = {
                   programadoSobreCosto: presupuesto.programado*100,
                   ejecutadoSobreCosto: presupuesto.ejecutado*100,
-                  totalProgramadoSobreCosto: presupuesto.acumuladoProgramado,
+                  totalProgramadoSobreCosto: presupuesto.totalProgramado,
                   totalRealSobreCosto: presupuesto.totalReal
                 }
               }  

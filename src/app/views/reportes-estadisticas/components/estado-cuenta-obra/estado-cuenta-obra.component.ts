@@ -211,6 +211,7 @@ export class EstadoCuentaObraComponent implements OnInit {
 
   totalDataIngresosEgresosResumen(data){
     const semanas = [];
+    let newMovimiento;
     let costosAdministrativos;
     let costosObra;
     let creditoPrestamo;
@@ -218,18 +219,19 @@ export class EstadoCuentaObraComponent implements OnInit {
     let egresos;
     let ingresos;
     let totales;
-    let newMovimiento;
 
     Object.keys(data).forEach ( item => {
       // console.log(result[item]);
       const semana = data[item];
-      // console.log(semana);  
+      // console.log(semana.movimientos);  
       semana.movimientos.map( dataMovimiento => {
         if( dataMovimiento.tipoMovimiento.idTipoMovimientoMonetario === 1){
           costosAdministrativos = { acumuladoCA: dataMovimiento.acumulado};
         }
         if( dataMovimiento.tipoMovimiento.idTipoMovimientoMonetario === 2){
-          costosObra = { acumuladoCO: dataMovimiento.acumulado};
+          if(!costosObra) {
+            costosObra = { acumuladoCO: dataMovimiento.acumulado};
+          }
         }
         if( dataMovimiento.tipoMovimiento.idTipoMovimientoMonetario === 3){
           creditoPrestamo = { acumuladoCP: dataMovimiento.acumulado};
@@ -262,6 +264,15 @@ export class EstadoCuentaObraComponent implements OnInit {
 
       semanas.push(newMovimiento);
 
+      costosAdministrativos = '';
+      costosObra = '';
+      creditoPrestamo  = '';
+      impuestos = '';
+      egresos = '';
+      ingresos = '';
+      totales = '';
+
+
     });
     this.dataAlcanceGral = semanas;
     // console.log(this.dataAlcanceGral);
@@ -270,7 +281,7 @@ export class EstadoCuentaObraComponent implements OnInit {
 
   useDesgloseIngresosEgresos(data){
     this.dataIngresosEgresos = data;
-    console.log(data);
+    // console.log(data);
     data.map( tipoCuenta => {
       if(tipoCuenta.idTipo === 1){
         this.dataCostosAdministrativos = tipoCuenta;
