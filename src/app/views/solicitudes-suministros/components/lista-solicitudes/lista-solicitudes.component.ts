@@ -1,18 +1,19 @@
 import { Component, OnInit, ViewChildren, ViewChild, ChangeDetectorRef, QueryList } from '@angular/core';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatButton } from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import { DatePipe } from '@angular/common';
 
-import { AutenticacionService } from '../../../../shared/services/autenticacion.service';
-import { SolicitudesService } from '../../../../shared/services/solicitudes.service';
+import { AutenticacionService } from 'app/shared/services/autenticacion.service';
+import { SolicitudesService } from 'app/shared/services/solicitudes.service';
 
 import { ModalDatosSolicitudComponent } from '../modal-datos-solicitud/modal-datos-solicitud.component';
 import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
 import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
-
+import { Obra } from 'app/shared/models/obra';
+import { ObraService } from 'app/shared/services/obra.service';
 
 @Component({
   selector: 'app-lista-solicitudes',
@@ -28,86 +29,187 @@ import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-tr
 })
 
 export class ListaSolicitudesComponent implements OnInit {
-  @ViewChild('outerSort', { static: true }) sort: MatSort;
-  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
-  @ViewChildren('innerTableRequest') innerTableRequest: QueryList<MatTable<NewRequest>>;
-  @ViewChildren('innerTables') innerTables: QueryList<MatTable<NewOrder>>;
-  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
-
   idUsuarioLogeado: any;
-  dataSource: MatTableDataSource<NewRequest>;
-  requestData: NewRequest[];
-  columnsToDisplay = ['folio', 'tipo', 'empresa', 'contrato', 'solicitante', 'verSolicitud', 'editarSolicitud', 'cancelarSolicitud', 'ordenTrabajo'];
-  innerDisplayedColumns = ['folio', 'fecha', 'estatus', 'editarOrden', 'cancelarOrden', 'autorizarOrden', 'exportarOrden', 'verificarOrden'];
-  expandedElement: NewRequest | null;
+  obras: Obra[] = [];
+  empresas: any[] = [];
+  obra: Obra;
+  empresa: any;
+  estatus: any;
+  columnsToDisplay = ['verSolicitud', 'editarSolicitud', 'fecha', 'folio', 'empresa', 'contrato', 'solicitante', 'cancelarSolicitud', 'abrirCerrar'];
+  innerDisplayedColumns = ['verOrden', 'editarOrden', 'fecha', 'folio', 'elaboro', 'autorizarOrden', 'cancelarOrden', 'estatus'];
   solicitudes: any[] = [];
   solicitudesModif: NewRequest[];
   fechaHoy = new Date();
   pipe = new DatePipe('en-US');
+  whoSolicitud;
+  noSolicitud: boolean;
+  panelOpenState: boolean = false;
+  objetoOrdenesObtenidas: NewOrder[] = [];
+
+  @ViewChild('outerSort', { static: true }) sort: MatSort;
+  @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
+  @ViewChild('outerSortMat', { static: true }) sortMat: MatSort;
+  @ViewChildren('innerSortMat') innerSortMat: QueryList<MatSort>;
+  @ViewChild('outerSortMaq', { static: true }) sortMaq: MatSort;
+  @ViewChildren('innerSortMaq') innerSortMaq: QueryList<MatSort>;
+
+  @ViewChildren('innerTableRequest') innerTableRequest: QueryList<MatTable<NewRequest>>;
+  @ViewChildren('innerTables') innerTables: QueryList<MatTable<NewOrder>>;
+  @ViewChild('paginatorRec', {static: true}) paginator: MatPaginator;
+  @ViewChild('paginatorMat', {static: true}) paginatorMat: MatPaginator;
+  @ViewChild('paginatorMaq', {static: true}) paginatorMaq: MatPaginator;
+
+  dataSource: MatTableDataSource<NewRequest>;
+  dataSourceMat: MatTableDataSource<NewRequest>;
+  dataSourceMaq: MatTableDataSource<NewRequest>;
+  
+  dataWorkOrders:  MatTableDataSource<NewOrder>;
+  dataWorkOrdersMat:  MatTableDataSource<NewOrder>;
+  dataWorkOrdersMaq:  MatTableDataSource<NewOrder>;
+
+  requestData: NewRequest[];
+  requestDataMat: NewRequest[];
+  requestDataMaq: NewRequest[];
+
+  expandedElement: NewRequest | null;
+  expandedElementMat: NewRequest | null;
+  expandedElementMaq: NewRequest | null;
 
   constructor(
     private autenticacionService: AutenticacionService,
     private solicitudesService: SolicitudesService,
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
+    private obraService: ObraService
   ) { }
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getResources();    
+    // this.getResources(); 
+    this.getCatalogObra();   
   }
+
+  getCatalogObra() {
+    this.obraService.getObras().subscribe(
+      (obras: Obra[]) => {
+        // console.log(obras);
+        this.obras = obras.filter( (obra:Obra) => obra.activo === 1);
+      },
+      error => console.log('error al suscribirme a buscar obras')
+    );
+  }
+
+  getCompanie(obra: Obra) {
+    console.log(obra);
+    this.empresas = [];
+    this.empresa = null;
+    if(obra) {
+      this.obraService.getCompanies(obra.idObra).subscribe(
+        result => {
+          // console.log(result);
+          this.empresas = result.filter( (empresa) => empresa.activo === 1);
+        }, error => console.log(error)
+      );
+    }
+  };
   
-  getResources(){
-   this.solicitudesModif = [];
-   this.requestData = [];
-    this.solicitudesService.getSolicitudesPorUsuario(this.idUsuarioLogeado, 2).subscribe(
+  getResources(tipoSolicitud){
+    this.whoSolicitud = tipoSolicitud;
+    this.noSolicitud = false;
+    this.solicitudes = [];
+    this.dataSource = new MatTableDataSource();
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.paginator = this.paginatorMat;
+    this.dataSource.paginator = this.paginatorMaq;
+
+    this.requestData = [];
+    
+    this.requestDataMat = [];
+    this.requestDataMaq = [];
+    
+    if(!this.whoSolicitud) {
+      this.whoSolicitud = 1;
+      this.panelOpenState = !this.panelOpenState;
+    }
+
+    let obr = !this.obra ? 0 : this.obra.idObra;
+    let emp = !this.empresa ? 0 : this.empresa.idEmpresa;
+    let est = !this.estatus ? -1 : this.estatus;
+    
+    console.log(this.whoSolicitud);
+    console.log(obr);
+    console.log(emp);  
+    console.log(est); 
+   
+    this.solicitudesService.getLogRequest(this.whoSolicitud, emp, obr, est).subscribe(
       solicitudes => {
-        solicitudes.map( solicitud => this.solicitudes.push(solicitud));
-        // this.solicitudesRecursos = solicitudes;
-        console.log(solicitudes);
-        solicitudes.forEach( solicitud => {
-          let tipo;
-          if( solicitud.idTipo === 1){
-            tipo = 'Recursos'
-          } else  if( solicitud.idTipo === 2){
-            tipo = 'Materiales / Herramientas'
-          } else  if( solicitud.idTipo === 3){
-            tipo = 'Maquinaria / Equipo'
-          }
-          const solicidudModificada: NewRequest = {
-            folio: solicitud.folio,
-            empresa: solicitud.obra.empresa.nombre,
-            contrato: solicitud.obra.noContrato,
-            solicitante: solicitud.usuarioSolicito.nombreCompleto,
-            estatus: solicitud.estatus,
-            idSolicitud: solicitud.idSolicitud,
-            idTipo: solicitud.idTipo,
-            fechaSolicitud: solicitud.fechaSolicito,
-            colorEditarSolicitud: solicitud.colorEditarSolitud,
-            colorEliminarSolicitud: solicitud.colorEliminarSolitud,
-            colorVerSolicitud: solicitud.colorVerSolicitud,
-            colorCrearOrden: solicitud.colorCrearOrden,
-            tipo: tipo
-          };
-
-          this.solicitudesModif.push(solicidudModificada);
-        });
-
-        this.addWorkOrdersToRequest(this.solicitudesModif);
+        // console.log(solicitudes);
+        // solicitudes.map( solicitud => this.solicitudes.push(solicitud));
+        this.solicitudes = solicitudes;
+        console.log(this.solicitudes);
+        
+        if(this.solicitudes.length === 0) {
+          this.noSolicitud = true;
+        } else {
+          // this.requestData = [...this.requestData, solicitud];
+          this.dataSource = new MatTableDataSource(this.solicitudes);
+          solicitudes.forEach( solicitud => {
+            
+            // const solicidudModificada: NewRequest = {
+            //   folio: solicitud.folio,
+            //   empresa: solicitud.obra.empresa.nombre,
+            //   contrato: solicitud.obra.noContrato,
+            //   solicitante: solicitud.usuarioSolicito.nombreCompleto,
+            //   estatus: solicitud.estatus,
+            //   idSolicitud: solicitud.idSolicitud,
+            //   idTipo: solicitud.idTipo,
+            //   fechaSolicito: solicitud.fechaSolicito,
+            //   colorEditarSolitud: solicitud.colorEditarSolitud,
+            //   colorEliminarSolitud: solicitud.colorEliminarSolitud,
+            //   colorVerSolicitud: solicitud.colorVerSolicitud,
+            //   colorCrearOrden: solicitud.colorCrearOrden,
+            // };
+  
+            if( solicitud.idTipo === 1) {
+              this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
+            } else if (solicitud.idTipo === 2 ) {
+              this.dataSource.sort = this.sortMat;
+              this.dataSource.paginator = this.paginatorMat;
+            } else if (solicitud.idTipo === 3 ) {
+              this.dataSource.sort = this.sortMaq;
+              this.dataSource.paginator = this.paginatorMaq;
+            }
+              
+            // this.solicitudesModif.push(solicitud);
+          });
+        }
       },
       error => console.log(error)
     );
-    
+      
+  }
+
+  abrirCerrarSolicitud(solicitud: NewRequest, estatus) {
+    console.log(solicitud);
+    const modifSolicitud: NewRequest = {...solicitud,estatus}
+    this.solicitudesService.abrirCerrarSolicitud(modifSolicitud).subscribe(
+      result => {
+        console.log(result);
+        console.log(this.whoSolicitud);
+        this.getResources(this.whoSolicitud);
+      },
+      error => console.log(error)
+    );
   }
 
   addWorkOrdersToRequest(requests: NewRequest[]) {
     console.log(requests);
     requests.forEach((request: NewRequest) => {
-      this.solicitudesService.getWorkOrdenByRequest(this.idUsuarioLogeado, request.idSolicitud, request.idTipo)
+      this.solicitudesService.getWorkOrdenByRequest(this.idUsuarioLogeado, parseInt(request.idSolicitud), request.idTipo)
       .then( (response) => {  
         
-        // console.log(response);
         if (response.length) {
           request = {
             ...request,
@@ -117,28 +219,88 @@ export class ListaSolicitudesComponent implements OnInit {
           request = {...request}
         }
 
-        if (request.workOrders && Array.isArray(request.workOrders) && request.workOrders.length) {
-          this.requestData = [...this.requestData, {...request, workOrders: new MatTableDataSource(request.workOrders)}];
-        } else {
-          this.requestData = [...this.requestData, request];
-        }
+        if( request.idTipo === 1) {
+          if (request.workOrders && Array.isArray(request.workOrders) && request.workOrders.length) {
+            this.requestData = [...this.requestData, {...request, workOrders: new MatTableDataSource(request.workOrders)}];
+          } else {
+            this.requestData = [...this.requestData, {...request, workOrders: new MatTableDataSource()}];
+          }
+        } else if (request.idTipo === 2 ) {
+          if (request.workOrders && Array.isArray(request.workOrders) && request.workOrders.length) {
+            this.requestDataMat = [...this.requestDataMat, {...request, workOrders: new MatTableDataSource(request.workOrders)}];
+          } else {
+            this.requestDataMat = [...this.requestDataMat, request];
+          }
 
+        }  else if (request.idTipo === 3 ) {
+          if (request.workOrders && Array.isArray(request.workOrders) && request.workOrders.length) {
+            this.requestDataMaq = [...this.requestDataMaq, {...request, workOrders: new MatTableDataSource(request.workOrders)}];
+          } else {
+            this.requestDataMaq = [...this.requestDataMaq, request];
+          }
+        }
+        
         console.log(this.requestData);
+        console.log(this.requestDataMat);
+        console.log(this.requestDataMaq);
+
         this.dataSource = new MatTableDataSource(this.requestData);
         this.dataSource.sort = this.sort;
         this.dataSource.paginator = this.paginator;
 
+        this.dataSourceMat = new MatTableDataSource(this.requestDataMat);
+        this.dataSourceMat.sort = this.sortMat;
+        this.dataSourceMat.paginator = this.paginatorMat;
+
+        this.dataSourceMaq = new MatTableDataSource(this.requestDataMaq);
+        this.dataSourceMaq.sort = this.sortMaq;
+        this.dataSourceMaq.paginator = this.paginatorMaq;
       })
       .catch( error => console.log(error));
     });
   }
 
   toggleRow(element: NewRequest) {
-    element.workOrders && (element.workOrders as MatTableDataSource<NewOrder>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+    this.objetoOrdenesObtenidas = [];
+    this.solicitudesService.getViewDetLogRequest(parseInt(element.idSolicitud), element.idTipo, 0)
+    .then( (response: NewOrder[]) => {
+      // console.log(response);
+      
+      let newots: NewOrder[] = [];
+      response.map( (ot: NewOrder) => {
+        // newots = [ ...newots, {
+        //   ...ot,
+        //   idSolicitud: element.idSolicitud
+        // }];
+        this.objetoOrdenesObtenidas = [ ...this.objetoOrdenesObtenidas, {
+          ...ot,
+          idSolicitud: element.idSolicitud
+        }];
+      });
+
+      console.log(this.objetoOrdenesObtenidas);
+      this.dataWorkOrders = new MatTableDataSource(this.objetoOrdenesObtenidas);
+      // element.workOrders && (element.workOrders as MatTableDataSource<NewOrder>).data.length ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+      this.dataWorkOrders && (this.dataWorkOrders as MatTableDataSource<NewOrder>) ? (this.expandedElement = this.expandedElement === element ? null : element) : null;
+      this.cd.detectChanges();
+      this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<NewOrder>).sort = this.innerSort.toArray()[index]);
+    })
+    .catch( error => console.log(error));
+  }
+
+  toggleRowMat(element: NewRequest) {
+    element.workOrders && (element.workOrders as MatTableDataSource<NewOrder>).data.length ? (this.expandedElementMat = this.expandedElementMat === element ? null : element) : null;
     this.cd.detectChanges();
     this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<NewOrder>).sort = this.innerSort.toArray()[index]);
   }
 
+  toggleRowMaq(element: NewRequest) {
+    element.workOrders && (element.workOrders as MatTableDataSource<NewOrder>).data.length ? (this.expandedElementMaq = this.expandedElementMaq === element ? null : element) : null;
+    this.cd.detectChanges();
+    this.innerTables.forEach((table, index) => (table.dataSource as MatTableDataSource<NewOrder>).sort = this.innerSort.toArray()[index]);
+  }
+
+  
   applyFilterRequest(filterValue: string) {
     this.innerTableRequest.forEach((table, index) => (table.dataSource as MatTableDataSource<NewRequest>).filter = filterValue.trim().toLowerCase());
   }
@@ -167,7 +329,7 @@ export class ListaSolicitudesComponent implements OnInit {
           response => {
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getResources();
+              this.getResources(1);
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -181,7 +343,7 @@ export class ListaSolicitudesComponent implements OnInit {
     });
   }
 
-  openDialogDeleteOrden(idOrdentrabajo, tipoOrdenTrabajo) {
+  openDialogDeleteOrden(orden: NewOrder) {
     const dialogRef = this.dialog.open(ModalEliminarComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
@@ -193,17 +355,27 @@ export class ListaSolicitudesComponent implements OnInit {
 
         const dataCancel = {
           idUsuarioRechazo: this.idUsuarioLogeado,
-          idOrdenCompra: idOrdentrabajo,
-          idTipo: tipoOrdenTrabajo
+          idOrdenCompra: orden.idOrdenTrabajo,
+          idTipo: orden.idTipo
         }
 
         console.log(dataCancel);
 
+        let newOrder: NewOrder = {
+          ...orden,
+          colorAutorizar: "gray",
+          colorEditarOrdenTrabajo: "gray",
+          colorEliminarOrdenTrabajo: "gray",
+        };
+
         this.solicitudesService.cancelarOrdenTrabajo(dataCancel).subscribe(
           response => {
+            console.log(response)
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getResources();
+              this.getResources(1);
+              // let foundIndex = this.objetoOrdenesObtenidas.findIndex( (order: NewOrder) => order.idOrdenTrabajo === orden.idOrdenTrabajo);
+              // this.objetoOrdenesObtenidas[foundIndex] = newOrder;
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
             }
@@ -230,11 +402,11 @@ export class ListaSolicitudesComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result =>  result);
   }
 
-  openDialogAuthorize(idOrdenTrabajo, idTipoSolicitud, idSolicitud): void{
+  openDialogAuthorize(idOrdenTrabajo, idTipoSolicitud, idSolicitud, tipoAccion): void{
     const dialogRef = this.dialog.open(ModalAutorizarOrdenTrabajoComponent, {
-      width: '460px',
+      width: 'auto',
       panelClass: 'custom-dialog-container-user',
-      data: { idOrdenTrabajo,idTipoSolicitud, tipoAccion: 'autorizar' }
+      data: { idOrdenTrabajo, idTipoSolicitud, tipoAccion }
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -275,7 +447,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -291,7 +463,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -307,7 +479,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -346,7 +518,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -362,7 +534,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -378,7 +550,7 @@ export class ListaSolicitudesComponent implements OnInit {
                   response => {
                     if(response.estatus === '05'){
                       this.useAlerts(response.mensaje, ' ', 'success-dialog');
-                      this.getResources();
+                      this.getResources(1);
                     } else {
                       this.useAlerts(response.mensaje, ' ', 'error-dialog');
                     }
@@ -432,7 +604,7 @@ export class ListaSolicitudesComponent implements OnInit {
         response => {
           if(response.estatus === '05'){
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
-            this.getResources();
+            this.getResources(1);
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
           }
@@ -523,24 +695,33 @@ export class ListaSolicitudesComponent implements OnInit {
 }
 
 export interface NewRequest {
-  folio: string;
-  empresa: string;
-  contrato: string;
-  solicitante: string;
-  estatus: string;
-  fechaSolicitud: string;
-  colorEditarSolicitud: string;
-  colorEliminarSolicitud: string;
-  colorVerSolicitud: string;
   colorCrearOrden: string;
+  colorEditarSolitud: string;
+  colorEliminarSolitud: string;
+  crearOrden: Boolean;
+  editarSolicitud: Boolean;
+  eliminarSolicitud: Boolean;
+  estatus: number;
+  estatusText: string;
+  fechaSolicito: string;
+  folio: string;
+  idObra: number;
+  idSolicitud?: string;
   idTipo?: number;
-  idSolicitud?: number;
-  tipo: string;
+  idUsuarioSolicito: number;
+  tipo?: string;
+  totalOrden: number;
+  usuarioSolicito: string;
+  empresa: string;
+  noCcontrato: string;
+  solicitante?: string;
+  colorVerSolicitud?: string;
   workOrders?: NewOrder[] | MatTableDataSource<NewOrder>;
 }
 
 export interface NewOrder {
   autorizar: boolean;
+  colorValidar: any;
   color: any;
   colorAutorizar: string;
   colorEditarOrdenTrabajo: string;
@@ -548,13 +729,10 @@ export interface NewOrder {
   colorExportanOrden: string;
   colorOrdenTrabajo: string;
   colorSuministrar: any;
-  colorValidar: any;
   editarOrdenTrabajo: boolean;
   eliminarOrdenTrabajo: boolean;
   estatus: string;
   exportarOrden: boolean;
-  fechaAutoriza: string;
-  fechaAutorizaSuministro: string;
   fechaOrdenTrabajo: string;
   icono: any;
   idOrdenTrabajo: number;
@@ -562,10 +740,14 @@ export interface NewOrder {
   idUsuarioAutoriza: number;
   idUsuarioOrdenTrabajo: number;
   idUsuarioRechazo: number;
-  idUsuarioSuministra: number;
+  idUsuarioValidar: number;
   ordenTrabajo: boolean;
-  suministrar: boolean;
   tipo: any;
-  usuarioOrdenTrabajo: any;
   validar: boolean;
+  usuarioOrdenTrabajo?: any;
+  fechaAutoriza?: string;
+  fechaAutorizaSuministro?: string;
+  idUsuarioSuministra?: number;
+  suministrar?: boolean;
+  idSolicitud?: string;
 }

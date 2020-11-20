@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatButton } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -41,6 +41,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
   observacionOrden: string = '';
 
   opcionesPermitidas = true;
+  @ViewChild('save', {static: false}) submitButton: MatButton;
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -111,6 +112,7 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
 
   generarOrden(){
     console.log(this.peticionesSolicitadas);
+    this.submitButton.disabled = true;
     let detallesOrdenTrabajoRecurso = [];
     const format = 'yyyy/MM/dd';
     const hoy = this.pipe.transform(this.fechaHoy, format);
@@ -145,11 +147,16 @@ export class GenerarOrdenPagoRecursosComponent implements OnInit {
         if(response.estatus === '05'){
           this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
           this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.submitButton.disabled = false;
         } else {
           this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          this.submitButton.disabled = false;
         }
       },
-      error => this.useAlerts(error.message, ' ', 'error-dialog')
+      error => {
+        this.useAlerts(error.message, ' ', 'error-dialog');
+        this.submitButton.disabled = false;
+      }
     );
   }
 

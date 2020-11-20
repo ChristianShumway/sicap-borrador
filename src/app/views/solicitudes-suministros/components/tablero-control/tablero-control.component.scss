@@ -1,97 +1,54 @@
-.wrap-spiner {
+.wrap-spiner{
   display: flex;
   justify-content: center;
-  height: 140px;
+  height: 452px;
   align-items: center;
+}
+
+.accordions {
+  padding: 8px;
+  margin: 20px 0;
+}
+
+.mat-card-content{
+  margin-top: 1.5rem !important;
+}
+
+.grid-colors{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 2px;
 }
 
 .legend-color {
   display: flex;
-  .circle-color{
+  .bar-color{
     background: #dcedc8;
     width: 40px;
     height: 20px;
     display: inline-block;
     margin: 0 10px 0 5px;
   }
-}
-
-.container-titulo {
-  display: grid;
-  grid-template-columns: 200px 1fr;
-  margin: 10px 0 0;
-  grid-gap: 10px;
-  align-items: center;
-  .logo {
-    img {
-      max-width: 100%;
-      vertical-align: top;
+  .circle-color{
+    width: 22px;
+    height: 22px;
+    display: inline-block;
+    margin: 0 10px 0 5px;
+    border-radius: 50%;
+    &.gray{
+      background: #9e9e9e;
+    }
+    &.green{
+      background: #3b9a4a;
+    }
+    &.yellow{
+      background: #ffc108;
+    }
+    &.red{
+      background: #f15757;
     }
   }
-  .titulo {
-    text-align: center;
-    text-transform: uppercase;
-  }
 }
-
-.date-exist{
-  color: #4caf50;
-}
-
-.no-date-exist{
-  color: #b71c1c;
-}
-
-.declined{
-  color: #c78202;
-}
-
-.content-center {
-  text-align: center;
-  margin: 16px 0 0 0 !important;
-  width: 100%;
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-
-.content-left {
-  text-align: left;
-  margin: 16px 0 0 0 !important;
-}
-
-
-@media screen and (max-width:768px){
-  .container-titulo {
-    grid-template-columns: 150px 1fr;
-    .titulo {
-      h1 {
-        font-size: 20px;
-      }
-    }
-  }
-
-}
-
-@media screen and (max-width:599px){
-  .container-titulo {
-    grid-template-columns:1fr;
-    .logo {
-      text-align: center;
-      img {
-        max-width: 50%;
-      }
-    }
-    .titulo {
-      h1 {
-        font-size: 20px;
-      }
-    }
-  }
-
-}
-
-
 
 table {
   width: 100%;
@@ -103,6 +60,10 @@ table {
 
 tr.example-detail-row {
   height: 0;
+}
+
+.example-expanded-row {
+  background: gold !important;
 }
 
 tr.example-element-row:not(.example-expanded-row):hover {
@@ -165,6 +126,10 @@ tr.example-element-row:not(.example-expanded-row):active {
   justify-content: center !important;
 }
 
+::ng-deep th.mat-header-cell {
+  text-align: center !important;
+}
+
 mat-sort-header{
   text-transform: capitalize !important;
 }
@@ -188,10 +153,93 @@ mat-sort-header{
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 13px;
 }
 
 .orders-table{
   width: 100% !important; 
   margin: 10px 0 20px !important;
   background: azure;
+}
+
+.mat-cancel {
+  color: #f15757;
+}
+
+.container-table {
+ 
+  .mat-row,
+  .mat-header-row {
+      display: table-row;
+  }
+  .mat-cell,
+  .mat-header-cell {
+      word-wrap: initial;
+      display: table-cell;
+      padding: 0px 5px;
+      line-break: unset;
+      width: auto;
+      white-space: nowrap;
+      overflow: hidden;
+      vertical-align: middle;
+  }
+}
+
+.wrap-but {
+  padding: 0 10px 20px 10px;
+  text-align: center;
+}
+
+.wrap-button {
+  text-align: right;
+}
+
+.mat-column-empresa {
+  // border: 1px solid red !important;
+  white-space: unset !important;
+  width: 18% !important;
+  text-align: center;
+}
+
+.wrap-button-download {
+  text-align: right;
+  margin: 25px 10px 0px 0px;
+}
+
+@media screen and (max-width:1200px){
+  // .container-table{
+  //   overflow-x: auto !important;
+  //   table {
+  //     width: 1500px !important;
+  //   }
+  // }
+
+  .container-table {
+    display: block;
+    width: 100%;
+    overflow-x: auto;
+    .mat-table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        display: table;
+        border-collapse: collapse;
+        margin: 0px;
+    }
+    .mat-row,
+    .mat-header-row {
+        display: table-row;
+    }
+    .mat-cell,
+    .mat-header-cell {
+        word-wrap: initial;
+        display: table-cell;
+        padding: 0px 5px;
+        line-break: unset;
+        width: auto;
+        white-space: nowrap;
+        overflow: hidden;
+        vertical-align: middle;
+    }
+  }
 }

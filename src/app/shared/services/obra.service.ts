@@ -244,4 +244,8 @@ export class ObraService {
     );
   }
 
+  getCompanies(idObra: number): Observable<any[]>  {
+    return this.http.get<any[]>(`${environment.apiURL}/catalog/getCompaniesByObra/${idObra}`); 
+  }
+
 }

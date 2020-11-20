@@ -19,6 +19,7 @@ import { ModificarOrdenTrabajoRecursosComponent } from './components/modificar-o
 import { ModificarOrdenTrabajoMaterialesComponent } from './components/modificar-orden-trabajo-materiales/modificar-orden-trabajo-materiales.component';
 import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-orden-trabajo-vehiculos/modificar-orden-trabajo-vehiculos.component';
 import { ValidarOrdenesTrabajoComponent } from './components/validar-ordenes-trabajo/validar-ordenes-trabajo.component';
+import { PagosSuministrosComponent } from './components/pagos-suministros/pagos-suministros.component';
 
 const routes: Routes = [
   {
@@ -44,12 +45,17 @@ const routes: Routes = [
   {
     path:'solicitudes-realizadas',
     component: ListaSolicitudesComponent,
-    data: {title: 'Solicitudes Realizadas', breadcrumb: 'Solicitudes Realizadas'}
+    data: {title: 'Seguimiento de Solicitudes', breadcrumb: 'Seguimiento de Solicitudes'}
+  },
+  {
+    path:'pagos-suministros',
+    component: PagosSuministrosComponent,
+    data: {title: 'Pagos y Suministros', breadcrumb: 'Pagos y Suministros'}
   },
   {
     path:'tablero-control',
     component: TableroControlComponent,
-    data: {title: 'Tablero de Control', breadcrumb: 'Tablero de Control'}
+    data: {title: 'Historial de Solicitudes', breadcrumb: 'Historial de Solicitudes'}
   },
   {
     path:'modificar-solicitud-recursos/:idSolicitud',

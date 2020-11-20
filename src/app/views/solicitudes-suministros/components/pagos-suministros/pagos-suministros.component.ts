@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChildren, ViewChild, ChangeDetectorRef, QueryList } from '@angular/core';
-import { MatSnackBar, MatDialog, MatButton } from '@angular/material';
+import { MatSnackBar, MatDialog } from '@angular/material';
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource, MatTable } from '@angular/material/table';
@@ -16,18 +16,19 @@ import { Obra } from 'app/shared/models/obra';
 import { ObraService } from 'app/shared/services/obra.service';
 
 @Component({
-  selector: 'app-tablero-control',
-  templateUrl: './tablero-control.component.html',
-  styleUrls: ['./tablero-control.component.scss'],
+  selector: 'app-pagos-suministros',
+  templateUrl: './pagos-suministros.component.html',
+  styleUrls: ['./pagos-suministros.component.scss'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
 })
-export class TableroControlComponent implements OnInit {
+
+export class PagosSuministrosComponent implements OnInit {
 
   idUsuarioLogeado: any;
   obras: Obra[] = [];
@@ -35,8 +36,8 @@ export class TableroControlComponent implements OnInit {
   obra: Obra;
   empresa: any;
   estatus: any;
-  columnsToDisplay = ['verSolicitud', 'fecha', 'folio', 'empresa', 'contrato', 'solicitante', 'estatus'];
-  innerDisplayedColumns = ['verOrden', 'fecha', 'folio', 'elaboro', 'fechaValidacion', 'estatus'];
+  columnsToDisplay = ['verSolicitud', 'fecha', 'folio', 'empresa', 'contrato', 'solicitante'];
+  innerDisplayedColumns = ['verOrden', 'fecha', 'folio', 'elaboro', 'validarOrden', 'cancelarOrden', 'comprobante'];
   solicitudes: any[] = [];
   fechaHoy = new Date();
   pipe = new DatePipe('en-US');
@@ -44,9 +45,6 @@ export class TableroControlComponent implements OnInit {
   noSolicitud: boolean;
   panelOpenState: boolean = false;
   objetoOrdenesObtenidas: NewOrder[] = [];
-  fechaInicial;
-  fechaFinal;
-  showDownload: boolean = false;
 
   @ViewChild('outerSort', { static: true }) sort: MatSort;
   @ViewChildren('innerSort') innerSort: QueryList<MatSort>;
@@ -60,7 +58,6 @@ export class TableroControlComponent implements OnInit {
   @ViewChild('paginatorRec', {static: true}) paginator: MatPaginator;
   @ViewChild('paginatorMat', {static: true}) paginatorMat: MatPaginator;
   @ViewChild('paginatorMaq', {static: true}) paginatorMaq: MatPaginator;
-  @ViewChild('download', {static:false}) downloadButton: MatButton;
 
   dataSource: MatTableDataSource<NewRequest>;
   
@@ -75,22 +72,11 @@ export class TableroControlComponent implements OnInit {
     public dialog: MatDialog,
     private cd: ChangeDetectorRef,
     private obraService: ObraService
-  ) {
-    // this.fechaInicial = new Date();
-    // this.fechaInicial.setDate(this.fechaInicial.getDate());  
-   }
+  ) { }
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getCatalogObra(); 
-  }
-
-  public onFechaInicial(event): void {
-    this.fechaInicial = event.value;
-  }
-
-  public onFechaFinal(event): void {
-    this.fechaFinal = event.value;
+    this.getCatalogObra();   
   }
 
   getCatalogObra() {
@@ -121,73 +107,58 @@ export class TableroControlComponent implements OnInit {
     this.whoSolicitud = tipoSolicitud;
     this.noSolicitud = false;
     this.solicitudes = [];
-    const format = 'yyyy-MM-dd';
-    this.fechaInicial = this.pipe.transform(this.fechaInicial, format);
-    this.fechaFinal = this.pipe.transform(this.fechaFinal, format);
     this.dataSource = new MatTableDataSource();
     this.dataSource.paginator = this.paginator;
     this.dataSource.paginator = this.paginatorMat;
     this.dataSource.paginator = this.paginatorMaq;
-    this.showDownload = false;
-
-    if(!this.obra) {
-      this.useAlerts('Debes seleccionar primero una obra', ' ', 'error-dialog');
-    } else {
-
-      if(!this.whoSolicitud) {
-        this.whoSolicitud = 1;
-        this.panelOpenState = !this.panelOpenState;
-      }
-
-      let obr = !this.obra ? 0 : this.obra.idObra;
-      let emp = !this.empresa ? 0 : this.empresa.idEmpresa;
-      let fIni = !this.fechaInicial ? '&nbsp' : this.fechaInicial;
-      let fFin = !this.fechaFinal ? '&nbsp' : this.fechaFinal;
-      let est = !this.estatus ? -1 : this.estatus;
-      
-      console.log(obr);
-      console.log(emp);  
-      console.log(fIni);
-      console.log(fFin);
-      console.log(est); 
-      console.log(this.whoSolicitud);
-     
-      this.solicitudesService.getLogHistorialSolicitudes(obr, emp, fIni, fFin, est, this.whoSolicitud).subscribe(
-        solicitudes => {
-          this.solicitudes = solicitudes.solicitudes;
-          this.showDownload = true;
-          // console.log(this.solicitudes);
-          
-          if(this.solicitudes.length === 0) {
-            this.noSolicitud = true;
-          } else {
-            this.dataSource = new MatTableDataSource(this.solicitudes);
-            this.solicitudes.forEach( solicitud => {
-              
-              if( solicitud.idTipo === 1) {
-                this.dataSource.sort = this.sort;
-                this.dataSource.paginator = this.paginator;
-              } else if (solicitud.idTipo === 2 ) {
-                this.dataSource.sort = this.sortMat;
-                this.dataSource.paginator = this.paginatorMat;
-              } else if (solicitud.idTipo === 3 ) {
-                this.dataSource.sort = this.sortMaq;
-                this.dataSource.paginator = this.paginatorMaq;
-              }
-                
-            });
-          }
-        },
-        error => console.log(error)
-      );
+    
+    if(!this.whoSolicitud) {
+      this.whoSolicitud = 1;
+      this.panelOpenState = !this.panelOpenState;
     }
 
+    let obr = !this.obra ? 0 : this.obra.idObra;
+    let emp = !this.empresa ? 0 : this.empresa.idEmpresa;
+    let est = !this.estatus ? -1 : this.estatus;
+    
+    // console.log(this.whoSolicitud);
+    // console.log(obr);
+    // console.log(emp);  
+    // console.log(est); 
+   
+    this.solicitudesService.getLogSolicitudesValidadas(this.whoSolicitud, emp, obr, est).subscribe(
+      solicitudes => {
+        this.solicitudes = solicitudes;
+        console.log(this.solicitudes);
+        
+        if(this.solicitudes.length === 0) {
+          this.noSolicitud = true;
+        } else {
+          this.dataSource = new MatTableDataSource(this.solicitudes);
+          solicitudes.forEach( solicitud => {
+            
+            if( solicitud.idTipo === 1) {
+              this.dataSource.sort = this.sort;
+              this.dataSource.paginator = this.paginator;
+            } else if (solicitud.idTipo === 2 ) {
+              this.dataSource.sort = this.sortMat;
+              this.dataSource.paginator = this.paginatorMat;
+            } else if (solicitud.idTipo === 3 ) {
+              this.dataSource.sort = this.sortMaq;
+              this.dataSource.paginator = this.paginatorMaq;
+            }
+              
+          });
+        }
+      },
+      error => console.log(error)
+    );
       
   }
 
   toggleRow(element: NewRequest) {
     this.objetoOrdenesObtenidas = [];
-    this.solicitudesService.getViewDetLogRequest(parseInt(element.idSolicitud), element.idTipo, 0)
+    this.solicitudesService.getViewDetLogRequest(parseInt(element.idSolicitud), element.idTipo, 1)
     .then( (response: NewOrder[]) => {
       
       let newots: NewOrder[] = [];
@@ -238,7 +209,8 @@ export class TableroControlComponent implements OnInit {
             console.log(response)
             if(response.estatus === '05'){
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
-              this.getResources(1);
+              this.deletIndex(orden);
+              // this.getResources(1);
               // let foundIndex = this.objetoOrdenesObtenidas.findIndex( (order: NewOrder) => order.idOrdenTrabajo === orden.idOrdenTrabajo);
               // this.objetoOrdenesObtenidas[foundIndex] = newOrder;
             } else {
@@ -443,22 +415,19 @@ export class TableroControlComponent implements OnInit {
   validateOrder(orden: NewOrder, index) {
     const dataValidate = {
       idTipo: orden.idTipo,
-      idSolicitud: orden.idSolicitud,
+      idOrdenCompra: orden.idOrdenTrabajo,
       idUsuarioValidate: this.idUsuarioLogeado
     };
 
-    console.log(dataValidate);
+    console.log(JSON.stringify(dataValidate));
 
     this.solicitudesService.setValidate(dataValidate).subscribe(
       response => {
         console.log(response);
         if(response.estatus === '05'){
           this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          this.getResources(this.whoSolicitud);
-          // let foundIndex = this.objetoOrdenesObtenidas.findIndex( (order: NewOrder) => order.idOrdenTrabajo === orden.idOrdenTrabajo);
-          // this.objetoOrdenesObtenidas.splice(foundIndex, 1);
-          // this.objetoOrdenesObtenidas = [...this.objetoOrdenesObtenidas];
-          // this.dataWorkOrders = new MatTableDataSource(this.objetoOrdenesObtenidas);
+          // this.getResources(this.whoSolicitud);
+          this.deletIndex(orden);
         } else {
           this.useAlerts(response.mensaje, ' ', 'error-dialog');
         }
@@ -475,37 +444,6 @@ export class TableroControlComponent implements OnInit {
     this.objetoOrdenesObtenidas.splice(foundIndex, 1);
     this.objetoOrdenesObtenidas = [...this.objetoOrdenesObtenidas];
     this.dataWorkOrders = new MatTableDataSource(this.objetoOrdenesObtenidas);
-  }
-
-  downloadOrder() {
-    this.downloadButton.disabled = true;
-    let emp = !this.empresa ? 0 : this.empresa.idEmpresa;
-    let fIni = !this.fechaInicial ? '&nbsp' : this.fechaInicial;
-    let fFin = !this.fechaFinal ? '&nbsp' : this.fechaFinal;
-    let est = !this.estatus ? -1 : this.estatus;
-    this.solicitudesService.descargarHistorialSolicitudes(this.obra.idObra, emp, fIni, fFin, est, 0).subscribe(
-      response => {
-        this.downloadButton.disabled = false;
-        var blob = new Blob([response], {type: 'application/xlsx'});
-        var link=document.createElement('a');
-      
-        var obj_url = window.URL.createObjectURL(blob);		    
-        var link = document.createElement("a");
-        link.setAttribute("target", "_blank");
-        link.setAttribute("href", obj_url);
-        link.setAttribute("download",`historial-solicitudes-obra-${this.obra.noContrato}.xlsx`);
-          
-        link.style.visibility = "hidden";
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-      },
-      error => {
-        console.log(error);
-        this.useAlerts(error.message, ' ', 'error-dialog');
-        this.downloadButton.disabled = false;
-      }
-    );
   }
 
   descargarOrdenTrabajo(orden: NewOrder) {

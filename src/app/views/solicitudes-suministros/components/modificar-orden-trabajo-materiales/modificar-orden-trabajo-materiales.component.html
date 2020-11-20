@@ -64,7 +64,7 @@
           </div>
 
           <div class="cont-btns">
-            <button mat-raised-button color="primary"  (click)= "modificarOrden()" class="btn-accept">Modificar Orden</button>
+            <button #save mat-raised-button color="primary"  (click)= "modificarOrden()" class="btn-accept">Modificar Orden</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
           </div>
 

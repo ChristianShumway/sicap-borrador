@@ -33,35 +33,35 @@ export class ListaSolicitudesValidadasComponent implements OnInit {
   }
 
   getSolicitudesParaValidar() {
-    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 1).subscribe(
-      solicitudes => {
-        if(solicitudes.length) {
-          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
-        }
-        console.log(this.listaSolicitudes);
-      }, 
-      error => console.log(error)
-    );
+    // this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 1).subscribe(
+    //   solicitudes => {
+    //     if(solicitudes.length) {
+    //       solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+    //     }
+    //     console.log(this.listaSolicitudes);
+    //   }, 
+    //   error => console.log(error)
+    // );
 
-    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 2).subscribe(
-      solicitudes => {
-        if(solicitudes.length) {
-          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
-        }
-        console.log(this.listaSolicitudes);
-      }, 
-      error => console.log(error)
-    );
+    // this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 2).subscribe(
+    //   solicitudes => {
+    //     if(solicitudes.length) {
+    //       solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+    //     }
+    //     console.log(this.listaSolicitudes);
+    //   }, 
+    //   error => console.log(error)
+    // );
 
-    this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 3).subscribe(
-      solicitudes => {
-        if(solicitudes.length) {
-          solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
-        }
-        console.log(this.listaSolicitudes);
-      }, 
-      error => console.log(error)
-    );
+    // this.solicitudesService.getSolicitudesValidadas(this.idUsuarioLogeado, 2, 3).subscribe(
+    //   solicitudes => {
+    //     if(solicitudes.length) {
+    //       solicitudes.map( solicitud =>  this.listaSolicitudes.push(solicitud) )
+    //     }
+    //     console.log(this.listaSolicitudes);
+    //   }, 
+    //   error => console.log(error)
+    // );
   }
 
   // openDialogDelete(idOrdenTrabajo) {

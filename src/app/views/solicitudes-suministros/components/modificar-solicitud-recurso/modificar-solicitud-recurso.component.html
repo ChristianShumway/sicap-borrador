@@ -233,7 +233,7 @@
           </div>
 
           <div class="cont-btns">
-            <button mat-raised-button color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
+            <button mat-raised-button #save color="primary" [disabled]="solicitudForm.invalid" type="submit" class="btn-accept">Modificar Solicitud</button>
             <button mat-raised-button [routerLink]="'/solicitudes-suministros/solicitudes-realizadas'">Cancelar</button>
           </div>
 

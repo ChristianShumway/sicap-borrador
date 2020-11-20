@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatButton } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -60,6 +60,8 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
     { id: 3, nombre: 'Servicio de Traslado y Logística Vehicular' },
     { id: 4, nombre: 'Otros' },
   ];
+
+  @ViewChild('save', {static: false}) submitButton: MatButton;
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -226,6 +228,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
 
   modificarSolicitud(){
     if (this.solicitudForm.valid){
+      this.submitButton.disabled = true;
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
@@ -233,6 +236,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
 
       if(this.peticionesSolicitadas.length === 0){
         this.useAlerts('No has agregado ninguna petición a la solicitud', ' ', 'error-dialog');
+        this.submitButton.disabled = false;
       } else { 
         let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
         
@@ -262,11 +266,16 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
             if(response.estatus === '05'){
               this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.submitButton.disabled = false;
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              this.submitButton.disabled = false;
             }
           },
-          error => this.useAlerts(error.message, ' ', 'error-dialog')
+          error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            this.submitButton.disabled = false;
+          }
         );
       }
 

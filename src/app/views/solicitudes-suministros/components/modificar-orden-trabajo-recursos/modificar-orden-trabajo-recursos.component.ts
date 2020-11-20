@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatButton } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -38,6 +38,7 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
   rutaImg: string;
   host: string;
   opcionesPermitidas = true;
+  @ViewChild('save', {static: false}) submitButton: MatButton;
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -116,6 +117,7 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
 
   modificarOrden(){
     console.log(this.peticionesSolicitadas);
+    this.submitButton.disabled = true;
     let detallesOrdenTrabajoRecurso: DetallesOrdenTrabajoRecurso[] = [];
     const format = 'yyyy/MM/dd';
     const hoy = this.pipe.transform(this.fechaHoy, format);
@@ -126,7 +128,6 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
         importeSolicitadoSinFactura: parseFloat(peticion.detallePeticionOrden.importeSolicitadoSinFactura),
         importeSolicitadoConFactura: parseFloat(peticion.detallePeticionOrden.importeSolicitadoConFactura),
         idUsuarioModifico: this.idUsuarioLogeado,
-
       };
 
       detallesOrdenTrabajoRecurso.push(peticionCompleta);
@@ -150,11 +151,16 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
         if(response.estatus === '05'){
           this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
           this.useAlerts(response.mensaje, ' ', 'success-dialog');
+          this.submitButton.disabled = false;
         } else {
           this.useAlerts(response.mensaje, ' ', 'error-dialog');
+          this.submitButton.disabled = false;
         }
       },
-      error => this.useAlerts(error.message, ' ', 'error-dialog')
+      error => {
+        this.useAlerts(error.message, ' ', 'error-dialog');
+        this.submitButton.disabled = false;
+      }
     );
   }
 

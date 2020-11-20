@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { MatSnackBar, MatDialog } from '@angular/material';
+import { MatSnackBar, MatDialog, MatButton } from '@angular/material';
 import { DatePipe } from '@angular/common';
 
 import { environment } from './../../../../../environments/environment';
@@ -44,6 +44,7 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
   totalPrecio: number;
   totalImporte: number;
   observacionOrden: string = '';
+  @ViewChild('save', {static: false}) submitButton: MatButton;
 
   constructor(
     private autenticacionService: AutenticacionService,
@@ -138,6 +139,7 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     if(!this.detallesOrden.length){
       this.useAlerts( 'Debes Aregar un detalle a la orden de trabajo', ' ', 'error-dialog');
     } else {
+      this.submitButton.disabled = true;
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
       const detOrdenTrabajo: any[] = [];
@@ -177,11 +179,16 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
           if(response.estatus === '05'){
             this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
             this.useAlerts(response.mensaje, ' ', 'success-dialog');
+            this.submitButton.disabled = false;
           } else {
             this.useAlerts(response.mensaje, ' ', 'error-dialog');
+            this.submitButton.disabled = false;
           }
         },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
+        error => {
+          this.useAlerts(error.message, ' ', 'error-dialog');
+          this.submitButton.disabled = false;
+        }
       );
     }
   }

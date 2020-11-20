@@ -36,6 +36,7 @@ import { ModificarOrdenTrabajoVehiculosComponent } from './components/modificar-
 import { ValidarOrdenesTrabajoComponent } from './components/validar-ordenes-trabajo/validar-ordenes-trabajo.component';
 import { ModalAutorizarOrdenTrabajoComponent } from './components/modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 import { ModalLlenarPeticionComponent } from './components/modal-llenar-peticion/modal-llenar-peticion.component';
+import { PagosSuministrosComponent } from './components/pagos-suministros/pagos-suministros.component';
 
 export let options: Partial<IConfig> | (() => Partial<IConfig>);
 
@@ -62,6 +63,7 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ValidarOrdenesTrabajoComponent,
     ModalAutorizarOrdenTrabajoComponent,
     ModalLlenarPeticionComponent,
+    PagosSuministrosComponent,
   ],
   imports: [
     CommonModule,

@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Params, ActivatedRoute, Router } from '@angular/router';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import { MatSnackBar } from '@angular/material';
+import { MatSnackBar, MatButton } from '@angular/material';
 
 import { environment } from './../../../../../environments/environment';
 
@@ -55,6 +55,7 @@ export class SolicitarVehiculosComponent implements OnInit {
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
   opcionesPermitidas = true;
+  @ViewChild('save', {static: false}) submitButton: MatButton;
 
   objServiciosInteres = [
     { id: 1, nombre: 'Arrendamiento de Vehículo Ligero' },
@@ -179,6 +180,7 @@ export class SolicitarVehiculosComponent implements OnInit {
 
   crearSolicitud(){
     if (this.solicitudForm.valid){
+      this.submitButton.disabled = true;
       const format = 'yyyy/MM/dd';
       const hoy = this.pipe.transform(this.fechaHoy, format);
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
@@ -188,6 +190,7 @@ export class SolicitarVehiculosComponent implements OnInit {
 
       if(!this.peticionesSolicitadas.length){
         this.useAlerts('No has agregado ninguna petición a la solicitud', ' ', 'error-dialog');
+        this.submitButton.disabled = false;
       } else {
         const solicitud: SolicitudVehiculo = {
           ...this.solicitudForm.value,
@@ -211,11 +214,16 @@ export class SolicitarVehiculosComponent implements OnInit {
             if(response.estatus === '05'){
               this.router.navigate(['/solicitudes-suministros/obras']);
               this.useAlerts(response.mensaje, ' ', 'success-dialog');
+              this.submitButton.disabled = false;
             } else {
               this.useAlerts(response.mensaje, ' ', 'error-dialog');
+              this.submitButton.disabled = false;
             }
           },
-          error => this.useAlerts(error.message, ' ', 'error-dialog')
+          error => {
+            this.useAlerts(error.message, ' ', 'error-dialog');
+            this.submitButton.disabled = false;
+          }
         );
       }
       

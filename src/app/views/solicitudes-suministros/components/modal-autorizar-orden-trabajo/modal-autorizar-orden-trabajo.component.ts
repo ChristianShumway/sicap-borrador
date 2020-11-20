@@ -20,6 +20,10 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   detallesOrdenTrabajoMateriales: any[];
   detallesOrdenTrabajoVehiculos: any[] = [];
   imgEmpresa: string;
+  totalSolicitadoSinFactura:number = 0;
+  totalSolicitadoConFactura:number = 0;
+  totalValidadoSinFactura:number = 0;
+  totalValidadoConFactura:number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ModalAutorizarOrdenTrabajoComponent>,
@@ -48,7 +52,7 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
           this.ordenTrabajo.solicitud.detSolicitudRecurso.map( (peticionSolicitud:PeticionSolicitudRecurso) => {
             // console.log(peticionSolicitud);
             this.ordenTrabajo.detOrdenTrabajoRecurso.map( peticionOrden => {
-              // console.log(peticionOrden);
+              console.log(peticionOrden);
               if ( peticionSolicitud.idCategoriaMovimientoMonetario === peticionOrden.idCategoriaMovimientoMonetario) {
                 const objetoPeticionCompuesto = {
                   // categoria: peticionOrden.categoriaSolicitudRecurso.descripcion,
@@ -60,15 +64,20 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
                   importeSolicitadoConFactura: peticionSolicitud.importeSolicitadoConFactura,
                   importeValidadoConFactura: peticionOrden.importeSolicitadoConFactura,
                   comentarioSolicitud: peticionSolicitud.comentario,
-                  comentarioRevision: peticionOrden.comentario,
+                  comentarioRevision: peticionOrden.comentario
                 };
                 this.detallesOrdenTrabajoRecursos.push(objetoPeticionCompuesto);
+                this.totalSolicitadoSinFactura = this.totalSolicitadoSinFactura + peticionSolicitud.importeSolicitadoSinFactura;
+                this.totalSolicitadoConFactura = this.totalSolicitadoConFactura + peticionSolicitud.importeSolicitadoConFactura;
+                this.totalValidadoSinFactura = this.totalValidadoSinFactura + peticionOrden.importeSolicitadoSinFactura;
+                this.totalValidadoConFactura = this.totalValidadoConFactura + peticionOrden.importeSolicitadoConFactura;
               }
             });
             // console.log(this.detallesOrdenTrabajoRecursos);
           })
         } else if(this.ordenTrabajo.idTipo === 2){
           this.detallesOrdenTrabajoMateriales = this.ordenTrabajo.detOrdentrabajoMaterial;
+          // console.log(this.detallesOrdenTrabajoMateriales);
         } else if( this.ordenTrabajo.idTipo === 3) {
           // this.detallesOrdenTrabajoVehiculos = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
           this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo.map( peticionOrden => {

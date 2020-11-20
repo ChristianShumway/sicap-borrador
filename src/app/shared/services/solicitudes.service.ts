@@ -112,12 +112,27 @@ export class SolicitudesService {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getRequestMaterialByUser/${idUser}`);
   }
 
-  getLogRequest(): Observable<any>{
-    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getLogRequest`);
+  getLogRequest(tipoSolicitud: number, idCompañia: number, idObra: number, estatus: number ): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getLogRequest/${tipoSolicitud}/${idCompañia}/${idObra}/${estatus}`);
   }
 
-  async getViewDetLogRequest(idRequest:number, typeRequest: number){
-    const asyncResult = await this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getViewDetLogRequest/${idRequest}/${typeRequest}`).toPromise();
+  getLogSolicitudesValidadas(tipoSolicitud: number, idCompañia: number, idObra: number, estatus: number ): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/paymentsAndSupplies/${tipoSolicitud}/${idCompañia}/${idObra}/${estatus}`);
+  }
+
+  getLogHistorialSolicitudes(idObra: number, idCompañia: number, fechaInicio: string, fechaFin: string, estatus: number, tipoSolicitud: number ): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getReuqestHistoryData/${idObra}/${idCompañia}/${fechaInicio}/${fechaFin}/${estatus}/${tipoSolicitud}`);
+  }
+
+  setValidate(data): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setValidate`, JSON.stringify(data), { headers: headerss});
+  }
+
+  // getLogRequest/{typeRequest}/{idCompany}/{idObra}/{estatus}
+
+  async getViewDetLogRequest(idRequest:number, typeRequest: number, onlyValid: number){
+    const asyncResult = await this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getViewDetLogRequest/${idRequest}/${typeRequest}/${onlyValid}`).toPromise();
     return asyncResult;
   }
 
@@ -130,7 +145,7 @@ export class SolicitudesService {
     return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setRequestValidation`, JSON.stringify(solicitud), { headers: headerss});
   }
 
-  getSolicitudesValidadas(idUsuario: number, idEstado: number, idTipo: number) {
+  Log(idUsuario: number, idEstado: number, idTipo: number) {
     return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkOrden/${idUsuario}/${idEstado}/${idTipo}`);
   }
 
@@ -232,6 +247,18 @@ export class SolicitudesService {
     const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
     return this.http.get(`${environment.apiURL}/requestAndSupplies/printWorkOrden/${idOrdenTrabajo}/${tipoOrdenTrabajo}`, {headers: headerss, responseType: 'blob',});
   }
+
+  descargarHistorialSolicitudes(idObra: number, idCompañia: number, fechaInicio: string, fechaFin: string, estatus: number, tipoSolicitud: number): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
+    return this.http.get(`${environment.apiURL}/requestAndSupplies/getReuqestHistory/${idObra}/${idCompañia}/${fechaInicio}/${fechaFin}/${estatus}/${tipoSolicitud}`, {headers: headerss, responseType: 'blob',});
+  }
+
+  abrirCerrarSolicitud(data): Observable<any>{
+    const headerss = new HttpHeaders({'Content-Type': 'application/json'});
+    return this.http.post<any>(`${environment.apiURL}/requestAndSupplies/setRequestEstatus`, JSON.stringify(data), { headers: headerss});
+  }
+
+  // requestAndSupplies/setRequestEstatus
 
   // getVehiculosByObra/{idObra}
 
