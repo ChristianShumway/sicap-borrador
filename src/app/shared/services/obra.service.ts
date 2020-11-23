@@ -248,4 +248,8 @@ export class ObraService {
     return this.http.get<any[]>(`${environment.apiURL}/catalog/getCompaniesByObra/${idObra}`); 
   }
 
+  getSelectObras(): Observable<Obra[]>  {
+    return this.http.get<Obra[]>(`${environment.apiURL}/obra/getSelectObra`); 
+  }
+
 }

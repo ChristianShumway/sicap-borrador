@@ -91,9 +91,10 @@ export class ListaSolicitudesComponent implements OnInit {
   }
 
   getCatalogObra() {
-    this.obraService.getObras().subscribe(
+    this.obraService.getSelectObras().subscribe(
       (obras: Obra[]) => {
-        // console.log(obras);
+        console.log(obras);
+        // this.obras = obras;
         this.obras = obras.filter( (obra:Obra) => obra.activo === 1);
       },
       error => console.log('error al suscribirme a buscar obras')

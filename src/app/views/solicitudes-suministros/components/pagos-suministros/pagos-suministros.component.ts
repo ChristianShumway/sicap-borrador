@@ -80,7 +80,7 @@ export class PagosSuministrosComponent implements OnInit {
   }
 
   getCatalogObra() {
-    this.obraService.getObras().subscribe(
+    this.obraService.getSelectObras().subscribe(
       (obras: Obra[]) => {
         // console.log(obras);
         this.obras = obras.filter( (obra:Obra) => obra.activo === 1);

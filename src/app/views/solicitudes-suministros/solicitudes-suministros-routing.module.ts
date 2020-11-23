@@ -43,7 +43,7 @@ const routes: Routes = [
     data: {title: 'Solicitud de vehículos, equipo y maquinaria', breadcrumb: 'Solicitud de vehículos, equipo y maquinaria'}
   },
   {
-    path:'solicitudes-realizadas',
+    path:'seguimiento-solicitudes',
     component: ListaSolicitudesComponent,
     data: {title: 'Seguimiento de Solicitudes', breadcrumb: 'Seguimiento de Solicitudes'}
   },
@@ -53,7 +53,7 @@ const routes: Routes = [
     data: {title: 'Pagos y Suministros', breadcrumb: 'Pagos y Suministros'}
   },
   {
-    path:'tablero-control',
+    path:'historial-solicitudes',
     component: TableroControlComponent,
     data: {title: 'Historial de Solicitudes', breadcrumb: 'Historial de Solicitudes'}
   },
