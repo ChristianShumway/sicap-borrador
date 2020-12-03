@@ -149,7 +149,7 @@ export class ModificarOrdenTrabajoRecursosComponent implements OnInit {
     this.solicitudesService.updateOrdenTrabajo(ordenTrabajo).subscribe(
       response => {
         if(response.estatus === '05'){
-          this.router.navigate(['/solicitudes-suministros/solicitudes-realizadas']);
+          this.router.navigate(['/solicitudes-suministros/seguimiento-solicitudes']);
           this.useAlerts(response.mensaje, ' ', 'success-dialog');
           this.submitButton.disabled = false;
         } else {

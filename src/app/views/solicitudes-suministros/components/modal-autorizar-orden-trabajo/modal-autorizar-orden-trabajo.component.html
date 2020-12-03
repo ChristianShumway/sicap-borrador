@@ -67,8 +67,10 @@
         <div class="tit-col">Desglose</div>
         <div class="tit-col">Solicitado con Factura</div>
         <div class="tit-col">Solicitado sin Factura</div>
-        <div class="tit-col">Validado con Factura</div>
-        <div class="tit-col">Validado sin Factura</div>
+        <div class="tit-col" *ngIf="data.tipoAccion === 'verOrdenP'">Autorizado con Factura</div>
+        <div class="tit-col" *ngIf="data.tipoAccion === 'verOrdenP'">Autorizado sin Factura</div>
+        <div class="tit-col" *ngIf="data.tipoAccion !== 'verOrdenP'">Validado con Factura</div>
+        <div class="tit-col" *ngIf="data.tipoAccion !== 'verOrdenP'">Validado sin Factura</div>
         <div class="tit-col">Comentarios</div>
       </div>
       <div class="material" *ngFor="let peticion of detallesOrdenTrabajoRecursos; let i = index">
@@ -309,7 +311,7 @@
     </mat-form-field>
   </div>
 
-  <div class="wrap-buttons" *ngIf="data.tipoAccion !== 'verOrden'">
+  <div class="wrap-buttons" *ngIf="data.tipoAccion !== 'verOrden' || data.tipoAccion !== 'verOrdenP'">
     <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->
     <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar', 'ot':ordenTrabajo}]" matTooltip="Rechazar Orden de Trabajo" matTooltipPosition="left">
       <mat-icon>thumb_down</mat-icon>

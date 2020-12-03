@@ -9,22 +9,22 @@
       <ng-container>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <mat-label>Obra</mat-label>
-            <mat-select [(ngModel)]="obra" (selectionChange)="getCompanie($event.value)">
+            <mat-label>Empresa</mat-label>
+            <mat-select [(ngModel)]="empresa">
               <mat-option value=""></mat-option>
-              <mat-option *ngFor="let obra of obras" [value]="obra">
-                {{obra.noContrato}}
+              <mat-option *ngFor="let company of empresas" [value]="company">
+                {{company.descripcion}}
               </mat-option>
             </mat-select>
           </mat-form-field>
         </div>
         <div class="pb-1">
           <mat-form-field class="full-width">
-            <mat-label>Empresa</mat-label>
-            <mat-select [(ngModel)]="empresa">
+            <mat-label>Obra</mat-label>
+            <mat-select [(ngModel)]="obra" (selectionChange)="getCompanie($event.value)">
               <mat-option value=""></mat-option>
-              <mat-option *ngFor="let company of empresas" [value]="company">
-                {{company.descripcion}}
+              <mat-option *ngFor="let obra of obras" [value]="obra">
+                {{obra.noContrato}} - {{obra.nombreObra}}
               </mat-option>
             </mat-select>
           </mat-form-field>
@@ -39,7 +39,6 @@
             </mat-select>
           </mat-form-field>
         </div>
-    
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput [matDatepicker]="fechaInicial" name="date" placeholder="Fecha Inicio"
@@ -48,7 +47,6 @@
             <mat-datepicker #fechaInicial (selectedChange)="onFechaInicial($event)"></mat-datepicker>
           </mat-form-field>
         </div>
-    
         <div class="pb-1">
           <mat-form-field class="full-width">
             <input matInput [matDatepicker]="fechaFinal" name="date" placeholder="Fecha Fin"

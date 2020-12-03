@@ -1,42 +1,50 @@
-<mat-card>
-  <ng-container>
-    <div class="pb-1">
-      <mat-form-field class="full-width">
-        <mat-label>Obra</mat-label>
-        <mat-select [(ngModel)]="obra" (selectionChange)="getCompanie($event.value)">
-          <mat-option value=""></mat-option>
-          <mat-option *ngFor="let obra of obras" [value]="obra">
-            {{obra.noContrato}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="pb-1">
-      <mat-form-field class="full-width">
-        <mat-label>Empresa</mat-label>
-        <mat-select [(ngModel)]="empresa">
-          <mat-option value=""></mat-option>
-          <mat-option *ngFor="let company of empresas" [value]="company">
-            {{company.descripcion}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="pb-1">
-      <mat-form-field class="full-width">
-        <mat-label>Estatus</mat-label>
-        <mat-select [(ngModel)]="estatus">
-          <mat-option value= -1></mat-option>
-          <mat-option value= 0>Cerradas</mat-option>
-          <mat-option value= 1>Abiertas</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div class="wrap-button">
-      <button mat-raised-button color="primary" (click)="getResources(whoSolicitud)">Buscar</button>
-    </div>
-  </ng-container>
-</mat-card>
+<mat-accordion>
+  <mat-expansion-panel>
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Filtros
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container>
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <mat-label>Empresa</mat-label>
+          <mat-select [(ngModel)]="empresa">
+            <mat-option value=""></mat-option>
+            <mat-option *ngFor="let company of empresas" [value]="company">
+              {{company.descripcion}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <mat-label>Obra</mat-label>
+          <mat-select [(ngModel)]="obra" (selectionChange)="getCompanie($event.value)">
+            <mat-option value=""></mat-option>
+            <mat-option *ngFor="let obra of obras" [value]="obra">
+              {{obra.noContrato}} - {{obra.nombreObra}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="pb-1">
+        <mat-form-field class="full-width">
+          <mat-label>Estatus</mat-label>
+          <mat-select [(ngModel)]="estatus">
+            <mat-option value= -1></mat-option>
+            <mat-option value= 0>Cerradas</mat-option>
+            <mat-option value= 1>Abiertas</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div class="wrap-button">
+        <button mat-raised-button color="primary" (click)="getResources(whoSolicitud)">Buscar</button>
+      </div>
+    </ng-container>
+  </mat-expansion-panel> 
+</mat-accordion>
+
 
 <div class="accordions">
   <mat-accordion>
@@ -113,7 +121,7 @@
                       <th mat-header-cell *matHeaderCellDef> Ver Orden de Trabajo </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="col-center">
-                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrden')" mat-icon-button
+                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrdenP')" mat-icon-button
                             *ngIf="element.colorAutorizar === 'green'" color="primary" matTooltip="Ver Orden de Trabajo" matTooltipPosition="left">
                             <mat-icon>visibility</mat-icon>
                           </button>
@@ -289,7 +297,7 @@
                       <th mat-header-cell *matHeaderCellDef> Ver Orden de Trabajo </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="col-center">
-                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrden')" mat-icon-button
+                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrdenP')" mat-icon-button
                             *ngIf="element.colorAutorizar === 'green'" color="primary" matTooltip="Ver Orden de Trabajo" matTooltipPosition="left">
                             <mat-icon>visibility</mat-icon>
                           </button>
@@ -463,7 +471,7 @@
                       <th mat-header-cell *matHeaderCellDef> Ver Orden de Trabajo </th>
                       <td mat-cell *matCellDef="let element">
                         <span class="col-center">
-                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrden')" mat-icon-button
+                          <button (click)="openDialogAuthorize(element.idOrdenTrabajo, element.idTipo, element.idSolicitud, 'verOrdenP')" mat-icon-button
                             *ngIf="element.colorAutorizar === 'green'" color="primary" matTooltip="Ver Orden de Trabajo" matTooltipPosition="left">
                             <mat-icon>visibility</mat-icon>
                           </button>

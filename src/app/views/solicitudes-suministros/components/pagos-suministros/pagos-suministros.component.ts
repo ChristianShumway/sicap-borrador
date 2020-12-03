@@ -14,6 +14,7 @@ import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components
 import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 import { Obra } from 'app/shared/models/obra';
 import { ObraService } from 'app/shared/services/obra.service';
+import { ModalCancelacionComponent } from '../modal-cancelacion/modal-cancelacion.component';
 
 @Component({
   selector: 'app-pagos-suministros',
@@ -180,10 +181,10 @@ export class PagosSuministrosComponent implements OnInit {
   }
 
   openDialogDeleteOrden(orden: NewOrder) {
-    const dialogRef = this.dialog.open(ModalEliminarComponent, {
+    const dialogRef = this.dialog.open(ModalCancelacionComponent, {
       width: '300px',
       panelClass: 'custom-dialog-container-delete',
-      // data: idObra
+       data: 'cancelar-orden'
     });
 
     dialogRef.afterClosed().subscribe(result => {
