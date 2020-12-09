@@ -310,8 +310,7 @@
       <textarea matInput [(ngModel)]="ordenTrabajo.observacionAutorizacion" [ngModelOptions]="{standalone: true}" ></textarea>
     </mat-form-field>
   </div>
-
-  <div class="wrap-buttons" *ngIf="data.tipoAccion !== 'verOrden' || data.tipoAccion !== 'verOrdenP'">
+  <div class="wrap-buttons" *ngIf="data.tipoAccion !== 'verOrden' && data.tipoAccion !== 'verOrdenP'">
     <!-- <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar'}]"> -->
     <button mat-mini-fab color="primary" [mat-dialog-close]="[{'opcion':'rechazar', 'ot':ordenTrabajo}]" matTooltip="Rechazar Orden de Trabajo" matTooltipPosition="left">
       <mat-icon>thumb_down</mat-icon>
