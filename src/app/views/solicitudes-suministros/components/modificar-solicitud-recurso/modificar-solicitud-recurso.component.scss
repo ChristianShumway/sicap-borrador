@@ -147,6 +147,32 @@
   margin-bottom: 25px;
 }
 
+.title-s {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  margin-bottom: 10px;
+}
+
+.wrap-colapsable{
+  margin-bottom: 10px;
+  .title-obra{
+    h2{
+      color: gray;
+      margin-bottom: 0;
+    }
+  }
+  .info-obra{
+    padding: 1px 0 0;
+    h1{
+      color: gray;
+    }
+    p {
+      color: #4caf50;
+    }
+  }
+}
+
 @media screen and (max-width:768px) {
   form{
     .data-form {

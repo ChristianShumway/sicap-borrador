@@ -96,7 +96,7 @@ export class ModificarSolicitudMaterialesComponent implements OnInit {
   getValidations(){
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(this.fechaRequiere, Validators.required),
-      lugarRecepcion: new FormControl('', Validators.required),
+      lugarRecepcion: new FormControl(''),
     });
   }
   

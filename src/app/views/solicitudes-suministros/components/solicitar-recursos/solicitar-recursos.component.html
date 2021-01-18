@@ -10,14 +10,14 @@
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
     <div class="form">
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="title-solicitud">
-          <h1>Solicitud de Recursos</h1>
+        <h3 class="title-s">Solicitud de Recursos</h3>
+        <!-- <mat-card-title class="title-solicitud">
           <span>Grupo Empresarial Cima</span>
           <p>Area Administrativa</p>
-        </mat-card-title>
-        <mat-divider></mat-divider>
+        </mat-card-title> -->
+        <!-- <mat-divider></mat-divider> -->
 
-        <mat-card-content>
+        <!-- <mat-card-content>
           <div class="data-form">
             
             <div class="wrap-logo">
@@ -34,7 +34,20 @@
             </div>
           </div>
        
-        </mat-card-content>
+        </mat-card-content> -->
+
+        <div class="wrap-colapsable">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <div class="info-obra">
+              <p>{{obra.nombreObra}}</p>
+            </div> 
+          </mat-expansion-panel>
+        </div>
+
       </div>
     </div>
 

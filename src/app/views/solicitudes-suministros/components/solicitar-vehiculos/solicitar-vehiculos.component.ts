@@ -128,14 +128,11 @@ export class SolicitarVehiculosComponent implements OnInit {
 
   getValidations(){
     this.solicitudForm = new FormGroup({
-      telefonoContacto: new FormControl('', Validators.required),
-      correoElectronico: new FormControl('', [
-        Validators.required,
-        Validators.email
-      ]),
+      telefonoContacto: new FormControl('-', Validators.required),
+      correoElectronico: new FormControl('-'),
       fechaInicialUso: new FormControl(new Date(), Validators.required),
       fechaFinalUso: new FormControl(new Date(), Validators.required),
-      lugar: new FormControl('', Validators.required),
+      lugar: new FormControl('-', Validators.required),
       descripcion: new FormControl(''),
       idServicioInteres: new FormControl(1),
       // observacion: new FormControl(''),

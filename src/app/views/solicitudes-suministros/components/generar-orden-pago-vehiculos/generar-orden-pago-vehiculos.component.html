@@ -8,19 +8,31 @@
 
 <div *ngIf="opcionesPermitidas">
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="solicitud">
+    <h3 class="title-s">Orden de Trabajo de Maquinaria y Equipo</h3>
+    <div class="wrap-colapsable">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-obra"><h2>{{solicitud.obra.noContrato}}</h2></mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="info-obra">
+          <p>{{solicitud.obra.nombreObra}}</p>
+        </div> 
+      </mat-expansion-panel>
+    </div>
+
     <div class="form">
-      <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="title-solicitud">
+        <!-- <mat-card-title class="title-solicitud">
           <h1>Orden de Trabajo para Maquinaria y Equipo</h1>
           <span>Grupo Empresarial Cima</span>
           <p>Area de Transporte y Maquinaria</p>
         </mat-card-title>
-        <mat-divider></mat-divider>
+        <mat-divider></mat-divider> -->
 
         <mat-card-content>
 
-          <div class="data-form">
+          <!-- <div class="data-form">
             <div class="wrap-logo">
               <img class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{solicitud.obra.empresa.imagen}}" alt="empresa">
             </div>
@@ -35,19 +47,14 @@
               <div class="tit">Fecha Generación de Orden:</div>
               <div class="desc">{{fechaHoy | date}}</div>
               <div class="tit">Proveedor de Servicio:</div>
-              <div class="desc">
-                <!-- <mat-form-field class="full-width">
-                  <input matInput name="telefono" formControlName="telefonoContacto">
-                </mat-form-field> -->
-                {{solicitud.telefonoContacto}}
-              </div>
+              <div class="desc">{{solicitud.telefonoContacto}}</div>
               <div class="tit">Periodo uso de equipo:</div>
               <div class="desc">{{solicitud.fechaInicialUso | date}} al {{solicitud.fechaFinalUso | date}}</div>
               <div class="tit">Lugar donde se requiere el servicio:</div>
               <div class="desc">{{solicitud.lugar}}</div>
 
             </div>
-          </div>
+          </div> -->
 
           <div class="mat-box-shadow margin-333 cont-tabla" *ngIf="detallesOrden; else noOrden">
             <div class="wrap-totales">

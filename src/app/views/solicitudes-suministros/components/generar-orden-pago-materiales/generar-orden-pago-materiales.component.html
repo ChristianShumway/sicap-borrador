@@ -8,19 +8,30 @@
 
 <div *ngIf="opcionesPermitidas">
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="solicitud">
+    <h3 class="title-s">Orden de Compra para Materiales y Herramienta</h3>
+    <div class="wrap-colapsable">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-obra"><h2>{{solicitud.obra.noContrato}}</h2></mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="info-obra">
+          <p>{{solicitud.obra.nombreObra}}</p>
+        </div> 
+      </mat-expansion-panel>
+    </div>
     <form [formGroup]="solicitudForm" (submit)="generarOrden()">
-      <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="title-solicitud">
+        <!-- <mat-card-title class="title-solicitud">
           <h1>Orden de Compra para Materiales y Herramienta</h1>
           <span>Grupo Empresarial Cima</span>
           <p>Area de Compras y Almacenes</p>
         </mat-card-title>
-        <mat-divider></mat-divider>
+        <mat-divider></mat-divider> -->
 
         <mat-card-content>
 
-          <div class="data-form">
+          <!-- <div class="data-form">
 
             <div class="wrap-logo">
               <img class="img md mr-1" src="http://{{host}}/{{rutaImg}}/files/{{solicitud.obra.empresa.imagen}}" alt="empresa">
@@ -41,7 +52,7 @@
               <div class="desc"> {{solicitud.lugarRecepcion}} </div>
 
             </div>
-          </div>
+          </div> -->
 
           <div class="fields-form">
             <div class="wrap-descripcion-solicitud">

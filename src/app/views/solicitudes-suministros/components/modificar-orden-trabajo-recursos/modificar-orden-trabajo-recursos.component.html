@@ -8,8 +8,19 @@
 
 <div *ngIf="opcionesPermitidas">
   <mat-card fxLayout="row wrap" class="container-solitud" *ngIf="obra">
-    <form>
-      <!-- <form> -->
+    <h3 class="title-s">Orden de Pago para Recursos</h3>
+    <div class="wrap-colapsable">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
+        </mat-expansion-panel-header>
+        
+        <div class="info-obra">
+          <p>{{obra.nombreObra}}</p>
+        </div> 
+      </mat-expansion-panel>
+    </div>
+    <!-- <form>
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
         <mat-card-title class="title-solicitud">
           <h1>Orden de Pago para Recursos</h1>
@@ -39,7 +50,7 @@
 
         </mat-card-content>
       </div>
-    </form>
+    </form> -->
 
   </mat-card>
 

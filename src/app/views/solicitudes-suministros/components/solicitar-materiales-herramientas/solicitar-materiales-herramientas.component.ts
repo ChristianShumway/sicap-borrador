@@ -117,7 +117,7 @@ export class SolicitarMaterialesHerramientasComponent implements OnInit {
   getValidations(){
     this.solicitudForm = new FormGroup({
       fechaRequiere: new FormControl(new Date(), Validators.required),
-      lugarRecepcion: new FormControl('', Validators.required),
+      lugarRecepcion: new FormControl('-', Validators.required),
       // descripcion: new FormControl(''),
       // observacionesAdicionales: new FormControl('', Validators.required),
     });

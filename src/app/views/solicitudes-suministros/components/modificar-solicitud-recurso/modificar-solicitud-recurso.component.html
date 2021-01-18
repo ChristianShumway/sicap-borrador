@@ -11,7 +11,8 @@
     <div class="form">
       <!-- <form> -->
       <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-        <mat-card-title class="title-solicitud">
+        <h3 class="title-s">Solicitud de Recursos</h3>
+        <!-- <mat-card-title class="title-solicitud">
           <h1>Solicitud de Recursos</h1>
           <span>Grupo Empresarial Cima</span>
           <p>Area Administrativa</p>
@@ -36,7 +37,19 @@
               <div class="desc">{{solicitud.fechaSolicito | date}}</div>
             </div>
           </div>
-        </mat-card-content>
+        </mat-card-content> -->
+
+        <div class="wrap-colapsable">
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title class="title-obra"><h2>{{obra.noContrato}}</h2></mat-panel-title>
+            </mat-expansion-panel-header>
+            
+            <div class="info-obra">
+              <p>{{obra.nombreObra}}</p>
+            </div> 
+          </mat-expansion-panel>
+        </div>
       </div>
     </div>
 
