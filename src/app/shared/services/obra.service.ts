@@ -252,4 +252,8 @@ export class ObraService {
     return this.http.get<Obra[]>(`${environment.apiURL}/obra/getSelectObra`); 
   }
 
+  getObrasByCompanie(ciere: number, activo: number, idempresa: number): Observable<Obra[]> {
+    return this.http.get<Obra[]>(`${environment.apiURL}/obra/getSelectObra/${ciere}/${activo}/${idempresa}`);
+  }
+
 }

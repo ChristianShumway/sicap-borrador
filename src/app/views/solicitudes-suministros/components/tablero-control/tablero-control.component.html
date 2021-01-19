@@ -10,7 +10,7 @@
         <div class="pb-1">
           <mat-form-field class="full-width">
             <mat-label>Empresa</mat-label>
-            <mat-select [(ngModel)]="empresa">
+            <mat-select [(ngModel)]="empresa" (selectionChange)="getObrasByCompanie($event.value)">
               <mat-option value=""></mat-option>
               <mat-option *ngFor="let company of empresas" [value]="company">
                 {{company.descripcion}}
@@ -21,7 +21,7 @@
         <div class="pb-1">
           <mat-form-field class="full-width">
             <mat-label>Obra</mat-label>
-            <mat-select [(ngModel)]="obra" (selectionChange)="getCompanie($event.value)">
+            <mat-select [(ngModel)]="obra">
               <mat-option value=""></mat-option>
               <mat-option *ngFor="let obra of obras" [value]="obra">
                 {{obra.noContrato}} - {{obra.nombreObra}}

@@ -15,6 +15,8 @@ import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-tr
 import { Obra } from 'app/shared/models/obra';
 import { ObraService } from 'app/shared/services/obra.service';
 import { ModalCancelacionComponent } from '../modal-cancelacion/modal-cancelacion.component';
+import { Empresa } from 'app/shared/models/empresa';
+import { EmpresasService } from 'app/shared/services/empresas.service';
 
 @Component({
   selector: 'app-pagos-suministros',
@@ -33,7 +35,7 @@ export class PagosSuministrosComponent implements OnInit {
 
   idUsuarioLogeado: any;
   obras: Obra[] = [];
-  empresas: any[] = [];
+  empresas: Empresa[] = [];
   obra: Obra;
   empresa: any;
   estatus: any;
@@ -72,37 +74,31 @@ export class PagosSuministrosComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private cd: ChangeDetectorRef,
-    private obraService: ObraService
+    private obraService: ObraService,
+    private empresasService: EmpresasService
   ) { }
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getCatalogObra();   
+    this.getCatalogCompanies(); 
   }
 
-  getCatalogObra() {
-    this.obraService.getSelectObras().subscribe(
-      (obras: Obra[]) => {
-        // console.log(obras);
-        this.obras = obras.filter( (obra:Obra) => obra.activo === 1);
-      },
-      error => console.log('error al suscribirme a buscar obras')
+  getCatalogCompanies() {
+    this.empresasService.getAllEmpresasActive().subscribe(
+      empresas => this.empresas = empresas,
+      error => console.log(error)
     );
   }
 
-  getCompanie(obra: Obra) {
-    console.log(obra);
-    this.empresas = [];
-    this.empresa = null;
-    if(obra) {
-      this.obraService.getCompanies(obra.idObra).subscribe(
-        result => {
-          // console.log(result);
-          this.empresas = result.filter( (empresa) => empresa.activo === 1);
-        }, error => console.log(error)
-      );
-    }
-  };
+  getObrasByCompanie(empresa: Empresa) {
+    console.log(empresa);
+    const cierre = 0;
+    const activo = 1;
+    this.obraService.getObrasByCompanie(cierre, activo, empresa.idEmpresa).subscribe(
+      result => this.obras = result,
+      error => console.log(error)
+    );
+  }
   
   getResources(tipoSolicitud){
     this.whoSolicitud = tipoSolicitud;

@@ -14,6 +14,8 @@ import { ModalEliminarComponent } from './../../../ejecucion-proyecto/components
 import { ModalAutorizarOrdenTrabajoComponent } from '../modal-autorizar-orden-trabajo/modal-autorizar-orden-trabajo.component';
 import { Obra } from 'app/shared/models/obra';
 import { ObraService } from 'app/shared/services/obra.service';
+import { Empresa } from 'app/shared/models/empresa';
+import { EmpresasService } from 'app/shared/services/empresas.service';
 
 @Component({
   selector: 'app-tablero-control',
@@ -31,7 +33,7 @@ export class TableroControlComponent implements OnInit {
 
   idUsuarioLogeado: any;
   obras: Obra[] = [];
-  empresas: any[] = [];
+  empresas: Empresa[] = [];
   obra: Obra;
   empresa: any;
   estatus: any;
@@ -74,7 +76,8 @@ export class TableroControlComponent implements OnInit {
     private snackBar: MatSnackBar,
     public dialog: MatDialog,
     private cd: ChangeDetectorRef,
-    private obraService: ObraService
+    private obraService: ObraService,
+    private empresasService: EmpresasService
   ) {
     // this.fechaInicial = new Date();
     // this.fechaInicial.setDate(this.fechaInicial.getDate());  
@@ -82,7 +85,7 @@ export class TableroControlComponent implements OnInit {
 
   ngOnInit() {
     this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getCatalogObra(); 
+    this.getCatalogCompanies();
   }
 
   public onFechaInicial(event): void {
@@ -93,29 +96,22 @@ export class TableroControlComponent implements OnInit {
     this.fechaFinal = event.value;
   }
 
-  getCatalogObra() {
-    this.obraService.getSelectObras().subscribe(
-      (obras: Obra[]) => {
-        // console.log(obras);
-        this.obras = obras.filter( (obra:Obra) => obra.activo === 1);
-      },
-      error => console.log('error al suscribirme a buscar obras')
+  getCatalogCompanies() {
+    this.empresasService.getAllEmpresasActive().subscribe(
+      empresas => this.empresas = empresas,
+      error => console.log(error)
     );
   }
 
-  getCompanie(obra: Obra) {
-    console.log(obra);
-    this.empresas = [];
-    this.empresa = null;
-    if(obra) {
-      this.obraService.getCompanies(obra.idObra).subscribe(
-        result => {
-          // console.log(result);
-          this.empresas = result.filter( (empresa) => empresa.activo === 1);
-        }, error => console.log(error)
-      );
-    }
-  };
+  getObrasByCompanie(empresa: Empresa) {
+    console.log(empresa);
+    const cierre = 0;
+    const activo = 1;
+    this.obraService.getObrasByCompanie(cierre, activo, empresa.idEmpresa).subscribe(
+      result => this.obras = result,
+      error => console.log(error)
+    );
+  }
   
   getResources(tipoSolicitud){
     this.whoSolicitud = tipoSolicitud;
@@ -130,8 +126,8 @@ export class TableroControlComponent implements OnInit {
     this.dataSource.paginator = this.paginatorMaq;
     this.showDownload = false;
 
-    if(!this.obra) {
-      this.useAlerts('Debes seleccionar primero una obra', ' ', 'error-dialog');
+    if(!this.empresa) {
+      this.useAlerts('Debes seleccionar primero una empresa', ' ', 'error-dialog');
     } else {
 
       if(!this.whoSolicitud) {

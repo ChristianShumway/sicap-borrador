@@ -17,6 +17,10 @@ export class EmpresasService {
     return this.http.get<Empresa[]>(`${environment.apiURL}/catalog/getAllCompanies`);
   };
 
+  getAllEmpresasActive(): Observable<Empresa[]> {
+    return this.http.get<Empresa[]>(`${environment.apiURL}/catalog/getSelectCompanies`)
+  }
+
   getEmpresa(idEmpresa: number){
     return this.http.get<Empresa>(`${environment.apiURL}/catalog/getCompanyByID/${idEmpresa}`);
   }
