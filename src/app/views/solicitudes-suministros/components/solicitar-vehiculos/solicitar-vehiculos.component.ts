@@ -25,6 +25,7 @@ import { Usuario } from '../../../../shared/models/usuario';
   templateUrl: './solicitar-vehiculos.component.html',
   styleUrls: ['./solicitar-vehiculos.component.scss']
 })
+
 export class SolicitarVehiculosComponent implements OnInit {
 
   idUsuarioLogeado: any;
@@ -49,6 +50,7 @@ export class SolicitarVehiculosComponent implements OnInit {
   descripcionSolicitud: string;
   tipoServicioSolicitud: string;
   comentariosSolicitud: string;
+  cantidadSolicitud: number = 0;
   countPeticion:number = 0;
   panelOpenState: boolean = false;
 
@@ -120,6 +122,7 @@ export class SolicitarVehiculosComponent implements OnInit {
           this.fechaFinal = new Date(this.solicitudForm.controls['fechaFinalUso'].value);
           this.fechaInicio.setDate(this.fechaInicio.getDate());
           this.fechaFinal.setDate(this.fechaFinal.getDate());
+          this.getCatalogoVehiculos();
         }
       },
       error => this.useAlerts( error.message, ' ', 'success-dialog')
@@ -138,7 +141,6 @@ export class SolicitarVehiculosComponent implements OnInit {
       // observacion: new FormControl(''),
     });
   }
-
 
 
   getCatalogos() {
@@ -175,6 +177,16 @@ export class SolicitarVehiculosComponent implements OnInit {
     }
   }
 
+  getCatalogoVehiculos() {
+    this.solicitudesService.getDataSolicitudVehiculos(this.idObra).subscribe(
+      result => {
+        console.log(result);
+        this.peticionesSolicitadas = result;
+      },
+      error => console.error(error)
+    );
+  }
+
   crearSolicitud(){
     if (this.solicitudForm.valid){
       this.submitButton.disabled = true;
@@ -183,7 +195,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       const nuevaFechaInicio = this.pipe.transform(this.fechaInicio, format);
       const nuevaFechaFin = this.pipe.transform(this.fechaFinal, format);
 
-      let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
+      // let tipoServicioInteres = this.objServiciosInteres.filter(servicio => servicio.id === this.solicitudForm.value.idServicioInteres);
 
       if(!this.peticionesSolicitadas.length){
         this.useAlerts('No has agregado ninguna petición a la solicitud', ' ', 'error-dialog');
@@ -245,6 +257,8 @@ export class SolicitarVehiculosComponent implements OnInit {
         comentario: this.comentariosSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
         categoriaSolicitudMaquinariaEquipo: tipoCategoria,
+        cantidadSolicitada: this.cantidadSolicitud,
+        extraordinario: 1
       };
       
       this.peticionesSolicitadas.push(peticion);
@@ -254,6 +268,7 @@ export class SolicitarVehiculosComponent implements OnInit {
       this.descripcionSolicitud = '';
       this.tipoServicioSolicitud = '';
       this.comentariosSolicitud = '';
+      this.cantidadSolicitud = 0;
       this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
       this.panelOpenState = !this.panelOpenState;
       console.log(this.peticionesSolicitadas);

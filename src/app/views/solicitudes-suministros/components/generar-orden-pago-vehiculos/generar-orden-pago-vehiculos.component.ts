@@ -86,19 +86,23 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
 
   getNewDetails(){
     this.solicitud.detSolicitudMaquinriaEquipo.map( peticion => {
-      const nuevaPeticion = {
-        // ...peticion,
-        categoria: peticion.categoriaSolicitudMaquinariaEquipo.descripcion,
-        descripcion: peticion.descripcion,
-        tipoServicio: peticion.tipoServicio,
-        unidad: '-',
-        cantidad: 0,
-        precioUnitario: 0,
-        importe: 0,
-        idDet: peticion.idDetSolicitudMaquinariaEquipo,
-      };
-
-      this.detallesOrden.push(nuevaPeticion);
+      if(peticion.cantidadSolicitada > 0) {
+        const nuevaPeticion = {
+          // ...peticion,
+          categoria: peticion.categoriaSolicitudMaquinariaEquipo.descripcion,
+          descripcion: peticion.descripcion,
+          tipoServicio: peticion.tipoServicio,
+          unidad: '-',
+          cantidad: peticion.cantidadSolicitada,
+          precioUnitario: 0,
+          importe: 0,
+          idDet: peticion.idDetSolicitudMaquinariaEquipo,
+          comentario: peticion.comentario,
+          extraordinario: peticion.extraordinario
+        };
+  
+        this.detallesOrden.push(nuevaPeticion);
+      }
     });
     // console.log(this.detallesOrden);
     this.getTotales();

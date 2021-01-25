@@ -266,4 +266,8 @@ export class SolicitudesService {
   //   return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getWorkedOrdenById/${tipoSolicitud}/${idOrdenTrabajo}`);
   // }
 
+  getDataSolicitudVehiculos(idObra: number): Observable<any>{
+    return this.http.get<any>(`${environment.apiURL}/requestAndSupplies/getRequestEnginneryEmpty/${idObra}`);
+  }
+
 }

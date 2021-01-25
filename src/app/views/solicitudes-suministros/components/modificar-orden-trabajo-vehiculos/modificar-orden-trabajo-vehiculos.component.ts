@@ -104,7 +104,9 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
             precioUnitario: peticionOrden.precioUnitario,
             unidad: peticionOrden.unidad,
             categoria: peticionSolicitud.categoriaSolicitudMaquinariaEquipo,
-            tipoServicio: peticionSolicitud.tipoServicio
+            tipoServicio: peticionSolicitud.tipoServicio,
+            comentario: peticionSolicitud.comentario,
+            extraordinario: peticionSolicitud.extraordinario
           };
           this.detallesOrden.push(nuevaPeticion);
         }

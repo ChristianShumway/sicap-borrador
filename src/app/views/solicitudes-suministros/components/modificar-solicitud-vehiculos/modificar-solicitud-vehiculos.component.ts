@@ -47,6 +47,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
   descripcionSolicitud: string;
   tipoServicioSolicitud: string;
   comentariosSolicitud: string;
+  cantidadSolicitud: number = 0;
   countPeticion:number = 0;
   panelOpenState: boolean = false;
 
@@ -170,13 +171,16 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
         comentario: this.comentariosSolicitud,
         idUsuarioModifico: this.idUsuarioLogeado,
         categoriaSolicitudMaquinariaEquipo: tipoCategoria,
-        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo
+        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
+        cantidadSolicitada: this.cantidadSolicitud,
+        extraordinario: 1
       };
       
       this.peticionesSolicitadas.push(peticion);
       this.peticionesSolicitadas = [...this.peticionesSolicitadas];
       this.countPeticion += 1;
       this.categoriaPeticion = 0;
+      this.cantidadSolicitud = 0;
       this.descripcionSolicitud = '';
       this.tipoServicioSolicitud = '';
       this.comentariosSolicitud = '';
@@ -270,6 +274,7 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
             }
           },
           error => {
+            console.error(error);
             this.useAlerts(error.message, ' ', 'error-dialog');
             this.submitButton.disabled = false;
           }

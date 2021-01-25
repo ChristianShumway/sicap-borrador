@@ -26,7 +26,7 @@ export class ModalLlenarPeticionComponent implements OnInit {
 
   getValidations(){
     this.peticionForm = new FormGroup({
-      categoria: new FormControl(this.data.peticion.categoria.descripcion),
+      // categoria: new FormControl(this.data.peticion.categoria.descripcion),
       descripcion: new FormControl(this.data.peticion.descripcion),
       tipoServicio: new FormControl(this.data.peticion.tipoServicio),
       unidad: new FormControl(this.data.peticion.unidad, Validators.required),
@@ -51,7 +51,7 @@ export class ModalLlenarPeticionComponent implements OnInit {
         peticion = {
           ...this.data.peticion,
           ...this.peticionForm.value,
-          categoria: this.data.peticion.categoria,
+          // categoria: this.data.peticion.categoria,
           precioUnitario: parseFloat(this.peticionForm.value.precioUnitario),
           importe: parseFloat(this.peticionForm.value.importe),
           // idDet: this.data.peticion.idDet

@@ -76,23 +76,23 @@
 
               <ngx-datatable-column name="No." [flexGrow]="1">
                 <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{ rowIndex + 1 }}
                   </p>
                 </ng-template>
               </ngx-datatable-column>
               
-              <ngx-datatable-column name="Categoría" [flexGrow]="1">
+              <!-- <ngx-datatable-column name="Categoría" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <p class="content-center">
                     {{row?.categoria}} 
                   </p>
                 </ng-template>
-              </ngx-datatable-column>
+              </ngx-datatable-column> -->
 
               <ngx-datatable-column name="Descripción" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.descripcion}} 
                   </p>
                 </ng-template>
@@ -100,15 +100,23 @@
 
               <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
-                    {{row?.tipoServicio}}
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
+                    {{row?.tipoServicio || "-"}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Comentario" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
+                    {{row?.comentario}}
                   </p>
                 </ng-template>
               </ngx-datatable-column>
 
               <ngx-datatable-column name="Unidad" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.unidad}}
                   </p>
                 </ng-template>
@@ -116,7 +124,7 @@
 
               <ngx-datatable-column name="Cantidad" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.cantidad}}
                   </p>
                 </ng-template>
@@ -124,7 +132,7 @@
 
               <ngx-datatable-column name="Precio" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.precioUnitario | transformCurrency}}
                   </p>
                 </ng-template>
@@ -132,7 +140,7 @@
 
               <ngx-datatable-column name="Importe" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.importe | transformCurrency}}
                   </p>
                 </ng-template>
@@ -140,7 +148,7 @@
 
               <ngx-datatable-column name="Acción" [flexGrow]="1">
                 <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
-                  <p class="content-center">
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     <button mat-mini-fab [color]="'btn-delete'" (click)="llenarPeticion(rowIndex, row)">
                       <mat-icon>edit</mat-icon>
                     </button>
