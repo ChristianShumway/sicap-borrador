@@ -77,6 +77,7 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
         const materialModificado = {
           ...material,
           proveedor: '',
+          cantidadSuministrto: 0,
           precio: 0,
           importe: 0
         };
@@ -144,9 +145,10 @@ export class GenerarOrdenPagoMaterialesComponent implements OnInit {
         proveedor: material.proveedor,
         cantidad: material.cantidadSolictada,
         precioUnitario: parseFloat(material.precio),
-        importe: parseFloat(material.importe),
+        importe: parseFloat(material.precio) * material.cantidadSuministrto,
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModifico: hoy,
+        cantidadSuministrto: material.cantidadSuministrto
       }
       
       detOrdenTrabajoMateriales.push(materialOrden);

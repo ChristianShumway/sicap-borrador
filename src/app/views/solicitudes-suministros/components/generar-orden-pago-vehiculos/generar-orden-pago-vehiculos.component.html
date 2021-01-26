@@ -122,10 +122,18 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column name="Cantidad" [flexGrow]="1">
+              <ngx-datatable-column name="Cantidad Solicitada" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
                     {{row?.cantidad}}
+                  </p>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Cantidad a Suministrar" [flexGrow]="1">
+                <ng-template let-row="row" ngx-datatable-cell-template>
+                  <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
+                    {{row?.cantidadSuministrto}}
                   </p>
                 </ng-template>
               </ngx-datatable-column>

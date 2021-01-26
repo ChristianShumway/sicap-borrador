@@ -98,13 +98,14 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
           importe: 0,
           idDet: peticion.idDetSolicitudMaquinariaEquipo,
           comentario: peticion.comentario,
-          extraordinario: peticion.extraordinario
+          extraordinario: peticion.extraordinario,
+          cantidadSuministrto: 0
         };
   
         this.detallesOrden.push(nuevaPeticion);
       }
     });
-    // console.log(this.detallesOrden);
+    console.log(this.detallesOrden);
     this.getTotales();
   }
 
@@ -119,9 +120,9 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        // console.log(result);
-        this.detallesOrden.splice(index, 1);
-        this.detallesOrden.push(result);
+        console.log(result);
+        this.detallesOrden.splice(index, 1, result);
+        // this.detallesOrden.push(result);
         console.log(this.detallesOrden);
         this.detallesOrden = [...this.detallesOrden];
         this.getTotales();
@@ -158,7 +159,8 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
           idUsuarioModfico: this.idUsuarioLogeado,
           unidad: peticion.unidad,
           descripcion: peticion.descripcion,
-          idDetSolicitudMaquinariaEquipo: peticion.idDet
+          idDetSolicitudMaquinariaEquipo: peticion.idDet,
+          cantidadSuministrto: peticion.cantidadSuministrto
         }
 
         detOrdenTrabajo.push(nuevaPeticion);

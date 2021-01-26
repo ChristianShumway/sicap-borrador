@@ -106,7 +106,8 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
             categoria: peticionSolicitud.categoriaSolicitudMaquinariaEquipo,
             tipoServicio: peticionSolicitud.tipoServicio,
             comentario: peticionSolicitud.comentario,
-            extraordinario: peticionSolicitud.extraordinario
+            extraordinario: peticionSolicitud.extraordinario,
+            cantidadSuministrto: peticionOrden.cantidadSuministrto
           };
           this.detallesOrden.push(nuevaPeticion);
         }
@@ -128,8 +129,8 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if(result){
         // console.log(result);
-        this.detallesOrden.splice(index, 1);
-        this.detallesOrden.push(result);
+        this.detallesOrden.splice(index, 1, result);
+        // this.detallesOrden.push(result);
         console.log(this.detallesOrden);
         this.detallesOrden = [...this.detallesOrden];
         this.getTotales();
@@ -169,6 +170,7 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
           importe: peticion.importe,
           precioUnitario: peticion.precioUnitario,
           unidad: peticion.unidad,
+          cantidadSuministrto: peticion.cantidadSuministrto
         };
 
         detOrdenTrabajo.push(nuevaPeticion);

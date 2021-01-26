@@ -23,6 +23,12 @@
 
       <div class="pb-1">
         <mat-form-field class="full-width">
+          <input matInput placeholder="Cantidad Solicitada" name="cantidad" formControlName="cantidad" type="number" readonly>
+        </mat-form-field>
+        </div>
+
+      <div class="pb-1">
+        <mat-form-field class="full-width">
           <input matInput placeholder="Unidad" name="unidad" formControlName="unidad">
         </mat-form-field>
         <div class="validaciones">
@@ -35,12 +41,12 @@
 
       <div class="pb-1">
         <mat-form-field class="full-width">
-          <input matInput placeholder="Cantidad" name="cantidad" formControlName="cantidad" type="number">
+          <input matInput placeholder="Cantidad a Suministrar" name="cantidadSuministrto" formControlName="cantidadSuministrto" type="number" >
         </mat-form-field>
         <div class="validaciones">
-          <small *ngIf="peticionForm.controls['cantidad'].hasError('required') && peticionForm.controls['cantidad'].touched"
+          <small *ngIf="peticionForm.controls['cantidadSuministrto'].hasError('required') && peticionForm.controls['cantidadSuministrto'].touched"
             class="form-error-msg">
-            Cantidad es un campo requerido
+            Cantidad a suministrar es un campo requerido
           </small>
         </div>
       </div>
@@ -57,7 +63,7 @@
         </div>
       </div>
 
-      <div class="pb-1">
+      <!-- <div class="pb-1">
         <mat-form-field class="full-width">
           <input matInput placeholder="Importe" name="importe" formControlName="importe" mask="separator.2" thousandSeparator=",">
         </mat-form-field>
@@ -67,7 +73,7 @@
             Importe es un campo requerido
           </small>
         </div>
-      </div>
+      </div> -->
 
      
       <div class="wrap-button">

@@ -28,9 +28,9 @@
     <p><b>FOLIO:</b> REC{{ordenTrabajo.idSolicitud}} </p>
     <p><b>FECHA SOLICITUD:</b> {{ordenTrabajo.solicitud.fechaSolicito | date}} </p>
     <p ><b>REALIZA OT:</b> {{ordenTrabajo.usuarioElaboro.nombre}} {{ordenTrabajo.usuarioElaboro.apellidoPaterno}} {{ordenTrabajo.usuarioElaboro.apellidoMaterno}} </p>
-    <p *ngIf="ordenTrabajo.idTipo===1"><b>FOLIO:</b> OT REC{{ordenTrabajo.idSolicitud}} - {{ordenTrabajo.idOrdenTrabajoRecurso}}  </p>
-    <p *ngIf="ordenTrabajo.idTipo===2"><b>FOLIO:</b> OT MAT{{ordenTrabajo.idSolicitud}} - {{ordenTrabajo.idOrdenTrabajoMaterial}}  </p>
-    <p *ngIf="ordenTrabajo.idTipo===3"><b>FOLIO:</b> OT MAT{{ordenTrabajo.idSolicitud}} - {{ordenTrabajo.idOrdenTrabajoMaquinariaEquipo}}  </p>
+    <p *ngIf="ordenTrabajo.idTipo===1"><b>FOLIO:</b> OT REC{{ordenTrabajo.folio}} </p>
+    <p *ngIf="ordenTrabajo.idTipo===2"><b>FOLIO:</b> OT {{ordenTrabajo.folio}} </p>
+    <p *ngIf="ordenTrabajo.idTipo===3"><b>FOLIO:</b> OT {{ordenTrabajo.folio}} </p>
     <p><b>FECHA ELABORO:</b> {{ordenTrabajo.fechaElaboro | date}} </p>
     <!-- <p *ngIf="ordenTrabajo.idTipo===2"><b>LUGAR DONDE SE ENTREGA:</b> {{ordenTrabajo.solicitud.lugarRecepcion}}  </p>
     <p *ngIf="ordenTrabajo.idTipo===2"><b>FECHA EN LA QUE SE REQUIERE:</b> {{ordenTrabajo.solicitud.fechaRequiere | date}}  </p>
@@ -86,7 +86,7 @@
       <div class="material totales">
         <div></div>
         <div></div>
-        <div>Totales</div>
+        <div><b>Totales</b></div>
         <div>{{totalSolicitadoConFactura | transformCurrency}}</div>
         <div>{{totalSolicitadoSinFactura | transformCurrency}}</div>
         <div>{{totalValidadoConFactura | transformCurrency}}</div>
@@ -104,18 +104,30 @@
         <div class="tit-col">Descripción Material</div>
         <div class="tit-col">Proveedor</div>
         <div class="tit-col">Unidad</div>
-        <div class="tit-col">Cantidad</div>
+        <div class="tit-col">Cantidad Solicitada</div>
+        <div class="tit-col">Cantidad Suministrada</div>
         <div class="tit-col">Precio</div>
         <div class="tit-col">Importe</div>
       </div>
       <div class="cmaterial" *ngFor="let material of detallesOrdenTrabajoMateriales; let i = index">
-        <div class="desc">{{i+1}}</div>
-        <div class="desc">{{material.descripcion}}</div>
-        <div class="desc">{{material.proveedor}}</div>
-        <div class="desc">{{material.unidad}}</div>
-        <div class="desc">{{material.cantidad}}</div>
-        <div class="desc">{{material.precioUnitario | transformCurrency}}</div>
-        <div class="desc">{{material.importe | transformCurrency}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{i+1}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.descripcion}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.proveedor}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.unidad}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.cantidad}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.cantidadSuministrto}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.precioUnitario | transformCurrency}}</div>
+        <div class="desc" *ngIf="material.cantidadSuministrto > 0">{{material.importe | transformCurrency}}</div>
+      </div>
+      <div class="cmaterial totales">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div><b>Total Importe</b></div>
+        <div>{{totalImporteMateriales | transformCurrency}}</div>
       </div>
     </div>
   </div>
@@ -129,19 +141,32 @@
         <div class="tit-col">Descripción</div>
         <div class="tit-col">Tipo de Servicio</div>
         <div class="tit-col">Unidad</div>
-        <div class="tit-col">Cantidad</div>
+        <div class="tit-col">Cantidad Solicitada</div>
+        <div class="tit-col">Cantidad Suministrada</div>
         <div class="tit-col">Precio</div>
         <div class="tit-col">Importe</div>
       </div>
       <div class="mmaterial" *ngFor="let peticion of detallesOrdenTrabajoVehiculos; let i = index">
         <div class="desc">{{i+1}}</div>
-        <div class="desc categoria">{{peticion.categoria.descripcion}}</div>
+        <div class="desc categoria">{{peticion.categoria.descripcion || "-"}}</div>
         <div class="desc">{{peticion.descripcion}}</div>
-        <div class="desc">{{peticion.tipoServicio}}</div>
+        <div class="desc">{{peticion.tipoServicio || "-"}}</div>
         <div class="desc">{{peticion.unidad}}</div>
         <div class="desc">{{peticion.cantidad}}</div>
+        <div class="desc">{{peticion.cantidadSuministrto}}</div>
         <div class="desc">{{peticion.precioUnitario | transformCurrency}}</div>
         <div class="desc">{{peticion.importe | transformCurrency}}</div>
+      </div>
+      <div class="mmaterial totales">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div><b>Total Importe</b></div>
+        <div>{{totalImporteMaquinaria | transformCurrency}}</div>
       </div>
     </div>
   </div>

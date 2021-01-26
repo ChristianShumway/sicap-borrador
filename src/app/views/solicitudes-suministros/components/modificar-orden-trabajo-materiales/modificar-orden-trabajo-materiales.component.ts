@@ -118,7 +118,7 @@ export class ModificarOrdenTrabajoMaterialesComponent implements OnInit {
         ...material,
         proveedor: material.proveedor,
         precioUnitario: parseFloat(material.precioUnitario),
-        importe: parseFloat(material.importe),
+        importe: parseFloat(material.precioUnitario) * material.cantidadSuministrto,
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModifico: hoy,
       }
@@ -139,6 +139,7 @@ export class ModificarOrdenTrabajoMaterialesComponent implements OnInit {
     }
 
     console.log(ordenTrabajo);
+    console.log(JSON.stringify(ordenTrabajo));
 
     this.solicitudesService.updateOrdenTrabajoMateriales(ordenTrabajo).subscribe(
       response => {

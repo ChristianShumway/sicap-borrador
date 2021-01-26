@@ -24,6 +24,8 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
   totalSolicitadoConFactura:number = 0;
   totalValidadoSinFactura:number = 0;
   totalValidadoConFactura:number = 0;
+  totalImporteMateriales:number = 0;
+  totalImporteMaquinaria: number = 0;
 
   constructor(
     public dialogRef: MatDialogRef<ModalAutorizarOrdenTrabajoComponent>,
@@ -77,14 +79,25 @@ export class ModalAutorizarOrdenTrabajoComponent implements OnInit {
           })
         } else if(this.ordenTrabajo.idTipo === 2){
           this.detallesOrdenTrabajoMateriales = this.ordenTrabajo.detOrdentrabajoMaterial;
-          // console.log(this.detallesOrdenTrabajoMateriales);
+          this.ordenTrabajo.detOrdentrabajoMaterial.map( material => {
+            // debugger;
+            if(material.cantidadSuministrto > 0) {
+              // this.detallesOrdenTrabajoMateriales.push(material);
+              this.totalImporteMateriales += material.importe;
+            }
+          })
+          console.log(this.detallesOrdenTrabajoMateriales);
         } else if( this.ordenTrabajo.idTipo === 3) {
           // this.detallesOrdenTrabajoVehiculos = this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo;
           this.ordenTrabajo.detOrdenTrabajoMaquinariaEquipo.map( peticionOrden => {
+            if(peticionOrden.cantidadSuministrto > 0) {
+              this.totalImporteMaquinaria += peticionOrden.importe;
+            }
             this.ordenTrabajo.solicitud.detSolicitudMaquinriaEquipo.map( peticionSolicitud => {
-              if (peticionOrden.idDetSolicitudMaquinariaEquipo === peticionSolicitud.idDetSolicitudMaquinariaEquipo){
+              if (peticionOrden.idDetSolicitudMaquinariaEquipo === peticionSolicitud.idDetSolicitudMaquinariaEquipo && peticionOrden.cantidadSuministrto > 0){
                 const nuevaPeticion = {
                   cantidad: peticionOrden.cantidad,
+                  cantidadSuministrto: peticionOrden.cantidadSuministrto,
                   descripcion: peticionSolicitud.descripcion,
                   idDetOrdenTrabajoMaquinariaEquipo: peticionOrden.idDetOrdenTrabajoMaquinariaEquipo,
                   idDetSolicitudMaquinariaEquipo: peticionSolicitud.idDetSolicitudMaquinariaEquipo,
