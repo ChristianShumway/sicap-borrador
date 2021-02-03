@@ -122,6 +122,26 @@
   }
 }
 
+.cantidad-seleccionada{
+  display: block;
+  position: relative;
+  flex: auto;
+  min-width: 0;
+  width: auto !important;
+  height: 73px;
+  align-items: unset;
+  justify-content: center;
+  display: flex;
+}
+
+.cantidad-seleccionada input{
+  text-align: center;
+  width: auto;
+  width: 80%;
+  margin: 0 auto;
+  display: block;
+}
+
 .wrap-detalles-orden{
   width: 100%;
   margin: 10px 0 0;

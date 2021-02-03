@@ -19,6 +19,7 @@ import { Empresa } from '../../../../shared/models/empresa';
 import { SolicitudVehiculo } from './../../.././../shared/models/solicitud';
 import { Cliente } from './../../../../shared/models/cliente';
 import { ModalEliminarComponent } from '../../../ejecucion-proyecto/components/modal-eliminar/modal-eliminar.component';
+import { ListaMaquinariaEquipoService } from './../../../../shared/services/lista-maquinaria-equipo.service';
 
 @Component({
   selector: 'app-modificar-solicitud-vehiculos',
@@ -44,12 +45,20 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
   peticionesSolicitadas: any[];
   listaCategoriasPeticion: any[] = [];
   categoriaPeticion: number;
-  descripcionSolicitud: string;
   tipoServicioSolicitud: string;
   comentariosSolicitud: string;
-  cantidadSolicitud: number = 0;
   countPeticion:number = 0;
   panelOpenState: boolean = false;
+  idArchivoObra;
+
+  // NUEVOS CAMPOS EXTRAORDINARIO
+  noVehiculoSolicitud;
+  descripcionSolicitud: string;
+  claveSolicitud;
+  placasSolicitud;
+  cantidadSolicitud: number = 0;
+  unidadSolicitud;
+  precioUnitarioSolicitud;
 
   nombreComponente = 'solicitudes-suministros-obras';
   tooltip = 'solicitud-materiales';
@@ -70,7 +79,8 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
     private snackBar: MatSnackBar,
     private solicitudesService: SolicitudesService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private listaMaquinariaEquipoService: ListaMaquinariaEquipoService
   ) { }
 
   ngOnInit() {
@@ -85,6 +95,8 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
         this.solicitud = solicitud;
         this.observacionesAdicionales = solicitud.observacion;
         this.peticionesSolicitadas = solicitud.detSolicitudMaquinriaEquipo;
+        this.idArchivoObra = solicitud.detSolicitudMaquinriaEquipo[0].idArchivoObra;
+        console.log(this.idArchivoObra);
         this.validateAccessValidation();
       },
       error => this.useAlerts( error.message, ' ', 'error-dialog')
@@ -155,38 +167,87 @@ export class ModificarSolicitudVehiculosComponent implements OnInit {
   }
 
   agregarPeticion(){
-    if(!this.categoriaPeticion){
-      this.useAlerts('Selecciona el tipo de categoría de la petición', ' ', 'error-dialog');
-    } else if (!this.descripcionSolicitud){
-      this.useAlerts('Ingresa la descripción de la petición', ' ', 'error-dialog');
-    } else if (!this.tipoServicioSolicitud){
-      this.useAlerts('Ingresa el tipo de servicio  para esta petición', ' ', 'error-dialog');
+    if (!this.descripcionSolicitud){
+      this.useAlerts('Ingresa la descripción del equipo extraordinario', ' ', 'error-dialog');
+    } else if (!this.noVehiculoSolicitud){
+      this.useAlerts('Ingresa el no. del equipo extraordinadio', ' ', 'error-dialog');
+    } else if (!this.claveSolicitud){
+      this.useAlerts('Ingresa la clave del equipo extraordinadio', ' ', 'error-dialog');
+    } else if (!this.placasSolicitud){
+      this.useAlerts('Ingresa las placas del equipo extraordinadio', ' ', 'error-dialog');
+    } else if (!this.cantidadSolicitud){
+      this.useAlerts('Ingresa la cantidad de equipo extraordinadio', ' ', 'error-dialog');
+    } else if (!this.unidadSolicitud){
+      this.useAlerts('Ingresa la unidad del equpo extraordinadio', ' ', 'error-dialog');
+    } else if (!this.precioUnitarioSolicitud){
+      this.useAlerts('Ingresa el precio unitario del equipo extraordinadio', ' ', 'error-dialog');
     } else {  
-      let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudMaquinariaEquipo === this.categoriaPeticion);
-      tipoCategoria = tipoCategoria[0];
+      // let tipoCategoria = this.listaCategoriasPeticion.filter( categoria => categoria.idCategoriaSolicitudMaquinariaEquipo === this.categoriaPeticion);
+      // tipoCategoria = tipoCategoria[0];
       const peticion: any = {
-        idCategoriaSolicitudMaquinariaEquipo: this.categoriaPeticion,
+        cantidad: this.cantidadSolicitud,
+        clave: this.claveSolicitud,
         descripcion: this.descripcionSolicitud,
-        tipoServicio: this.tipoServicioSolicitud,
-        comentario: this.comentariosSolicitud,
-        idUsuarioModifico: this.idUsuarioLogeado,
-        categoriaSolicitudMaquinariaEquipo: tipoCategoria,
-        idSolicitudMaquinariaEquipo: this.solicitud.idSolicitudMaquinariaEquipo,
-        cantidadSolicitada: this.cantidadSolicitud,
-        extraordinario: 1
+        extraordinario: 1,
+        id: 0,
+        idArchivoObra: this.idArchivoObra,
+        importe: this.cantidadSolicitud * parseFloat(this.precioUnitarioSolicitud),    
+        linea: '',
+        marca: '',
+        modelo: '',
+        noVehiculo: parseInt(this.noVehiculoSolicitud),
+        placas: this.placasSolicitud,
+        precioUnitario: parseFloat(this.precioUnitarioSolicitud),
+        responsable: '',
+        tipoVehiculo: '',
+        unidad: this.unidadSolicitud
+        // idDetSolicitudRecurso: this.countPeticion + 1,
+        // idCategoriaSolicitudMaquinariaEquipo: this.categoriaPeticion,
+        // descripcion: this.descripcionSolicitud,
+        // tipoServicio: this.tipoServicioSolicitud,
+        // comentario: this.comentariosSolicitud,
+        // idUsuarioModifico: this.idUsuarioLogeado,
+        // categoriaSolicitudMaquinariaEquipo: tipoCategoria,
+        // cantidadSolicitada: this.cantidadSolicitud,
+        // extraordinario: 1
       };
+
+      console.log(peticion);
+
+      // this.listaMaquinariaEquipoService.createConceptoExtraordinario(peticion).subscribe(
+      //   result => {
+      //     console.log(result);
+      //     if(result.estatus === '05'){
+      //       this.useAlerts(result.mensaje, '', 'success-dialog');
+      //       this.noVehiculoSolicitud = '';
+      //       this.descripcionSolicitud = '';
+      //       this.claveSolicitud = '';
+      //       this.placasSolicitud = '';
+      //       this.cantidadSolicitud = 0;
+      //       this.unidadSolicitud = '';
+      //       this.precioUnitarioSolicitud = '';
+      //       this.panelOpenState = !this.panelOpenState;
+      //       this.getCatalogos();
+      //     } else {
+      //       this.useAlerts(result.mensaje, '', 'error-dialog');
+      //     }
+      //   },
+      //   error => {
+      //     console.log(error);
+      //     this.useAlerts(error.message, '', 'success-dialog');
+      //   }
+      // );
       
-      this.peticionesSolicitadas.push(peticion);
-      this.peticionesSolicitadas = [...this.peticionesSolicitadas];
-      this.countPeticion += 1;
-      this.categoriaPeticion = 0;
-      this.cantidadSolicitud = 0;
-      this.descripcionSolicitud = '';
-      this.tipoServicioSolicitud = '';
-      this.comentariosSolicitud = '';
-      this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
-      this.panelOpenState = !this.panelOpenState;
-      console.log(this.peticionesSolicitadas);
+      // this.peticionesSolicitadas.push(peticion);
+      // this.peticionesSolicitadas = [...this.peticionesSolicitadas];
+      // this.countPeticion += 1;
+      // this.categoriaPeticion = 0;
+      // this.descripcionSolicitud = '';
+      // this.tipoServicioSolicitud = '';
+      // this.comentariosSolicitud = '';
+      // this.cantidadSolicitud = 0;
+      // this.useAlerts('Petición agregada correctamente', ' ', 'success-dialog');
+      // console.log(this.peticionesSolicitadas);
     }
   }
 

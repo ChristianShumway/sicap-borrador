@@ -137,10 +137,10 @@
     <div class="col-solicitud">
       <div class="mmaterial titulo">
         <div class="tit-col">No.</div>
-        <div class="tit-col">Categoría</div>
+        <!-- <div class="tit-col">Categoría</div> -->
         <div class="tit-col">Descripción</div>
-        <div class="tit-col">Tipo de Servicio</div>
-        <div class="tit-col">Unidad</div>
+        <!-- <div class="tit-col">Tipo de Servicio</div> -->
+        <!-- <div class="tit-col">Unidad</div> -->
         <div class="tit-col">Cantidad Solicitada</div>
         <div class="tit-col">Cantidad Suministrada</div>
         <div class="tit-col">Precio</div>
@@ -148,19 +148,19 @@
       </div>
       <div class="mmaterial" *ngFor="let peticion of detallesOrdenTrabajoVehiculos; let i = index">
         <div class="desc">{{i+1}}</div>
-        <div class="desc categoria">{{peticion.categoria.descripcion || "-"}}</div>
+        <!-- <div class="desc categoria">{{peticion.categoria.descripcion || "-"}}</div> -->
         <div class="desc">{{peticion.descripcion}}</div>
-        <div class="desc">{{peticion.tipoServicio || "-"}}</div>
-        <div class="desc">{{peticion.unidad}}</div>
+        <!-- <div class="desc">{{peticion.tipoServicio || "-"}}</div> -->
+        <!-- <div class="desc">{{peticion.unidad}}</div> -->
         <div class="desc">{{peticion.cantidad}}</div>
         <div class="desc">{{peticion.cantidadSuministrto}}</div>
         <div class="desc">{{peticion.precioUnitario | transformCurrency}}</div>
         <div class="desc">{{peticion.importe | transformCurrency}}</div>
       </div>
       <div class="mmaterial totales">
-        <div></div>
-        <div></div>
-        <div></div>
+        <!-- <div></div> -->
+        <!-- <div></div> -->
+        <!-- <div></div> -->
         <div></div>
         <div></div>
         <div></div>

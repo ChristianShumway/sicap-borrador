@@ -94,7 +94,7 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
           tipoServicio: peticion.tipoServicio,
           unidad: '-',
           cantidad: peticion.cantidadSolicitada,
-          precioUnitario: 0,
+          precioUnitario: peticion.precioUnitario,
           importe: 0,
           idDet: peticion.idDetSolicitudMaquinariaEquipo,
           comentario: peticion.comentario,
@@ -135,8 +135,9 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
     this.totalImporte = 0;
     this.totalPrecio = 0;
     this.detallesOrden.map( (orden) => {
-      this.totalImporte += orden.importe; 
-      this.totalPrecio += orden.precioUnitario;
+      // console.log(parseFloat(orden.precioUnitario));
+      this.totalImporte += (parseFloat(orden.precioUnitario) * orden.cantidadSuministrto); 
+      this.totalPrecio += parseFloat(orden.precioUnitario);
     });
   }
 
@@ -154,8 +155,8 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
           idVehiculo: 1,
           idObra: this.solicitud.idObra,
           cantidad: peticion.cantidad,
-          precioUnitario: peticion.precioUnitario,
-          importe: peticion.importe,
+          precioUnitario: parseFloat(peticion.precioUnitario),
+          importe: parseFloat(peticion.precioUnitario) * peticion.cantidadSuministrto,
           idUsuarioModfico: this.idUsuarioLogeado,
           unidad: peticion.unidad,
           descripcion: peticion.descripcion,
@@ -173,9 +174,9 @@ export class GenerarOrdenPagoVehiculosComponent implements OnInit {
         idUsuarioModifico: this.idUsuarioLogeado,
         fechaModicio: hoy,
         detOrdenTrabajoMaquinariaEquipo: detOrdenTrabajo,
-        observaciones: "dasads update",
+        observaciones: this.observacionOrden,
         idSolicitud: this.solicitud.idSolicitudMaquinariaEquipo,
-        serieFolio: "MAQ",
+        serieFolio: this.solicitud.folio,
         observacion: this.observacionOrden,
       };
 

@@ -143,8 +143,10 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
     this.totalImporte = 0;
     this.totalPrecio = 0;
     this.detallesOrden.map( (orden) => {
-      this.totalImporte += orden.importe; 
-      this.totalPrecio += orden.precioUnitario;
+      // this.totalImporte += orden.importe; 
+      // this.totalPrecio += orden.precioUnitario;
+      this.totalImporte += (parseFloat(orden.precioUnitario) * orden.cantidadSuministrto); 
+      this.totalPrecio += parseFloat(orden.precioUnitario);
     });
   }
 
@@ -167,8 +169,8 @@ export class ModificarOrdenTrabajoVehiculosComponent implements OnInit {
           idOrdenTrabajoMaquinariaEquipo: peticion.idOrdenTrabajoMaquinariaEquipo,
           idUsuarioModfico: this.idUsuarioLogeado,
           idVehiculo: 1,
-          importe: peticion.importe,
-          precioUnitario: peticion.precioUnitario,
+          importe: parseFloat(peticion.precioUnitario) * peticion.cantidadSuministrto,
+          precioUnitario:parseFloat(peticion.precioUnitario),
           unidad: peticion.unidad,
           cantidadSuministrto: peticion.cantidadSuministrto
         };

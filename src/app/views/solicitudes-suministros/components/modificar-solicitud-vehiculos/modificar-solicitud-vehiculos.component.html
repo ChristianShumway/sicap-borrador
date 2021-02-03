@@ -106,11 +106,11 @@
         
         <mat-expansion-panel-header>
           <mat-panel-title class="title-peticion">
-            Agregar Vehículo
+            Agregar Extraordinario
           </mat-panel-title>
         </mat-expansion-panel-header>
       
-        <div class="pb-1">
+        <!-- <div class="pb-1">
           <mat-form-field class="full-width">
             <mat-label>Categoría</mat-label>
             <mat-select required [(ngModel)]="categoriaPeticion">
@@ -143,11 +143,54 @@
           <mat-form-field class="full-width">
             <textarea matInput placeholder="Comentarios"  [(ngModel)]="comentariosSolicitud"></textarea>
           </mat-form-field>
+        </div> -->
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="No. Vehículo"  [(ngModel)]="noVehiculoSolicitud">
+          </mat-form-field>
+        </div>
+  
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Descripción"  [(ngModel)]="descripcionSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Clave"  [(ngModel)]="claveSolicitud">
+          </mat-form-field>
+        </div>
+
+        
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Placas"  [(ngModel)]="placasSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput type="number" placeholder="Cantidad" [(ngModel)]="cantidadSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="Unidad"  [(ngModel)]="unidadSolicitud">
+          </mat-form-field>
+        </div>
+
+        <div class="pb-1">
+          <mat-form-field class="full-width">
+            <input matInput placeholder="precio Unitario"  [(ngModel)]="precioUnitarioSolicitud" mask="separator.2" thousandSeparator=",">
+          </mat-form-field>
         </div>
 
 
         <div class="cont-btns">
-          <button mat-raised-button color="primary" (click)="agregarPeticion()" class="btn-accept">Agregar Petición</button>
+          <button mat-raised-button color="primary" (click)="agregarPeticion()" class="btn-accept">Agregar Extraordinario</button>
         </div>
       
       </mat-expansion-panel>
@@ -185,10 +228,18 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1">
+      <!-- <ngx-datatable-column name="Tipo de Servicio" [flexGrow]="1">
         <ng-template let-row="row" ngx-datatable-cell-template>
           <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
             {{row?.tipoServicio || "-"}}
+          </p>
+        </ng-template>
+      </ngx-datatable-column> -->
+
+      <ngx-datatable-column name="Precio Unitario" [flexGrow]="1">
+        <ng-template let-row="row" ngx-datatable-cell-template>
+          <p class="content-center" [ngStyle]="{'color':row?.extraordinario === 0 ? 'black' : 'green'}">
+            {{row?.precioUnitario | transformCurrency}}
           </p>
         </ng-template>
       </ngx-datatable-column>
@@ -213,7 +264,7 @@
         </ng-template>
       </ngx-datatable-column>
 
-      <ngx-datatable-column name="Acción" [flexGrow]="1">
+      <!-- <ngx-datatable-column name="Acción" [flexGrow]="1">
         <ng-template let-row="row" let-rowIndex="rowIndex" ngx-datatable-cell-template>
           <p class="content-center">
             <button mat-mini-fab [color]="'btn-delete'" (click)="eliminarObservacion(rowIndex, row?.idDetSolicitudMaquinariaEquipo)" *ngIf="row.extraordinario !== 0">
@@ -224,7 +275,7 @@
             </button>
           </p>
         </ng-template>
-      </ngx-datatable-column>
+      </ngx-datatable-column> -->
 
     </ngx-datatable>
 
