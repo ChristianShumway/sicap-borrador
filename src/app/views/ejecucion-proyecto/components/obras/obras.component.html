@@ -178,11 +178,11 @@
               (click) = "exportarReporte(obra.idObra, 'maquinaria-equipo')">
               Exportar Reportes</button>
 
-              <button 
+              <!-- <button 
               *ngIf="accesoBitacora && option==='reporte-ingresos-egresos' && obra.cierre === 0" 
               mat-menu-item 
               [routerLink]="['/ejecucion-proyecto/reporte-ingresos-egresos', obra.idObra]">
-              Nuevo Reporte</button>
+              Nuevo Reporte</button> -->
 
               <button 
               *ngIf="option==='reporte-ingresos-egresos'" 

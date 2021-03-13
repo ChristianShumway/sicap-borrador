@@ -1,16 +1,9 @@
-import { Component, OnInit, ElementRef, ChangeDetectionStrategy } from '@angular/core';
-import { ActivatedRoute, Params, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Component, OnInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { DatePipe } from '@angular/common';
-import {MatSnackBar} from '@angular/material/snack-bar';
-
-import { AutenticacionService } from './../../../../shared/services/autenticacion.service';
-import { ReporteIngresosEgresosService } from '../../../../shared/services/reporte-ingresos-egresos.service';
-import { ObraService } from 'app/shared/services/obra.service';
-
-import { Obra } from './../../../../shared/models/obra';
-import { ReporteIngresosEgresos } from '../../../../shared/models/reporte-ingresos-egresos';
+import { MatBottomSheetRef, MAT_BOTTOM_SHEET_DATA } from '@angular/material/bottom-sheet';
+import { ReporteIngresosEgresosService } from 'app/shared/services/reporte-ingresos-egresos.service';
+import { ReporteIngresosEgresos } from 'app/shared/models/reporte-ingresos-egresos';
 
 @Component({
   selector: 'app-reporte-ingresos-egresos',
@@ -19,34 +12,22 @@ import { ReporteIngresosEgresos } from '../../../../shared/models/reporte-ingres
 })
 export class ReporteIngresosEgresosComponent implements OnInit {
 
-  private obraObs$: Observable<Obra>;
-  idUsuarioLogeado;
-  obra: Obra;
-  idObra;
   fecha = new Date();
   fechaCaptura;
   pipe = new DatePipe('en-US');
   reporteForm: FormGroup;
-  permisoAcceso: boolean = false;
   catalogoReferencias: any[];
-  catalogoTipoMovimientos: any[];
-  catalogoCategorias: any[];
-
-  public searchElementRef: ElementRef;
 
   constructor(
-    private activatedRoute: ActivatedRoute,
-    private router: Router,
-    private autenticacionService: AutenticacionService,
-    private obraService: ObraService,
+    private bottomSheetRef: MatBottomSheetRef<ReporteIngresosEgresosComponent>,
+    @Inject(MAT_BOTTOM_SHEET_DATA) public data: any,
     private reporteIngresosEgresosService: ReporteIngresosEgresosService,
-    private snackBar: MatSnackBar,
 
   ) { }
 
   ngOnInit() {
-    this.idUsuarioLogeado = this.autenticacionService.currentUserValue;
-    this.getObra();
+    console.log(this.data);
+    this.getCatalogs();
     this.getValidations();
     this.fechaCaptura = new Date(this.reporteForm.controls['fecha'].value);
     this.fechaCaptura.setDate(this.fechaCaptura.getDate());
@@ -58,8 +39,8 @@ export class ReporteIngresosEgresosComponent implements OnInit {
       descripcion: new FormControl('', Validators.required),
       idReferencia: new FormControl('', Validators.required),
       monto: new FormControl('', Validators.required),
-      idTipoMovimientoMonetario: new FormControl('', Validators.required),
-      idCategoriaMovimientoMonetario: new FormControl('', Validators.required),
+      idTipoMovimientoMonetario: new FormControl(this.data.idTipoMovimiento, Validators.required),
+      idCategoriaMovimientoMonetario: new FormControl(this.data.idCategoria, Validators.required),
     })
   }
 
@@ -67,108 +48,31 @@ export class ReporteIngresosEgresosComponent implements OnInit {
     this.fechaCaptura = event.value;
   }
 
-  getObra() {
-    this.activatedRoute.params.subscribe((data: Params) => {
-      if (data) {
-        this.idObra = data.id;
-        this.obraService.getObraObservable(this.idObra);
-        this.obraObs$ = this.obraService.getDataObra();
-
-        this.obraService.getObra(this.idObra).subscribe(
-          (obra: Obra) => this.obra = obra,
-          error => console.log(error)
-        );
-        
-        this.obraService.getDataObra().subscribe(data => {
-          if (data !== null) {
-            this.validateAccessObra(data.supervisor);
-          }
-        });
-        // this.getCatalogs();
-      }
-    })
-  }
-
-  validateAccessObra(supervisores) {
-    let idSupervisores = [];
-    supervisores.map(supervisor => {
-      idSupervisores.push(supervisor.idUsuario);
-    });
-    const idExistente = idSupervisores.find(id => id === this.idUsuarioLogeado);
-    if (!idExistente) {
-      this.permisoAcceso = false;
-    } else {
-      this.permisoAcceso = true;
-      this.getCatalogs();
-    }
-  }
-
   getCatalogs(){
-    this.activatedRoute.params.subscribe((data: Params) => {
-      if (data) {
-        this.idObra = data.id;
-        this.reporteIngresosEgresosService.getCatalogoReferencia().subscribe(
-          referencias => this.catalogoReferencias = referencias,
-          error => console.log(error)
-        );
-        this.reporteIngresosEgresosService.getCatalogoTipo().subscribe(
-          tipos => this.catalogoTipoMovimientos = tipos,
-          error => console.log(error)
-        );
-        // this.reporteIngresosEgresosService.getCatalogoCategoria().subscribe(
-        //   categorias => this.catalogoCategorias = categorias,
-        //   error => console.log(error)
-        // );
-      
-      }
-    });
-  }
-
-  getCategories(idTipoMovimiento) {
-    console.log(idTipoMovimiento);
-    this.reporteIngresosEgresosService.getCatalogoCategoria(idTipoMovimiento).subscribe(
-      categorias => this.catalogoCategorias = categorias,
+    this.reporteIngresosEgresosService.getCatalogoReferencia().subscribe(
+      referencias => this.catalogoReferencias = referencias,
       error => console.log(error)
     );
   }
 
 
  
-  reportarAvance() {
+  registrarMovimiento() {
     if (this.reporteForm.valid) {
       const format = 'yyyy/MM/dd';
       const nuevaFechaCaptura = this.pipe.transform(this.fechaCaptura, format);
 
-      const reporte: ReporteIngresosEgresos = {
+      const movimiento: ReporteIngresosEgresos = {
         ...this.reporteForm.value,
-        idObra: parseInt(this.idObra),
+        idObra: parseInt(this.data.idObra),
         fecha: nuevaFechaCaptura,
         monto: parseFloat(this.reporteForm.value.monto),
-        idUsuarioModifico: this.idUsuarioLogeado,
+        idUsuarioModifico: this.data.idUsuarioLogeado,
       };
-      console.log(reporte);
+      // console.log(movimiento);
 
-      this.reporteIngresosEgresosService.addReport(reporte).subscribe(
-        response => {
-          if(response.estatus === '05'){
-            this.router.navigate(['/ejecucion-proyecto/proyectos/reporte-ingresos-egresos']);
-            this.useAlerts(response.mensaje, ' ', 'success-dialog');
-          } else {
-            this.useAlerts(response.mensaje, ' ', 'error-dialog');
-          }
-        },
-        error => this.useAlerts(error.message, ' ', 'error-dialog')
-      );
+      this.bottomSheetRef.dismiss(movimiento);
     }
-  }
-
-  useAlerts(message, action, className){
-    this.snackBar.open(message, action, {
-      duration: 3000,
-      verticalPosition: 'bottom',
-      horizontalPosition: 'right',
-      panelClass: [className]
-    });
   }
 
 }

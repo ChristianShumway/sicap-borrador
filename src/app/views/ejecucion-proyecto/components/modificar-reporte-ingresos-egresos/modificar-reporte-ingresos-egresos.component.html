@@ -1,22 +1,13 @@
-<div fxLayout="row wrap" *ngIf="!(obraObs$ | async) as obra">
-  <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100">
-    <div class="wrap-spiner">
-      <mat-spinner></mat-spinner>
-    </div>
-  </div>
-</div>
-
-<div fxLayout="row wrap" *ngIf="(obraObs$ | async) as obra">
-  <form [formGroup]="reporteForm" (submit)="reportarAvance()" *ngIf="opcionesPermitidas">
+<div fxLayout="row wrap">
+  <form [formGroup]="reporteForm" (submit)="modificarMovimiento()">
     <div fxFlex="100" fxFlex.gt-md="100" fxFlex.gt-sm="100" class="container-obra">
       <mat-card class="user-card p-0">
-        <mat-card-title class="info-obra">
-          <h1>{{obra.noContrato}}</h1>
-          <p>{{obra.nombreObra}}</p>
-        </mat-card-title>
+
+
+
         <mat-card-content>
           <div class="info-bitacora">
-  
+
             <div class="pb-1">
               <mat-form-field class="full-width">
                 <input matInput [matDatepicker]="fechaCaptura" formControlName="fecha" name="date" placeholder="Fecha de Captura" (dateChange)="onFechaInicio($event)">
@@ -24,90 +15,56 @@
                 <mat-datepicker #fechaCaptura (selectedChange)="onFechaInicio($event)"></mat-datepicker>
               </mat-form-field>
               <div class="validaciones">
-                <small *ngIf="reporteForm.controls['fecha'].hasError('required') && reporteForm.controls['fecha'].touched"
-                  class="form-error-msg">
+                <small *ngIf="reporteForm.controls['fecha'].hasError('required') && reporteForm.controls['fecha'].touched" class="form-error-msg">
                   Fecha de captura es un campo requerido
                 </small>
               </div>
             </div>
-  
+
             <div class="pb-1">
               <mat-form-field class="full-width">
                 <textarea matInput placeholder="Descripción" formControlName="descripcion"></textarea>
               </mat-form-field>
               <div class="validaciones">
-                  <small *ngIf="reporteForm.controls['descripcion'].hasError('required') && reporteForm.controls['descripcion'].touched"
-                    class="form-error-msg">
-                    Fecha de captura es un campo requerido
-                  </small>
-                </div>
+                <small *ngIf="reporteForm.controls['descripcion'].hasError('required') && reporteForm.controls['descripcion'].touched" class="form-error-msg">
+                  Fecha de captura es un campo requerido
+                </small>
+              </div>
             </div>
-  
+
             <div class="pb-1">
               <mat-form-field class="full-width">
                 <mat-label>Referencia</mat-label>
-                <mat-select formControlName="idReferencia"  required>
+                <mat-select formControlName="idReferencia" required>
                   <mat-option *ngFor="let referencia of catalogoReferencias" [value]="referencia.idReferencia">
                     {{referencia.descripcion}}
                   </mat-option>
                 </mat-select>
               </mat-form-field>
               <div class="validaciones">
-                <small *ngIf="reporteForm.controls['idReferencia'].hasError('required') && reporteForm.controls['idReferencia'].touched" class="form-error-msg">
+                <small *ngIf="reporteForm.controls['idReferencia'].hasError('required') && reporteForm.controls['idReferencia'].touched"
+                  class="form-error-msg">
                   Referencia es un campo requerido
                 </small>
               </div>
             </div>
-  
+
             <div class="pb-1">
               <mat-form-field class="full-width">
-                <input matInput  name="monto" formControlName="monto" placeholder="Monto" mask="separator.2" thousandSeparator=",">
+                <input matInput name="monto" formControlName="monto" placeholder="Monto" mask="separator.2" thousandSeparator=",">
               </mat-form-field>
               <div class="validaciones">
-                <small *ngIf="reporteForm.controls['monto'].hasError('required') && reporteForm.controls['monto'].touched"
-                  class="form-error-msg">
+                <small *ngIf="reporteForm.controls['monto'].hasError('required') && reporteForm.controls['monto'].touched" class="form-error-msg">
                   Monto es un campo requerido
                 </small>
               </div>
             </div>
-  
-            <div class="pb-1">
-              <mat-form-field class="full-width">
-                <mat-label>Tipo Movimiento</mat-label>
-                <mat-select formControlName="idTipoMovimientoMonetario" (selectionChange)= "getCategories($event.value)"  required>
-                  <mat-option *ngFor="let tipo of catalogoTipoMovimientos" [value]="tipo.idTipoMovimientoMonetario">
-                    {{tipo.descripcion}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div class="validaciones">
-                <small *ngIf="reporteForm.controls['idTipoMovimientoMonetario'].hasError('required') && reporteForm.controls['idTipoMovimientoMonetario'].touched" class="form-error-msg">
-                  Tipo de movimiento es un campo requerido
-                </small>
-              </div>
-            </div>
-  
-            <div class="pb-1">
-              <mat-form-field class="full-width">
-                <mat-label>Categoria</mat-label>
-                <mat-select formControlName="idCategoriaMovimientoMonetario"  required>
-                  <mat-option *ngFor="let categoria of catalogoCategorias" [value]="categoria.idCategoriaMovimientoMonetario">
-                    {{categoria.descripcion}}
-                  </mat-option>
-                </mat-select>
-              </mat-form-field>
-              <div class="validaciones">
-                <small *ngIf="reporteForm.controls['idCategoriaMovimientoMonetario'].hasError('required') && reporteForm.controls['idCategoriaMovimientoMonetario'].touched" class="form-error-msg">
-                  Categoria es un campo requerido
-                </small>
-              </div>
-            </div>
-  
+
           </div>
-    
+
           <div class="wrap-button">
-            <button  mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept" *ngIf="obra.cierre===0">Modificar</button>
-            <button mat-raised-button [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Cancelar</button>
+            <button mat-raised-button color="primary" [disabled]="reporteForm.invalid" type="submit" class="btn-accept">Modificar</button>
+            <button mat-raised-button type="button" (click)="cancel()">Cancelar</button>
           </div>
         </mat-card-content>
       </mat-card>

@@ -1,9 +1,113 @@
-<div class="container-gral" *ngIf="permisoAcceso">
-  <div class="wrap-button" *ngIf="obra">
+<div class="container-gral" *ngIf="permisoAcceso && obra">
+  <!-- <div class="wrap-button" *ngIf="obra">
+    <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Regresar</button>
+  </div> -->
+
+  <div class="wrap-button">
     <button mat-raised-button color="primary" [routerLink]="'/ejecucion-proyecto/proyectos/reporte-ingresos-egresos'">Regresar</button>
   </div>
 
-   <div  *ngIf="(obs$ | async) as reportes">
+  <mat-accordion *ngIf="!loadTipoMovimientos">
+    
+    <mat-expansion-panel 
+    *ngFor = "let movimiento of tipoMovimientos" 
+    (click)="expandPannelMovimientos(movimiento.expanded, movimiento.idTipoMovimientoMonetario)" 
+    >
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          {{movimiento.descripcion}}
+        </mat-panel-title>   
+      </mat-expansion-panel-header>
+
+      <!-- ACORDION CATEGORIA -->
+      <mat-accordion *ngIf="!loadCategorias">
+        <mat-expansion-panel 
+        *ngFor = "let categoria of categoriasMovimiento" 
+        (click)="expandPanelCategorias(categoria.expanded, categoria.idCategoriaMovimientoMonetario)" 
+        ngDefaultControl>
+          <mat-expansion-panel-header>
+            <mat-panel-title>
+              {{categoria.descripcion}}
+            </mat-panel-title>  
+          </mat-expansion-panel-header>
+          <div class="container-movimientos" *ngIf="!loadMovimientos">
+            <div class="wrap-movimientos">
+              <div class="total">
+                Total: {{montoTotal | transformCurrency}}
+              </div>
+              <div class="wrap-scrollable">
+                <div class="row title" [style.background] = "categoria.color">
+                  <div class="item">No.</div>
+                  <div class="item">Fecha</div>
+                  <div class="item">Descripción</div>
+                  <div class="item">Referencia</div>
+                  <div class="item">Ingreso</div>
+                  <div class="item">Egreso</div>
+                  <div class="item">Acciones</div>
+                </div>
+                <div class="cont-info" *ngIf="!noMovimientos">
+                  <div class="row info" *ngFor = "let movimiento of movimientosCategoria; index as i">
+                    <div class="item">{{i + 1}}</div>
+                    <div class="item">{{movimiento.fecha | date}}</div>
+                    <div class="item">{{movimiento.descripcion}}</div>
+                    <div class="item">{{movimiento.referencia.descripcion}}</div>
+                    <div class="item">{{movimiento.ingreso | transformCurrency}}</div>
+                    <div class="item">{{movimiento.egreso | transformCurrency}}</div>
+                    <div class="item buttons" *ngIf="obra.cierre === 0">
+                      <div id="modificar-reporte" #myIdM>
+                        <button mat-icon-button color="accent" (click)="openBottomEdit(movimiento)" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)">
+                          <mat-icon>edit</mat-icon>
+                        </button>
+                      </div>
+                      <div id="eliminar-reporte" #myIdE>
+                        <button mat-icon-button [color]="'delete'" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)" (click) = "openDialoAlertDelete(movimiento)">
+                          <mat-icon>delete</mat-icon>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="cont-info" *ngIf="noMovimientos">
+                  <p class="alert-no-data">no hay movimientos registrados aún en esta categoría</p>
+                </div>
+                <div class="cont-add" *ngIf="obra.cierre === 0">
+                  <button mat-mini-fab color="primary" (click)="openBottomAdd(movimiento.idTipoMovimientoMonetario, categoria.idCategoriaMovimientoMonetario)"><mat-icon>add</mat-icon></button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="loadMovimientos">
+            <div class="wrap-loading-catalog">
+              <mat-spinner [diameter]="60" ></mat-spinner>
+            </div>
+          </div>
+
+        </mat-expansion-panel>
+      </mat-accordion>
+       <!-- END ACORDION CATEGORIA -->
+
+      <div *ngIf="loadCategorias">
+        <div class="wrap-loading-catalog">
+          <mat-spinner [diameter]="60" ></mat-spinner>
+        </div>
+      </div>
+      
+    </mat-expansion-panel>
+    
+  </mat-accordion>
+
+  <div *ngIf="loadTipoMovimientos">
+    <div class="wrap-loading-catalog">
+      <mat-spinner [diameter]="60" ></mat-spinner>
+    </div>
+  </div>
+
+
+
+  
+
+   <!-- <div  *ngIf="(obs$ | async) as reportes">
     
     <ng-container *ngIf="reportes.length; else loading">
       
@@ -78,12 +182,12 @@
             <ng-template let-row="row" ngx-datatable-cell-template>
               <div  class="content-center buttons-report">
                 <div id="modificar-reporte" #myIdM>
-                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id) && obra.cierre===0" routerLink="modificar-reporte-ingresos-egresos/{{row?.idMovimientoMonetario}}" > 
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdM?.id)" routerLink="modificar-reporte-ingresos-egresos/{{row?.idMovimientoMonetario}}" > 
                     <mat-icon>edit</mat-icon> 
                   </button>
                 </div>
                 <div id="eliminar-reporte" #myIdE>
-                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id) && obra.cierre===0" (click)="openDialoAlertDelete(row)" >
+                  <button mat-icon-button color="accent" *ngIf="permisosEspecialesPermitidos.includes(myIdE?.id)" (click)="openDialoAlertDelete(row)" >
                     <mat-icon>delete_sweep</mat-icon>
                   </button>
                 </div>
@@ -103,61 +207,12 @@
         </div>
       </div>
     </ng-template>
-  </div> 
+  </div>  -->
 
+</div>
 
-  <!-- <mat-card class="wrap-catalog">
-    <div class="example-container mat-elevation-z8">
-      <table mat-table [dataSource]="dataSourceNew" multiTemplateDataRows class="mat-elevation-z8" matSort>
-        
-        <ng-container matColumnDef="no">
-          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> No. </mat-header-cell>
-          <mat-cell *matCellDef="let reporte" class="center-table"> 
-            <span class="mobile-label">No:</span>
-            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.no}} </span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="fecha">
-          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Fecha </mat-header-cell>
-          <mat-cell *matCellDef="let reporte" class="center-table"> 
-            <span class="mobile-label">Fecha:</span>
-            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.fecha | date}} </span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="descripcion">
-          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Descripción </mat-header-cell>
-          <mat-cell *matCellDef="let reporte" class="center-table"> 
-            <span class="mobile-label">Descripción:</span>
-            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.descripcion}} </span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="referencia">
-          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Referencia </mat-header-cell>
-          <mat-cell *matCellDef="let reporte" class="center-table"> 
-            <span class="mobile-label">Referencia:</span>
-            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.referencia.descripcion}} </span>
-          </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="monto">
-          <mat-header-cell *matHeaderCellDef class="center-table" mat-sort-header> Monto </mat-header-cell>
-          <mat-cell *matCellDef="let reporte" class="center-table"> 
-            <span class="mobile-label">Monto:</span>
-            <span *ngIf="reporte.tipoMovimiento.descripcion === 'Costos de Obra'"> {{reporte.monto | transformCurrency}} </span>
-          </mat-cell>
-        </ng-container>
-  
-      
-
-        <mat-header-row *matHeaderRowDef="columnsToDisplay; sticky: true"></mat-header-row>
-        <mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"></mat-row>
-        <mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row show-row" ></mat-row>
-      </table>
-    </div>
-    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-  </mat-card> -->
-
+<div *ngIf="loadTipoMovimientos">
+  <div class="wrap-loading-catalog">
+    <mat-spinner [diameter]="60" ></mat-spinner>
+  </div>
 </div>

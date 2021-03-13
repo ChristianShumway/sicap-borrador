@@ -115,7 +115,9 @@ export let options: Partial<IConfig> | (() => Partial<IConfig>);
     ModalEliminarComponent,
     SubirEvidenciasComponent,
     ObservacionValidacionConceptoComponent,
-    BitacoraObraComponent
+    BitacoraObraComponent,
+    ModificarReporteIngresosEgresosComponent,
+    ReporteIngresosEgresosComponent
   ]
 })
 export class EjecucionProyectoModule { }

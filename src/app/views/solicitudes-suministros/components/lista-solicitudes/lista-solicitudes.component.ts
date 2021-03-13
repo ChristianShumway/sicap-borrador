@@ -96,7 +96,10 @@ export class ListaSolicitudesComponent implements OnInit {
 
   getCatalogCompanies() {
     this.empresasService.getAllEmpresasActive().subscribe(
-      empresas => this.empresas = empresas,
+      empresas => {
+        console.log(empresas);
+        this.empresas = empresas;
+      },
       error => console.log(error)
     );
   }

@@ -22,12 +22,18 @@ export class ReporteIngresosEgresosService {
   }
 
   getCatalogoCategoria(tipoMovimiento:number): Observable<any[]>{
-    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getCategory/${tipoMovimiento}`);
+    return this.http.get<ReporteIngresosEgresos[]>(`${environment.apiURL}/projectExecution/getCategory/${tipoMovimiento}`);
   }
 
   getReportsByObra(id: number): Observable<ReporteIngresosEgresos[]>{
     return this.http.get<ReporteIngresosEgresos[]>(`${environment.apiURL}/projectExecution/getMovementMonetaryByObra/${id}`);
   }
+
+  getMovimientosPorCategoria(idObra:number, idCategoria: number): Observable<any[]> {
+    return this.http.get<any[]>(`${environment.apiURL}/projectExecution/getMovementMonetaryByObra/${idObra}/${idCategoria}`)
+  }
+
+
 
   addReport(report): Observable<any>{
     const headerss = new HttpHeaders({'Content-Type': 'application/json'});
