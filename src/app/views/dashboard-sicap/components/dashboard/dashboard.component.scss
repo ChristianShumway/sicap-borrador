@@ -1,0 +1,174 @@
+.section-dashboard {
+  width: 100%;
+  // border: 1px solid red;
+  height: 90vh;
+  padding: 10px;
+  position: relative;
+  .wrapper-info-obras {
+    .container-info-obra {
+      display: grid;
+      grid-template-columns: 1fr minmax(200px, auto);
+      grid-gap: 10px;
+      align-items: center;
+      .data-obra {
+        .row-1 {
+          display: grid;
+          grid-template-columns: minmax(150px, 25%) 1fr;
+          grid-gap: 10px;
+          margin-bottom: 15px;
+          .logo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;        
+            .img {
+              display: inline-block;
+              padding: 8px;
+              border-radius: 50%;
+              margin-bottom: 8px;
+              box-shadow: 0px 2px 1px -1px rgba(0, 0, 0,  0.2), 0px 1px 1px 0px rgba(0, 0,0,  0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+              img {
+                vertical-align: bottom;
+                max-width: 60px;
+                height: 60px;
+                object-fit: cover;
+              }
+            }
+            p {
+              margin: 0;
+              text-transform: uppercase;
+              font-size: 14px;
+              color: dimgray;
+              font-weight: 500;
+              text-align: center;
+            }
+          }
+          .info {
+            p {
+              margin: 0;
+            }
+            .is-title {
+              color: #4caf50;
+              font-size: 20px;
+            }
+            .is-subtitle {
+              color: dimgray;
+              font-size: 14px;
+              margin-bottom: 6px;
+            }
+            .is-parraf {
+              font-size: 14px;
+              color:gray;
+              display: flex;
+              align-items: flex-end;
+               b {
+                 margin: 0 10px 0 3px;
+               }
+               span {
+                 &::after {
+                   content: ',';
+                   margin-right: 10px;
+                 }
+                 &:last-child {
+                   &::after {
+                     content: '';
+                   }
+                 }
+               }
+            }
+          }
+        }
+        .row-2 {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+          place-items: center;
+          gap: 5px;
+          .item {
+            display: flex;
+            place-items: center;
+            flex-direction: column;
+            &.money {
+              color: #4caf50;
+            }
+            &.place {
+              color: deepskyblue;
+            }
+            &.date-start {
+              color: orange;
+            }
+            &.date-finish {
+              color: dodgerblue;
+            }
+            span {
+              color: dimgray;
+            }
+          }
+        }
+      }
+      .time-obra {
+        // display: flex;
+        // align-items: center;
+        p {
+          text-align: center;
+          margin: 0;
+        }
+      }
+    }
+  }
+ 
+  .mat-icon { 
+    &.arrow {
+      position: fixed;
+      font-size: 40px;
+      height: 40px;
+      width: 40px;
+      cursor: pointer;
+      color: #4caf50;
+      opacity: 1;
+      &.inactive {
+        opacity: .3;
+        cursor: initial;
+      }
+      &.back {
+        bottom: 50%;
+      }
+      &.next {
+        right: 15px;
+        bottom: 50%;
+      }
+    }
+  }
+
+  .wrapper-bullets {
+    display: flex;
+    justify-content: center;
+    position: fixed;
+    bottom: 35px;
+    left: 50%;
+    // transform: translate(-50%, 0);
+    .item-bullet {
+      width: 20px;
+      height: 20px;
+      background-color: #4caf50;
+      opacity: .3;
+      border-radius: 50%;
+      margin-right: 10px;
+      cursor: pointer;
+      &.active {
+        opacity: 1;
+        cursor: initial;
+      }
+      &:last-child {
+        margin-right: 0;
+      }
+    }
+  }
+
+  .wrapper-loading {
+    width: 100%;
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

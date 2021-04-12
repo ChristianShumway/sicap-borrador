@@ -1,0 +1,75 @@
+<div class="section-dashboard">
+  
+  <div class="wrapper-info-obras" *ngIf="dataObras.length > 0">
+    <mat-card class="container-info-obra">
+      <div class="data-obra">
+        <div class="row-1">
+          <div class="logo">
+            <div class="img">
+              <img src="http://{{host}}/{{rutaImg}}/files/{{obraActual.empresa.imagen}}" alt="nombre epresa" />
+            </div>
+            <p>{{obraActual.empresa.nombre}}</p>
+          </div>
+          <div class="info">
+            <p class="is-title">{{obraActual.noContrato}}</p>
+            <p class="is-subtitle">{{ (obraActual.nombreObra.length > 200) ? (obraActual.nombreObra | slice:0:200)+'...':(obraActual.nombreObra) }}</p>
+            <p class="is-parraf"><mat-icon>person</mat-icon> <b> Cliente:</b>  {{obraActual.cliente.nombre}}</p>
+            <p class="is-parraf">
+              <mat-icon>person</mat-icon> 
+              <b> Supervisor(es):</b> 
+              <span *ngFor="let supervisor of obraActual.supervisor" >{{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}</span> 
+            </p>
+          </div>
+        </div>
+        <div class="row-2">
+          <div class="item money">
+            <mat-icon>attach_money</mat-icon>
+            <span>{{obraActual.presupuestoTotal | transformCurrency}}</span>
+          </div>
+          <div class="item place">
+            <mat-icon>place</mat-icon>
+            <span>{{obraActual.lugarTrabajo}}</span>
+          </div>
+          <div class="item date-start">
+            <!-- <mat-icon>favorite</mat-icon> -->
+            <mat-icon>wb_sunny</mat-icon>
+            <span>{{obraActual.fechaInicio | date}}</span>
+          </div>
+          <div class="item date-finish">
+            <!-- <mat-icon>insert_invitation</mat-icon> -->
+            <mat-icon>bedtime</mat-icon>
+            <span>{{obraActual.fechaFin | date}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="time-obra">
+        <!-- <p style="text-align:center">Días restantes</p> -->
+        <div
+          echarts
+          [options]="graficaTiempo"
+          [autoResize]="true"
+          style="height: 200px;"
+        ></div>
+        <p>Duración Total: {{obraActual.plazoEjecucion}} días</p>
+      </div>
+    </mat-card>
+  </div>
+
+  
+
+  <mat-icon class="arrow back" [ngClass] = "{ 'inactive': idPosicionObraActual <= 1 || loadingData}" (click)="idPosicionObraActual > 1 && moveObra('back')">arrow_back_ios</mat-icon>
+  <mat-icon class="arrow next" [ngClass] = "{ 'inactive': idPosicionObraActual >= dataObras.length || loadingData}" (click)="idPosicionObraActual < dataObras.length && moveObra('next')">arrow_forward_ios</mat-icon>
+
+  <div class="wrapper-bullets" *ngIf="dataObras.length > 0">
+    <div  
+    class="item-bullet"  
+    [ngClass] = "{'active': obraActual.idObra === obra.idObra}"
+    *ngFor="let obra of dataObras; index as i" (click)="obraActual.idObra !== obra.idObra && showObraBullet(i+1)">
+    </div>
+  </div>
+
+  <div class="wrapper-loading" *ngIf="loadingData">
+    <mat-spinner [diameter]="60"></mat-spinner>
+  </div>
+  
+</div>
