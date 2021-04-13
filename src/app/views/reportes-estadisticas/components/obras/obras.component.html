@@ -15,7 +15,7 @@
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
 
-            <a *ngIf="obra && option==='resumen-subcontrato'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
+            <a *ngIf="obra && option==='reporte-subcontrato'" class="toolbar-avatar md mr-1" [routerLink]="['/reportes-estadisticas/reporte-subcontrato', obra.idObra]">
               <img src="http://{{host}}/{{rutaImg}}/files/{{obra.empresa.imagen}}" alt="">
             </a>
 
@@ -38,9 +38,9 @@
               <button *ngIf="option==='control-avance-semanal'" mat-menu-item [routerLink]="['/reportes-estadisticas/control-avance-semanal', obra.idObra]">
                 Ver Reporte
               </button>
-              <button *ngIf="option==='resumen-subcontrato'" mat-menu-item [routerLink]="['/reportes-estadisticas/resumen-subcontrato', obra.idObra]">
+              <a *ngIf="option==='reporte-subcontrato'" mat-menu-item [routerLink]="['/reportes-estadisticas/reporte-subcontrato', obra.idObra]">
                 Ver Reporte
-              </button>
+              </a>
               <button *ngIf="option==='estado-cuenta-obra'" mat-menu-item [routerLink]="['/reportes-estadisticas/estado-cuenta-obra', obra.idObra]">
                 Ver Reporte
               </button>

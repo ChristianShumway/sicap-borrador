@@ -21,9 +21,9 @@ const routes: Routes = [
         data: {title: 'Control de Avance Semanal', breadcrumb: 'Control de Avance Semanal'}
       },
       {
-        path: 'resumen-subcontrato/:idObra',
+        path: 'reporte-subcontrato/:idObra',
         component: ResumenSubcontratoComponent,
-        data: {title: 'Resumen de Subcontrato', breadcrumb: 'Resumen de Subcontrato'}
+        data: {title: 'Resumen de Subcontrato', breadcrumb: 'Reporte de Subcontrato'}
       },
       {
         path: 'estado-cuenta-obra/:idObra',
