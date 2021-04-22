@@ -2,9 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { DashboardService } from 'app/shared/services/dashboard.service';
 import { egretAnimations } from "app/shared/animations/egret-animations";
 import { ThemeService } from "app/shared/services/theme.service";
+import { ReportesEstadisticasService } from 'app/shared/services/reportes-estadisticas.service';
 import tinyColor from 'tinycolor2';
 import { environment } from './../../../../../environments/environment';
-
 
 @Component({
   selector: 'app-dashboard',
@@ -20,12 +20,17 @@ export class DashboardComponent implements OnInit {
   public loadingData: boolean = true;
   host: string;
   rutaImg: string;
+  dataAvanceObra: any[] = [];
   graficaTiempo: any;
+  avanceProgramado: any;
+  avanceEjecutado: any;
+  avanceValidado: any;
 
 
   constructor(
     private dashboardService: DashboardService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    private reportesEstadisticasService: ReportesEstadisticasService
   ) { }
 
   ngOnInit() {
@@ -38,7 +43,7 @@ export class DashboardComponent implements OnInit {
     this.dashboardService.getDataObras().subscribe(
       result => {
         this.dataObras = result;
-        console.log(this.dataObras);
+        // console.log(this.dataObras);
         this.getObraShow();
         this.loadingData = false;
       },
@@ -53,6 +58,7 @@ export class DashboardComponent implements OnInit {
     this.obraActual = this.dataObras[this.idPosicionObraActual-1];
     console.log(this.obraActual);
     this.initGraficaTiempo();
+    this.getGraficasAvance();
   }
 
   moveObra(option) {
@@ -61,16 +67,50 @@ export class DashboardComponent implements OnInit {
     } else if(option === 'next') {
       this.idPosicionObraActual = this.idPosicionObraActual + 1; 
     }
-    // console.log(this.idPosicionObraActual);
     this.getObraShow();
   }
 
   showObraBullet(num) {
-    // console.log(num);
     this.idPosicionObraActual = num;
     this.getObraShow();
   }
 
+  getGraficasAvance() {
+    this.reportesEstadisticasService.getGraficasAvanceDashboard(this.obraActual.idObra).subscribe(
+      result => {
+        let dataSemanas = [];
+        let dataAvanceProgramado = [];
+        let dataAvanceEjecutado = [];
+        let dataAvanceValidado = [];
+
+        this.dataAvanceObra = result;
+        console.log(this.dataAvanceObra);
+
+        this.dataAvanceObra.map( (semana, i) => {
+          let porcentajeP = (semana.programado * 100);
+          let porcentajeE = (semana.ejecutado * 100);
+          let porcentajeV = (semana.validado * 100);
+
+          dataSemanas.push(String(i+1));
+          dataAvanceProgramado.push(porcentajeP.toFixed(2));
+          dataAvanceEjecutado.push(porcentajeE.toFixed(2));
+          dataAvanceValidado.push(porcentajeV.toFixed(2));
+        });
+        // console.log(dataAvanceProgramado);
+        // console.log(dataSemanas);
+        this.graficaAvanceProgramado(dataSemanas, dataAvanceProgramado);
+        this.graficaAvanceEjecutado(dataSemanas, dataAvanceEjecutado);
+        this.graficaAvanceValidado(dataSemanas, dataAvanceValidado);
+      },
+      error => {
+        console.error(error);
+        console.error('no cargo el servicio de las graficas de avance');
+      }
+    );
+  }
+
+
+  // GRÁFICA DEL TIEMPO TRANSCURRIDO DE LA OBRA
   initGraficaTiempo() {
     let diasRestantes, diasTranscurridos;
 
@@ -94,8 +134,8 @@ export class DashboardComponent implements OnInit {
         containLabel: true
       },
       color: [
-        tinyColor('#7367f0').setAlpha(.6).toString(),
-        tinyColor('#7367f0').setAlpha(.7).toString(),
+        tinyColor('#c62828').setAlpha(.6).toString(),
+        tinyColor('#4caf50').setAlpha(.7).toString(),
         tinyColor('#7367f0').setAlpha(.8).toString()
       ],
       tooltip: {
@@ -180,5 +220,236 @@ export class DashboardComponent implements OnInit {
       ]
     };
   }
+
+
+
+  // GRÁFICA PROGRAMADO DE OBRA
+  graficaAvanceProgramado(semanas, cantidades) {
+    this.avanceProgramado = {
+      tooltip: {
+        trigger: "axis",
+
+        axisPointer: {
+          animation: true
+        }
+      },
+      grid: {
+        left: "0",
+        top: "0",
+        right: "0",
+        bottom: "0"
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: semanas,
+        axisLabel: { show: true},
+        axisLine: { lineStyle: { show: false } },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      yAxis: {
+        type: "value",
+        min: 0,
+        max: 100,
+        interval: 'auto',
+        axisLabel: { show: false },
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      series: [
+        {
+          name: "Programado % ",
+          type: "line",
+          smooth: false,
+          data: cantidades,
+          symbolSize: 8,
+          showSymbol: false,
+          lineStyle: {
+            opacity: 0,
+            width: 0
+          },
+          itemStyle: {
+            borderColor: "rgba(233, 31, 99, 0.4)"
+          },
+          areaStyle: {
+            normal: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: tinyColor('#03a9f4').toString()
+                  },
+                  {
+                    offset: 1,
+                    color: tinyColor('#03a9f4').setAlpha(.6).toString()
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    };
+  }
+
+  // GRÁFICA EJECUTADO DE OBRA
+  graficaAvanceEjecutado(semanas, cantidades) {
+    this.avanceEjecutado = {
+      tooltip: {
+        trigger: "axis",
+
+        axisPointer: {
+          animation: true
+        }
+      },
+      grid: {
+        left: "0",
+        top: "0",
+        right: "0",
+        bottom: "0"
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: semanas,
+        axisLabel: { show: true},
+        axisLine: { lineStyle: { show: false } },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      yAxis: {
+        type: "value",
+        min: 0,
+        max: 100,
+        interval: 50,
+        axisLabel: { show: false },
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      series: [
+        {
+          name: "Ejecutado % ",
+          type: "line",
+          smooth: false,
+          data: cantidades,
+          symbolSize: 8,
+          showSymbol: false,
+          lineStyle: {
+            opacity: 0,
+            width: 0
+          },
+          itemStyle: {
+            borderColor: "rgba(233, 31, 99, 0.4)"
+          },
+          areaStyle: {
+            normal: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: tinyColor('#f98c84').toString()
+                  },
+                  {
+                    offset: 1,
+                    color: tinyColor('#f98c84').setAlpha(.6).toString()
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    };
+  }
+
+   // GRÁFICA VALIDADO DE OBRA
+   graficaAvanceValidado(semanas, cantidades) {
+    this.avanceValidado = {
+      tooltip: {
+        trigger: "axis",
+
+        axisPointer: {
+          animation: true
+        }
+      },
+      grid: {
+        left: "0",
+        top: "0",
+        right: "0",
+        bottom: "0"
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: false,
+        data: semanas,
+        axisLabel: { show: true},
+        axisLine: { lineStyle: { show: false } },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      yAxis: {
+        type: "value",
+        min: 0,
+        max: 100,
+        interval: 50,
+        axisLabel: { show: false },
+        axisLine: { show: false },
+        axisTick: { show: false },
+        splitLine: { show: false }
+      },
+      series: [
+        {
+          name: "Validado % ",
+          type: "line",
+          smooth: false,
+          data: cantidades,
+          symbolSize: 8,
+          showSymbol: false,
+          lineStyle: {
+            opacity: 0,
+            width: 0
+          },
+          itemStyle: {
+            borderColor: "rgba(233, 31, 99, 0.4)"
+          },
+          areaStyle: {
+            normal: {
+              color: {
+                type: "linear",
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  {
+                    offset: 0,
+                    color: tinyColor('#3b3d46').toString()
+                  },
+                  {
+                    offset: 1,
+                    color: tinyColor('#3b3d46').setAlpha(.6).toString()
+                  }
+                ]
+              }
+            }
+          }
+        }
+      ]
+    };
+  }
+
 
 }

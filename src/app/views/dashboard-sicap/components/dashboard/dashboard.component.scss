@@ -7,112 +7,68 @@
   .wrapper-info-obras {
     .container-info-obra {
       display: grid;
-      grid-template-columns: 1fr minmax(200px, auto);
-      grid-gap: 10px;
-      align-items: center;
-      .data-obra {
-        .row-1 {
-          display: grid;
-          grid-template-columns: minmax(150px, 25%) 1fr;
-          grid-gap: 10px;
-          margin-bottom: 15px;
-          .logo {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;        
-            .img {
-              display: inline-block;
-              padding: 8px;
-              border-radius: 50%;
-              margin-bottom: 8px;
-              box-shadow: 0px 2px 1px -1px rgba(0, 0, 0,  0.2), 0px 1px 1px 0px rgba(0, 0,0,  0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-              img {
-                vertical-align: bottom;
-                max-width: 60px;
-                height: 60px;
-                object-fit: cover;
-              }
-            }
-            p {
-              margin: 0;
-              text-transform: uppercase;
-              font-size: 14px;
-              color: dimgray;
-              font-weight: 500;
-              text-align: center;
-            }
-          }
-          .info {
-            p {
-              margin: 0;
-            }
-            .is-title {
-              color: #4caf50;
-              font-size: 20px;
-            }
-            .is-subtitle {
-              color: dimgray;
-              font-size: 14px;
-              margin-bottom: 6px;
-            }
-            .is-parraf {
-              font-size: 14px;
-              color:gray;
-              display: flex;
-              align-items: flex-end;
-               b {
-                 margin: 0 10px 0 3px;
-               }
-               span {
-                 &::after {
-                   content: ',';
-                   margin-right: 10px;
-                 }
-                 &:last-child {
-                   &::after {
-                     content: '';
-                   }
-                 }
-               }
-            }
+      grid-template-columns: 1.5fr 3fr 1fr;
+      align-items: flex-start;
+      grid-gap: 16px;
+      .logo-obra {
+        text-align: center;
+        .img {
+          display: inline-block;
+          margin-bottom: 10px;
+          img {
+            vertical-align: bottom;
+            width: 100px;
           }
         }
-        .row-2 {
-          display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
-          place-items: center;
-          gap: 5px;
-          .item {
+        .no-obra {
+          color: #4caf50;
+          font-size: 20px;
+        }
+        .descripcion-obra {
+          text-align: justify;
+          margin: 0;
+        }
+      }
+      .info-obra {
+        display: grid;
+        padding: 10px 10px 0 10px;
+        align-self: end;
+        .is-parraf {
+          display: flex;
+          align-items: center;
+          justify-content: end;
+          margin: 0 0 10px 0;
+          font-size: 14px;
+          &:last-child {
+            margin: 0;
+          }
+          .mat-icon {
+            margin-right: 3px;
+          }
+          b {
+            margin-right: 10px;
+          }
+          .is-sup {
             display: flex;
-            place-items: center;
             flex-direction: column;
-            &.money {
-              color: #4caf50;
-            }
-            &.place {
-              color: deepskyblue;
-            }
-            &.date-start {
-              color: orange;
-            }
-            &.date-finish {
-              color: dodgerblue;
-            }
             span {
-              color: dimgray;
+              &::before {
+                content: '-';
+                margin-right: 5px;
+              }
             }
           }
         }
       }
       .time-obra {
-        // display: flex;
-        // align-items: center;
-        p {
-          text-align: center;
-          margin: 0;
-        }
+        align-self: center;
+        justify-self: center;
       }
+    }
+    .container-avance-programado {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      grid-gap: 10px;
     }
   }
  

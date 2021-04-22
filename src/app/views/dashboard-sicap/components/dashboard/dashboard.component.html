@@ -2,46 +2,30 @@
   
   <div class="wrapper-info-obras" *ngIf="dataObras.length > 0">
     <mat-card class="container-info-obra">
-      <div class="data-obra">
-        <div class="row-1">
-          <div class="logo">
-            <div class="img">
-              <img src="http://{{host}}/{{rutaImg}}/files/{{obraActual.empresa.imagen}}" alt="nombre epresa" />
-            </div>
-            <p>{{obraActual.empresa.nombre}}</p>
-          </div>
-          <div class="info">
-            <p class="is-title">{{obraActual.noContrato}}</p>
-            <p class="is-subtitle">{{ (obraActual.nombreObra.length > 200) ? (obraActual.nombreObra | slice:0:200)+'...':(obraActual.nombreObra) }}</p>
-            <p class="is-parraf"><mat-icon>person</mat-icon> <b> Cliente:</b>  {{obraActual.cliente.nombre}}</p>
-            <p class="is-parraf">
-              <mat-icon>person</mat-icon> 
-              <b> Supervisor(es):</b> 
-              <span *ngFor="let supervisor of obraActual.supervisor" >{{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}</span> 
-            </p>
-          </div>
+      <div class="logo-obra">
+        <div class="img">
+          <img src="http://{{host}}/{{rutaImg}}/files/{{obraActual.empresa.imagen}}" alt="nombre epresa" />
         </div>
-        <div class="row-2">
-          <div class="item money">
-            <mat-icon>attach_money</mat-icon>
-            <span>{{obraActual.presupuestoTotal | transformCurrency}}</span>
-          </div>
-          <div class="item place">
-            <mat-icon>place</mat-icon>
-            <span>{{obraActual.lugarTrabajo}}</span>
-          </div>
-          <div class="item date-start">
-            <!-- <mat-icon>favorite</mat-icon> -->
-            <mat-icon>wb_sunny</mat-icon>
-            <span>{{obraActual.fechaInicio | date}}</span>
-          </div>
-          <div class="item date-finish">
-            <!-- <mat-icon>insert_invitation</mat-icon> -->
-            <mat-icon>bedtime</mat-icon>
-            <span>{{obraActual.fechaFin | date}}</span>
-          </div>
-        </div>
+        <p class="no-obra">{{obraActual.noContrato}}</p>
+        <p class="descripcion-obra">{{ (obraActual.nombreObra.length > 200) ? (obraActual.nombreObra | slice:0:200)+'...':(obraActual.nombreObra) }}</p>
       </div>
+
+      <div class="info-obra">
+        <p class="is-parraf"><mat-icon>calendar_today</mat-icon> <b> Fecha Inicio:</b>  {{obraActual.fechaInicio | date}}</p>
+        <p class="is-parraf"><mat-icon>date_range</mat-icon> <b> Fecha Fin:</b>  {{obraActual.fechaFin | date}}</p>
+        <p class="is-parraf"><mat-icon>location_on</mat-icon> <b> Lugar de Trabajo:</b>  {{obraActual.lugarTrabajo}}</p>
+        <div class="is-parraf">
+          <mat-icon>people_alt</mat-icon> 
+          <b> Supervisor(es):</b> 
+          <div class="is-sup">
+            <span *ngFor="let supervisor of obraActual.supervisor" >{{supervisor.nombre}} {{supervisor.apellidoPaterno}} {{supervisor.apellidoMaterno}}</span> 
+          </div>
+        </div>
+        <p class="is-parraf"><mat-icon>person</mat-icon> <b> Cliente:</b>  {{obraActual.cliente.nombre}}</p>
+        <p class="is-parraf"><mat-icon>emoji_people</mat-icon> <b> Destajista:</b>  {{obraActual.cliente.nombre}}</p>
+        <p class="is-parraf"><mat-icon>attach_money</mat-icon> <b> Monto total:</b>  {{obraActual.presupuestoTotal | transformCurrency}}</p>
+      </div>
+
       <div class="time-obra">
         <!-- <p style="text-align:center">Días restantes</p> -->
         <div
@@ -53,10 +37,72 @@
         <p>Duración Total: {{obraActual.plazoEjecucion}} días</p>
       </div>
     </mat-card>
+    
+    <div class="container-avance-programado">
+      <mat-card class="p-0">
+        <div fxLayout="row wrap">
+          <div fxFlex="40" class="p-1">
+            <p class="">AVANCE DE OBRA PROGRAMADO</p>
+            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
+              {{dataAvanceObra.length}}
+            </p>
+            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+          </div>
+          <div fxFlex="60">
+            <div
+              echarts
+              [options]="avanceProgramado"
+              [autoResize]="true"
+              style="height: 150px; right: -1px"
+            ></div>
+          </div>
+        </div>
+      </mat-card>
+   
+      <mat-card class="p-0">
+        <div fxLayout="row wrap">
+          <div fxFlex="40" class="p-1">
+            <p class="">AVANCE DE OBRA EJECUTADO</p>
+            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
+              {{dataAvanceObra.length}}
+            </p>
+            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+          </div>
+          <div fxFlex="60">
+            <div
+              echarts
+              [options]="avanceEjecutado"
+              [autoResize]="true"
+              style="height: 150px; right: -1px"
+            ></div>
+          </div>
+        </div>
+      </mat-card>
+    
+      <mat-card class="p-0">
+        <div fxLayout="row wrap">
+          <div fxFlex="40" class="p-1">
+            <p class="">AVANCE DE OBRA VALIDADO</p>
+            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
+              {{dataAvanceObra.length}}
+            </p>
+            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+          </div>
+          <div fxFlex="60">
+            <div
+              echarts
+              [options]="avanceValidado"
+              [autoResize]="true"
+              style="height: 150px; right: -1px"
+            ></div>
+          </div>
+        </div>
+      </mat-card>
+    </div>
+
   </div>
 
   
-
   <mat-icon class="arrow back" [ngClass] = "{ 'inactive': idPosicionObraActual <= 1 || loadingData}" (click)="idPosicionObraActual > 1 && moveObra('back')">arrow_back_ios</mat-icon>
   <mat-icon class="arrow next" [ngClass] = "{ 'inactive': idPosicionObraActual >= dataObras.length || loadingData}" (click)="idPosicionObraActual < dataObras.length && moveObra('next')">arrow_forward_ios</mat-icon>
 

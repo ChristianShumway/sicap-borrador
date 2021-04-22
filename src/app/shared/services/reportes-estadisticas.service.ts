@@ -48,4 +48,8 @@ export class ReportesEstadisticasService {
     const headerss = new HttpHeaders({'Content-Type': '"application/x-www-form-urlencoded'});
     return this.http.get(`${environment.apiURL}/reportsandstatistics/printProceedings/${idObra}`, {headers: headerss, responseType: 'blob',});
   }
+
+  getGraficasAvanceDashboard(idObra: number): Observable<any> {
+    return this.http.get<any>(`${environment.apiURL}/reportsandstatistics/getGraphAvance/${idObra}`);
+  }
 }
