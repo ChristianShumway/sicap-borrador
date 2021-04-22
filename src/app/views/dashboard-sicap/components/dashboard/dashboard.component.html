@@ -38,15 +38,15 @@
       </div>
     </mat-card>
     
-    <div class="container-avance-programado">
+    <div class="container-avance-programado" *ngIf="dataAvanceObra.length">
       <mat-card class="p-0">
         <div fxLayout="row wrap">
           <div fxFlex="40" class="p-1">
             <p class="">AVANCE DE OBRA PROGRAMADO</p>
-            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
-              {{dataAvanceObra.length}}
+            <p class="text-24 text-green font-weight-bold mb-0">
+              {{porcentajeProgramado}} % 
             </p>
-            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+            <p class="text-muted m-0"> {{dataAvanceObra.length}} Semanas</p>
           </div>
           <div fxFlex="60">
             <div
@@ -63,10 +63,10 @@
         <div fxLayout="row wrap">
           <div fxFlex="40" class="p-1">
             <p class="">AVANCE DE OBRA EJECUTADO</p>
-            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
-              {{dataAvanceObra.length}}
+            <p class="text-24 text-red font-weight-bold mb-0">
+              {{porcentajeEjecutado}} % 
             </p>
-            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+            <p class="text-muted m-0"> {{dataAvanceObra.length}} Semanas</p>
           </div>
           <div fxFlex="60">
             <div
@@ -83,10 +83,10 @@
         <div fxLayout="row wrap">
           <div fxFlex="40" class="p-1">
             <p class="">AVANCE DE OBRA VALIDADO</p>
-            <p class="text-24 text-green font-weight-bold mb-0" style="text-align: center; width:50%;">
-              {{dataAvanceObra.length}}
+            <p class="text-24 text-blXK font-weight-bold mb-0">
+              {{porcentajeValidado}} % 
             </p>
-            <p class="text-muted m-0" style="text-align: center; width:50%;">Semanas</p>
+            <p class="text-muted m-0"> {{dataAvanceObra.length}} Semanas</p>
           </div>
           <div fxFlex="60">
             <div

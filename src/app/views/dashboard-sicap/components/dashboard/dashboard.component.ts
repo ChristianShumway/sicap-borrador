@@ -25,6 +25,9 @@ export class DashboardComponent implements OnInit {
   avanceProgramado: any;
   avanceEjecutado: any;
   avanceValidado: any;
+  porcentajeProgramado: any;
+  porcentajeEjecutado: any;
+  porcentajeValidado: any;
 
 
   constructor(
@@ -76,16 +79,24 @@ export class DashboardComponent implements OnInit {
   }
 
   getGraficasAvance() {
+    this.porcentajeProgramado = 0;
+    this.porcentajeEjecutado = 0;
+    this.porcentajeValidado = 0;
     this.reportesEstadisticasService.getGraficasAvanceDashboard(this.obraActual.idObra).subscribe(
       result => {
         let dataSemanas = [];
         let dataAvanceProgramado = [];
         let dataAvanceEjecutado = [];
         let dataAvanceValidado = [];
+        let last;
 
         this.dataAvanceObra = result;
         console.log(this.dataAvanceObra);
-
+        last = result[result.length - 1];
+        console.log(last);
+        this.porcentajeProgramado = (last.programado * 100).toFixed(2);
+        this.porcentajeEjecutado = (last.ejecutado * 100).toFixed(2);
+        this.porcentajeValidado = (last.validado * 100).toFixed(2);
         this.dataAvanceObra.map( (semana, i) => {
           let porcentajeP = (semana.programado * 100);
           let porcentajeE = (semana.ejecutado * 100);
