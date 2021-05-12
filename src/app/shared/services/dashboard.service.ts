@@ -15,4 +15,8 @@ export class DashboardService {
   getDataObras(): Observable<any[]>  {
     return this.http.get<any[]>(`${environment.apiURL}/dashboard/getTotalObra`); 
   }
+
+  getDataCost(idObra: number): Observable<any[]>  {
+    return this.http.get<any[]>(`${environment.apiURL}/reportsandstatistics/getGraphcost/${idObra}`); 
+  }
 }

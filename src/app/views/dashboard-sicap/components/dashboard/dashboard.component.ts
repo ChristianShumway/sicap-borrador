@@ -21,6 +21,7 @@ export class DashboardComponent implements OnInit {
   host: string;
   rutaImg: string;
   dataAvanceObra: any[] = [];
+  dataCostos: any[] = [];
   graficaTiempo: any;
   avanceProgramado: any;
   avanceEjecutado: any;
@@ -29,6 +30,11 @@ export class DashboardComponent implements OnInit {
   porcentajeEjecutado: any;
   porcentajeValidado: any;
 
+  diferenciaCostosOptions: any;
+  diferenciaCostos: any;
+  dataCostosName: any[]  = [];
+  dataCostosProgramados: any[]  = [];
+  dataCostosReales: any[]  = [];
 
   constructor(
     private dashboardService: DashboardService,
@@ -62,6 +68,7 @@ export class DashboardComponent implements OnInit {
     console.log(this.obraActual);
     this.initGraficaTiempo();
     this.getGraficasAvance();
+    this.getGraficasCostos();
   }
 
   moveObra(option) {
@@ -94,9 +101,12 @@ export class DashboardComponent implements OnInit {
         console.log(this.dataAvanceObra);
         last = result[result.length - 1];
         console.log(last);
-        this.porcentajeProgramado = (last.programado * 100).toFixed(2);
-        this.porcentajeEjecutado = (last.ejecutado * 100).toFixed(2);
-        this.porcentajeValidado = (last.validado * 100).toFixed(2);
+        if(last) {
+          this.porcentajeProgramado = (last.programado * 100).toFixed(2);
+          this.porcentajeEjecutado = (last.ejecutado * 100).toFixed(2);
+          this.porcentajeValidado = (last.validado * 100).toFixed(2);
+        }
+        
         this.dataAvanceObra.map( (semana, i) => {
           let porcentajeP = (semana.programado * 100);
           let porcentajeE = (semana.ejecutado * 100);
@@ -116,6 +126,30 @@ export class DashboardComponent implements OnInit {
       error => {
         console.error(error);
         console.error('no cargo el servicio de las graficas de avance');
+      }
+    );
+  }
+
+  getGraficasCostos() {
+    this.dataCostosName = [];
+    this.dataCostosProgramados = [];
+    this.dataCostosReales = [];
+    this.dashboardService.getDataCost(this.obraActual.idObra).subscribe(
+      result => {
+        this.dataCostos = result;
+        console.log(this.dataCostos);
+        this.dataCostos.map( costo => {
+          this.dataCostosName.push(costo.tipoPresupuesto.nombreCorto);
+          this.dataCostosProgramados.push(Number.parseFloat(costo.totalProgramado).toFixed(2));
+          this.dataCostosReales.push(Number.parseFloat(costo.totalReal).toFixed(2));
+        })
+        // console.log(this.dataCostosName);
+        // console.log(this.dataCostosProgramados);
+        // console.log(this.dataCostosReales);
+        this.initGraficaCostos();
+      },
+      error => {
+        console.log(error);
       }
     );
   }
@@ -460,6 +494,105 @@ export class DashboardComponent implements OnInit {
         }
       ]
     };
+  }
+
+
+  initGraficaCostos() {
+    this.diferenciaCostosOptions = {
+      tooltip: {
+        show: true,
+        trigger: "axis",
+        backgroundColor: "#fff",
+        extraCssText: "box-shadow: 0 0 3px rgba(0, 0, 0, 0.3); color: #444",
+        axisPointer: {
+          type: "line",
+          animation: true
+        }
+      },
+      grid: {
+        top: "10%",
+        left: "100px",
+        right: "30px",
+        bottom: "60"
+      },
+      xAxis: {
+        type: "category",
+        boundaryGap: true,
+        data: this.dataCostosName,
+        // data: ["1", "2", "3", "4", "5", "6"],
+        axisLabel: {
+          show: true,
+          margin: 20,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        },
+
+        axisLine: {
+          show: false,
+          lineStyle: {
+            show: false
+          }
+        },
+        splitLine: {
+          show: false
+        }
+      },
+      yAxis: {
+        type: "value",
+        axisLine: {
+          show: false
+        },
+        axisLabel: {
+          show: true,
+          margin: 30,
+          color: "#888"
+        },
+        axisTick: {
+          show: false
+        },
+        splitLine: {
+          show: true,
+          lineStyle: {
+            type: "dashed"
+          }
+        }
+      },
+      series: [
+        {
+          name: "Programado",
+          label: { show: false, color: "#0168c1" },
+          type: "bar",
+          barGap: 0,
+          color: tinyColor("#9addfb").setAlpha(.4).toString(),
+          smooth: true
+        },
+        {
+          name: "Real",
+          label: { show: false, color: "#639" },
+          type: "bar",
+          color: tinyColor("#03b9ff").toString(),
+          smooth: true
+        }
+      ]
+    };
+    
+    // this.costosDirectosProgramados = this.dataCostosProgramados;
+    // this.costosDirectosReales = this.dataCostosReales;
+
+    this.diferenciaCostos = {
+      series: [
+        {
+          data: this.dataCostosProgramados,
+        },
+        {
+          data: this.dataCostosReales
+        }
+      ]
+    };
+
+    // console.log(this.diferenciaCostos);
   }
 
 

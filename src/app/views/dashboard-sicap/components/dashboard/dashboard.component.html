@@ -100,6 +100,20 @@
       </mat-card>
     </div>
 
+    <mat-card class="p-0 " style="margin-bottom: 40px;">
+      <mat-tab-group>
+        <mat-tab label="Avance del Costo Directo Programado Vs. Costo Directo Real">
+          <div
+            echarts
+            [options]="diferenciaCostosOptions"
+            [merge]="diferenciaCostos"
+            [autoResize]="true"
+            style="height: 255px;"
+          ></div>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card>
+
   </div>
 
   
