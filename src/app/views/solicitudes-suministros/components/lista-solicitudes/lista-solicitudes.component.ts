@@ -106,9 +106,14 @@ export class ListaSolicitudesComponent implements OnInit {
 
   getObrasByCompanie(empresa: Empresa) {
     console.log(empresa);
+    let idEmpresa = empresa.idEmpresa === 1 ?  0 : empresa.idEmpresa;
+    idEmpresa = !empresa ? -1 : idEmpresa; 
     const cierre = 0;
     const activo = 1;
-    this.obraService.getObrasByCompanie(cierre, activo, empresa.idEmpresa).subscribe(
+    console.log(idEmpresa);
+
+    if (empresa) {}
+    this.obraService.getObrasByCompanie(cierre, activo, idEmpresa).subscribe(
       result => this.obras = result,
       error => console.log(error)
     );
