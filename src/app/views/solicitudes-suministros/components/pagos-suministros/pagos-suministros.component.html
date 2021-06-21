@@ -10,7 +10,7 @@
         <mat-form-field class="full-width">
           <mat-label>Empresa</mat-label>
           <mat-select [(ngModel)]="empresa" (selectionChange)="getObrasByCompanie($event.value)">
-            <mat-option value=""></mat-option>
+            <mat-option value="0">Todas las empresas</mat-option>
             <mat-option *ngFor="let company of empresas" [value]="company">
               {{company.descripcion}}
             </mat-option>

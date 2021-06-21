@@ -92,8 +92,10 @@ export class PagosSuministrosComponent implements OnInit {
 
   getObrasByCompanie(empresa: Empresa) {
     console.log(empresa);
-    let idEmpresa = empresa.idEmpresa === 1 ?  0 : empresa.idEmpresa;
-    idEmpresa = !empresa ? -1 : idEmpresa; 
+    // let idEmpresa = empresa.idEmpresa === 1 ?  0 : empresa.idEmpresa;
+    // idEmpresa = !empresa ? -1 : idEmpresa; 
+    let idEmpresa = empresa ? empresa.idEmpresa : 0; 
+    idEmpresa = !idEmpresa ? 0 : idEmpresa;
     const cierre = 0;
     const activo = 1;
     this.obraService.getObrasByCompanie(cierre, activo, idEmpresa).subscribe(
@@ -118,6 +120,7 @@ export class PagosSuministrosComponent implements OnInit {
 
     let obr = !this.obra ? 0 : this.obra.idObra;
     let emp = !this.empresa ? 0 : this.empresa.idEmpresa;
+    emp = !emp ? this.obra.idEmpresa : emp; 
     let est = !this.estatus ? -1 : this.estatus;
     
     // console.log(this.whoSolicitud);
