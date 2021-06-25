@@ -85,7 +85,48 @@ export class ObrasComponent implements OnInit {
       ((obras: Obra[]) => {
         // console.log(obras);
         const obrasActivas = obras.filter(obra => obra.activo === 1);
-        this.obras = obrasActivas;
+
+        obrasActivas.map( (obra: Obra) => {
+          if(obra.idGerente === this.idUserLogeado){
+            this.obras.push(obra);
+          }
+
+          if(obra.idPlaneacionPresupuesto === this.idUserLogeado && obra.idGerente !== obra.idPlaneacionPresupuesto){
+            this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
+          }
+          if(obra.idControlObra === this.idUserLogeado  && obra.idGerente !== obra.idControlObra){
+            this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
+          }
+          if(obra.idCompras === this.idUserLogeado  && obra.idGerente !== obra.idCompras){
+            this.obras.push(obra);
+          } else {
+            this.usuarioIdentificado = false;
+          }
+
+          obra.supervisor.map( (supervisor: Usuario) => {
+            if (supervisor.idUsuario === this.idUserLogeado  && obra.idGerente !== supervisor.idUsuario && obra.idControlObra !== supervisor.idUsuario){
+              this.obras.push(obra);
+            }  else {
+              this.usuarioIdentificado = false;
+            }
+            // this.accesoBitacora = true;
+          });
+
+          obra.usuarioCliente.map( (usuario: Usuario) => {
+            if(usuario.idUsuario === this.idUserLogeado) {
+              this.obras.push(obra);
+            }  else {
+              this.usuarioIdentificado = false;
+            }
+          });
+
+        });
+        
+        // this.obras = obrasActivas;
         // console.log(this.obras);
         this.obrasTemp = this.obras;
         this.dataSource.data = this.obras;
